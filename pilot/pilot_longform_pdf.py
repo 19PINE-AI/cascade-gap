@@ -53,11 +53,13 @@ source — do not embellish, do not speculate beyond what is stated."""
 
 
 C1_PASS1_PROMPT = """\
-Transcribe every piece of text visible across all attached pages of this PDF.
-Preserve reading order. Emit in order: page 1's text first, then page 2, etc.
-Include headings, figure captions, table text, and footnotes. Do NOT summarize.
-Do NOT paraphrase. Just produce the full transcription, with page markers like
-'=== page N ==='."""
+Produce a detailed text record of every substantive point this PDF makes,
+page by page, in reading order. Preserve every named entity, number, date,
+claim, formula, and figure/table reference. You may rephrase wording, but
+every fact, statistic, equation, and cited work must appear in your record.
+Include headings and section structure. Emit page markers like '=== page N ==='.
+Do NOT summarize, analyze, or answer any downstream question — only produce
+the complete content record."""
 
 
 def c2_pass1_prompt() -> str:
@@ -108,13 +110,19 @@ def call_gemini(client, model, prompt, image_paths: Sequence[str] | None):
         model=model,
         contents=parts,
         config=types.GenerateContentConfig(
-            temperature=0.0, top_p=1.0, max_output_tokens=32_768
+            temperature=0.0, top_p=1.0, max_output_tokens=65_536,
         ),
     )
     ms = int((time.time() - t0) * 1000)
     u = resp.usage_metadata
+    text = (resp.text or "").strip()
+    if not text:
+        # Diagnose: log finish_reason, candidates, safety
+        cand = resp.candidates[0] if resp.candidates else None
+        fr = getattr(cand, "finish_reason", "?") if cand else "?"
+        print(f"      [warn] empty response; finish_reason={fr}; usage={u}", flush=True)
     return (
-        (resp.text or "").strip(),
+        text,
         getattr(u, "prompt_token_count", 0) or 0,
         getattr(u, "candidates_token_count", 0) or 0,
         ms,
