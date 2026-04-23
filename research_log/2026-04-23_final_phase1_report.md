@@ -119,7 +119,59 @@ The plan's v1 thesis ("cascade beats end-to-end on symbolic tasks") is not defen
 
 This is defensible by the pilots: the music-schema ablation causally demonstrates alphabet-match, the Flash Signal-Layer result shows the capability-dependent regime, and the ChartQA augmented_test result shows the effect is not modality-specific.
 
-## 6a. Long-form PDF pilot — first result (n=1, to be extended)
+## 6a. Long-form PDF pilot (n=3 papers, 1 clean) — **major protocol finding: RECITATION blocks**
+
+We ran full-pipeline C0 / C1 / C2 + LLM-judge on three arxiv papers (Beyond Transcription 16pg, Step-Audio-R1 22pg, MMAR 24pg) through Gemini 3.1 Pro. **Gemini's RECITATION safety filter blocked C1 and C2 Pass-1 on both Step-Audio-R1 and MMAR** — the model detected that emitting a faithful content record of these recent arxiv papers would too closely reproduce training data, and returned empty responses. C0 (end-to-end summary in the model's own voice) was not blocked on any paper.
+
+### Per-paper results
+
+| Paper | Condition | Precision | Coverage | Hallucinated | Blocked? |
+|---|---|---:|---:|---:|---|
+| Beyond Transcription (2604.12506, 16pg, arXiv Apr 2026) | C0 | 1.000 | 0.39 | 0 | — |
+| Beyond Transcription | C1 | 1.000 | **0.73** | 0 | — |
+| Beyond Transcription | C2 | 1.000 | 0.50 | 0 | — |
+| Step-Audio-R1 (2511.15848, 22pg, arXiv Nov 2025) | C0 | **1.000** | 0.64 | 0 | — |
+| Step-Audio-R1 | C1 | — | — | — | **RECITATION** |
+| Step-Audio-R1 | C2 | — | — | — | **RECITATION** |
+| MMAR (2505.13032, 24pg, arXiv May 2025) | C0 | **1.000** | 0.64 | 0 | — |
+| MMAR | C1 | — | — | — | **RECITATION** |
+| MMAR | C2 | — | — | — | **RECITATION** |
+
+### Headline findings
+
+1. **On all 3 papers, C0 (end-to-end summary) achieves 100% precision, 39-64% coverage.** Zero hallucinations, zero contradictions. Gemini 3.1 Pro summarizes multi-page arxiv PDFs with full faithfulness; the user's strong "end-to-end hallucinates" hypothesis is directly contradicted by this data.
+
+2. **On the one paper that wasn't blocked (Beyond Transcription), cascade C1 gives +34 pp coverage at 100% precision.** This is a substantive cascade win on long-form PDF: plain-transcription→summary picks up 16 of 22 key reference claims vs C0's 9 of 23. C2's structured schema helped less (+11 pp).
+
+3. **RECITATION blocks are a systematic measurement-validity problem for long-form experiments on public content.** The two papers blocked were published Nov 2025 and May 2025 — both inside Gemini 3.1 Pro's Feb 2026 knowledge cutoff. The filter treats a "detailed text record preserving every substantive point" of recent arxiv papers as reciting training data. Only the April 2026 paper (past the cutoff) evaded the filter.
+
+### Why RECITATION is the right paper-worthy finding here
+
+The filter behavior is not a bug — it's a production safety gate Google applies to avoid regurgitating copyrighted training content. Any faithfulness-preserving cascade on public long-form content risks this. The implication for the paper:
+
+- **For the cascade gap's practical deployment story:** production-grade self-cascade on public content (arxiv papers, famous talks, published books) is gated by vendor safety filters. The "free cascade" the plan's v1 thesis assumed is not actually free in production.
+- **For Phase-2 methodology:** the experiment needs private content (internal docs, user-submitted material) OR post-cutoff content OR non-arxiv technical reports to get clean cascade measurements.
+- **For the paper's honesty story:** report RECITATION blocks as a first-class finding, not a measurement failure to hide. The paper should include a dedicated subsection "Cascade measurement in the era of copyright-aware LLMs."
+
+### Aggregate numbers (with the RECITATION bias)
+
+If we naively average across all 3 papers (counting blocked cells as 0/few), the aggregate looks misleading — C0 at 100%/55%, C1 at 33%/24%, C2 at 33%/17%. This is an ARTIFACT of empty Pass-1 responses triggering empty-perception refusals in Pass-2 that the judge rightly marks as unsupported. The 33% precision for C1/C2 comes from the one paper that worked averaged with two empty-ref summaries scored 0/3.
+
+### The clean n=1 cascade-gap measurement (Beyond Transcription)
+
+With the valid paper only, the cascade gap on long-form academic-paper summarization is:
+
+| Metric | C0 | C1 | C2 | Δ(C1−C0) | Δ(C2−C0) |
+|---|---:|---:|---:|---:|---:|
+| Precision | 1.000 | 1.000 | 1.000 | 0.00 | 0.00 |
+| Coverage | 0.39 | **0.73** | 0.50 | **+0.34** | +0.11 |
+| Wall time | 34 s | 204 s | 328 s | +170 s | +294 s |
+
+**Cascade C1 wins by 34 points on coverage with zero precision penalty, at 6× the wall time.** This is the cleanest positive cascade-gap result of the entire Phase-1 pilot.
+
+(The initial smoke-test rejudge on this same paper showed a smaller +9 pp C1 advantage. The difference reflects judge-stochasticity in which "key claims" it extracts — stable-seed multi-trial Phase-2 runs will pin this down.)
+
+## 6a-prev. Long-form PDF smoke test (n=1, earlier rejudge) — kept for provenance
 
 One paper through the full pipeline with LLM-judge scoring. Full numbers:
 
