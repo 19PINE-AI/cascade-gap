@@ -30,8 +30,8 @@ def load_summaries():
             bench = "chartqa" if tag.startswith("chartqa") else "docvqa"
             stratify = s["by_question_type"]
         else:
-            bench = "?"
-            stratify = {}
+            # Non-standard runs (e.g. music-schema ablation with its own format)
+            continue
         yield {
             "tag": tag,
             "bench": bench,

@@ -1,0 +1,46 @@
+# Cross-model cascade-gap summary
+
+
+## Benchmark: CHARTQA
+
+| Model | N | C0 | C1 | C2 | Δ(C1−C0) | Δ(C2−C0) | C0 tok | C2 tok | C0 lat | C2 lat |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| gpt-5.4 | 20 | 0.75 | 0.55 | 0.80 | -0.20 | +0.05 | 7 | 812 | 1.1s | 11.2s |
+| openai/gpt-5.4-mini | 20 | 0.80 | 0.60 | 0.75 | -0.20 | -0.05 | 8 | 427 | 1.1s | 4.4s |
+
+### Per-stratum deltas (chartqa)
+
+| Model | augmented_test\nΔ(C1)\nΔ(C2) | human_test\nΔ(C1)\nΔ(C2) |
+|---|---|---|
+| gpt-5.4 | -0.10 / +0.00 | -0.30 / +0.10 |
+| openai/gpt-5.4-mini | +0.00 / +0.20 | -0.40 / -0.30 |
+
+## Benchmark: DOCVQA
+
+| Model | N | C0 | C1 | C2 | Δ(C1−C0) | Δ(C2−C0) | C0 tok | C2 tok | C0 lat | C2 lat |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| gemini-3-flash-preview | 20 | 0.95 | 0.85 | 0.45 | -0.10 | -0.50 | 4 | 969 | 3.4s | 26.8s |
+| gpt-5.4 | 20 | 0.85 | 0.85 | 0.80 | +0.00 | -0.05 | 6 | 2418 | 2.1s | 27.8s |
+| openai/gpt-5.4-mini | 20 | 0.90 | 0.85 | 0.85 | -0.05 | -0.05 | 8 | 1740 | 2.5s | 12.0s |
+
+### Per-stratum deltas (docvqa)
+
+| Model | form\nΔ(C1)\nΔ(C2) | free_text\nΔ(C1)\nΔ(C2) | handwritten\nΔ(C1)\nΔ(C2) | layout\nΔ(C1)\nΔ(C2) | table/list\nΔ(C1)\nΔ(C2) |
+|---|---|---|---|---|---|
+| gemini-3-flash-preview | +0.00 / -0.75 | -0.25 / -0.25 | +0.00 / -0.50 | +0.00 / -0.50 | -0.25 / -0.50 |
+| gpt-5.4 | +0.25 / +0.00 | -0.25 / -0.25 | +0.00 / +0.00 | +0.00 / +0.00 | +0.00 / +0.00 |
+| openai/gpt-5.4-mini | +0.00 / +0.00 | -0.25 / +0.00 | +0.00 / +0.00 | +0.00 / -0.25 | +0.00 / +0.00 |
+
+## Benchmark: MMAR
+
+| Model | N | C0 | C1 | C2 | Δ(C1−C0) | Δ(C2−C0) | C0 tok | C2 tok | C0 lat | C2 lat |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| gemini-3-flash-preview | 20 | 0.65 | 0.55 | 0.55 | -0.10 | -0.10 | 2 | 92 | 4.2s | 17.5s |
+| gemini-3.1-pro-preview | 20 | 0.90 | 0.80 | 0.60 | -0.10 | -0.30 | 1 | 99 | 13.4s | 37.9s |
+
+### Per-stratum deltas (mmar)
+
+| Model | Cultural Layer\nΔ(C1)\nΔ(C2) | Perception Layer\nΔ(C1)\nΔ(C2) | Semantic Layer\nΔ(C1)\nΔ(C2) | Signal Layer\nΔ(C1)\nΔ(C2) |
+|---|---|---|---|---|
+| gemini-3-flash-preview | -0.20 / +0.00 | -0.20 / +0.00 | -0.20 / -0.60 | +0.20 / +0.20 |
+| gemini-3.1-pro-preview | +0.00 / -0.20 | +0.00 / -0.40 | -0.20 / -0.20 | -0.20 / -0.40 |
