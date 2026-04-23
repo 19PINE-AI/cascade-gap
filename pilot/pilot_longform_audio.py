@@ -48,9 +48,14 @@ audio."""
 
 
 C1_PASS1_PROMPT = """\
-Transcribe this audio verbatim. Include disfluencies (um, uh), repetitions,
-false starts, and speaker-identification when multiple speakers are audible.
-Do NOT summarize. Do NOT paraphrase. Just produce the full transcript."""
+Produce a detailed text record of the spoken content of this audio, in
+reading order. Write the record in your own words but preserve every
+substantive point the speaker makes: all named entities, numbers, dates,
+quotes of any unique phrasing, and the order of ideas. Include
+speaker-identification when multiple speakers are audible. Structure the
+record so a downstream reader who has not heard the audio can reconstruct
+the complete set of claims the speaker advanced. Do NOT answer any
+downstream question, and do NOT add your own analysis."""
 
 
 def c2_pass1_prompt() -> str:
@@ -93,7 +98,9 @@ def call_gemini(client, model, prompt, audio_path):
     resp = client.models.generate_content(
         model=model, contents=parts,
         config=types.GenerateContentConfig(
-            temperature=0.0, top_p=1.0, max_output_tokens=65_536
+            temperature=0.0, top_p=1.0, max_output_tokens=65_536,
+            # Cap thinking so audio input doesn't starve the candidate budget
+            thinking_config=types.ThinkingConfig(thinking_budget=2048),
         ),
     )
     ms = int((time.time() - t0) * 1000)

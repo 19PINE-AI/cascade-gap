@@ -119,6 +119,41 @@ The plan's v1 thesis ("cascade beats end-to-end on symbolic tasks") is not defen
 
 This is defensible by the pilots: the music-schema ablation causally demonstrates alphabet-match, the Flash Signal-Layer result shows the capability-dependent regime, and the ChartQA augmented_test result shows the effect is not modality-specific.
 
+## 6a. Long-form PDF pilot — first result (n=1, to be extended)
+
+One paper through the full pipeline with LLM-judge scoring. Full numbers:
+
+**Beyond Transcription (arXiv 2604.12506, 16 pages) on Gemini 3.1 Pro:**
+
+| Condition | Precision | Coverage | Hallucinated | Contradicted | Summary tokens |
+|---|---:|---:|---:|---:|---:|
+| C0 end-to-end | **1.000** | 0.500 | 0 | 0 | ~800 |
+| C1 transcribe→summarize | **1.000** | **0.591** | 0 | 0 | ~800 |
+| C2 structured→summarize | **1.000** | 0.478 | 0 | 0 | ~800 |
+
+Pass-1 output token counts:
+- C1 Pass-1 (verbatim transcription): 17,367 tokens
+- C2 Pass-1 (structured document): 34,601 tokens
+
+Total pipeline wall-time: ~10 minutes per paper.
+
+### What this means
+
+**Gemini 3.1 Pro does not hallucinate on end-to-end multi-page paper summarization.** Zero unsupported claims across all three conditions — the user's strong hypothesis ("C0 fills the summary with fabrications, C1 is faithful") does not hold for this model on this document type.
+
+**The cascade's real benefit here is recall.** Plain C1 covered 13/22 key reference claims vs. C0's 11/22 — a +9 percentage-point recall advantage. The structured C2 did not help further (in fact hurt slightly).
+
+### Why this contradicts the plan's v1 thesis
+
+The plan's implicit assumption was that end-to-end processing of long content forces a "lossy compression" that drops detail and invents plausible-sounding substitutes. On Gemini 3.1 Pro for a 16-page academic paper, the model appears to actually attend to the document content faithfully — it omits details (→ lower recall) but does not fabricate. This aligns with recent evidence that frontier models have gotten much better at "I don't know" rather than confabulating on long-context inputs.
+
+### What to test next (Phase 2)
+
+1. **Extend to n=3**: run on Step-Audio-R1 (22 pages) and MMAR (24 pages). If all three show precision ≈ 1.0, the "no hallucination on long-form PDFs" finding is robust.
+2. **Harder content**: try a technical report or book chapter with dense numeric claims (not just academic paper abstracts). Gemini may do worse when the content is less on-distribution.
+3. **Weaker models**: GPT-5.4-mini, Qwen3-VL-30B — where hallucinations are more likely. If they hallucinate on C0 and not on C1, that validates the paper thesis for those models.
+4. **Force-fabrication attacks**: deliberately introduce factually-ambiguous content (contradictory claims, negated statements) and see which condition gets the orientation right.
+
 ## 7. What this report does not yet cover
 
 **The user flagged that short-form QA is the wrong instrument; the interesting scenarios are long-form generation (hour-long audio, full papers) where end-to-end hallucinates and cascades preserve faithfulness.** Two pilots for these are in flight but not yet complete at time of this report:

@@ -41,11 +41,58 @@ def _client():
 
 
 def _parse_json_output(text: str) -> Any:
-    # Models often wrap JSON in ```json``` fences; strip them.
+    """Parse LLM-emitted JSON, handling common format variations.
+
+    Handles: ```json fenced, ``` fenced, bare JSON, JSON with leading/trailing
+    prose, and LLM-thinking preambles. Raises ValueError with the original
+    text if nothing parses.
+    """
     t = text.strip()
-    t = re.sub(r"^```(?:json)?\s*", "", t)
-    t = re.sub(r"\s*```$", "", t)
-    return json.loads(t)
+    # Strip fence if present
+    t = re.sub(r"^```(?:json)?\s*\n?", "", t)
+    t = re.sub(r"\n?\s*```$", "", t)
+    t = t.strip()
+    # Try direct parse
+    try:
+        return json.loads(t)
+    except json.JSONDecodeError:
+        pass
+    # Find the first { or [ and last matching close
+    start_obj = t.find("{")
+    start_arr = t.find("[")
+    if start_obj == -1 and start_arr == -1:
+        raise ValueError(f"No JSON found in response. First 500 chars: {text[:500]!r}")
+    start = min(x for x in [start_obj, start_arr] if x != -1)
+    # Match braces from start
+    depth = 0
+    in_str = False
+    esc = False
+    end = None
+    open_ch = t[start]
+    close_ch = "}" if open_ch == "{" else "]"
+    for i in range(start, len(t)):
+        c = t[i]
+        if esc:
+            esc = False
+            continue
+        if c == "\\":
+            esc = True
+            continue
+        if c == '"':
+            in_str = not in_str
+            continue
+        if in_str:
+            continue
+        if c == open_ch:
+            depth += 1
+        elif c == close_ch:
+            depth -= 1
+            if depth == 0:
+                end = i + 1
+                break
+    if end is None:
+        raise ValueError(f"Unbalanced JSON. First 500 chars: {text[:500]!r}")
+    return json.loads(t[start:end])
 
 
 FAITHFULNESS_PROMPT = """\
@@ -90,25 +137,31 @@ JSON output:"""
 def score_faithfulness(summary: str, reference: str, reference_char_limit: int = 80_000) -> JudgeScore:
     """Return hallucination-style audit of `summary` vs `reference`."""
     ref_trunc = reference[:reference_char_limit]
-    prompt = FAITHFULNESS_PROMPT.format(reference=ref_trunc, summary=summary)
+    # Cannot use .format() — the prompt contains JSON curly braces.
+    prompt = FAITHFULNESS_PROMPT.replace("{reference}", ref_trunc).replace("{summary}", summary)
 
     client = _client()
+    last_raw = ""
     for attempt in range(3):
         try:
             resp = client.models.generate_content(
                 model=JUDGE_MODEL,
                 contents=[prompt],
                 config=types.GenerateContentConfig(
-                    temperature=0.0, top_p=1.0, max_output_tokens=8192
+                    temperature=0.0, top_p=1.0, max_output_tokens=16_384
                 ),
             )
-            parsed = _parse_json_output(resp.text or "")
+            last_raw = resp.text or ""
+            parsed = _parse_json_output(last_raw)
             break
         except Exception as e:
             if attempt == 2:
+                print(f"      [judge] final failure. raw response[:500]: {last_raw[:500]!r}", flush=True)
                 raise
             time.sleep(5)
 
+    if not isinstance(parsed, dict):
+        raise ValueError(f"Judge response is not a dict: {type(parsed).__name__}. First 300 chars: {last_raw[:300]!r}")
     claims = parsed.get("claims", [])
     n_supported = sum(1 for c in claims if c.get("verdict") == "SUPPORTED")
     n_unsupported = sum(1 for c in claims if c.get("verdict") == "UNSUPPORTED")
@@ -174,13 +227,14 @@ def score_coverage(summary: str, reference: str, reference_char_limit: int = 80_
     ref_trunc = reference[:reference_char_limit]
 
     # Step 1: extract key claims from reference
+    prompt1 = COVERAGE_PROMPT.replace("{reference}", ref_trunc)
     for attempt in range(3):
         try:
             resp = client.models.generate_content(
                 model=JUDGE_MODEL,
-                contents=[COVERAGE_PROMPT.format(reference=ref_trunc)],
+                contents=[prompt1],
                 config=types.GenerateContentConfig(
-                    temperature=0.0, top_p=1.0, max_output_tokens=4096
+                    temperature=0.0, top_p=1.0, max_output_tokens=8192
                 ),
             )
             key_claims = _parse_json_output(resp.text or "").get("key_claims", [])
@@ -192,13 +246,14 @@ def score_coverage(summary: str, reference: str, reference_char_limit: int = 80_
 
     # Step 2: check coverage in the summary
     claims_json = json.dumps(key_claims, indent=2)
+    prompt2 = COVERAGE_CHECK_PROMPT.replace("{claims}", claims_json).replace("{summary}", summary)
     for attempt in range(3):
         try:
             resp = client.models.generate_content(
                 model=JUDGE_MODEL,
-                contents=[COVERAGE_CHECK_PROMPT.format(claims=claims_json, summary=summary)],
+                contents=[prompt2],
                 config=types.GenerateContentConfig(
-                    temperature=0.0, top_p=1.0, max_output_tokens=4096
+                    temperature=0.0, top_p=1.0, max_output_tokens=8192
                 ),
             )
             coverage = _parse_json_output(resp.text or "").get("coverage", [])
