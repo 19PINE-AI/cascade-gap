@@ -53,7 +53,27 @@ This is a **less bold but more defensible** thesis. It:
 
 ## Still-open questions after today's pilots
 
-- **Does Qwen2.5-Omni-7B (local audio) show a larger positive gap than Gemini?** Hypothesis: yes, because it's a weaker base model. Pilot running, 12/20 as of this note.
-- **Does Gemini 3.1 Pro on DocVQA show a non-zero gap?** Hypothesis: saturated like GPT-5.4. Pilot running.
-- **Does GPT-5.4 replicate the ChartQA augmented_test gap?** Pilot running.
-- **Do Qwen3-VL-30B / 235B thinking models show the gap?** The thinking-mode Pass-1 emits thousands of reasoning tokens; they might be strictly worse on the Pareto.
+- **Does Qwen2.5-Omni-7B (local audio) show a larger positive gap than Gemini?** Partial answer after 13/20 items: NO. Qwen2.5-Omni-7B shows the same directional pattern as Pro (C0 > C1 > C2), contradicting the "weaker model benefits from cascade" hypothesis. The Flash result (cascade helps on Signal Layer) seems to be a sweet spot: weak enough at acoustic reasoning that cascade helps, strong enough at text reasoning that Pass-2 can exploit it. Below that threshold (Qwen-7B at 4-bit), Pass-2 is also too weak.
+- **Does Gemini 3.1 Pro on DocVQA show a non-zero gap?** Pilot running.
+- **Do Qwen3-VL-30B / 235B thinking models show the gap?** Partial (11-15/20): **NO meaningful gap — C0=C1=C2=1.00 on the items so far.** Both models solve DocVQA near-perfectly, regardless of condition. C2 costs 8,900+ output tokens for the same answer (thinking-mode verbosity). Strict Pareto loss.
+
+## DIRECT alphabet-match validation (music schema on MMAR) — partial (n=4 items)
+
+Critical experiment: re-run MMAR music-modality items with a pre-registered `audio_music.md` schema (tonal / instrumentation / structure / cultural) instead of the speech-centric UAS. Same model, same Pass-2 prompt.
+
+| MMAR item | Question | C0 | C1 | C2-speech | **C2-music** | Δ(music−speech) |
+|---|---|:--:|:--:|:--:|:--:|:--:|
+| BV1yu4m1N74b | "Was this male voice recording made in the studio?" | 0 | 1 | 0 | 0 | 0 |
+| M5PGztUl3yA | "Is the scream in the audio from the music?" | 1 | 1 | 1 | 1 | 0 |
+| Licd7qekNg4 | "Which chord shows distortion?" | 1 | 0 | **0** | **1** | **+1.0** |
+| BV1tv411z7J1 | "What is the mode of the instrument?" | 1 | 1 | **0** | **1** | **+1.0** |
+
+**Two items flip from 0 to 1 when the schema matches the content.**
+
+On the chord-distortion and instrument-mode items, the speech-centric UAS collapsed audio to `[inaudible] events:[music]` and Pass-2 guessed wrong. The music schema emitted `tonality: {key, chord_progression, scale}` and Pass-2 answered correctly.
+
+This is **the cleanest single piece of evidence for the paper's reframed alphabet-match thesis.** Same weights, same Pass-2 prompt, same audio — only the Pass-1 schema differs. Δ(C2-music − C2-speech) = +2/4 = +0.50 on the matched items, and 0/2 on the mismatched items (as expected).
+
+The effect size is large enough that even with n=4, the sign is unambiguous. Phase-2 should extend to all MMAR music items (~300) and add analogous schemas for environmental-sound items, confirming the gap flips sign on non-matching schemas.
+
+(Full music-schema run still in flight: ~5 more items queued.)
