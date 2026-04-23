@@ -2,15 +2,17 @@
 
 ## 1. Paper identity
 
-**Title:** The Cascade Gap: When Pipelines Beat End-to-End Multimodal Agents
+**Title:** The Cascade Gap: When and Why Self-Cascades Help Multimodal Agents
 
-**One-sentence thesis:** For a wide and predictable class of multimodal reasoning tasks, prompting the same frontier model in a two-pass self-cascade — perceive-and-transcribe, then reason — yields meaningfully better task accuracy than the model's native end-to-end mode, and the sign of this *cascade gap* is predictable from properties of the task.
+**One-sentence thesis (v2, post-Phase-1 reframe):** The sign of the cascade gap between a same-weights self-cascade and an end-to-end call — $\Delta = \text{Acc}_\text{cascade} - \text{Acc}_\text{end-to-end}$ — is governed primarily by *alphabet-match* between the task-class and the pre-registered Pass-1 schema, and secondarily by the model's native-modality capability; a task-property predictor of alphabet-match predicts Δ's sign across audio, document, and chart modalities.
 
 **Contribution claims, in priority order:**
-1. **A measurement.** First systematic, same-weights, cross-modality measurement of the cascade gap, covering audio, document, and GUI-agent domains using both open-weight and frontier closed-source multimodal models.
-2. **A predictive rule.** A task-property-based predictor of the cascade gap's sign and magnitude, which a practitioner can apply to a new task without running the experiment.
-3. **A mechanistic story.** Demonstration that the gap closes (sometimes fully) when the intermediate textual representation is enriched with task-relevant non-lexical tags, evidence that the *content* of the bottleneck — not just its presence — drives the effect.
-4. **A practical prescription.** Concrete recommendations for builders of multimodal agents, including the cost-accuracy Pareto for each task class.
+1. **A measurement.** First systematic, same-weights, cross-modality measurement of the cascade gap across audio, document, and chart tasks using frontier (Gemini 3.1 Pro, GPT-5.4) and weaker (Gemini 3 Flash, Qwen2.5-Omni-7B) models. The headline measurement covers the sign, magnitude, and compute-Pareto position of Δ for every cell.
+2. **A sharper predictive rule.** A task-property-based predictor of Δ's sign. Phase-1 pilots show the symbolic→perceptual axis is a weak proxy; the predictor's first-class feature is **alphabet-match** (can a concise text schema capture the task-relevant features?), with modality-specific subfeatures.
+3. **A mechanistic story with pre-registered schemas.** For each modality we release a task-class-specific Pass-1 schema (speech UAS, music schema, document layout, chart structure, GUI affordance) and show Δ flips sign when the schema matches vs. mismatches the content — evidenced by e.g. MMAR music items where a music schema rescues Pass-2 from the speech-UAS's `[inaudible] events:[music]` degenerate output.
+4. **A practical prescription.** Concrete task→schema→condition recommendations on the cost-accuracy Pareto. Phase-1 already shows cascades cost 50-370× more output tokens; any deployment recommendation must be conditional on task-class, not universal.
+
+**What changed from the v1 thesis.** The original "cascade beats end-to-end on frontier models" headline does not survive Phase-1: on current-gen frontier omni models at standard benchmarks (Gemini 3.1 Pro on MMAR, GPT-5.4 on DocVQA), end-to-end wins. The paper's real contribution is to predict **when** the cascade helps — which turns out to be (a) on weaker models whose native-modality reasoning lags, and (b) on tasks with high alphabet-match to a pre-registered schema (e.g. ChartQA augmented_test: Δ(C2−C0) = +0.20 on GPT-5.4-mini). Both effects are well-defined, measurable, and practitioner-actionable.
 
 **Target venue (in order of fit):** COLM 2026, EMNLP 2026 main, NeurIPS 2026 D&B track. ICLR 2027 if timing slips. Workshop fallback: NeurIPS Foundation Model Eval workshop, ICLR R2-FM workshop.
 
