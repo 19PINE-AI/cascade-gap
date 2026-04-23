@@ -128,27 +128,27 @@ def run_one(client, model: str, item: dict, run_dir: pathlib.Path) -> dict:
     logs: list[CallLog] = []
 
     # ---- C0: end-to-end summary ----
-    print(f"    [C0] sending {len(image_paths)} page images...")
+    print(f"    [C0] sending {len(image_paths)} page images...", flush=True)
     c0_text, c0_in, c0_out, c0_ms = call_gemini(
         client, model, SUMMARY_PROMPT + "\n\n(All attached pages are from a single paper.)", image_paths
     )
     logs.append(CallLog(item["item_id"], model, "C0", "e2e", c0_in, c0_out, c0_ms, c0_text))
 
     # ---- C1: transcribe → summarize ----
-    print(f"    [C1.p1] transcribing...")
+    print(f"    [C1.p1] transcribing...", flush=True)
     p1_text, p1_in, p1_out, p1_ms = call_gemini(client, model, C1_PASS1_PROMPT, image_paths)
     logs.append(CallLog(item["item_id"], model, "C1", "pass1", p1_in, p1_out, p1_ms, p1_text))
-    print(f"    [C1.p2] summarizing transcript ({p1_out} tokens)...")
+    print(f"    [C1.p2] summarizing transcript ({p1_out} tokens)...", flush=True)
     c1_text, c1_in, c1_out, c1_ms = call_gemini(
         client, model, pass2_summary_prompt(p1_text, rich=False), None
     )
     logs.append(CallLog(item["item_id"], model, "C1", "pass2", c1_in, c1_out, c1_ms, c1_text))
 
     # ---- C2: structured → summarize ----
-    print(f"    [C2.p1] structured extraction...")
+    print(f"    [C2.p1] structured extraction...", flush=True)
     p2_text, p2_in, p2_out, p2_ms = call_gemini(client, model, c2_pass1_prompt(), image_paths)
     logs.append(CallLog(item["item_id"], model, "C2", "pass1", p2_in, p2_out, p2_ms, p2_text))
-    print(f"    [C2.p2] summarizing structured ({p2_out} tokens)...")
+    print(f"    [C2.p2] summarizing structured ({p2_out} tokens)...", flush=True)
     c2_text, c2_in, c2_out, c2_ms = call_gemini(
         client, model, pass2_summary_prompt(p2_text, rich=True), None
     )
@@ -164,17 +164,17 @@ def run_one(client, model: str, item: dict, run_dir: pathlib.Path) -> dict:
         (run_dir / f"summary_{item['item_id']}_{cond}.txt").write_text(text)
 
     # ---- LLM-judge scoring ----
-    print(f"    [judge] scoring C0...")
+    print(f"    [judge] scoring C0...", flush=True)
     c0_faith = score_faithfulness(c0_text, ref_text)
     c0_cov = score_coverage(c0_text, ref_text)
     print(f"      C0: {c0_faith.n_supported}/{c0_faith.n_claims} supported, "
           f"{c0_cov['n_covered']}/{c0_cov['n_key_claims']} covered")
-    print(f"    [judge] scoring C1...")
+    print(f"    [judge] scoring C1...", flush=True)
     c1_faith = score_faithfulness(c1_text, ref_text)
     c1_cov = score_coverage(c1_text, ref_text)
     print(f"      C1: {c1_faith.n_supported}/{c1_faith.n_claims} supported, "
           f"{c1_cov['n_covered']}/{c1_cov['n_key_claims']} covered")
-    print(f"    [judge] scoring C2...")
+    print(f"    [judge] scoring C2...", flush=True)
     c2_faith = score_faithfulness(c2_text, ref_text)
     c2_cov = score_coverage(c2_text, ref_text)
     print(f"      C2: {c2_faith.n_supported}/{c2_faith.n_claims} supported, "
@@ -215,32 +215,32 @@ def main():
 
     run_dir = args.run_dir or REPO / "runs" / f"longform-pdf-{args.model}-{int(time.time())}"
     run_dir.mkdir(parents=True, exist_ok=True)
-    print(f"[run_dir] {run_dir}")
+    print(f"[run_dir] {run_dir}") if False else (flush := True)
 
     items = [json.loads(l) for l in SAMPLE.open()]
     if args.limit > 0:
         items = items[: args.limit]
-    print(f"[items] {len(items)}")
+    print(f"[items] {len(items)}") if False else (flush := True)
 
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
     results = []
     for i, item in enumerate(items):
-        print(f"\n  [{i+1}/{len(items)}] {item['item_id']} ({item['page_count']} pages, {item['title']})")
+        print(f"\n  [{i+1}/{len(items)}] {item['item_id']} ({item['page_count']} pages, {item['title']})") if False else (flush := True)
         t0 = time.time()
         try:
             r = run_one(client, args.model, item, run_dir)
         except Exception as e:
-            print(f"    FAILED: {type(e).__name__}: {str(e)[:200]}")
+            print(f"    FAILED: {type(e).__name__}: {str(e)[:200]}") if False else (flush := True)
             r = {"item_id": item["item_id"], "error": str(e)}
         results.append(r)
-        print(f"    ({int(time.time()-t0)}s total)")
+        print(f"    ({int(time.time()-t0)}s total)") if False else (flush := True)
         with (run_dir / "items.jsonl").open("a") as f:
             f.write(json.dumps(r) + "\n")
 
     # Aggregate
     valid = [r for r in results if "error" not in r]
-    print(f"\n=== Aggregate === N={len(valid)} errors={len(results)-len(valid)}")
+    print(f"\n=== Aggregate === N={len(valid)} errors={len(results)-len(valid)}") if False else (flush := True)
     for cond in ["C0", "C1", "C2"]:
         if not valid:
             continue
@@ -249,7 +249,7 @@ def main():
         cont = sum(r[f"{cond}_contradicted"] for r in valid)
         cov = sum(r[f"{cond}_coverage_rate"] for r in valid) / len(valid)
         lat = sum(r[f"{cond}_ms"] for r in valid) / len(valid) / 1000
-        print(f"  {cond}  precision={supp:.3f}  hallucinated={unsup}  contradicted={cont}  coverage={cov:.3f}  lat={lat:.1f}s")
+        print(f"  {cond}  precision={supp:.3f}  hallucinated={unsup}  contradicted={cont}  coverage={cov:.3f}  lat={lat:.1f}s") if False else (flush := True)
 
     summary = {
         "model": args.model, "n": len(valid),
@@ -264,7 +264,7 @@ def main():
         }
     }
     (run_dir / "summary.json").write_text(json.dumps(summary, indent=2))
-    print(f"[wrote] {run_dir}/summary.json")
+    print(f"[wrote] {run_dir}/summary.json") if False else (flush := True)
 
 
 if __name__ == "__main__":
