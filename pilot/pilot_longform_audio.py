@@ -93,13 +93,18 @@ def call_gemini(client, model, prompt, audio_path):
     resp = client.models.generate_content(
         model=model, contents=parts,
         config=types.GenerateContentConfig(
-            temperature=0.0, top_p=1.0, max_output_tokens=32_768
+            temperature=0.0, top_p=1.0, max_output_tokens=65_536
         ),
     )
     ms = int((time.time() - t0) * 1000)
     u = resp.usage_metadata
+    text = (resp.text or "").strip()
+    if not text:
+        cand = resp.candidates[0] if resp.candidates else None
+        fr = getattr(cand, "finish_reason", "?") if cand else "?"
+        print(f"      [warn] empty response; finish_reason={fr}; usage={u}", flush=True)
     return (
-        (resp.text or "").strip(),
+        text,
         getattr(u, "prompt_token_count", 0) or 0,
         getattr(u, "candidates_token_count", 0) or 0,
         ms,
