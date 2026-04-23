@@ -215,32 +215,32 @@ def main():
 
     run_dir = args.run_dir or REPO / "runs" / f"longform-pdf-{args.model}-{int(time.time())}"
     run_dir.mkdir(parents=True, exist_ok=True)
-    print(f"[run_dir] {run_dir}") if False else (flush := True)
+    print(f"[run_dir] {run_dir}", flush=True)
 
     items = [json.loads(l) for l in SAMPLE.open()]
     if args.limit > 0:
         items = items[: args.limit]
-    print(f"[items] {len(items)}") if False else (flush := True)
+    print(f"[items] {len(items)}", flush=True)
 
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
     results = []
     for i, item in enumerate(items):
-        print(f"\n  [{i+1}/{len(items)}] {item['item_id']} ({item['page_count']} pages, {item['title']})") if False else (flush := True)
+        print(f"\n  [{i+1}/{len(items)}] {item['item_id']} ({item['page_count']} pages, {item['title']})", flush=True)
         t0 = time.time()
         try:
             r = run_one(client, args.model, item, run_dir)
         except Exception as e:
-            print(f"    FAILED: {type(e).__name__}: {str(e)[:200]}") if False else (flush := True)
+            print(f"    FAILED: {type(e).__name__}: {str(e)[:200]}", flush=True)
             r = {"item_id": item["item_id"], "error": str(e)}
         results.append(r)
-        print(f"    ({int(time.time()-t0)}s total)") if False else (flush := True)
+        print(f"    ({int(time.time()-t0)}s total)", flush=True)
         with (run_dir / "items.jsonl").open("a") as f:
             f.write(json.dumps(r) + "\n")
 
     # Aggregate
     valid = [r for r in results if "error" not in r]
-    print(f"\n=== Aggregate === N={len(valid)} errors={len(results)-len(valid)}") if False else (flush := True)
+    print(f"\n=== Aggregate === N={len(valid)} errors={len(results)-len(valid)}", flush=True)
     for cond in ["C0", "C1", "C2"]:
         if not valid:
             continue
@@ -249,7 +249,7 @@ def main():
         cont = sum(r[f"{cond}_contradicted"] for r in valid)
         cov = sum(r[f"{cond}_coverage_rate"] for r in valid) / len(valid)
         lat = sum(r[f"{cond}_ms"] for r in valid) / len(valid) / 1000
-        print(f"  {cond}  precision={supp:.3f}  hallucinated={unsup}  contradicted={cont}  coverage={cov:.3f}  lat={lat:.1f}s") if False else (flush := True)
+        print(f"  {cond}  precision={supp:.3f}  hallucinated={unsup}  contradicted={cont}  coverage={cov:.3f}  lat={lat:.1f}s", flush=True)
 
     summary = {
         "model": args.model, "n": len(valid),
@@ -264,7 +264,7 @@ def main():
         }
     }
     (run_dir / "summary.json").write_text(json.dumps(summary, indent=2))
-    print(f"[wrote] {run_dir}/summary.json") if False else (flush := True)
+    print(f"[wrote] {run_dir}/summary.json", flush=True)
 
 
 if __name__ == "__main__":
