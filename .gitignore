@@ -4,10 +4,12 @@ __pycache__/
 venv/
 env/
 
-# Data and runs
-data/
-runs/
-cache/
+# Data, model weights, and runs (large; not for git).
+# /models/ is anchored to repo root so harness/models/ (python code) stays tracked.
+/data/
+/runs/
+/cache/
+/models/
 *.wav
 *.mp3
 *.mp4

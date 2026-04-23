@@ -22,9 +22,9 @@
 
 ### Silo 1 — Speech / audio LLMs
 
-The cleanest single antecedent. Cuervo et al. ("Closing the Gap Between Text and Speech Understanding in LLMs", arXiv 2510.13632, Oct 2025) names the *text-speech understanding gap* and shows speech-LLMs underperform text-LLMs on equivalent reasoning tasks. We adopt the "gap" terminology and generalize it across modalities. X-Talk (arXiv 2512.18706, Dec 2025) shows optimized cascaded speech-to-speech pipelines beat omni models on latency without accuracy loss; URO-Bench (EMNLP Findings 2025) documents speech-LLM regression on instruction-following relative to backbone text models. "Beyond Transcription" (arXiv 2604.12506) is the closest existing analogue to our augmented-cascade condition — it decomposes audio into transcription + paralinguistics + non-linguistic events and shows the structured intermediate alphabet matters; we extend this with same-model cascades and cross-modality comparison.
+The cleanest single antecedent. Cuervo et al. ("Closing the Gap Between Text and Speech Understanding in LLMs", arXiv 2510.13632, Oct 2025) names the *text-speech understanding gap* and shows speech-LLMs underperform text-LLMs on equivalent reasoning tasks. We adopt the "gap" terminology and generalize it across modalities. X-Talk (arXiv 2512.18706, Dec 2025) argues optimized cascaded speech-to-speech pipelines achieve sub-second latency while retaining modular flexibility, challenging the assumption that end-to-end omni models are strictly dominant. URO-Bench (arXiv 2502.17810, EMNLP Findings 2025) documents speech-LLM regression on instruction-following relative to backbone text models. **The Cascade Equivalence Hypothesis** (arXiv 2602.17598, Feb 2026) makes the complementary mechanistic argument: speech LLMs behave internally like ASR→LLM cascades, with transcripts emerging in hidden states and text representations causally necessary for downstream accuracy; under noise, external cascades outperform end-to-end speech LLMs by up to 7.6 points at 0 dB. We read this as direct mechanistic support for our framework — if the internal cascade is already load-bearing, externalizing it and enriching the externalized bottleneck with non-lexical tags (our C2 condition) is the natural next step. "Beyond Transcription" (arXiv 2604.12506, Apr 2026) is the closest existing analogue to our augmented-cascade condition — it decomposes audio into transcription + paralinguistics + non-linguistic events and shows the structured intermediate alphabet matters. We note that *Beyond Transcription* realizes this schema via training-time supervision on 13,500 hours of UAS-labeled data, audio-only, while we achieve it as a same-weights inference-time prompting condition on unmodified models *across* modalities — the two results are complementary evidence that the structured alphabet is load-bearing regardless of how it is produced.
 
-The principal opposing voice is **Step-Audio-R1** (arXiv 2511.15848, Nov 2025), which argues end-to-end audio reasoning *can* work via Modality-Grounded Reasoning Distillation, and that "textual surrogate reasoning" is the failure mode. We engage Step-Audio-R1 directly: their finding is consistent with ours under one reading — that an audio-only alphabet (their MGRD-trained CoT) outperforms a text-only alphabet on tasks needing acoustic features. This is exactly the alphabet-fit story our boundary condition predicts. Audio-Reasoner (arXiv 2503.02318) is a milder counterpoint.
+The principal opposing voice is **Step-Audio-R1** (arXiv 2511.15848, Nov 2025), which reports that default audio language models "consistently perform better with minimal or no reasoning" and proposes Modality-Grounded Reasoning Distillation (MGRD) as a training-time fix yielding audio-grounded chains of thought. We read this result as consistent with ours under the alphabet-fit lens: on tasks requiring acoustic features, an audio-grounded reasoning alphabet outperforms a text-grounded one, and the cascade gap's sign flips accordingly. Importantly, Step-Audio-R1 does not include a same-weights self-cascade baseline, so our C1 condition measures a comparison their paper leaves open. Audio-Reasoner (arXiv 2503.02318) is a milder counterpoint.
 
 ### Silo 2 — Vision / document understanding
 
@@ -78,19 +78,20 @@ We deliberately do *not* coin a new term beyond "cascade gap." The paper's ident
 
 ### 4.1 Model coverage
 
-**Tier 1 (headline, same weights both passes):**
+**Tier 1 (headline, same weights both passes; version-pinned, snapshot dated):**
 
-| Model | Audio | Document/Vision | GUI |
-|---|---|---|---|
-| Gemini 3 Pro | ✓ | ✓ | ✓ |
-| Gemini 3 Flash | ✓ | ✓ | ✓ |
-| GPT-4o / o4 (audio + vision) | ✓ | ✓ | ✓ |
-| Claude 4 Opus / Sonnet | — | ✓ | ✓ |
-| Qwen2.5-Omni-7B / 72B | ✓ | ✓ | partial |
-| Step-Audio-R1 | ✓ | — | — |
-| UI-TARS-2 | — | partial | ✓ |
+| Model | Version pin | Audio | Document/Vision | GUI |
+|---|---|---|---|---|
+| Gemini 3.1 Pro Preview | `gemini-3.1-pro-preview` (rel. 2026-02-19) | ✓ | ✓ | ✓ |
+| Gemini 3.1 Flash / Flash-Lite | `gemini-3.1-flash-preview`, `gemini-3.1-flash-lite-preview` | ✓ | ✓ | ✓ |
+| GPT-4o-audio + GPT-5.x | `gpt-4o-audio-preview` (audio), `gpt-5` (text/vision) | ✓ | ✓ | ✓ |
+| Claude Opus 4.7 / Sonnet 4.6 | `claude-opus-4-7`, `claude-sonnet-4-6` | — | ✓ | ✓ |
+| Qwen3-Omni-30B-A3B-Instruct | HF `Qwen/Qwen3-Omni-30B-A3B-Instruct` | ✓ | ✓ | partial |
+| Qwen2.5-Omni-7B | HF `Qwen/Qwen2.5-Omni-7B` | ✓ | ✓ | partial |
+| Step-Audio-R1.1 | HF `stepfun-ai/Step-Audio-R1.1` (rel. 2026-01-14) | ✓ | — | — |
+| UI-TARS-2 | HF `ByteDance-Seed/UI-TARS-72B-DPO` | — | partial | ✓ |
 
-Approximately 15-18 (model × modality) cells. Same weights for both perceive-and-transcribe and reason; comparison against the same model's end-to-end mode.
+Approximately 15-18 (model × modality) cells. Same weights for both perceive-and-transcribe and reason; comparison against the same model's end-to-end mode. All experiments record snapshot date per cell; Gemini 3.0 Pro and Flash were deprecated 2026-03-09 and are not usable. No Qwen2.5-Omni-72B exists. The "GPT-4o/o4" reference from prior drafts is split into an audio-preview call path and a separate text/vision call path because the o-series (o3, o4-mini) are text-only reasoning variants without multimodal input.
 
 **Tier 2 (robustness, decoupled cascades):** Gemini-3-Flash perceives → Gemini-3-Pro reasons; Gemini perceives → Claude reasons; Qwen2.5-Omni perceives → Llama-3.1-405B reasons. Tests whether the same-model constraint is necessary or whether the gap is purely architectural.
 
@@ -101,12 +102,16 @@ Approximately 15-18 (model × modality) cells. Same weights for both perceive-an
 For each modality, 5-6 tasks ordered from purely-symbolic to purely-perceptual.
 
 **Audio:**
-1. Spoken-SQuAD / LibriSQA factual QA (symbolic)
-2. AMI / ICSI meeting minutes generation (mostly symbolic)
-3. MELD-derived sentiment-aware summarization (mixed)
-4. MELD / IEMOCAP emotion classification (paralinguistic)
-5. MUStARD sarcasm detection (paralinguistic)
-6. DIHARD speaker diarization (perceptual)
+1. LibriSQA factual QA (symbolic)
+2. MMAR Semantic + Cultural layers (mostly symbolic; arXiv 2505.13032)
+3. AMI meeting minutes generation (mostly symbolic)
+4. MMAR Perception layer (mixed)
+5. MELD / IEMOCAP emotion classification (paralinguistic)
+6. MUStARD sarcasm detection (paralinguistic)
+7. MMAR Signal layer + MMAU music/environmental sound reasoning (perceptual; arXiv 2505.13032, 2410.19168)
+8. VoxConverse speaker diarization (perceptual; replaces DIHARD to avoid LDC gating)
+
+MMAR's four-layer hierarchy (Signal → Perception → Semantic → Cultural) gives us a pre-existing stratification along the symbolic→perceptual axis, so the axis is empirical rather than imposed post-hoc. MMAU-Pro (arXiv 2508.13992) provides long-form extensions for a latency/context side study.
 
 **Document / vision:**
 1. DocVQA text-heavy split (symbolic)
@@ -140,6 +145,7 @@ For a subset of representative tasks per modality, an additional **C3 — Rich s
 3. **Compute reporting.** Three numbers per cell: answer-side output tokens, total output tokens (cascade pays for Pass 1), wall-clock latency. Report all three. Headline accuracy comparison is unconditional; cost-accuracy Pareto is reported as Figure 4.
 4. **Reasoning-mode handling.** End-to-end measurements use the model's default mode. A separate focused experiment compares reasoning-mode end-to-end (e.g., Gemini 3 with thinking, GPT-o-style) against the self-cascade, to test whether internal CoT substitutes for an externalized bottleneck. This is a side study, not part of the main matrix.
 5. **Statistical reporting.** Three random seeds per (model × task × condition); report mean ± 1.96σ. Significance tests on the cascade gap's sign.
+6. **Contamination check.** MMAR / MMAU / DocVQA / OSWorld were released before several Tier-1 models' knowledge cutoffs (e.g. Gemini 3.1 Pro: Feb 2026). For each closed-source model × benchmark cell, report whether the model achieves above-baseline zero-shot on the public test set — a suspiciously high number suggests pretraining exposure. Re-run headline experiments on any available held-out split (MMAR's private extension; newly constructed perturbations of public items).
 
 ### 4.5 Headline figures
 
@@ -171,6 +177,9 @@ The point is not to publish a state-of-the-art classifier; it is to show that *a
 | Augmented cascade prompts hard to design well | Medium | Build augmentation prompt schema before running full experiments; validate on dev subset that augmented cascade sometimes beats plain cascade |
 | Closed-source API behavior changes mid-study | High | Pin model versions where possible; record snapshot date for each measurement; budget for re-running headline experiments if Gemini/GPT versions deprecate |
 | Paper is scooped by a same-modality follow-up | Medium | Cross-modality unification + same-weights protocol is the moat; even if a single-silo paper appears, ours generalizes |
+| Audio-token API costs blow the budget | Medium | Per-model call ceiling; use Gemini 3.1 Flash-Lite for Pass-2 reasoning wherever Pass-1 is the expensive audio pass; front-load smaller open-weight runs; mandatory on-disk response cache keyed by (provider, version, prompt, decoding) |
+| Benchmark pretraining contamination (MMAR, DocVQA, OSWorld in frontier training data) | High | §4.4 control #6; prefer recent benchmark extensions; spot-check with controlled perturbations on a held-out slice |
+| "Beyond Transcription" (arXiv 2604.12506, Apr 2026) scoops the augmented-cascade story in audio | Medium | Positioning: they are training-time supervision on audio only, we are same-weights inference-time prompting across modalities with a predictive rule. Include a head-to-head inference-time C2-vs-UAS-trained comparison on MMSU |
 
 ---
 
