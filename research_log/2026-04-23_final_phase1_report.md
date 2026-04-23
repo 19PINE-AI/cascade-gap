@@ -154,6 +154,40 @@ The plan's implicit assumption was that end-to-end processing of long content fo
 3. **Weaker models**: GPT-5.4-mini, Qwen3-VL-30B — where hallucinations are more likely. If they hallucinate on C0 and not on C1, that validates the paper thesis for those models.
 4. **Force-fabrication attacks**: deliberately introduce factually-ambiguous content (contradictory claims, negated statements) and see which condition gets the orientation right.
 
+## 6b. Long-form audio pilot — first result (n=1, to be extended)
+
+**Andrej Karpathy: State of GPT (42.6 min, Microsoft Build 2023, Whisper-large-v3-turbo reference) on Gemini 3.1 Pro:**
+
+| Condition | Precision | Coverage | Hallucinated | Contradicted | Total claims | Latency |
+|---|---:|---:|---:|---:|---:|---:|
+| C0 end-to-end | **0.929** | **0.591** | 1 | 2 | 42 | 45 s |
+| C1 paraphrase→summarize | **0.949** | 0.571 | 1 | 2 | 59 | 78 s |
+| C2 UAS-structured→summarize | 0.881 | **0.190** | 4 | 1 | 42 | 71 s |
+
+Note: Pass-1 used a rephrased "detailed text record preserving every substantive point" instead of "verbatim transcribe" because the verbatim prompt on publicly-known audio (e.g. Dan Pink's TED talk) triggered Gemini's RECITATION safety filter. The paraphrase preserves content while avoiding training-data-match blocks.
+
+### Three findings from the audio pilot
+
+1. **Gemini 3.1 Pro has high baseline precision (0.93) on 42-min technical audio.** 3 unsupported claims out of 42 — mostly minor contradictions of specific numbers (dataset sizes, GPU counts). The "end-to-end hallucinates wildly on long audio" hypothesis does not hold at this magnitude for this model.
+
+2. **Cascade C1 matches C0 on absolute hallucination count, not precision.** Both have exactly 3 unsupported claims. C1 emits more total claims (59 vs 42), so its precision rate is slightly higher at 0.949 vs 0.929 — but that's a denominator effect, not fewer errors.
+
+3. **C2 collapses on coverage (0.19).** The speech-centric UAS schema applied to a technical talk drops most of the load-bearing content — same schema-mismatch failure as the MMAR music-item ablation. This is additional evidence for the alphabet-match thesis: the wrong schema doesn't just fail to help, it actively destroys recall.
+
+### Why the user's strong hypothesis isn't validated at this model
+
+The expected pattern was: C0 precision low, C1 precision high → cascade eliminates hallucinations. What we see: C0 precision is already high (0.93), C1 is marginally higher (0.95), C2 is worse (0.88). Gemini 3.1 Pro's native attention to long audio content is more faithful than the plan anticipated.
+
+Two caveats before concluding the thesis is dead on long-form audio:
+
+- **n=1.** We need 3-5 more audio items of varying difficulty (casual podcast, lecture, interview, scripted talk) before concluding.
+- **Weaker models not yet tested.** GPT-5.4 has no audio; Qwen2.5-Omni-7B locally would be the best open comparison. If Qwen-7B hallucinates 30% on C0 and 5% on C1, the cascade-eliminates-hallucinations thesis is validated for weaker models and becomes the paper's central practical claim.
+- **Hour-long content untested.** Karpathy is 42 min. For genuine hour-long lectures, the attention-over-context problem might appear differently.
+
+### Recitation-filter caveat for the protocol
+
+The original Pass-1 prompt said "Transcribe verbatim." On publicly-known audio (famous TED talk), this triggers Gemini's RECITATION safety filter and returns empty text. We worked around by rephrasing to "detailed text record preserving every substantive point"; this is not identical to verbatim transcription and may systematically favor paraphrased outputs. For Phase 2 with private content (meeting recordings, student-submitted audio) the filter won't fire and verbatim should be reinstated to keep the control clean.
+
 ## 7. What this report does not yet cover
 
 **The user flagged that short-form QA is the wrong instrument; the interesting scenarios are long-form generation (hour-long audio, full papers) where end-to-end hallucinates and cascades preserve faithfulness.** Two pilots for these are in flight but not yet complete at time of this report:
