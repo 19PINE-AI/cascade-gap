@@ -20,9 +20,12 @@ from dataclasses import dataclass, asdict
 from typing import Protocol
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
-SAMPLE = REPO / "data" / "docvqa_pilot" / "pilot_sample.jsonl"
-IMAGE_DIR = REPO / "data" / "docvqa_pilot"
 LAYOUT_SCHEMA_PATH = REPO / "harness" / "schemas" / "document_layout.md"
+
+BENCHMARKS = {
+    "docvqa": REPO / "data" / "docvqa_pilot",
+    "chartqa": REPO / "data" / "chartqa_pilot",
+}
 
 
 # ----- Prompts -----
@@ -195,8 +198,8 @@ def score(item: dict, output_text: str) -> float:
     return 0.0
 
 
-def run_one(provider: Provider, item: dict, run_dir: pathlib.Path) -> dict:
-    img_path = IMAGE_DIR / item["image_path"]
+def run_one(provider: Provider, item: dict, run_dir: pathlib.Path, image_dir: pathlib.Path) -> dict:
+    img_path = image_dir / item["image_path"]
     if not img_path.exists():
         return {"item_id": item["item_id"], "error": f"image missing: {img_path}"}
     img_bytes = img_path.read_bytes()
@@ -259,26 +262,30 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--provider", choices=["gemini", "openai", "openrouter"], required=True)
     ap.add_argument("--model", required=True)
+    ap.add_argument("--benchmark", choices=list(BENCHMARKS), default="docvqa")
     ap.add_argument("--limit", type=int, default=20)
     ap.add_argument("--run-dir", type=pathlib.Path, default=None)
     args = ap.parse_args()
 
-    run_tag = f"vision-{args.provider}-{args.model.replace('/', '--')}-{int(time.time())}"
+    bench_dir = BENCHMARKS[args.benchmark]
+    sample_file = bench_dir / "pilot_sample.jsonl"
+
+    run_tag = f"{args.benchmark}-{args.provider}-{args.model.replace('/', '--')}-{int(time.time())}"
     run_dir = args.run_dir or REPO / "runs" / run_tag
     run_dir.mkdir(parents=True, exist_ok=True)
     print(f"[run_dir] {run_dir}")
 
     provider = make_provider(args.provider, args.model)
-    items = [json.loads(l) for l in SAMPLE.open()]
+    items = [json.loads(l) for l in sample_file.open()]
     if args.limit > 0:
         items = items[: args.limit]
-    print(f"[items] {len(items)}   [provider] {provider.name}   [model] {provider.model}")
+    print(f"[items] {len(items)}   [provider] {provider.name}   [model] {provider.model}   [bench] {args.benchmark}")
 
     results = []
     for i, item in enumerate(items):
         t0 = time.time()
         try:
-            r = run_one(provider, item, run_dir)
+            r = run_one(provider, item, run_dir, bench_dir)
         except Exception as e:
             print(f"  [{i+1}/{len(items)}] {item['item_id']} FAILED: {type(e).__name__}: {str(e)[:160]}")
             r = {"item_id": item["item_id"], "error": str(e), "question_type": item.get("question_type", "?")}

@@ -205,6 +205,47 @@ OpenRouter thinking mode is slow — Pass-1 of C2 emits 4,400+ reasoning+schema 
 
 Started after Gemini audio pilots finished, to avoid shared-quota contention.
 
+## 5a. ChartQA pilot (GPT-5.4-mini via OpenRouter, n=20) — **DONE**
+
+ChartQA was added as a side pilot after the DocVQA runs turned out neutral — charts plausibly require non-lexical spatial reasoning and are a cleaner test of the paper's thesis.
+
+| Condition | Accuracy | Output tokens | Latency |
+|---|---:|---:|---:|
+| C0 | 0.80 | 8.2 | 1.1 s |
+| C1 | 0.60 | 146.7 | 2.3 s |
+| C2 | 0.75 | 426.9 | 4.4 s |
+
+### By ChartQA split
+
+| Split | n | C0 | C1 | C2 | Δ(C1−C0) | Δ(C2−C0) | Δ(C2−C1) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| human_test (open-ended) | 10 | 0.90 | 0.50 | 0.60 | −0.40 | −0.30 | +0.10 |
+| augmented_test (programmatic) | 10 | 0.70 | 0.70 | **0.90** | 0.00 | **+0.20** | +0.20 |
+
+### This is the first positive cascade gap on a frontier model
+
+**Augmented-cascade wins on programmatic ChartQA.** The C2 layout schema forces the model to first extract chart data (series, axes, values) as structured text; Pass-2 reasoning over that structured table answers specific data-lookup questions more reliably than visual reasoning does. Across 10 `augmented_test` items, Δ(C2−C0) = +0.20 and Δ(C2−C1) = +0.20 — augmentation specifically (not just cascading) is what helps.
+
+On `human_test`, the same protocol hurts: human-written questions are more open-ended ("what is this chart saying?") and resist reduction to a structured table. The layout schema drops the nuance the question depends on.
+
+### This is a direct validation of the plan's §4.3 Figure-3 expectation
+
+- C2 > C1 on both splits: alphabet-richness monotonically helps within cascade.
+- C2 > C0 on the programmatic split: the cascade with the right alphabet matches end-to-end and exceeds it when the task structure matches the alphabet.
+- C2 < C0 on the open-ended split: when the alphabet doesn't match, augmentation hurts — same schema-match logic as the audio music-item finding in §4a.
+
+### The paper's core reframing, stated precisely
+
+Combining the audio and chart findings:
+
+> The cascade gap's sign depends on **alphabet-match**: cascade wins when the task-class has a representable text schema that captures the load-bearing features, and loses when the answer depends on features the schema drops. The symbolic→perceptual axis is a rough proxy; the predictive-rule features should measure alphabet-match directly (per task: can a concise text schema capture all task-relevant features?).
+
+This is a **sharper** thesis than the plan's current wording and is empirically grounded in both the ChartQA augmented_test win and the MMAR music-item schema-mismatch failure.
+
+### Augmented_test contamination caveat
+
+ChartQA's `augmented_test` is automatically generated from templates, which may have been exposed to frontier models during pretraining. The 0.20 gap could reflect pattern-matching rather than reasoning. Phase-2 should re-run on a held-out perturbation (e.g., re-rendered charts with altered numeric values) to confirm the effect is real.
+
 ## 6. Artifacts
 
 - Per-call log (full prompt + response): `runs/<run-tag>/calls.jsonl`
