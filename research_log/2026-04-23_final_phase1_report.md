@@ -22,10 +22,11 @@ This report supersedes `2026-04-23_pilot_report.md` and `2026-04-23_synthesis.md
 | DocVQA | GPT-5.4 | **0.85** | **0.85** | 0.80 |
 | DocVQA | GPT-5.4-mini | **0.90** | 0.85 | 0.85 |
 | DocVQA | Qwen3-VL-30B-A3B-Thinking | **0.95** | **0.95** | 0.89 |
+| DocVQA | Qwen3-VL-235B-A22B-Thinking | **0.95** | 0.90 | 0.90 |
 | ChartQA | GPT-5.4 | 0.75 | 0.55 | **0.80** |
 | ChartQA | GPT-5.4-mini | **0.80** | 0.60 | 0.75 |
 
-**In 10 of 10 (model × benchmark) cells at the aggregate level, C0 ≥ C2 (tie or end-to-end wins) on the short-form tasks.** The only exception is Gemini 3.1 Pro on DocVQA where C0 ties C2 at 0.95 and GPT-5.4 on ChartQA where C2 is +0.05 over C0.
+**In 11 of 11 (model × benchmark) cells at the aggregate level, C0 ≥ C2 (tie or end-to-end wins) on the short-form tasks.** The only exception is Gemini 3.1 Pro on DocVQA where C0 ties C2 at 0.95 and GPT-5.4 on ChartQA where C2 is +0.05 over C0. Thinking-mode Qwen3-VL (both 30B and 235B) on DocVQA burn 164-174× more output tokens than C0 for a C2 regression of −0.05 — strict Pareto loss.
 
 The effect the plan predicted — that on symbolic-content tasks a self-cascade externalizes reasoning the end-to-end model can't do natively — is not observable on frontier models at short-form QA. These benchmarks are effectively solved at end-to-end.
 
