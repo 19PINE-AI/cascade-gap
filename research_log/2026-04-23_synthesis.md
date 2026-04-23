@@ -57,23 +57,57 @@ This is a **less bold but more defensible** thesis. It:
 - **Does Gemini 3.1 Pro on DocVQA show a non-zero gap?** Pilot running.
 - **Do Qwen3-VL-30B / 235B thinking models show the gap?** Partial (11-15/20): **NO meaningful gap — C0=C1=C2=1.00 on the items so far.** Both models solve DocVQA near-perfectly, regardless of condition. C2 costs 8,900+ output tokens for the same answer (thinking-mode verbosity). Strict Pareto loss.
 
-## DIRECT alphabet-match validation (music schema on MMAR) — partial (n=4 items)
+## DIRECT alphabet-match validation (music schema on MMAR) — **COMPLETE (n=12)**
 
 Critical experiment: re-run MMAR music-modality items with a pre-registered `audio_music.md` schema (tonal / instrumentation / structure / cultural) instead of the speech-centric UAS. Same model, same Pass-2 prompt.
 
-| MMAR item | Question | C0 | C1 | C2-speech | **C2-music** | Δ(music−speech) |
-|---|---|:--:|:--:|:--:|:--:|:--:|
-| BV1yu4m1N74b | "Was this male voice recording made in the studio?" | 0 | 1 | 0 | 0 | 0 |
-| M5PGztUl3yA | "Is the scream in the audio from the music?" | 1 | 1 | 1 | 1 | 0 |
-| Licd7qekNg4 | "Which chord shows distortion?" | 1 | 0 | **0** | **1** | **+1.0** |
-| BV1tv411z7J1 | "What is the mode of the instrument?" | 1 | 1 | **0** | **1** | **+1.0** |
+Full results on 12 music-modality items from the pilot sample (9 originally music-modality + 3 additional flagged by question keywords: chord, instrument, singing):
 
-**Two items flip from 0 to 1 when the schema matches the content.**
+### Aggregate
 
-On the chord-distortion and instrument-mode items, the speech-centric UAS collapsed audio to `[inaudible] events:[music]` and Pass-2 guessed wrong. The music schema emitted `tonality: {key, chord_progression, scale}` and Pass-2 answered correctly.
+| Condition | Accuracy |
+|---|---:|
+| C0 (end-to-end) | 0.833 |
+| C1 (plain cascade, transcription) | **0.917** |
+| C2 (speech UAS, pre-registered) | 0.583 |
+| **C2 (music schema)** | **0.750** |
 
-This is **the cleanest single piece of evidence for the paper's reframed alphabet-match thesis.** Same weights, same Pass-2 prompt, same audio — only the Pass-1 schema differs. Δ(C2-music − C2-speech) = +2/4 = +0.50 on the matched items, and 0/2 on the mismatched items (as expected).
+**Δ(music − speech) = +0.167** (same model, same audio, same Pass-2; only Pass-1 schema changed).
 
-The effect size is large enough that even with n=4, the sign is unambiguous. Phase-2 should extend to all MMAR music items (~300) and add analogous schemas for environmental-sound items, confirming the gap flips sign on non-matching schemas.
+### Per-layer
 
-(Full music-schema run still in flight: ~5 more items queued.)
+| MMAR layer | n | C0 | C2-speech | C2-music | Δ(music − speech) |
+|---|---:|---:|---:|---:|---:|
+| Signal | 3 | 0.667 | 0.333 | 0.667 | **+0.333** |
+| Perception | 4 | 0.750 | 0.500 | 0.500 | 0.000 |
+| Cultural | 5 | 1.000 | 0.800 | 1.000 | +0.200 |
+
+### Per-item (6 of 12 shown; all 12 in runs/mmar-music-schema-*/items.jsonl)
+
+| Question (truncated) | C0 | C1 | C2-speech | C2-music | Δ |
+|---|:--:|:--:|:--:|:--:|:--:|
+| "Which chord shows distortion?" | 1 | 0 | **0** | **1** | +1.0 |
+| "What is the mode of the instrument?" | 1 | 1 | **0** | **1** | +1.0 |
+| "What is the issue with the actor's singing?" | 1 | 1 | **0** | **1** | +1.0 |
+| "Emotion of music, happy or sad?" | 1 | 1 | 1 | 1 | 0 |
+| "Style of music?" | 1 | 1 | 1 | 1 | 0 |
+| "How might the instrument be played?" | 1 | 1 | **1** | **0** | **−1.0** |
+
+3 items rescued, 1 item broken by over-commitment, rest tied. Net +2 items out of 12.
+
+### What the numbers mean
+
+1. **Primary claim survives: alphabet-match drives the cascade gap within augmented cascades.** Music schema beats speech schema by 17 points on music content. The effect is carried by a small number of items where the speech schema produced degenerate `[inaudible] events:[music]` Pass-1 output.
+
+2. **A new nuance surfaces: plain cascade (C1) beats both augmented schemas at 0.917.** C1 is unopinionated — it transcribes whatever it can and hands the audio context implicitly to Pass-2. Augmented schemas commit Pass-1 to a specific structured interpretation that can be wrong. One concrete failure: on a Jaw Harp item, music schema correctly identified the instrument (Khomus) but Pass-2 then answered the "how is it played" question wrong; speech schema's vague "mechanical sounds" tag left Pass-2 enough ambiguity to guess correctly.
+
+3. **The paper's C3 "richer alphabet always helps" expectation from §4.3 is wrong.** On music content, the ordering is:
+   speech-UAS < music-schema < plain transcription (C1)
+   That is, *less* schema can be better when the schema risks over-committing. The paper should report this as a finding, not hide it.
+
+### Two concrete paper claims that follow
+
+- **Existence of alphabet-match:** there exist task classes where choice of Pass-1 schema changes Pass-2 accuracy by 30-100 points on specific items, with the sign determined by schema-content match. Validated on MMAR music items.
+- **Non-monotonicity in alphabet richness:** there exists a task class (music QA on Gemini 3.1 Pro) where plain transcription beats a well-matched structured schema, because the schema over-commits Pass-1. This constrains §4.3's Figure-3 expectation.
+
+This experiment was n=12, one model, pilot-scale. Phase-2 needs the same comparison on ~300 MMAR music items, a third "router" experiment that selects speech-UAS vs music-schema from a Pass-0 classifier, and environmental-sound equivalents.
