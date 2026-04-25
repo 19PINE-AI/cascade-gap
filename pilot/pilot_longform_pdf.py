@@ -31,8 +31,10 @@ import time
 from dataclasses import asdict, dataclass
 from typing import Sequence
 
+import base64
 from google import genai
 from google.genai import types
+from openai import OpenAI
 
 from llm_judge import score_coverage, score_faithfulness
 
@@ -117,7 +119,6 @@ def call_gemini(client, model, prompt, image_paths: Sequence[str] | None):
     u = resp.usage_metadata
     text = (resp.text or "").strip()
     if not text:
-        # Diagnose: log finish_reason, candidates, safety
         cand = resp.candidates[0] if resp.candidates else None
         fr = getattr(cand, "finish_reason", "?") if cand else "?"
         print(f"      [warn] empty response; finish_reason={fr}; usage={u}", flush=True)
@@ -129,35 +130,81 @@ def call_gemini(client, model, prompt, image_paths: Sequence[str] | None):
     )
 
 
-def run_one(client, model: str, item: dict, run_dir: pathlib.Path) -> dict:
+def call_openai(client, model, prompt, image_paths: Sequence[str] | None):
+    """Works for both OpenAI direct and OpenRouter (same client class)."""
+    content: list = [{"type": "text", "text": prompt}]
+    if image_paths:
+        for p in image_paths:
+            b64 = base64.b64encode(pathlib.Path(p).read_bytes()).decode()
+            content.append({
+                "type": "image_url",
+                "image_url": {"url": f"data:image/png;base64,{b64}"},
+            })
+    t0 = time.time()
+    r = client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": content}],
+        max_completion_tokens=32_768,
+    )
+    ms = int((time.time() - t0) * 1000)
+    msg = r.choices[0].message
+    text = (msg.content or "").strip()
+    usage = r.usage
+    in_tok = getattr(usage, "prompt_tokens", 0) if usage else 0
+    out_tok = getattr(usage, "completion_tokens", 0) if usage else 0
+    if not text:
+        finish = r.choices[0].finish_reason if r.choices else "?"
+        print(f"      [warn] empty response; finish_reason={finish}; usage={usage}", flush=True)
+    return text, in_tok, out_tok, ms
+
+
+def make_caller(provider: str, model: str):
+    """Returns (call_fn, client, model) tuple."""
+    if provider == "gemini":
+        client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+        return ("gemini", client, model, call_gemini)
+    if provider == "openai":
+        client = OpenAI()
+        return ("openai", client, model, call_openai)
+    if provider == "openrouter":
+        client = OpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=os.environ["OPENROUTER_API_KEY"],
+        )
+        return ("openrouter", client, model, call_openai)
+    raise ValueError(f"Unknown provider: {provider}")
+
+
+def run_one(provider_tuple, item: dict, run_dir: pathlib.Path) -> dict:
+    provider_name, client, model, call_fn = provider_tuple
     image_paths = item["image_paths"]
     ref_text = pathlib.Path(item["reference_path"]).read_text()
 
     logs: list[CallLog] = []
 
     # ---- C0: end-to-end summary ----
-    print(f"    [C0] sending {len(image_paths)} page images...", flush=True)
-    c0_text, c0_in, c0_out, c0_ms = call_gemini(
+    print(f"    [C0] sending {len(image_paths)} page images via {provider_name}...", flush=True)
+    c0_text, c0_in, c0_out, c0_ms = call_fn(
         client, model, SUMMARY_PROMPT + "\n\n(All attached pages are from a single paper.)", image_paths
     )
     logs.append(CallLog(item["item_id"], model, "C0", "e2e", c0_in, c0_out, c0_ms, c0_text))
 
     # ---- C1: transcribe → summarize ----
     print(f"    [C1.p1] transcribing...", flush=True)
-    p1_text, p1_in, p1_out, p1_ms = call_gemini(client, model, C1_PASS1_PROMPT, image_paths)
+    p1_text, p1_in, p1_out, p1_ms = call_fn(client, model, C1_PASS1_PROMPT, image_paths)
     logs.append(CallLog(item["item_id"], model, "C1", "pass1", p1_in, p1_out, p1_ms, p1_text))
     print(f"    [C1.p2] summarizing transcript ({p1_out} tokens)...", flush=True)
-    c1_text, c1_in, c1_out, c1_ms = call_gemini(
+    c1_text, c1_in, c1_out, c1_ms = call_fn(
         client, model, pass2_summary_prompt(p1_text, rich=False), None
     )
     logs.append(CallLog(item["item_id"], model, "C1", "pass2", c1_in, c1_out, c1_ms, c1_text))
 
     # ---- C2: structured → summarize ----
     print(f"    [C2.p1] structured extraction...", flush=True)
-    p2_text, p2_in, p2_out, p2_ms = call_gemini(client, model, c2_pass1_prompt(), image_paths)
+    p2_text, p2_in, p2_out, p2_ms = call_fn(client, model, c2_pass1_prompt(), image_paths)
     logs.append(CallLog(item["item_id"], model, "C2", "pass1", p2_in, p2_out, p2_ms, p2_text))
     print(f"    [C2.p2] summarizing structured ({p2_out} tokens)...", flush=True)
-    c2_text, c2_in, c2_out, c2_ms = call_gemini(
+    c2_text, c2_in, c2_out, c2_ms = call_fn(
         client, model, pass2_summary_prompt(p2_text, rich=True), None
     )
     logs.append(CallLog(item["item_id"], model, "C2", "pass2", c2_in, c2_out, c2_ms, c2_text))
@@ -216,28 +263,34 @@ def run_one(client, model: str, item: dict, run_dir: pathlib.Path) -> dict:
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--provider", choices=["gemini", "openai", "openrouter"], default="gemini")
     ap.add_argument("--model", default="gemini-3.1-pro-preview")
     ap.add_argument("--limit", type=int, default=3)
+    ap.add_argument("--items", default=None, help="Comma-separated item_ids to run; overrides limit/order")
     ap.add_argument("--run-dir", type=pathlib.Path, default=None)
     args = ap.parse_args()
 
-    run_dir = args.run_dir or REPO / "runs" / f"longform-pdf-{args.model}-{int(time.time())}"
+    tag_model = args.model.replace("/", "--")
+    run_dir = args.run_dir or REPO / "runs" / f"longform-pdf-{args.provider}-{tag_model}-{int(time.time())}"
     run_dir.mkdir(parents=True, exist_ok=True)
     print(f"[run_dir] {run_dir}", flush=True)
 
     items = [json.loads(l) for l in SAMPLE.open()]
-    if args.limit > 0:
+    if args.items:
+        wanted = set(args.items.split(","))
+        items = [it for it in items if it["item_id"] in wanted]
+    elif args.limit > 0:
         items = items[: args.limit]
-    print(f"[items] {len(items)}", flush=True)
+    print(f"[items] {len(items)}   [provider] {args.provider}   [model] {args.model}", flush=True)
 
-    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    provider_tuple = make_caller(args.provider, args.model)
 
     results = []
     for i, item in enumerate(items):
         print(f"\n  [{i+1}/{len(items)}] {item['item_id']} ({item['page_count']} pages, {item['title']})", flush=True)
         t0 = time.time()
         try:
-            r = run_one(client, args.model, item, run_dir)
+            r = run_one(provider_tuple, item, run_dir)
         except Exception as e:
             print(f"    FAILED: {type(e).__name__}: {str(e)[:200]}", flush=True)
             r = {"item_id": item["item_id"], "error": str(e)}
