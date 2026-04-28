@@ -256,6 +256,39 @@ In the Gemini 5-paper post-cutoff run:
 
 This sharpens the Phase-1 RECITATION-filter finding: the issue is **vendor-specific** and persists despite using post-cutoff content. Phase-2 paper should report the RECITATION incidence rate (60% on Mar-Apr 2026 arXiv with Gemini) as a first-class methodology contribution, and recommend non-arXiv content for future work.
 
+## Baseline-coverage predictor evaluation (Phase-2, n=9 clean cells)
+
+The Phase-1 paper proposed a single-feature predictor: `C0_cov ≤ 0.7 → cascade wins coverage; C0_cov ≥ 0.85 → cascade hurts; 0.7 < C0_cov < 0.85 → ambiguous`. Phase-2 multi-judge data lets us evaluate it.
+
+| Vendor | Paper | C0 cov | Predicted sign | Actual Δ(C1−C0) cov | Actual sign* | Match? |
+|---|---|---:|:--:|---:|:--:|:--:|
+| GPT-5.4 | DuplexCascade | 0.855 | − | +0.005 | 0 (noise) | miss (within noise) |
+| GPT-5.4 | ABMAMBA | 0.957 | − | −0.063 | − | **✓** |
+| GPT-5.4 | Beyond Transcription | 0.864 | − | −0.029 | − | **✓** |
+| Gemini | DuplexCascade | 0.453 | + | +0.196 | + | **✓** |
+| Gemini | ABMAMBA | 0.650 | + | −0.021 | − | miss |
+| Gemini | Beyond Transcription | 0.437 | + | +0.112 | + | **✓** |
+| Gemini | PixDLM | 0.577 | + | +0.127 | + | **✓** |
+| Gemini | MNAFT | 0.498 | + | +0.007 | 0 (noise) | miss (within noise) |
+| Qwen3-VL-30B | Beyond Transcription | 0.322 | + | +0.161 | + | **✓** |
+
+*Treating |Δ| ≤ 0.02 as "noise" / sign 0.
+
+**Strict accuracy: 6/9 = 66.7%**
+**Relaxed accuracy (counting near-zero as either sign): 7/9 = 77.8%**
+
+The predictor's actual misses:
+1. **Gemini ABMAMBA**: predicted cascade wins (C0 cov 0.65 inside positive zone), actually slight loss (−0.021). The single genuine sign-error in the dataset. Inspecting: ABMAMBA is an unusual paper for Gemini — both judges agreed C0 was already above 0.65 coverage despite being a long technical content. Possibly Gemini's C0 happens to be more comprehensive than baseline-coverage suggests for this domain.
+2. **GPT-5.4 DuplexCascade**: predicted hurt (C0 cov 0.855 boundary), actually +0.005. Boundary case at the negative-zone threshold; behavior is essentially zero.
+3. **Gemini MNAFT**: predicted win (C0 cov 0.498), actually +0.007. Predictor's sign right (positive) but magnitude is essentially zero — counts as miss only because we set the noise threshold at ±0.02.
+
+### What the predictor result means
+
+At Phase-2 sample size (n=9), the baseline-coverage predictor achieves 66.7% strict / 77.8% relaxed accuracy. **It is directionally informative but not strong enough to be a clean published rule at this n**. Phase-2 plan called for n≥30 cells with held-out modality testing; we're at n=9 within one modality (long-form PDF). The predictor's underlying intuition survives, but reviewers will demand n≥30 + held-out evaluation before treating it as a quantitative claim.
+
+For the paper, the right framing is:
+> Across n=9 (vendor × paper) cells with multi-judge data, the baseline-coverage predictor agrees with the cascade-gap's sign 7-8 times. With n=30+ this would be a real rule; at n=9 it is suggestive evidence of the alphabet-match × baseline-capability axis.
+
 ## Phase-2 session summary
 
 Completed in this autonomous session:
