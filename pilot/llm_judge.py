@@ -148,7 +148,7 @@ def score_faithfulness(summary: str, reference: str, reference_char_limit: int =
                 model=JUDGE_MODEL,
                 contents=[prompt],
                 config=types.GenerateContentConfig(
-                    temperature=0.0, top_p=1.0, max_output_tokens=16_384
+                    temperature=0.0, top_p=1.0, max_output_tokens=24_576
                 ),
             )
             last_raw = resp.text or ""
@@ -234,7 +234,7 @@ def score_coverage(summary: str, reference: str, reference_char_limit: int = 80_
                 model=JUDGE_MODEL,
                 contents=[prompt1],
                 config=types.GenerateContentConfig(
-                    temperature=0.0, top_p=1.0, max_output_tokens=8192
+                    temperature=0.0, top_p=1.0, max_output_tokens=16_384
                 ),
             )
             key_claims = _parse_json_output(resp.text or "").get("key_claims", [])
@@ -253,7 +253,7 @@ def score_coverage(summary: str, reference: str, reference_char_limit: int = 80_
                 model=JUDGE_MODEL,
                 contents=[prompt2],
                 config=types.GenerateContentConfig(
-                    temperature=0.0, top_p=1.0, max_output_tokens=8192
+                    temperature=0.0, top_p=1.0, max_output_tokens=16_384
                 ),
             )
             coverage = _parse_json_output(resp.text or "").get("coverage", [])
