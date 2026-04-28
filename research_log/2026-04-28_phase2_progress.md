@@ -162,6 +162,51 @@ These are the numbers Phase-2 paper will report.
 
 Kicked off Gemini Pro on 5 newly-rendered post-cutoff papers (MUSIC, AITP, Lost-in-Hype Medical, MNAFT, PixDLM). With the existing 3 papers (Beyond Transcription, DuplexCascade, ABMAMBA) this brings Gemini long-form n from 3 to 8 — closer to the Phase-2 target of n=30.
 
+## Cross-vendor cascade gap with bootstrap CIs (multi-judge averaged)
+
+Aggregating 15 multi-judge cells (3 vendors × 1-3 papers × C0/C1/C2) with `pilot/analyze_phase2.py`:
+
+### Per-vendor Δ(C1 − C0) under multi-judge protocol
+
+| Vendor | n papers | Δ prec | 95% CI | Δ cov | 95% CI |
+|---|---:|---:|---:|---:|---:|
+| GPT-5.4 | 3 | −0.008 | [−0.031, +0.007] | −0.029 | [−0.063, +0.005] |
+| Gemini Pro | 1 | +0.000 | (single point) | +0.112 | (single point) |
+| **Qwen3-VL-30B** | 1 | **+0.383** | (single point) | **+0.161** | (single point) |
+
+### Per-vendor Δ(C2 − C0)
+
+| Vendor | n papers | Δ prec | 95% CI | Δ cov | 95% CI |
+|---|---:|---:|---:|---:|---:|
+| **GPT-5.4** | 3 | **−0.023** | **[−0.032, −0.017]** | **−0.073** | **[−0.155, −0.023]** |
+| Gemini Pro | 1 | −0.007 | (single point) | +0.055 | (single point) |
+| Qwen3-VL-30B | 1 | +0.213 | (single point) | −0.058 | (single point) |
+
+### Interpretation (n=3 GPT-5.4 is the only well-powered cell)
+
+**GPT-5.4 saturation effect now has a 95% CI that excludes zero on Δ(C2−C0):** both for precision (CI does not cross 0) and coverage (CI [−0.155, −0.023] excludes 0). At n=3 papers, **GPT-5.4 cascade hurts** is statistically supported.
+
+**Δ(C1−C0) on GPT-5.4** is essentially zero with a CI that crosses zero — at n=3, plain cascade ties end-to-end.
+
+**Qwen rescue at n=1** still needs replication but the Phase-1 finding is preserved. Phase-2 needs Qwen long-form on the 2 post-cutoff papers (currently broken due to OpenRouter TypeError) to lift this from n=1.
+
+**Gemini single-point** is the weakest cell. Phase-2 5-paper Gemini run is in flight to lift n.
+
+### Inter-judge agreement on continuous metrics (15 cells)
+
+- **Precision range mean = 0.024** (max 0.143, only on Qwen weak-model C0)
+- **Coverage range mean = 0.070** (max 0.280, only on short 5pg paper)
+
+The Phase-2 continuous-metric inter-judge agreement is excellent. The brittle κ from §M2.1 is a measurement artifact at the binary 0.95 threshold.
+
+## RECITATION incidence — methodology finding worth its own subsection
+
+In the in-flight 5-paper Gemini run on post-cutoff arXiv papers (Mar–Apr 2026), 3 RECITATION events have already fired (paper 1 C1, paper 2 C1, paper 2 C2). **The "post-cutoff arXiv evades RECITATION" mitigation is unreliable on April 2026 papers.** Hypothesis: Gemini's training data was likely refreshed sometime after the official Feb 2026 cutoff date, retroactively contaminating papers we believed were safe.
+
+Implication for Phase-2 protocol: only **truly private content** (author-recorded talks, internal documents) is reliable for cascade measurement on Gemini. The authors' Phase-2 plan should commit to producing 5+ author-recorded test sources rather than relying on post-cutoff arXiv as the sole mitigation.
+
+Note: GPT-5.4 cross-vendor on the same DuplexCascade and ABMAMBA papers did NOT trigger any equivalent filter — only Gemini exhibits this measurement-validity issue. This further sharpens the point: cross-vendor protocols on public content are gated by **vendor-specific** safety filters, with Gemini being the most aggressive.
+
 ## What's next this session
 
 1. Multi-judge on Beyond Transcription cross-vendor (GPT-5.4 + Qwen3-VL run-dirs) — running.
