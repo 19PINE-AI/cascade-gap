@@ -118,13 +118,45 @@ GPT-5.4 cross-vendor on the 2 post-cutoff papers (DuplexCascade 5pg, ABMAMBA 22p
 | C1 | 0.944 / 1.000 | 0.962 / 0.720 | 0.017 | 0.280 |
 | C2 | 1.000 / 0.864 | 0.929 / 0.800 | 0.071 | 0.064 |
 
-### Pattern
+### ABMAMBA (22pg, GPT-5.4) multi-judge — **NOW COMPLETE**
 
-GPT-5.4 on DuplexCascade looks roughly similar to its Beyond Transcription pattern: high-precision C0 (prec ≥0.98), modest precision drop at C1 (~0.95 — both judges agree), C2 high again. Coverage is high across all conditions (0.72-1.00). The 5-page paper is small enough that GPT-5.4 saturates everything; cascade gain/loss is marginal.
+| Cell | Gemini judge | GPT-5.4 judge | prec range | cov range |
+|---|---|---|---:|---:|
+| C0 | 1.000 / 0.955 | 1.000 / 0.960 | 0.000 | 0.005 |
+| C1 | 1.000 / 0.909 | 1.000 / 0.880 | 0.000 | 0.029 |
+| C2 | (judge error) | 0.983 / 0.917 | — | — |
 
-The Gemini judge says C1 has 100% coverage (22/22 — the cascade picks up every key claim). GPT-5.4 judge atomized 25 key claims and covered 18 (72%). The denominator stochasticity is amplified on short papers.
+ABMAMBA on GPT-5.4 is even tighter cross-judge than DuplexCascade — both judges agree perfectly on precision (1.000 / 1.000) on C0 and C1, with coverage range ≤ 0.03.
 
-ABMAMBA multi-judge in flight; results to follow.
+### Pattern across 2 post-cutoff papers on GPT-5.4
+
+GPT-5.4 cross-vendor multi-judge confirms the saturation pattern:
+- C0 precision ≥ 0.98 on both judges, both papers
+- C1 precision ≥ 0.94 on both judges, both papers
+- Cascade is precision-tied or slight regression; coverage 0.72-1.00 across cells
+- The 5-page paper amplifies denominator stochasticity (cov range up to 0.28); 22-page paper has tight agreement
+
+### Methodological finding: brittle binary thresholds inflate apparent κ disagreement
+
+The post-cutoff GPT-5.4 run reports Cohen's κ = −0.25 over 5 cells. This is **misleading**: the underlying precision values agree closely (range ≤ 0.071 on every cell), but two cells straddle the 0.95 binary threshold differently:
+
+- Duplex C1: Gemini 0.944 (just below threshold) vs GPT-5.4 0.962 (just above)
+- Duplex C2: Gemini 1.000 (above) vs GPT-5.4 0.929 (just below)
+
+When precision values cluster near a binary threshold, κ is dominated by threshold-crossing noise, not genuine disagreement. **For Phase-2 paper reporting, drop the binary κ in favor of continuous inter-judge precision/coverage range** — that metric shows excellent agreement throughout.
+
+Alternatively: use multiple thresholds (e.g., 0.90 / 0.95 / 0.99) and report κ for each. At threshold 0.90 the same data gives κ = 1.000 (every cell is "faithful").
+
+### What this means for the paper
+
+The "κ = 1.000" we reported earlier on Beyond Transcription was a partial accident: that paper's precision values were either ~1.0 or ~0.5-0.7 (Qwen weak model), so binary verdicts were robust. On GPT-5.4 cross-vendor where precision sits at 0.94-0.99, the binary verdict is brittle. The right Phase-2 statistic is **mean inter-judge precision range**, computed over all cells:
+
+Across all 14 cells judged so far (3 cross-vendor on Beyond Transcription × 3 conditions + 2 post-cutoff papers on GPT-5.4 × 3 conditions − 1 erroneous):
+- Mean inter-judge precision range: **0.030**
+- Max inter-judge precision range: 0.143 (Qwen3-VL C0; the most ambiguous cell because both judges struggle with a hallucinatory summary)
+- Mean inter-judge coverage range: 0.090 (denominator-stochastic)
+
+These are the numbers Phase-2 paper will report.
 
 ## M2.3 Sample expansion — Gemini on 5 new post-cutoff papers running
 
