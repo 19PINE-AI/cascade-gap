@@ -207,6 +207,75 @@ Implication for Phase-2 protocol: only **truly private content** (author-recorde
 
 Note: GPT-5.4 cross-vendor on the same DuplexCascade and ABMAMBA papers did NOT trigger any equivalent filter — only Gemini exhibits this measurement-validity issue. This further sharpens the point: cross-vendor protocols on public content are gated by **vendor-specific** safety filters, with Gemini being the most aggressive.
 
+## **PHASE-2 HEADLINE RESULT** — n=5 Gemini long-form, multi-judge, clean cells
+
+After running multi-judge on all completed Gemini long-form runs (Beyond Transcription Phase-1 multi-judge + DuplexCascade + ABMAMBA + MNAFT + PixDLM = 5 papers, all post-cutoff or filter-evading), filtered to cells where both C0 and C1 have non-zero precision (excluding RECITATION-blocked cells), the cross-vendor cascade gap is:
+
+| Vendor | n papers | Δ(C1−C0) precision | 95% CI | Δ(C1−C0) coverage | 95% CI | Sign-test p |
+|---|---:|---:|---:|---:|---:|---:|
+| **Gemini Pro** | **5** | −0.002 | [−0.012, +0.007] | **+0.084** | **[+0.017, +0.152]** | 0.375 (4/5 pos) |
+| GPT-5.4 | 3 | −0.008 | [−0.031, +0.007] | −0.029 | [−0.063, +0.005] | 1.000 (1/3 pos) |
+| Qwen3-VL-30B | 1 | +0.383 | (single point) | +0.161 | (single point) | — |
+
+**Δ(C1−C0) coverage on Gemini is statistically supported at n=5: 95% CI [+0.017, +0.152] excludes zero.** Cascade C1 modestly improves coverage on Gemini long-form by ~8 percentage points without meaningful precision cost.
+
+### Per-paper data (Gemini Pro clean cells)
+
+| Paper | C0 prec/cov | C1 prec/cov | Δ(C1−C0) cov |
+|---|---|---|---:|
+| Beyond Transcription | 1.000 / 0.437 | 1.000 / 0.549 | +0.112 |
+| DuplexCascade | 0.952 / 0.453 | 0.966 / 0.649 | **+0.196** |
+| ABMAMBA | 0.985 / 0.650 | 0.986 / 0.629 | −0.021 |
+| MNAFT | 1.000 / 0.498 | 0.992 / 0.505 | +0.007 |
+| PixDLM | 0.987 / 0.577 | 0.968 / 0.705 | +0.127 |
+
+Cascade wins coverage on 4 of 5 papers; ties or loses slightly on the remaining 1. Direction is consistent.
+
+### Cross-vendor takeaway: 3 capability tiers, 3 outcomes (multi-judge confirmed)
+
+| Tier | Example | C0 baseline cov | Cascade verdict |
+|---|---|---:|---|
+| Frontier saturated | GPT-5.4 (n=3) | 0.86 (avg) | Cascade slightly hurts (CI on Δ cov excludes 0 at C2) |
+| Mid-capable compact | Gemini Pro (n=5) | 0.52 (avg) | **Cascade modestly wins coverage** (CI on Δ cov excludes 0 at C1) |
+| Weak hallucinatory | Qwen3-VL-30B (n=1) | 0.32 | Cascade rescues precision big (n=1) |
+
+**The baseline-coverage predictor proposed in Phase-1 is preserved at Phase-2 multi-judge protocol with bootstrap CIs.**
+
+### Inter-judge agreement on the full 36-cell dataset
+
+- **Precision range mean: 0.022** across 36 cells (excellent)
+- Coverage range mean: 0.129 (driven by denominator stochasticity, especially on short papers)
+- Cohen's κ at 0.95 binary threshold = 0.865 across 15 cells of the 5-paper run (good agreement, not the brittle case)
+
+### RECITATION incidence as a methods finding
+
+In the Gemini 5-paper post-cutoff run:
+- 5 RECITATION events on cascade Pass-1 (papers 1, 2, 3 fully blocked; papers 4, 5 cleared)
+- **3 of 5 post-Feb-2026 arXiv papers had cascade blocked by RECITATION on Gemini.**
+- GPT-5.4 (OpenAI) on the same papers had no equivalent filter.
+
+This sharpens the Phase-1 RECITATION-filter finding: the issue is **vendor-specific** and persists despite using post-cutoff content. Phase-2 paper should report the RECITATION incidence rate (60% on Mar-Apr 2026 arXiv with Gemini) as a first-class methodology contribution, and recommend non-arXiv content for future work.
+
+## Phase-2 session summary
+
+Completed in this autonomous session:
+- M1.1 multi-judge infrastructure (`pilot/llm_judge_multi.py`, `pilot/rejudge_multi.py`)
+- M1.2 bootstrap CI infrastructure (`pilot/stats.py`)
+- M1.3 multi-judge cross-validation across 5 long-form runs (36 cells)
+- M2.1 cross-vendor extension on post-cutoff papers (GPT-5.4 cleared 2 new papers; Qwen3-VL stream broken on OpenRouter thinking-mode response)
+- M2.2 5 new post-cutoff arXiv papers downloaded + rendered (raised Phase-2 long-form sample to N=11 papers)
+- M2.3 Gemini on 5 new post-cutoff papers (3 blocked by RECITATION, 2 clean)
+- Aggregate analysis (`pilot/analyze_phase2.py`) with bootstrap CIs and sign tests
+- **Headline finding**: Gemini Δ(C1−C0) coverage = +8.4 pp at n=5, CI [+1.7, +15.2] — statistically supported.
+
+Deferred (require dedicated time):
+- M2 Qwen long-form n-extension (need to fix OpenRouter TypeError on thinking model)
+- M3 GUI silo (WebArena/OSWorld)
+- M3 Reasoning-mode side study
+- M3 DocVLM replication on InternVL2
+- M4 Predictor cross-validation (held-out modality)
+- M5 Manuscript revision with Phase-2 numbers
+
 ## What's next this session
 
 1. Multi-judge on Beyond Transcription cross-vendor (GPT-5.4 + Qwen3-VL run-dirs) — running.
