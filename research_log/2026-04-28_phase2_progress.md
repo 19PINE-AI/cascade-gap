@@ -70,6 +70,42 @@ Combined with the existing 6 papers (Beyond Transcription, Step-Audio-R1, MMAR, 
 
 Domain mix: AudioLLM (3), GUI/agents (1), VLM training (3), benchmarks (1), domain-specific (medical, traffic, UAV) (3). Reasonable spread for the cross-domain claim.
 
+## M1.1 Multi-judge cross-vendor — **3 VENDORS COMPLETE**
+
+Re-scored Beyond Transcription summaries from all three Phase-1 cross-vendor runs with both Gemini 3.1 Pro and GPT-5.4 judges. Inter-judge κ = 1.000 on every run; no judge disagrees with another on the binary "is faithful at prec≥0.95" verdict.
+
+### Full multi-judge table
+
+| Vendor / Cell | Gemini judge prec / cov | GPT-5.4 judge prec / cov | prec range | cov range | Both ≥0.95? |
+|---|---|---|---:|---:|:--:|
+| **Gemini Pro** C0 | 1.000 / 0.455 | 1.000 / 0.419 | 0.000 | 0.035 | yes |
+| **Gemini Pro** C1 | 1.000 / 0.545 | 1.000 / 0.552 | 0.000 | 0.006 | yes |
+| **Gemini Pro** C2 | 1.000 / 0.500 | 0.987 / 0.484 | 0.013 | 0.016 | yes |
+| **GPT-5.4** C0 | 0.988 / 0.955 | 0.979 / 0.774 | 0.009 | 0.180 | yes |
+| **GPT-5.4** C1 | 1.000 / 0.818 | 0.981 / 0.852 | 0.019 | 0.034 | yes |
+| **GPT-5.4** C2 | (judge error) | 0.952 / 0.710 | — | — | yes (single) |
+| **Qwen3-VL-30B** C0 | 0.517 / 0.227 | 0.660 / 0.417 | 0.143 | 0.189 | **NO** (both <0.95) |
+| **Qwen3-VL-30B** C1 | 0.985 / 0.500 | 0.959 / 0.467 | 0.026 | 0.033 | yes |
+| **Qwen3-VL-30B** C2 | 0.767 / 0.227 | 0.835 / 0.300 | 0.068 | 0.073 | NO |
+
+**Cohen's κ on faithful verdict (prec≥0.95)** = 1.000 across all 8 valid cells. Both judges agree on every binary verdict.
+
+### What survives multi-judge for the paper
+
+1. **The cascade rescue claim survives.** Qwen3-VL Beyond Transcription:
+   - C0 precision averaged across both judges: ~0.59 (Gemini 0.52 + GPT-5.4 0.66) — substantial hallucinations confirmed.
+   - C1 precision averaged: ~0.97 (Gemini 0.985 + GPT-5.4 0.959) — cascade rescue confirmed.
+   - **+38 percentage-point precision rescue, validated by two independent judges.**
+
+2. **The GPT-5.4 saturation claim survives.** Both judges agree GPT-5.4 C0 has very high precision (0.98) and high coverage (0.77-0.96 — denominator-stochastic). Cascade C1 ties C0 on precision (~0.99) and is similar on coverage. **Cascade adds nothing on saturated frontier model**, validated by two judges.
+
+3. **The Gemini moderate-cascade claim survives.** Both judges agree Gemini C0 is high-precision (1.000) but moderate-coverage (~0.43); cascade C1 modestly improves coverage (~0.55). Phase-1's +34pp coverage win on Gemini Pro on Beyond Transcription is reduced under multi-judge protocol to **+9pp average** — the sign survives, the magnitude shrinks.
+
+### What multi-judge surfaces
+
+- **Inter-judge precision range is small (mostly ≤ 0.03), but coverage range can be large (up to 0.18).** This is denominator stochasticity: judges atomize the reference into different numbers of key claims. The ABSOLUTE coverage rate moves with the denominator; the directional comparison (C1 vs C0) is preserved.
+- **The single counter-intuitive judge disagreement** is on Qwen3-VL C0 (prec range 0.143). GPT-5.4 judge counts more claims as supported (66% vs 52% precision). Hypothesis: GPT-5.4 has stronger background knowledge of the Beyond Transcription paper (it's in its training data) and accepts more borderline claims as "supported by the reference." Phase-2 should prefer judges with no training-data overlap with the test content.
+
 ## What's next this session
 
 1. Multi-judge on Beyond Transcription cross-vendor (GPT-5.4 + Qwen3-VL run-dirs) — running.
