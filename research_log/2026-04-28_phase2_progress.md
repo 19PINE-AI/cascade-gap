@@ -106,6 +106,30 @@ Re-scored Beyond Transcription summaries from all three Phase-1 cross-vendor run
 - **Inter-judge precision range is small (mostly ≤ 0.03), but coverage range can be large (up to 0.18).** This is denominator stochasticity: judges atomize the reference into different numbers of key claims. The ABSOLUTE coverage rate moves with the denominator; the directional comparison (C1 vs C0) is preserved.
 - **The single counter-intuitive judge disagreement** is on Qwen3-VL C0 (prec range 0.143). GPT-5.4 judge counts more claims as supported (66% vs 52% precision). Hypothesis: GPT-5.4 has stronger background knowledge of the Beyond Transcription paper (it's in its training data) and accepts more borderline claims as "supported by the reference." Phase-2 should prefer judges with no training-data overlap with the test content.
 
+## M2.1 Cross-vendor extension — partial: GPT-5.4 on DuplexCascade complete
+
+GPT-5.4 cross-vendor on the 2 post-cutoff papers (DuplexCascade 5pg, ABMAMBA 22pg) was originally scored only with the inline Gemini judge (which failed once on truncation). Re-judging with multi-judge protocol.
+
+### DuplexCascade (5pg, GPT-5.4) multi-judge
+
+| Cell | Gemini judge | GPT-5.4 judge | prec range | cov range |
+|---|---|---|---:|---:|
+| C0 | 0.985 / 0.909 | 0.984 / 0.800 | 0.001 | 0.109 |
+| C1 | 0.944 / 1.000 | 0.962 / 0.720 | 0.017 | 0.280 |
+| C2 | 1.000 / 0.864 | 0.929 / 0.800 | 0.071 | 0.064 |
+
+### Pattern
+
+GPT-5.4 on DuplexCascade looks roughly similar to its Beyond Transcription pattern: high-precision C0 (prec ≥0.98), modest precision drop at C1 (~0.95 — both judges agree), C2 high again. Coverage is high across all conditions (0.72-1.00). The 5-page paper is small enough that GPT-5.4 saturates everything; cascade gain/loss is marginal.
+
+The Gemini judge says C1 has 100% coverage (22/22 — the cascade picks up every key claim). GPT-5.4 judge atomized 25 key claims and covered 18 (72%). The denominator stochasticity is amplified on short papers.
+
+ABMAMBA multi-judge in flight; results to follow.
+
+## M2.3 Sample expansion — Gemini on 5 new post-cutoff papers running
+
+Kicked off Gemini Pro on 5 newly-rendered post-cutoff papers (MUSIC, AITP, Lost-in-Hype Medical, MNAFT, PixDLM). With the existing 3 papers (Beyond Transcription, DuplexCascade, ABMAMBA) this brings Gemini long-form n from 3 to 8 — closer to the Phase-2 target of n=30.
+
 ## What's next this session
 
 1. Multi-judge on Beyond Transcription cross-vendor (GPT-5.4 + Qwen3-VL run-dirs) — running.
