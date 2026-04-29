@@ -262,6 +262,8 @@ def main():
     ap.add_argument("--items", default=None, help="Comma-separated item_ids (default: all)")
     ap.add_argument("--pro-model", default="gemini-3.1-pro-preview")
     ap.add_argument("--reference-model", default="gemini-3.1-pro-preview")
+    ap.add_argument("--run-dir", type=pathlib.Path, default=None,
+                    help="Reuse an existing run-dir (resumes from cached files); only valid with single --items")
     args = ap.parse_args()
 
     items = [json.loads(l) for l in args.sample.open()]
@@ -269,9 +271,11 @@ def main():
         wanted = set(args.items.split(","))
         items = [it for it in items if it["item_id"] in wanted]
     print(f"[items] {len(items)}", flush=True)
+    if args.run_dir is not None and len(items) != 1:
+        raise SystemExit("--run-dir requires exactly one item via --items")
 
     for item in items:
-        out_dir = REPO / "runs" / f"paper-review-{item['item_id']}-{int(time.time())}"
+        out_dir = args.run_dir or REPO / "runs" / f"paper-review-{item['item_id']}-{int(time.time())}"
         try:
             run(item, out_dir, args.pro_model, args.reference_model)
         except Exception as e:
