@@ -162,6 +162,7 @@ JSON output:"""
 # --- API callers -------------------------------------------------------------
 
 def call_gemini(prompt: str, audio_path: str | None, model: str, max_output_tokens: int = 65_536):
+    """Single Gemini call with optional audio attached — used for C0 review."""
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     parts: list = [prompt]
     if audio_path is not None:
@@ -184,6 +185,92 @@ def call_gemini(prompt: str, audio_path: str | None, model: str, max_output_toke
         u = resp.usage_metadata
         print(f"      [warn] empty Gemini response; finish_reason={fr}; usage={u}", flush=True)
     return text, ms
+
+
+def call_gemini_chunked_audio(
+    audio_path: str,
+    model: str,
+    chunk_seconds: int = 1800,  # 30 min default
+    overlap_seconds: int = 5,
+    workdir: pathlib.Path | None = None,
+) -> tuple[str, int]:
+    """Chunked audio transcription: split with ffmpeg, transcribe each chunk,
+    concatenate. Avoids the long-input degenerate-loop and attention-decay
+    failure modes on multi-hour audio.
+
+    Returns (concatenated_transcript, total_ms).
+    """
+    import subprocess
+    import shutil
+
+    if shutil.which("ffmpeg") is None:
+        raise RuntimeError("ffmpeg not found; chunked audio needs it")
+
+    audio_p = pathlib.Path(audio_path)
+    workdir = workdir or audio_p.parent / f".chunks_{audio_p.stem}_{int(time.time())}"
+    workdir.mkdir(parents=True, exist_ok=True)
+
+    # Duration
+    dur_str = subprocess.run(
+        ["ffprobe", "-v", "quiet", "-show_entries", "format=duration",
+         "-of", "default=noprint_wrappers=1:nokey=1", str(audio_p)],
+        capture_output=True, text=True,
+    ).stdout.strip()
+    duration = float(dur_str) if dur_str else 0.0
+    if duration <= 0:
+        raise RuntimeError(f"Could not determine duration of {audio_p}")
+
+    n_chunks = max(1, int((duration - 1) // chunk_seconds) + 1)
+    print(f"      [chunk] duration {duration:.0f}s, splitting into {n_chunks} chunk(s) of {chunk_seconds}s + {overlap_seconds}s overlap", flush=True)
+
+    chunk_paths: list[pathlib.Path] = []
+    for i in range(n_chunks):
+        start = max(0, i * chunk_seconds - (overlap_seconds if i > 0 else 0))
+        end = min(duration, (i + 1) * chunk_seconds)
+        out = workdir / f"chunk_{i:02d}.mp3"
+        if not out.exists():
+            subprocess.run(
+                ["ffmpeg", "-y", "-loglevel", "error",
+                 "-i", str(audio_p), "-ss", str(start), "-to", str(end),
+                 "-c:a", "libmp3lame", "-b:a", "32k", str(out)],
+                check=True,
+            )
+        chunk_paths.append(out)
+
+    # Transcribe each chunk
+    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    chunk_prompt = (
+        "Transcribe this audio segment in full. Capture every spoken sentence "
+        "verbatim, including disfluencies and false starts. Identify speaker "
+        "changes when audible. Output plain text only; do not summarize or paraphrase."
+    )
+    pieces: list[str] = []
+    total_ms = 0
+    for i, cp in enumerate(chunk_paths):
+        parts: list = [chunk_prompt]
+        ext = cp.suffix.lstrip(".").lower()
+        mime = {"mp3": "audio/mpeg", "wav": "audio/wav", "m4a": "audio/mp4", "ogg": "audio/ogg"}.get(ext, "audio/mpeg")
+        parts.append(types.Part.from_bytes(data=cp.read_bytes(), mime_type=mime))
+        t0 = time.time()
+        try:
+            resp = client.models.generate_content(
+                model=model, contents=parts,
+                config=types.GenerateContentConfig(
+                    temperature=0.0, top_p=1.0, max_output_tokens=65_536,
+                ),
+            )
+            chunk_text = (resp.text or "").strip()
+        except Exception as e:
+            chunk_text = ""
+            print(f"        [warn] chunk {i+1}/{n_chunks} failed: {type(e).__name__}: {str(e)[:120]}", flush=True)
+        chunk_ms = int((time.time() - t0) * 1000)
+        total_ms += chunk_ms
+        marker_start = i * chunk_seconds
+        marker_end = min(duration, (i + 1) * chunk_seconds)
+        pieces.append(f"=== chunk {i+1}/{n_chunks} ({marker_start:.0f}-{marker_end:.0f}s) ===\n{chunk_text or '(empty)'}")
+        print(f"      [chunk {i+1}/{n_chunks}] {chunk_ms/1000:.1f}s, {len(chunk_text.split())} words", flush=True)
+
+    return "\n\n".join(pieces), total_ms
 
 
 def call_gpt5_judge(prompt: str, max_completion_tokens: int = 16_384) -> tuple[str, int]:
@@ -316,18 +403,18 @@ def run(
     print(f"[run_dir] {out_dir}", flush=True)
     print(f"[audio]   {audio_path}  ({title})", flush=True)
 
-    # 1. Reference transcript via Gemini 3 Flash
+    # 1. Reference transcript — chunked (default 30-min chunks)
     ref_path = out_dir / "reference_transcript.txt"
     if ref_path.exists():
         print(f"  [ref] already exists ({ref_path.stat().st_size} bytes), reusing", flush=True)
         reference = ref_path.read_text()
     else:
-        print(f"  [ref] generating with {flash_model}...", flush=True)
-        reference, ms = call_gemini(REFERENCE_TRANSCRIPTION_PROMPT, str(audio_path), flash_model)
+        print(f"  [ref] generating with {flash_model} (chunked, 30min/call)...", flush=True)
+        reference, ms = call_gemini_chunked_audio(str(audio_path), flash_model)
         ref_path.write_text(reference)
         print(f"    ref: {len(reference.split())} words ({ms/1000:.1f}s)", flush=True)
-    if not reference:
-        raise RuntimeError("Reference transcript is empty — Gemini Flash failed.")
+    if not reference or len(reference.split()) < 50:
+        raise RuntimeError(f"Reference transcript too short ({len(reference.split())} words).")
 
     # 2. C0: end-to-end review
     c0_path = out_dir / "review_C0.txt"
@@ -340,14 +427,14 @@ def run(
         c0_path.write_text(review_c0)
         print(f"    C0: {len(review_c0.split())} words ({ms/1000:.1f}s)", flush=True)
 
-    # 3. C1: cascade — Pass-1 transcribe with Pro
+    # 3. C1: cascade — Pass-1 transcribe with Pro (chunked)
     c1p1_path = out_dir / "transcript_C1_pass1.txt"
     if c1p1_path.exists():
         print(f"  [C1.p1] already exists, reusing", flush=True)
         c1_pass1 = c1p1_path.read_text()
     else:
-        print(f"  [C1.p1] {pro_model} transcribe...", flush=True)
-        c1_pass1, ms = call_gemini(C1_PASS1_PROMPT, str(audio_path), pro_model)
+        print(f"  [C1.p1] {pro_model} transcribe (chunked, 30min/call)...", flush=True)
+        c1_pass1, ms = call_gemini_chunked_audio(str(audio_path), pro_model)
         c1p1_path.write_text(c1_pass1)
         print(f"    C1.p1: {len(c1_pass1.split())} words ({ms/1000:.1f}s)", flush=True)
 

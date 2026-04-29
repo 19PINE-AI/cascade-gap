@@ -68,6 +68,7 @@ def pass2_review_prompt(transcript: str) -> str:
 
 
 def call_gemini_with_images(prompt: str, image_paths: list[str], model: str, max_output_tokens: int = 65_536):
+    """Single Gemini call with all images attached — used for C0 review."""
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     parts: list = [prompt]
     for ip in image_paths:
@@ -93,6 +94,53 @@ def call_gemini_with_images(prompt: str, image_paths: list[str], model: str, max
     return text, ms
 
 
+def call_gemini_chunked_ocr(image_paths: list[str], model: str, chunk_size: int = 1) -> tuple[str, int]:
+    """Chunked OCR: process pages in small batches (default 1 page at a time)
+    and concatenate the per-chunk transcripts. Avoids the long-input
+    degenerate-loop failure mode observed on 104-page input.
+    """
+    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    chunk_prompt = (
+        "Transcribe the full text of this PDF page (or pages) verbatim, "
+        "in reading order. Capture every paragraph, heading, figure caption, "
+        "table content, and footnote you can read. Do NOT summarize, "
+        "paraphrase, or add commentary — output the literal text as it appears."
+    )
+    pieces: list[str] = []
+    total_ms = 0
+    n = len(image_paths)
+    for chunk_start in range(0, n, chunk_size):
+        chunk_pages = image_paths[chunk_start:chunk_start + chunk_size]
+        first_page = chunk_start + 1
+        last_page = chunk_start + len(chunk_pages)
+        page_marker = f"=== page {first_page} ===" if chunk_size == 1 else f"=== pages {first_page}-{last_page} ==="
+        parts: list = [chunk_prompt]
+        for ip in chunk_pages:
+            parts.append(types.Part.from_bytes(
+                data=pathlib.Path(ip).read_bytes(), mime_type="image/png",
+            ))
+        t0 = time.time()
+        try:
+            resp = client.models.generate_content(
+                model=model, contents=parts,
+                config=types.GenerateContentConfig(
+                    temperature=0.0, top_p=1.0, max_output_tokens=8_192,
+                ),
+            )
+            chunk_text = (resp.text or "").strip()
+        except Exception as e:
+            chunk_text = ""
+            print(f"      [warn] chunk {first_page}-{last_page} failed: {type(e).__name__}: {str(e)[:120]}", flush=True)
+        chunk_ms = int((time.time() - t0) * 1000)
+        total_ms += chunk_ms
+        if not chunk_text:
+            chunk_text = "(empty)"
+        pieces.append(f"{page_marker}\n{chunk_text}")
+        if chunk_start % 10 == 0 or chunk_start + chunk_size >= n:
+            print(f"      [chunk] {last_page}/{n} pages, {chunk_ms/1000:.1f}s, {len(chunk_text.split())} words", flush=True)
+    return "\n\n".join(pieces), total_ms
+
+
 def call_gemini_text_only(prompt: str, model: str, max_output_tokens: int = 65_536):
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
     t0 = time.time()
@@ -114,18 +162,18 @@ def run(item: dict, out_dir: pathlib.Path, pro_model: str, reference_model: str)
 
     image_paths = item["image_paths"]
 
-    # 1. Reference OCR via Gemini 3 Flash
+    # 1. Reference OCR — chunked per page (avoids long-context loop)
     ref_path = out_dir / "reference_transcript.txt"
     if ref_path.exists():
         print(f"  [ref] reusing existing", flush=True)
         reference = ref_path.read_text()
     else:
-        print(f"  [ref] generating with {reference_model} on {len(image_paths)} images...", flush=True)
-        reference, ms = call_gemini_with_images(REFERENCE_OCR_PROMPT, image_paths, reference_model)
+        print(f"  [ref] generating with {reference_model} (chunked, 1 page/call) on {len(image_paths)} pages...", flush=True)
+        reference, ms = call_gemini_chunked_ocr(image_paths, reference_model, chunk_size=1)
         ref_path.write_text(reference)
         print(f"    ref: {len(reference.split())} words ({ms/1000:.1f}s)", flush=True)
-    if not reference:
-        raise RuntimeError("Reference OCR is empty — Gemini Flash failed.")
+    if not reference or len(reference.split()) < 50:
+        raise RuntimeError(f"Reference OCR too short ({len(reference.split())} words).")
 
     # 2. C0: end-to-end review
     c0_path = out_dir / "review_C0.txt"
@@ -144,8 +192,8 @@ def run(item: dict, out_dir: pathlib.Path, pro_model: str, reference_model: str)
         print(f"  [C1.p1] reusing existing", flush=True)
         c1_pass1 = c1p1_path.read_text()
     else:
-        print(f"  [C1.p1] {pro_model} OCR from images...", flush=True)
-        c1_pass1, ms = call_gemini_with_images(C1_PASS1_PROMPT, image_paths, pro_model)
+        print(f"  [C1.p1] {pro_model} OCR (chunked, 1 page/call) on {len(image_paths)} pages...", flush=True)
+        c1_pass1, ms = call_gemini_chunked_ocr(image_paths, pro_model, chunk_size=1)
         c1p1_path.write_text(c1_pass1)
         print(f"    C1.p1: {len(c1_pass1.split())} words ({ms/1000:.1f}s)", flush=True)
 
