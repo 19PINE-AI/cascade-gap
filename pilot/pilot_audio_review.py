@@ -47,6 +47,31 @@ but don't add anything not stated by the speaker. Do not speculate, do not
 embellish, do not add framing context."""
 
 
+MEETING_MINUTES_PROMPT = """\
+Generate detailed meeting minutes based on this audio recording. Structure:
+
+1. PARTICIPANTS — identify each distinct speaker (name if introduced, else
+   "Speaker A", "Speaker B"). For each, note their role if mentioned.
+2. TOPICS DISCUSSED — for each topic, summarize the substantive content
+   covered, who introduced it, and key points raised.
+3. DECISIONS — any explicit decisions, agreements, or conclusions reached.
+4. ACTION ITEMS — any tasks, commitments, or follow-ups assigned, with
+   the owner if stated.
+5. NOTABLE QUOTES — verbatim quotes (≤30 words) that capture key positions
+   or memorable phrasings, attributed to the speaker.
+6. UNRESOLVED QUESTIONS — any open issues or disagreements not concluded.
+
+Be faithful to what was said. Attribute every claim to the correct speaker.
+Do not invent participants, decisions, or action items. If a section has
+no content, write "(none)" for that section."""
+
+
+PROMPTS_BY_TASK = {
+    "review": REVIEW_PROMPT,
+    "meeting_minutes": MEETING_MINUTES_PROMPT,
+}
+
+
 REFERENCE_TRANSCRIPTION_PROMPT = """\
 Transcribe this audio recording in full. Capture every spoken sentence,
 including disfluencies (um, uh), repetitions, and false starts. Identify
@@ -57,13 +82,13 @@ plain text only; do not summarize, paraphrase, or add commentary."""
 C1_PASS1_PROMPT = REFERENCE_TRANSCRIPTION_PROMPT  # same prompt; same model
 
 
-def pass2_review_prompt(transcript: str) -> str:
+def pass2_review_prompt(transcript: str, task_prompt: str = REVIEW_PROMPT) -> str:
     return (
         "Below is a verbatim transcript of an audio recording. "
-        "Use ONLY this transcript to write the review article — do not assume "
+        "Use ONLY this transcript to write the requested output — do not assume "
         "anything not present here.\n\n"
         f"<transcript>\n{transcript}\n</transcript>\n\n"
-        f"Task:\n{REVIEW_PROMPT}"
+        f"Task:\n{task_prompt}"
     )
 
 
@@ -398,10 +423,12 @@ def run(
     out_dir: pathlib.Path,
     pro_model: str = "gemini-3.1-pro-preview",
     flash_model: str = "gemini-3-flash-preview",
+    task: str = "review",
 ):
     out_dir.mkdir(parents=True, exist_ok=True)
+    task_prompt = PROMPTS_BY_TASK.get(task, REVIEW_PROMPT)
     print(f"[run_dir] {out_dir}", flush=True)
-    print(f"[audio]   {audio_path}  ({title})", flush=True)
+    print(f"[audio]   {audio_path}  ({title})  [task={task}]", flush=True)
 
     # 1. Reference transcript — chunked (default 30-min chunks)
     ref_path = out_dir / "reference_transcript.txt"
@@ -422,8 +449,8 @@ def run(
         print(f"  [C0] already exists, reusing", flush=True)
         review_c0 = c0_path.read_text()
     else:
-        print(f"  [C0] {pro_model} end-to-end review...", flush=True)
-        review_c0, ms = call_gemini(REVIEW_PROMPT, str(audio_path), pro_model)
+        print(f"  [C0] {pro_model} end-to-end {task}...", flush=True)
+        review_c0, ms = call_gemini(task_prompt, str(audio_path), pro_model)
         c0_path.write_text(review_c0)
         print(f"    C0: {len(review_c0.split())} words ({ms/1000:.1f}s)", flush=True)
 
@@ -446,8 +473,8 @@ def run(
     else:
         if not c1_pass1:
             raise RuntimeError("C1 Pass-1 transcript is empty — cannot run Pass-2.")
-        print(f"  [C1.p2] {pro_model} review from transcript...", flush=True)
-        review_c1, ms = call_gemini(pass2_review_prompt(c1_pass1), None, pro_model)
+        print(f"  [C1.p2] {pro_model} {task} from transcript...", flush=True)
+        review_c1, ms = call_gemini(pass2_review_prompt(c1_pass1, task_prompt), None, pro_model)
         c1_path.write_text(review_c1)
         print(f"    C1: {len(review_c1.split())} words ({ms/1000:.1f}s)", flush=True)
 
@@ -507,12 +534,16 @@ def main():
     ap.add_argument("--id", required=True, help="Short identifier, used in run-dir name")
     ap.add_argument("--title", default="")
     ap.add_argument("--pro-model", default="gemini-3.1-pro-preview")
-    ap.add_argument("--flash-model", default="gemini-3-flash-preview")
+    ap.add_argument("--flash-model", default="gemini-3.1-pro-preview")
+    ap.add_argument("--task", choices=list(PROMPTS_BY_TASK), default="review",
+                    help="Output task type: 'review' (long-form review article) or "
+                    "'meeting_minutes' (structured minutes for multi-speaker audio)")
     ap.add_argument("--run-dir", type=pathlib.Path, default=None)
     args = ap.parse_args()
 
-    out_dir = args.run_dir or REPO / "runs" / f"audio-review-{args.id}-{int(time.time())}"
-    run(args.audio, args.id, args.title or args.id, out_dir, args.pro_model, args.flash_model)
+    out_dir = args.run_dir or REPO / "runs" / f"audio-{args.task}-{args.id}-{int(time.time())}"
+    run(args.audio, args.id, args.title or args.id, out_dir,
+        args.pro_model, args.flash_model, task=args.task)
 
 
 if __name__ == "__main__":
