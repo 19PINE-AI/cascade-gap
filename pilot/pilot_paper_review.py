@@ -107,7 +107,7 @@ def call_gemini_text_only(prompt: str, model: str, max_output_tokens: int = 65_5
     return text, ms
 
 
-def run(item: dict, out_dir: pathlib.Path, pro_model: str, flash_model: str):
+def run(item: dict, out_dir: pathlib.Path, pro_model: str, reference_model: str):
     out_dir.mkdir(parents=True, exist_ok=True)
     print(f"[run_dir] {out_dir}", flush=True)
     print(f"[paper]   {item['item_id']} ({item['page_count']}pp)  {item['title']}", flush=True)
@@ -120,8 +120,8 @@ def run(item: dict, out_dir: pathlib.Path, pro_model: str, flash_model: str):
         print(f"  [ref] reusing existing", flush=True)
         reference = ref_path.read_text()
     else:
-        print(f"  [ref] generating with {flash_model} on {len(image_paths)} images...", flush=True)
-        reference, ms = call_gemini_with_images(REFERENCE_OCR_PROMPT, image_paths, flash_model)
+        print(f"  [ref] generating with {reference_model} on {len(image_paths)} images...", flush=True)
+        reference, ms = call_gemini_with_images(REFERENCE_OCR_PROMPT, image_paths, reference_model)
         ref_path.write_text(reference)
         print(f"    ref: {len(reference.split())} words ({ms/1000:.1f}s)", flush=True)
     if not reference:
@@ -183,7 +183,7 @@ def run(item: dict, out_dir: pathlib.Path, pro_model: str, flash_model: str):
         "title": item["title"],
         "page_count": item["page_count"],
         "models": {
-            "reference_ocr": flash_model,
+            "reference_ocr": reference_model,
             "review_under_test": pro_model,
             "judge": "gpt-5.4 (reasoning_effort=high)",
         },
@@ -213,7 +213,7 @@ def main():
                     help="Path to pilot_sample.jsonl with item_id, title, image_paths, page_count")
     ap.add_argument("--items", default=None, help="Comma-separated item_ids (default: all)")
     ap.add_argument("--pro-model", default="gemini-3.1-pro-preview")
-    ap.add_argument("--flash-model", default="gemini-3-flash-preview")
+    ap.add_argument("--reference-model", default="gemini-3.1-pro-preview")
     args = ap.parse_args()
 
     items = [json.loads(l) for l in args.sample.open()]
@@ -225,7 +225,7 @@ def main():
     for item in items:
         out_dir = REPO / "runs" / f"paper-review-{item['item_id']}-{int(time.time())}"
         try:
-            run(item, out_dir, args.pro_model, args.flash_model)
+            run(item, out_dir, args.pro_model, args.reference_model)
         except Exception as e:
             print(f"  FAILED {item['item_id']}: {type(e).__name__}: {str(e)[:200]}", flush=True)
 
