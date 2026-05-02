@@ -1,4 +1,8 @@
-# Phase-3 Consolidated Results — 9 cells across 2 modalities, 2 task types, single + multi-speaker
+# Phase-3 Consolidated Results — 9 cells, plus chunked-Pass-2 + cross-vendor extensions
+
+**Updated 2026-04-30** with:
+- Heat Pipes chunked Pass-2 (C1c_concat 0.94 cov, +22 pp over C0). Confirms compression-bottleneck prediction.
+- Thermal Analysis 66pp cross-vendor with Claude Opus 4.7 (cascade replicates: −64% halluc, +8 pp cov to perfect 1.000).
 
 **Date:** 2026-04-29 (running)
 **Protocol:** Phase-3
@@ -105,7 +109,27 @@ This failure mode argues for a **reference-quality sanity check** before trustin
 
 ## Pending
 
-- Optional: chunked-Pass-2 variant on Heat Pipes to test if it closes the Pass-2 compression bottleneck
 - Optional: 1-2 more multi-speaker audio cells to lock in the multi-speaker generalization
+- Optional: cross-vendor on Heat Pipes 104pp (Claude). Would test whether Claude's cascade edge holds on the longest paper.
+- Optional: cross-vendor on an audio cell (Qwen3-Omni for Karpathy or SNAC). Would test cross-vendor on the second modality.
 
-9 cells of Phase-3 data is enough to commit a comprehensive Phase-3 results writeup with claims that span 2 modalities, 2 task types, 2 prompt structures, and single + multi-speaker audio.
+9 cells of Phase-3 data + chunked-Pass-2 + cross-vendor = enough to commit a comprehensive Phase-3 results writeup with claims that span 2 modalities, 2 task types, 2 prompt structures, single + multi-speaker audio, AND 2 model families.
+
+## Two pre-registered predictions, both confirmed
+
+These were the highest-leverage open questions before this run:
+
+1. **Chunked Pass-2 closes the long-paper coverage gap** (predicted in `2026-04-29_phase3_heatpipes.md`). Result: Heat Pipes C1c_concat 0.94 vs C1 0.78 (+16 pp), matching the medium-paper cascade-gain range. Compression-bottleneck mechanism confirmed AND engineerable. Plus a bonus finding — chunked-with-merge dominates on hallucinations (4) while chunked-no-merge dominates on coverage (0.94), exposing a Pareto frontier between faithfulness and coverage tunable via merge depth. See `2026-04-30_heatpipes_chunked_pass2.md`.
+
+2. **Cross-vendor cascade replicates** (predicted as the paper's biggest open risk). Result: Claude Opus 4.7 on Thermal Analysis 66pp shows the same pattern — −64% halluc (11→4), +8 pp cov (0.92→1.000). Both vendors converge to ~1.4 hallucinations per 1,000 output words under cascade despite Claude producing 2× longer reviews. Cascade is not a Gemini-specific phenomenon. See `2026-04-30_xvendor_claude_thermal.md`.
+
+## Hallucination-rate convergence: a candidate quantitative claim for the paper
+
+| Vendor | Cond | Halluc/1k words |
+|---|---|---:|
+| Gemini 3.1 Pro | C0 (Thermal Analysis 66pp) | 4.2 |
+| Gemini 3.1 Pro | C1 (Thermal Analysis 66pp) | **1.4** |
+| Claude Opus 4.7 | C0 (Thermal Analysis 66pp) | 3.7 |
+| Claude Opus 4.7 | C1 (Thermal Analysis 66pp) | **1.4** |
+
+End-to-end hallucination rates differ between vendors (3.7 vs 4.2 per 1k), but cascade brings both to the same rate. This suggests something structural about cascading — not vendor-specific tuning — drives the faithfulness floor. Worth replicating on more cells before claiming generality.
