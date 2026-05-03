@@ -1,271 +1,7 @@
 {
   "runs": [
     {
-      "run_dir": "/home/ubuntu/cascade-gap/runs/audio-meeting_minutes-ietf_snac-1777518337",
-      "n_probes": 49,
-      "conditions": {
-        "C0": {
-          "gpt5_unsupported": 14,
-          "claude_unsupported": 10,
-          "gpt5_covered": 14,
-          "claude_covered": 15,
-          "n_probes_compared": 49,
-          "per_probe_agreement_pct": 0.9795918367346939
-        },
-        "C1": {
-          "gpt5_unsupported": 11,
-          "claude_unsupported": 11,
-          "gpt5_covered": 26,
-          "claude_covered": 28,
-          "n_probes_compared": 49,
-          "per_probe_agreement_pct": 0.9183673469387755
-        }
-      },
-      "direction_agreement": [
-        {
-          "vendor": "gemini",
-          "pair": "C0_vs_C1",
-          "halluc_gpt5": "C1<C0",
-          "halluc_claude": "C1>C0",
-          "halluc_agree": false,
-          "cov_gpt5": "C1>C0",
-          "cov_claude": "C1>C0",
-          "cov_agree": true
-        }
-      ]
-    },
-    {
-      "run_dir": "/home/ubuntu/cascade-gap/runs/audio-meeting_minutes-karpathy_sogpt-1777468873",
-      "n_probes": 50,
-      "conditions": {
-        "C0": {
-          "gpt5_unsupported": 4,
-          "claude_unsupported": 1,
-          "gpt5_covered": 8,
-          "claude_covered": 13,
-          "n_probes_compared": 50,
-          "per_probe_agreement_pct": 0.9
-        },
-        "C1": {
-          "gpt5_unsupported": 2,
-          "claude_unsupported": 0,
-          "gpt5_covered": 17,
-          "claude_covered": 21,
-          "n_probes_compared": 50,
-          "per_probe_agreement_pct": 0.92
-        }
-      },
-      "direction_agreement": [
-        {
-          "vendor": "gemini",
-          "pair": "C0_vs_C1",
-          "halluc_gpt5": "C1<C0",
-          "halluc_claude": "C1<C0",
-          "halluc_agree": true,
-          "cov_gpt5": "C1>C0",
-          "cov_claude": "C1>C0",
-          "cov_agree": true
-        }
-      ]
-    },
-    {
-      "run_dir": "/home/ubuntu/cascade-gap/runs/audio-review-karpathy_sogpt-1777458038",
-      "n_probes": 51,
-      "conditions": {
-        "C0": {
-          "gpt5_unsupported": 13,
-          "claude_unsupported": 7,
-          "gpt5_covered": 32,
-          "claude_covered": 38,
-          "n_probes_compared": 51,
-          "per_probe_agreement_pct": 0.8823529411764706
-        },
-        "C1": {
-          "gpt5_unsupported": 3,
-          "claude_unsupported": 4,
-          "gpt5_covered": 49,
-          "claude_covered": 49,
-          "n_probes_compared": 51,
-          "per_probe_agreement_pct": 0.9607843137254902
-        }
-      },
-      "direction_agreement": [
-        {
-          "vendor": "gemini",
-          "pair": "C0_vs_C1",
-          "halluc_gpt5": "C1<C0",
-          "halluc_claude": "C1<C0",
-          "halluc_agree": true,
-          "cov_gpt5": "C1>C0",
-          "cov_claude": "C1>C0",
-          "cov_agree": true
-        }
-      ]
-    },
-    {
-      "run_dir": "/home/ubuntu/cascade-gap/runs/paper-review-19680000724-1777468706",
-      "n_probes": 50,
-      "conditions": {
-        "C0": {
-          "gpt5_unsupported": 5,
-          "claude_unsupported": 0,
-          "gpt5_covered": 44,
-          "claude_covered": 46,
-          "n_probes_compared": 50,
-          "per_probe_agreement_pct": 0.96
-        },
-        "C1": {
-          "gpt5_unsupported": 4,
-          "claude_unsupported": 2,
-          "gpt5_covered": 46,
-          "claude_covered": 49,
-          "n_probes_compared": 50,
-          "per_probe_agreement_pct": 0.94
-        }
-      },
-      "direction_agreement": [
-        {
-          "vendor": "gemini",
-          "pair": "C0_vs_C1",
-          "halluc_gpt5": "C1<C0",
-          "halluc_claude": "C1>C0",
-          "halluc_agree": false,
-          "cov_gpt5": "C1>C0",
-          "cov_claude": "C1>C0",
-          "cov_agree": true
-        }
-      ]
-    },
-    {
-      "run_dir": "/home/ubuntu/cascade-gap/runs/paper-review-19690008405-1777468708",
-      "n_probes": 50,
-      "conditions": {
-        "C0": {
-          "gpt5_unsupported": 3,
-          "claude_unsupported": 1,
-          "gpt5_covered": 29,
-          "claude_covered": 32,
-          "n_probes_compared": 50,
-          "per_probe_agreement_pct": 0.94
-        },
-        "C1": {
-          "gpt5_unsupported": 2,
-          "claude_unsupported": 0,
-          "gpt5_covered": 35,
-          "claude_covered": 36,
-          "n_probes_compared": 50,
-          "per_probe_agreement_pct": 0.98
-        }
-      },
-      "direction_agreement": [
-        {
-          "vendor": "gemini",
-          "pair": "C0_vs_C1",
-          "halluc_gpt5": "C1<C0",
-          "halluc_claude": "C1<C0",
-          "halluc_agree": true,
-          "cov_gpt5": "C1>C0",
-          "cov_claude": "C1>C0",
-          "cov_agree": true
-        }
-      ]
-    },
-    {
-      "run_dir": "/home/ubuntu/cascade-gap/runs/paper-review-19690013408-1777471789",
-      "n_probes": 47,
-      "conditions": {
-        "C0": {
-          "gpt5_unsupported": 4,
-          "claude_unsupported": 2,
-          "gpt5_covered": 31,
-          "claude_covered": 32,
-          "n_probes_compared": 47,
-          "per_probe_agreement_pct": 0.9361702127659575
-        },
-        "C1": {
-          "gpt5_unsupported": 5,
-          "claude_unsupported": 4,
-          "gpt5_covered": 23,
-          "claude_covered": 28,
-          "n_probes_compared": 47,
-          "per_probe_agreement_pct": 0.8936170212765957
-        }
-      },
-      "direction_agreement": [
-        {
-          "vendor": "gemini",
-          "pair": "C0_vs_C1",
-          "halluc_gpt5": "C1>C0",
-          "halluc_claude": "C1>C0",
-          "halluc_agree": true,
-          "cov_gpt5": "C1<C0",
-          "cov_claude": "C1<C0",
-          "cov_agree": true
-        }
-      ]
-    },
-    {
-      "run_dir": "/home/ubuntu/cascade-gap/runs/paper-review-19700023812-1777471791",
-      "n_probes": 50,
-      "conditions": {
-        "C0": {
-          "gpt5_unsupported": 5,
-          "claude_unsupported": 2,
-          "gpt5_covered": 34,
-          "claude_covered": 34,
-          "n_probes_compared": 50,
-          "per_probe_agreement_pct": 1.0
-        },
-        "C0_claude": {
-          "gpt5_unsupported": 11,
-          "claude_unsupported": 9,
-          "gpt5_covered": 46,
-          "claude_covered": 46,
-          "n_probes_compared": 50,
-          "per_probe_agreement_pct": 1.0
-        },
-        "C1": {
-          "gpt5_unsupported": 2,
-          "claude_unsupported": 1,
-          "gpt5_covered": 42,
-          "claude_covered": 45,
-          "n_probes_compared": 50,
-          "per_probe_agreement_pct": 0.94
-        },
-        "C1_claude": {
-          "gpt5_unsupported": 4,
-          "claude_unsupported": 4,
-          "gpt5_covered": 50,
-          "claude_covered": 49,
-          "n_probes_compared": 50,
-          "per_probe_agreement_pct": 0.98
-        }
-      },
-      "direction_agreement": [
-        {
-          "vendor": "gemini",
-          "pair": "C0_vs_C1",
-          "halluc_gpt5": "C1<C0",
-          "halluc_claude": "C1<C0",
-          "halluc_agree": true,
-          "cov_gpt5": "C1>C0",
-          "cov_claude": "C1>C0",
-          "cov_agree": true
-        },
-        {
-          "vendor": "claude",
-          "pair": "C0_claude_vs_C1_claude",
-          "halluc_gpt5": "C1<C0",
-          "halluc_claude": "C1<C0",
-          "halluc_agree": true,
-          "cov_gpt5": "C1>C0",
-          "cov_claude": "C1>C0",
-          "cov_agree": true
-        }
-      ]
-    },
-    {
-      "run_dir": "/home/ubuntu/cascade-gap/runs/paper-review-19700025120-1777462513",
+      "run_dir": "runs/paper-review-19700025120-1777462513",
       "n_probes": 50,
       "conditions": {
         "C0": {
@@ -276,6 +12,14 @@
           "n_probes_compared": 50,
           "per_probe_agreement_pct": 0.94
         },
+        "C0_claude": {
+          "gpt5_unsupported": 4,
+          "claude_unsupported": 3,
+          "gpt5_covered": 45,
+          "claude_covered": 45,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 1.0
+        },
         "C1": {
           "gpt5_unsupported": 11,
           "claude_unsupported": 11,
@@ -283,6 +27,14 @@
           "claude_covered": 41,
           "n_probes_compared": 50,
           "per_probe_agreement_pct": 0.96
+        },
+        "C1_claude": {
+          "gpt5_unsupported": 20,
+          "claude_unsupported": 18,
+          "gpt5_covered": 45,
+          "claude_covered": 46,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.98
         },
         "C1c": {
           "gpt5_unsupported": 4,
@@ -303,40 +55,16 @@
           "cov_gpt5": "C1>C0",
           "cov_claude": "C1>C0",
           "cov_agree": true
-        }
-      ]
-    },
-    {
-      "run_dir": "/home/ubuntu/cascade-gap/runs/paper-review-19720009221-1777458461",
-      "n_probes": 49,
-      "conditions": {
-        "C0": {
-          "gpt5_unsupported": 3,
-          "claude_unsupported": 2,
-          "gpt5_covered": 39,
-          "claude_covered": 40,
-          "n_probes_compared": 49,
-          "per_probe_agreement_pct": 0.9795918367346939
         },
-        "C1": {
-          "gpt5_unsupported": 1,
-          "claude_unsupported": 2,
-          "gpt5_covered": 38,
-          "claude_covered": 38,
-          "n_probes_compared": 49,
-          "per_probe_agreement_pct": 0.9591836734693877
-        }
-      },
-      "direction_agreement": [
         {
-          "vendor": "gemini",
-          "pair": "C0_vs_C1",
-          "halluc_gpt5": "C1<C0",
-          "halluc_claude": "tie",
-          "halluc_agree": false,
-          "cov_gpt5": "C1<C0",
-          "cov_claude": "C1<C0",
-          "cov_agree": true
+          "vendor": "claude",
+          "pair": "C0_claude_vs_C1_claude",
+          "halluc_gpt5": "C1>C0",
+          "halluc_claude": "C1>C0",
+          "halluc_agree": true,
+          "cov_gpt5": "tie",
+          "cov_claude": "C1>C0",
+          "cov_agree": false
         }
       ]
     }
