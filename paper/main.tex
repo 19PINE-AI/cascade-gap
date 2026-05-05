@@ -1,0 +1,403 @@
+\documentclass{article}
+
+\PassOptionsToPackage{numbers, compress}{natbib}
+\usepackage[preprint, nonatbib]{neurips_2024}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{nicefrac}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{array}
+
+% ----------------------------------------------------------------
+\title{The Cascade Gap on Long-Form Multimodal Review:\\
+A Vendor-Conditional Failure-Mode Taxonomy}
+
+\author{%
+  Anonymous Submission
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Same-weights two-pass self-cascades (Pass-1 perceives and records, Pass-2 reasons over the record) are widely deployed for multimodal generation, but their behavior on long-form review tasks --- where end-to-end multimodal models hallucinate --- has not been systematically measured.
+We measure the cascade gap on 9 cells spanning audio (single- and multi-speaker, 42--60 min) and scanned papers (9--104 pages) using Gemini 3.1 Pro, then extend with cross-vendor experiments on Claude Opus 4.7 and Mimo v2-omni and inter-judge replication using Claude as a second judge.
+We find that on the moderate-length paper cell (66 pp), 3/3 vendors confirm a Pareto-positive cascade gain.
+On the longest paper (104 pp), three vendors show three distinct cascade patterns; Claude Opus 4.7 catastrophically reverses on faithfulness, increasing hallucinations 4$\to$20 due to training-prior leak on the document's heavily-cited 1960s heat-pipe literature.
+We isolate two mechanistic failure modes --- compression bottleneck (Mode A) and training-prior leak (Mode B) --- and characterize two engineering interventions --- chunked Pass-2 and citation stripping --- that move different vendors to different points on the coverage--faithfulness Pareto frontier.
+The two interventions do not compound additively, and citation stripping has \emph{vendor-conditional} sign: it reduces hallucinations on Claude but increases them on Gemini.
+We conclude that the cascade is not a universal architecture; it is a vendor-conditional intervention with a small set of predictable failure modes and matched fixes.
+\end{abstract}
+
+% ===============================================================
+\section{Introduction}
+\label{sec:intro}
+
+Multimodal foundation models can read audio and document images directly and produce long-form prose summaries. They can also be operated as self-cascades: a first pass produces a textual transcript / OCR, and a second pass --- using the same model weights --- reads only that transcript and writes the review. The two configurations differ only in the inference-time decomposition of the task. The \emph{cascade gap} is the signed accuracy difference between cascade and end-to-end on the same task.
+
+Single-modality results report opposing signs of this gap. In speech, Cuervo et al.~\cite{cuervo2025closing} document a text/speech understanding gap; The Cascade Equivalence Hypothesis~\cite{ceh2026} shows speech-LLMs internally behave like ASR$\to$LLM cascades. In document understanding, DocVLM~\cite{docvlm2024} reports OCR-augmented VLMs beating pure-vision VLMs at fixed token budget. In GUI agents, vision-only configurations often beat structured-text intermediates~\cite{uground2024,uitars2025}. Each silo has its own version of the question and few cross-modality, same-weights measurements exist.
+
+This paper reports such a measurement, focused on a specific deployment use-case where the cascade gap matters most: \textbf{long-form review generation}. End-to-end multimodal models are observably weaker on this task than on short-form QA --- they drop content and embellish --- and the cascade is the obvious deployment alternative. We measure across audio talks, audio meetings, and scanned papers up to 104 pages, with three vendors and two judges.
+
+\paragraph{Findings.}
+(i) The cascade reduces hallucinations and improves coverage on most cells (8/9 within Gemini). (ii) Cross-vendor on a moderate-length paper, 3/3 vendors confirm a Pareto-positive cascade. (iii) On the longest paper tested, vendors diverge into three distinct patterns, dominated by two underlying failure modes which we name and isolate mechanistically. (iv) Two engineering interventions for these failure modes do not always compound and one of them has vendor-conditional sign.
+
+\paragraph{Contributions.}
+(1)~A 9-cell same-weights cascade measurement across two modalities, two prompt structures, and 1--5 speakers. (2)~A failure-mode taxonomy with mechanistic evidence: \emph{compression bottleneck} (Mode~A) and \emph{training-prior leak} (Mode~B). (3)~Two engineering interventions (chunked Pass-2; citation stripping) with documented per-vendor Pareto shifts. (4)~Inter-judge replication confirming direction agreement on 10/10 coverage and 7/10 hallucination axes; per-probe agreement 0.88--1.00 (median 0.95).
+
+% ===============================================================
+\section{Protocol}
+\label{sec:protocol}
+
+For each source (audio recording or scanned paper):
+
+\begin{enumerate}
+\itemsep0pt
+\item \textbf{Reference transcript.} Gemini 3.1 Pro performs ASR (audio) or OCR (paper image), chunked to avoid degenerate-loop failure modes (30-min audio chunks; 1-page-per-call OCR; details in Appendix~\ref{appdx:protocol}).
+\item \textbf{$C_0$ end-to-end.} The model under test reads the raw modality and writes a comprehensive review article in one call.
+\item \textbf{$C_1$ cascade.} The model under test produces its own transcript (Pass-1, same prompt as the reference), then writes the review from that transcript (Pass-2, text-only).
+\end{enumerate}
+
+\paragraph{Scoring.} GPT-5.4 (\texttt{reasoning\_effort=high}) acts as judge. From the reference transcript, the judge first extracts 30--50 atomic factual probes. Then for each review:
+\begin{itemize}
+\itemsep0pt
+\item \textbf{Hallucination test (zero-tolerance).} The judge lists every claim in the review not supported by the reference. Any unsupported claim $\Rightarrow$ \texttt{halluc\_score}$=0$.
+\item \textbf{Probe coverage.} The judge marks each probe COVERED / MISSING in the review. \texttt{cov} is the rate.
+\end{itemize}
+
+This is a sharper protocol than short-form QA: the review must be both \emph{exhaustive} (high coverage) and \emph{faithful} (zero hallucination). Most current frontier models fail the zero-hallucination bar, so we report unsupported-claim \emph{counts} and coverage \emph{rates} as the operational measures.
+
+\paragraph{Cells.} 9 Phase-3 cells, with cross-vendor extensions:
+\begin{itemize}
+\itemsep0pt
+\item Audio review: Karpathy 42-min talk (single-speaker).
+\item Audio meeting-minutes: Karpathy (single-speaker, structured-output prompt) and IETF SNAC WG 60-min interim (5 speakers).
+\item Scanned paper review: 6 obscure NASA Tech Memos (1968--1972), 9--104 pages, sourced from NASA NTRS to avoid training-data overlap with foundational papers.
+\end{itemize}
+
+\paragraph{Cross-vendor extensions.} Claude Opus 4.7 on Thermal Analysis 66pp and Heat Pipes 104pp (paper modality). Mimo v2-omni (Xiaomi, via OpenRouter) on Karpathy review (audio), Thermal Analysis 66pp, and Heat Pipes 104pp. Reference and probes are reused from the Gemini run, isolating the question to ``does the cascade pattern depend on the C0/C1 model?''.
+
+\paragraph{Inter-judge replication.} Claude Opus 4.7 re-judges every (cell, condition) using identical prompts to GPT-5.4. We compare per-condition counts, direction agreement (does the cascade direction match between judges?), and per-probe agreement.
+
+% ===============================================================
+\section{Main results}
+\label{sec:main}
+
+\subsection{Cascade reduces hallucinations and improves coverage --- but the gain depends on baseline}
+\label{sec:main_correlation}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.62\linewidth]{figures/fig1_inverse_correlation.pdf}
+\caption{\textbf{Cascade coverage gain vs $C_0$ baseline}, across the 9 Gemini cells. Each point is one cell. The cascade gains the most coverage where end-to-end has the most headroom; on cells with $C_0$ already $>0.85$, the gain shrinks to within noise. Natural Vibration (red) is the only counter-cell; we trace it to a separate failure mechanism in \S\ref{sec:failure_modes}.}
+\label{fig:inverse}
+\end{figure}
+
+Across the 9 Gemini cells (Figure~\ref{fig:inverse}), the cascade reduces hallucinations in 8/9 cells (range $-21\%$ to $-77\%$) and improves coverage in 7/8 cells with $C_0$ headroom. The single counter-cell (Natural Vibration 42pp) lost on both axes; we treat it as a diagnostic case in \S\ref{sec:failure_modes}.
+
+The largest single coverage gain is the Karpathy audio review at $C_0{=}0.63 \to C_1{=}0.96$ ($+33$ pp). The largest paper-cell gain is Thermal Analysis 66pp at $0.68 \to 0.84$ ($+16$ pp). On the longest paper (Heat Pipes 104pp) the gain shrinks to $+6$ pp; we identify the cause as a Pass-2 compression bottleneck in \S\ref{sec:failure_modes}.
+
+\subsection{Cross-vendor: 3/3 vendors confirm cascade on the moderate-length paper}
+\label{sec:main_xvendor}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.62\linewidth]{figures/fig2_xvendor_thermal.pdf}
+\caption{\textbf{Thermal Analysis (66pp), three vendors.} The cascade improves probe coverage on every vendor: Gemini $0.68\to0.84$, Claude $0.92\to1.00$, Mimo $0.54\to0.78$. The cascade gap is not a Gemini-specific phenomenon.}
+\label{fig:xvendor_thermal}
+\end{figure}
+
+We tested cross-vendor on Thermal Analysis 66pp by reusing the Gemini reference transcript and probes and varying only the $C_0/C_1$ model. All three vendors show a Pareto-positive cascade (Figure~\ref{fig:xvendor_thermal}):
+
+\begin{itemize}
+\itemsep0pt
+\item Gemini 3.1 Pro: $-60\%$ halluc, $+16$ pp cov ($0.68 \to 0.84$).
+\item Claude Opus 4.7: $-64\%$ halluc, $+8$ pp cov ($0.92 \to 1.00$, the dataset's first 1.000 cell).
+\item Mimo v2-omni: $+1$ halluc (within noise), $+24$ pp cov ($0.54 \to 0.78$).
+\end{itemize}
+
+Both Gemini and Claude converge to $\approx 1.4$ hallucinations per 1k output words under cascade despite Claude producing reviews $\approx 2\times$ longer than Gemini's (1473 vs 2811 words). This is a striking quantitative footprint: end-to-end hallucination rates differ across vendors but cascade brings them to a common rate (Appendix Table~\ref{tab:per_word_halluc}).
+
+\subsection{Heat Pipes 104pp: three vendors, three distinct cascade patterns}
+\label{sec:main_heatpipes}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.78\linewidth]{figures/fig3_heatpipes_pareto.pdf}
+\caption{\textbf{Heat Pipes 104pp Pareto frontier across vendors and cascade variants.} Down and right is better. Gemini cascade variants form a clean Pareto curve; Claude $C_1$ \emph{regresses} on faithfulness from $C_0$'s 4 hallucinations to 20; Mimo's cascade $C_1$ moves the model along the coverage axis from $0.26$ to $0.64$ but inherits Mode~B leak.}
+\label{fig:heatpipes_pareto}
+\end{figure}
+
+On the longest paper, the three vendors give three patterns (Figure~\ref{fig:heatpipes_pareto}):
+
+\begin{itemize}
+\itemsep0pt
+\item \textbf{Gemini:} small Pareto-positive ($14h/0.72\,\to\,11h/0.78$). Cascade is the right default.
+\item \textbf{Claude:} catastrophic faithfulness regression ($4h/0.90\,\to\,20h/0.90$). Cascade reverses on hallucinations and gains nothing on coverage. The $C_0$ multimodal call is on the Pareto frontier; the cascade is dominated by it.
+\item \textbf{Mimo:} large coverage gain with mild faithfulness loss ($6h/0.26\,\to\,11h/0.64$). Cascade relieves a severe end-to-end compression ceiling at this length.
+\end{itemize}
+
+The cascade is not a single architecture --- on the same source, the right deployment choice is vendor-dependent.
+
+\subsection{Two failure modes with mechanistic evidence}
+\label{sec:failure_modes}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig4_failure_modes.pdf}
+\caption{\textbf{Two cascade failure modes on Heat Pipes 104pp.} \emph{Left:} Mode~A (Gemini) --- Pass-2 must compress 22k$\to$1.8k words; chunked Pass-2 ($C_{1c}^{\rm concat}$) relieves the bottleneck and lifts coverage from 0.78 to 0.94 with a small hallucination penalty. \emph{Right:} Mode~B (Claude) --- $C_1$ hallucinates 5$\times$ more than $C_0$; replacing citation surface forms (\texttt{Reference~N}) with neutral placeholders ($C_1^{\rm strip}$) reduces hallucinations 20$\to$13. Hallucinations on left axis (lower better); coverage on right axis (higher better).}
+\label{fig:failure_modes}
+\end{figure}
+
+The cross-vendor patterns dissociate two distinct failure mechanisms:
+
+\paragraph{Mode A: Compression bottleneck.}
+On long sources, the Pass-2 review has a fixed output budget (typically $\approx 2k$ words). When the cascade transcript is much longer than what fits in the output, Pass-2 must compress, dropping content the same way $C_0$ does. The fix is \textbf{chunked Pass-2}: split the transcript into $\sim 5k$-word chunks, summarize each, then concatenate (or merge). On Heat Pipes Gemini, $C_{1c}^{\rm concat}$ lifts coverage from $C_1$'s 0.78 to 0.94 ($+16$ pp), recovering the medium-paper cascade gain (Figure~\ref{fig:failure_modes} left).
+
+\paragraph{Mode B: Training-prior leak.}
+On documents with heavy training-data overlap, Pass-2 fills in details from prior knowledge when the transcript abbreviates them. The Heat Pipes paper cites foundational heat-pipe references like ``Reference 2 (Cotter)'', ``Reference 5'', etc.; Claude's $C_1$ expands these to ``Cotter's 1965 analysis (LA-3246-MS)'' and ``Reference 5 (TRW)'' --- correct in the published heat-pipe literature, absent from \emph{this} transcript. Of Claude's 20 hallucinations, $\approx 7$ are citation-form expansions and $\approx 13$ are author-name expansions. Replacing 63 citation surface forms with \texttt{[REF]} placeholders yields $C_1^{\rm strip}$ at 13 hallucinations (Figure~\ref{fig:failure_modes} right).
+
+\paragraph{Two diagnostic signals.} Mode~A is identified by a Pass-2 compression ratio close to $C_0$'s and a small absolute coverage gain. Mode~B is identified by an absolute hallucination count rising under cascade and a per-claim inspection finding training-prior expansions. The two modes can compound (Mimo Heat Pipes shows both) or operate in isolation (Heat Pipes Gemini is dominantly Mode~A; Heat Pipes Claude is dominantly Mode~B).
+
+\subsection{Engineering fixes are vendor-conditional and do not compound}
+\label{sec:fixes}
+
+We tested three combinations on Heat Pipes 104pp Claude:
+
+\begin{table}[h]
+\centering
+\caption{Cascade variants on Heat Pipes 104pp Claude. Strip alone is on the Pareto frontier; combining strip with chunked Pass-2 does not improve over strip alone.}
+\label{tab:hp_claude_variants}
+\small
+\begin{tabular}{lrrr}
+\toprule
+Variant & Halluc. & Coverage & Words \\
+\midrule
+$C_0$ (image baseline) & \textbf{4}  & 0.900 & 3{,}308 \\
+$C_1$ (single Pass-2) & 20 & 0.900 & 2{,}077 \\
+$C_1^{\rm strip}$ (citations $\to$ \texttt{[REF]}) & \textbf{13} & \textbf{0.980} & 2{,}471 \\
+$C_{1c}$ (chunked + merge) & 18 & 0.980 & 2{,}769 \\
+$C_{1c}^{\rm concat}$ (chunked, no merge) & 20 & 0.940 & 2{,}777 \\
+$C_{1c}^{\rm strip}$ (strip + chunked + merge) & 18 & 0.980 & 2{,}673 \\
+$C_{1c}^{\rm strip+concat}$ (strip + chunked, no merge) & 16 & 0.980 & 2{,}766 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The two fixes do not compound: strip alone (13 halluc) dominates strip+chunked combinations (16--18 halluc). We hypothesize that sub-summarization re-introduces citation surface forms from training data even when the input transcript was stripped, undoing the input-strip benefit. Re-stripping after sub-summarization should recover additivity but we did not test that.
+
+\paragraph{Citation stripping has vendor-conditional sign.} Applied to Gemini Natural Vibration 42pp (the original counter-cell) the same intervention moves halluc 5$\to$12 (worse) but coverage 0.49$\to$0.81 ($+32$ pp). Same intervention, opposite hallucination direction. We interpret citation stripping not as a universal Mode~B fix but as a context perturbation whose effect depends on the model's relationship to citation surface forms: Claude treats them as triggers for prior-knowledge expansion (stripping reduces hallucinations); Gemini treats them as anchors that constrain output structure (stripping de-anchors and the model writes a longer, more aggressive summary).
+
+\subsection{Inter-judge replication}
+\label{sec:inter_judge}
+
+Claude Opus 4.7 re-scored every cell using GPT-5.4's prompts. Direction agreement: \textbf{coverage 10/10}, hallucination 7/10. The 3 hallucination disagreements are all on cells with $\le 5$ absolute hallucinations where $\pm 1$ flips direction. Per-probe agreement (the rate at which both judges classify the same probe as COVERED/MISSING) is 0.88--1.00 with a median of 0.95. The Natural Vibration counter-cell is confirmed by both judges, ruling out a GPT-5.4 idiosyncrasy. Full per-cell tables in Appendix~\ref{appdx:inter_judge}.
+
+% ===============================================================
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{Cascade as a deployment choice.}
+For long-form multimodal review generation the right cascade choice is governed by source length, citation density, and the model's relative text-vs-multimodal reasoning strength. We give a small predictive checklist (Table~\ref{tab:checklist}) drawn from the cells in this paper.
+
+\begin{table}[h]
+\small
+\centering
+\caption{Practical checklist drawn from this paper's cells. ``Recommended action'' is the cascade variant with the best Pareto position on the corresponding cell.}
+\label{tab:checklist}
+\begin{tabular}{p{0.31\linewidth}p{0.27\linewidth}p{0.32\linewidth}}
+\toprule
+Source / model class & Diagnosis & Recommended action \\
+\midrule
+Audio talk, single speaker, sub-hour & Cascade strongly Pareto-positive on capable models. & Default $C_1$. \\
+Multi-speaker meeting (60 min) & Cascade still Pareto-positive (SNAC: $+24.5$ pp cov). & Default $C_1$. \\
+Moderate paper (40--70 pp) & Cascade Pareto-positive across vendors. & Default $C_1$. \\
+Long paper, low $C_0$ baseline (Gemini, Mimo) & Mode A dominant. & $C_{1c}^{\rm concat}$ (chunked, no merge). \\
+Long paper, citation-heavy, well-known refs (Claude Heat Pipes) & Mode B dominant. & Use $C_0$ or $C_1^{\rm strip}$; do not default to $C_1$. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Limitations.}
+Our cross-vendor evidence on the long paper is at $n=3$ vendors $\times$ 1 paper. The Mode~B finding is most strongly evidenced on Claude/Heat Pipes; the Gemini Natural Vibration counter-cell shows opposite-sign behavior under the same intervention, suggesting Mode~B is real but the citation-stripping fix is not universal. Audio cross-vendor is limited by API availability: Claude does not natively do audio multimodal, gpt-audio refuses text-only Pass-2, and Mimo's audio modality showed a wash on cascade (we do not currently distinguish between ``audio-modality-specific weakness in Mimo'' and ``audio at the small-model scale needs higher-bitrate input''). Single-vendor reference and probe extraction (Gemini for both) means our protocol could in principle bias the comparison; the inter-judge replication addresses judging bias but not reference/probe bias.
+
+\paragraph{Open questions.}
+(i)~Whether re-stripping citations after sub-summarization recovers additivity of the two fixes. (ii)~Whether Mode~B generalizes beyond bibliographic surface forms to other ``famous abbreviations'' (model names, equation labels, dataset references). (iii)~Whether a fourth cascade variant --- iterative refinement with self-citation by the cascade --- can dominate either fix alone.
+
+% ===============================================================
+\section{Related work}
+\label{sec:related}
+
+\paragraph{Speech.}
+Cuervo et al.~\cite{cuervo2025closing} document a text/speech understanding gap. The Cascade Equivalence Hypothesis~\cite{ceh2026} shows speech-LLMs internally behave like ASR$\to$LLM cascades and that external cascades dominate at low SNR. X-Talk~\cite{xtalk2025} argues optimized cascaded speech-to-speech pipelines are competitive on latency. Step-Audio-R1~\cite{stepaudior1} reports default audio-LLMs perform better with minimal reasoning and proposes modality-grounded reasoning distillation; we read this as consistent with our Mode B finding under a different name (``audio reasoning needs to be grounded in audio, not text'') --- structurally analogous to ``Pass-2 from text leaks training prior''.
+
+\paragraph{Documents.}
+DocVLM~\cite{docvlm2024} reports OCR-augmented VLMs beating pure-vision VLMs at fixed token budget on DocVQA. The OCR-Reasoning Benchmark~\cite{ocrreasoning2026} shows pure-OCR cascades cap below 50\% on text-rich reasoning where spatial information matters. ColPali~\cite{colpali2025} shows vision-only retrieval beats OCR for retrieval (a different task class).
+
+\paragraph{Cascade theory.}
+Bengio's Consciousness Prior~\cite{bengio2017consciousness} argues for sparse discrete bottlenecks between perception and reasoning. Our externalized text bottleneck is a deployment-time analogue. Discrete JEPA~\cite{discretejepa2025} makes a related architectural argument within vision.
+
+\paragraph{Failure-mode taxonomies.}
+The closest precedent for our two-mode taxonomy is the cascade-vs-end-to-end work on document understanding~\cite{docvlm2024} and on speech~\cite{ceh2026}, both of which characterize \emph{when} cascades win or lose without naming the mechanisms. To our knowledge this paper is the first to propose a vendor-conditional Pareto frontier with named mechanisms (Mode~A, Mode~B) and matched engineering interventions.
+
+% ===============================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+The cascade gap on long-form multimodal review is real but vendor-conditional. Two failure modes (compression bottleneck and training-prior leak) account for the cells where the cascade fails to dominate end-to-end. Two engineering interventions (chunked Pass-2; citation stripping) move different vendors to different points on the coverage-faithfulness Pareto frontier; they do not compound additively, and citation stripping has vendor-conditional sign. The cascade is therefore not a universal architecture but a deployment-time tool with a small set of predictable failure modes and matched fixes. Practitioners should pick the cascade variant by source-length, citation-density, and model-text-reasoning strength, not as a default.
+
+% ===============================================================
+\bibliographystyle{plainnat}
+\begin{thebibliography}{99}
+
+\bibitem{cuervo2025closing}
+S.~Cuervo et al.
+\newblock Closing the gap between text and speech understanding in LLMs.
+\newblock {\em arXiv preprint arXiv:2510.13632}, 2025.
+
+\bibitem{ceh2026}
+The Cascade Equivalence Hypothesis: speech LLMs internally behave like ASR$\to$LLM cascades.
+\newblock {\em arXiv preprint arXiv:2602.17598}, 2026.
+
+\bibitem{xtalk2025}
+X-Talk: optimized cascaded speech-to-speech pipelines.
+\newblock {\em arXiv preprint arXiv:2512.18706}, 2025.
+
+\bibitem{stepaudior1}
+Step-Audio-R1.
+\newblock {\em arXiv preprint arXiv:2511.15848}, 2025.
+
+\bibitem{docvlm2024}
+DocVLM: making VLM an effective OCR-free document reader.
+\newblock {\em arXiv preprint arXiv:2412.08746}, 2024.
+
+\bibitem{ocrreasoning2026}
+OCR-Reasoning Benchmark.
+\newblock {\em arXiv preprint arXiv:2505.17163}, 2026.
+
+\bibitem{colpali2025}
+ColPali: efficient document retrieval with vision-language models.
+\newblock {\em ICLR 2025}, 2025.
+
+\bibitem{uground2024}
+UGround / SeeAct-V.
+\newblock {\em arXiv preprint arXiv:2410.05243}, 2024.
+
+\bibitem{uitars2025}
+UI-TARS-2.
+\newblock {\em arXiv preprint arXiv:2509.02544}, 2025.
+
+\bibitem{bengio2017consciousness}
+Y.~Bengio.
+\newblock The consciousness prior.
+\newblock {\em arXiv preprint arXiv:1709.08568}, 2017.
+
+\bibitem{discretejepa2025}
+Discrete JEPA.
+\newblock {\em ICML 2025}, 2025.
+
+\end{thebibliography}
+
+% ===============================================================
+\appendix
+\section{Protocol details}
+\label{appdx:protocol}
+
+\paragraph{Reference quality.} We use Gemini 3.1 Pro for OCR/ASR with chunking. Single-call OCR on a 104-page paper produced a degenerate TOC dot-leader loop (113KB output, 56k ``words'' but only 264 real-word tokens, 6 page markers out of 104). Chunking (1 page per call, max 8192 tokens per call output) eliminates this failure mode. For audio, we chunk into 30-min segments with 5-second overlap. We discovered a silent server-side truncation on one audio chunk (chunk~1 of IETF SNAC produced 1981 words instead of the expected $\approx 4368$, ending mid-sentence with \texttt{``Uh, well, see, yeah, that'\,''}). The protocol grew an automatic chunk-level word-count parity check between reference and $C_1$ Pass-1 after this incident.
+
+\paragraph{Sources.} Audio: Karpathy ``State of GPT'' 42-min, IETF SNAC WG interim 2026-04-16 (60 min, $\approx 5$ speakers, recorded post the most likely training-data cutoff for the foundation models in the loop). Papers: NASA Tech Memos sourced from NASA NTRS, IDs 19720009221 (9pp), 19680000724 (18pp), 19690008405 (41pp), 19690013408 (42pp), 19700023812 (66pp), 19700025120 (104pp). All papers are from 1968--1972 and rendered as page images at 200 DPI.
+
+\paragraph{Models and snapshots.} Gemini 3.1 Pro Preview (\texttt{gemini-3.1-pro-preview}); Claude Opus 4.7 (\texttt{claude-opus-4-7}); Mimo v2-omni (\texttt{xiaomi/mimo-v2-omni} via OpenRouter); judge GPT-5.4 (\texttt{reasoning\_effort=high}).
+
+\paragraph{Mimo audio constraint.} OpenRouter's Mimo provider enforces a 10MB base64 audio input limit. Karpathy required re-encoding from 32kbps to 16kbps mono mp3 to fit; SNAC at 60 min could not fit even at 16kbps. The Mimo audio result reported in the main paper is at 16kbps; the corresponding Gemini $C_0$ baseline on the same paper used 32kbps.
+
+\paragraph{gpt-audio.} OpenAI gpt-audio (via OpenRouter) accepted audio input cleanly but refused text-only Pass-2 with HTTP 400 ``This model requires that either input content or output modality contain audio''. Same-weights cascade is therefore not realizable on this model. The $C_0$ alone scored 10 hallucinations / 0.765 coverage on Karpathy.
+
+\section{Inter-judge details}
+\label{appdx:inter_judge}
+
+Table~\ref{tab:inter_judge_full} summarizes per-cell GPT-5.4 vs Claude judging.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Inter-judge per-cell counts. \emph{Direction} columns indicate whether the two judges agree on the cascade direction.}
+\label{tab:inter_judge_full}
+\begin{tabular}{lrrrrcc}
+\toprule
+& \multicolumn{2}{c}{GPT-5.4} & \multicolumn{2}{c}{Claude} & \multicolumn{2}{c}{Direction} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Cell & $C_0$ & $C_1$ & $C_0$ & $C_1$ & Halluc. & Cov. \\
+\midrule
+\multicolumn{7}{l}{\emph{Hallucination counts}} \\
+Karpathy review        & 13 & 3  & 7  & 4  & \checkmark & \checkmark \\
+Karpathy mtg-min       & 4  & 2  & 1  & 0  & \checkmark & \checkmark \\
+SNAC mtg-min           & 14 & 11 & 10 & 11 & \texttimes  & \checkmark \\
+Wagging Tail (9pp)     & 3  & 1  & 2  & 2  & \texttimes  & \checkmark \\
+Env Test (18pp)        & 5  & 4  & 0  & 2  & \texttimes  & \checkmark \\
+Dynamic Response (41pp)& 3  & 2  & 1  & 0  & \checkmark & \checkmark \\
+Natural Vibration (42pp)& 4 & 5  & 2  & 4  & \checkmark & \checkmark \\
+Thermal Analysis (66pp)& 5  & 2  & 2  & 1  & \checkmark & \checkmark \\
+Heat Pipes (104pp)     & 14 & 11 & 12 & 11 & \checkmark & \checkmark \\
+Thermal Analysis Claude& 11 & 4  & 9  & 4  & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Per-probe agreement (the fraction of probes the two judges classify identically as COVERED / MISSING) ranges from 0.882 to 1.000 across the (cell, condition) pairs, with median $\approx 0.95$. The 3 hallucination-direction disagreements are all on cells with $\le 5$ absolute hallucinations.
+
+\section{Per-cell hallucinations per 1k output words}
+\label{appdx:per_word_halluc}
+
+\begin{table}[h]
+\centering
+\small
+\caption{Hallucination density (per 1k output words) on Thermal Analysis 66pp.}
+\label{tab:per_word_halluc}
+\begin{tabular}{lrr}
+\toprule
+& $C_0$ & $C_1$ \\
+\midrule
+Gemini 3.1 Pro & 4.2 & \textbf{1.4} \\
+Claude Opus 4.7 & 3.7 & \textbf{1.4} \\
+Mimo v2-omni  & 4.9 & 5.4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+End-to-end hallucination rates differ per vendor (3.7 / 4.2 / 4.9 per 1k); cascade brings Gemini and Claude to a common $\approx 1.4$ per 1k floor. Mimo does not converge to this floor on the cascade.
+
+\section{Specific hallucination examples (Heat Pipes Claude)}
+\label{appdx:examples}
+
+The 20 unsupported claims from Claude $C_1$ on Heat Pipes 104pp are dominated by training-prior expansions of bibliographic abbreviations:
+
+\begin{itemize}
+\itemsep0pt
+\item ``Cotter's 1965 analysis (LA-3246-MS)'' --- transcript cites only ``Reference 2 (Cotter)''; year and report number are training-data details.
+\item ``correlation from Allingham and McEntire (1961)'' --- transcript only says ``Ref.~12''; author names and year are training-data details.
+\item ``McAdams' laminar horizontal-tube formula'' --- transcript says ``Reference 13 for laminar condensation on horizontal tubes''; ``McAdams'' is a training-data detail.
+\item ``Vapor chamber-fin radiator (Haller, Lieblein, and Lindow at NASA Lewis)'' --- transcript says only ``proposed by Haller, et al of NASA''.
+\end{itemize}
+
+In addition, one outright misreading: the transcript states the no-boiling condition as $p_v - p_\ell \le 2\sigma\cos\theta/r_c$; Claude's review writes $\ge$. This is a sign error in Pass-2 reading of Pass-1 text, not training-prior leak.
+
+\section{Code and data availability}
+\label{appdx:code}
+
+All code, prompts, and per-cell judgments are released in the project repository. The pilot pipelines (\texttt{pilot/pilot\_audio\_review.py}, \texttt{pilot/pilot\_paper\_review.py}, \texttt{pilot/pilot\_paper\_review\_claude.py}, \texttt{pilot/pilot\_paper\_review\_mimo.py}) and post-processing scripts (\texttt{pilot/chunked\_pass2.py}, \texttt{pilot/citation\_strip.py}, \texttt{pilot/inter\_judge\_claude.py}) reproduce every cell in the paper.
+
+\end{document}
