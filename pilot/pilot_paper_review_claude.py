@@ -61,11 +61,13 @@ def call_claude_with_images(prompt: str, image_paths: list[str], model: str, max
 
     # Use 1M context beta when there are many images (>15 ≈ default context limit)
     extra_headers = {"anthropic-beta": "context-1m-2025-08-07"} if len(image_paths) > 15 else {}
+    # Note: Claude Opus 4.7 API rejects the `temperature` parameter as
+    # deprecated for this model. Determinism is therefore not controllable
+    # through the API; see paper §3.5 Pass-2 stochasticity discussion.
     t0 = time.time()
     resp = client.messages.create(
         model=model,
         max_tokens=max_tokens,
-        temperature=0.0,  # pin for reproducibility
         messages=[{"role": "user", "content": content}],
         extra_headers=extra_headers,
     )
@@ -76,11 +78,12 @@ def call_claude_with_images(prompt: str, image_paths: list[str], model: str, max
 
 def call_claude_text_only(prompt: str, model: str, max_tokens: int = 8_000):
     client = Anthropic()
+    # Claude Opus 4.7 API rejects `temperature` as deprecated for this model;
+    # there is no per-call determinism knob we can pin from the SDK.
     t0 = time.time()
     resp = client.messages.create(
         model=model,
         max_tokens=max_tokens,
-        temperature=0.0,  # pin for reproducibility; previously unset (Anthropic default ≈ 1.0)
         messages=[{"role": "user", "content": [{"type": "text", "text": prompt}]}],
     )
     ms = int((time.time() - t0) * 1000)

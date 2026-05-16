@@ -874,6 +874,24 @@
           "halluc_score": 0,
           "probe_coverage": 0.64,
           "final_score": 0.0
+        },
+        "C1_claude_t0": {
+          "condition": "C1_claude_t0",
+          "n_unsupported": 9,
+          "n_probes": 50,
+          "n_covered": 45,
+          "halluc_score": 0,
+          "probe_coverage": 0.9,
+          "final_score": 0.0
+        },
+        "C1_stripped_claude_t0": {
+          "condition": "C1_stripped_claude_t0",
+          "n_unsupported": 14,
+          "n_probes": 50,
+          "n_covered": 44,
+          "halluc_score": 0,
+          "probe_coverage": 0.88,
+          "final_score": 0.0
         }
       },
       "review_C0_word_count": 1837,
@@ -892,6 +910,8 @@
       "review_C0_mimo_word_count": 862,
       "review_C1_mimo_word_count": 1586,
       "transcript_C1_pass1_mimo_word_count": 19674,
+      "review_C1_claude_t0_word_count": 2135,
+      "review_C1_stripped_claude_t0_word_count": 2000,
       "C0_words": 1837,
       "C1_words": 1815,
       "C1_pass1_words": 22159
@@ -982,6 +1002,24 @@
           "halluc_score": 0,
           "probe_coverage": 0.7083333333333334,
           "final_score": 0.0
+        },
+        "C1_claude_t0": {
+          "condition": "C1_claude_t0",
+          "n_unsupported": 79,
+          "n_probes": 48,
+          "n_covered": 39,
+          "halluc_score": 0,
+          "probe_coverage": 0.8125,
+          "final_score": 0.0
+        },
+        "C1_stripped_claude_t0": {
+          "condition": "C1_stripped_claude_t0",
+          "n_unsupported": 97,
+          "n_probes": 48,
+          "n_covered": 37,
+          "halluc_score": 0,
+          "probe_coverage": 0.7708333333333334,
+          "final_score": 0.0
         }
       },
       "review_C0_word_count": 2083,
@@ -992,6 +1030,8 @@
       "review_C1_mimo_word_count": 1742,
       "transcript_C1_pass1_mimo_word_count": 43215,
       "review_C1_stripped_claude_word_count": 2982,
+      "review_C1_claude_t0_word_count": 2643,
+      "review_C1_stripped_claude_t0_word_count": 2930,
       "C0_words": 2083,
       "C1_words": 2260,
       "C1_pass1_words": 45512
@@ -1075,6 +1115,24 @@
           "halluc_score": 0,
           "probe_coverage": 0.52,
           "final_score": 0.0
+        },
+        "C1_claude_t0": {
+          "condition": "C1_claude_t0",
+          "n_unsupported": 27,
+          "n_probes": 50,
+          "n_covered": 33,
+          "halluc_score": 0,
+          "probe_coverage": 0.66,
+          "final_score": 0.0
+        },
+        "C1_stripped_claude_t0": {
+          "condition": "C1_stripped_claude_t0",
+          "n_unsupported": 17,
+          "n_probes": 50,
+          "n_covered": 30,
+          "halluc_score": 0,
+          "probe_coverage": 0.6,
+          "final_score": 0.0
         }
       },
       "review_C0_word_count": 1895,
@@ -1088,6 +1146,8 @@
       "review_C1_stripped_claude_word_count": 2459,
       "review_C1c_word_count": 833,
       "review_C1c_concat_word_count": 2560,
+      "review_C1_claude_t0_word_count": 2293,
+      "review_C1_stripped_claude_t0_word_count": 2402,
       "C0_words": 1895,
       "C1_words": 1401,
       "C1_pass1_words": 31150
