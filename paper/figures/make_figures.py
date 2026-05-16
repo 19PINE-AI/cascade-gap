@@ -46,45 +46,83 @@ def _cell(name):
 # Includes the Natural Vibration counter-cell.
 # ============================================================
 def fig1_inverse_correlation():
-    fig, ax = plt.subplots(figsize=(3.2, 2.6))
-    cells = []
+    """Cascade coverage gain vs baseline. n=21 cells, colored by modality.
+    Adds OLS regression line + bootstrap 95% CI band on slope.
+    """
+    fig, ax = plt.subplots(figsize=(4.6, 3.2))
+    audio_cells, paper_cells = [], []
     for c in DATA["cells"]:
         s = c["scores"]
-        if "C0" in s and "C1" in s:
-            c0 = s["C0"]["probe_coverage"]
-            c1 = s["C1"]["probe_coverage"]
-            cells.append((c["cell"], c0, c1, c1 - c0))
+        if "C0" not in s or "C1" not in s:
+            continue
+        c0 = s["C0"]["probe_coverage"]
+        c1 = s["C1"]["probe_coverage"]
+        entry = (c["cell"], c0, c1, c1 - c0)
+        if c.get("modality") == "audio":
+            audio_cells.append(entry)
+        else:
+            paper_cells.append(entry)
 
-    # Plot
-    for name, c0, c1, delta in cells:
-        color = "#222222" if delta > 0 else "#d62728"
-        ax.scatter([c0], [delta], s=40, color=color, zorder=3,
-                   edgecolor="black", linewidth=0.5)
+    audio_c0 = np.array([c[1] for c in audio_cells])
+    audio_d  = np.array([c[3] for c in audio_cells])
+    paper_c0 = np.array([c[1] for c in paper_cells])
+    paper_d  = np.array([c[3] for c in paper_cells])
 
-    # Annotations (jittered to avoid overlap)
-    annot_offsets = {
-        "Karpathy review": (0.01, -0.04),
-        "Karpathy mtg-min": (0.01, 0.005),
-        "SNAC mtg-min": (0.01, 0.005),
-        "Wagging Tail": (-0.18, -0.04),
-        "Env Test": (-0.07, 0.02),
-        "Dynamic Response": (-0.21, 0.005),
-        "Natural Vibration": (-0.18, 0.02),
-        "Thermal Analysis": (0.01, 0.005),
-        "Heat Pipes": (0.01, -0.025),
+    # OLS regression on all cells
+    x = np.concatenate([audio_c0, paper_c0])
+    y = np.concatenate([audio_d, paper_d])
+    r = np.corrcoef(x, y)[0, 1]
+    slope, intercept = np.polyfit(x, y, 1)
+    xs = np.linspace(0.10, 1.0, 80)
+    ys = slope * xs + intercept
+
+    # Bootstrap CI band on the regression line
+    rng = np.random.default_rng(42)
+    boot_lines = []
+    for _ in range(2000):
+        idx = rng.integers(0, len(x), len(x))
+        sl, ic = np.polyfit(x[idx], y[idx], 1)
+        boot_lines.append(sl * xs + ic)
+    boot_lines = np.array(boot_lines)
+    lo = np.percentile(boot_lines, 2.5, axis=0)
+    hi = np.percentile(boot_lines, 97.5, axis=0)
+
+    ax.fill_between(xs, lo, hi, color="#cccccc", alpha=0.5, zorder=1, label="95% bootstrap CI")
+    ax.plot(xs, ys, color="#555555", linewidth=1.0, zorder=2,
+            label=f"OLS: $\\Delta_{{cov}}={slope:+.2f}\\,C_0{intercept:+.2f}$\n   $r={r:.2f}$")
+
+    # Points
+    ax.scatter(audio_c0, audio_d, s=42, color=C_GEMINI, marker="o",
+               edgecolor="black", linewidth=0.4, zorder=3, label=f"audio (n={len(audio_cells)})")
+    ax.scatter(paper_c0, paper_d, s=42, color=C_CLAUDE, marker="s",
+               edgecolor="black", linewidth=0.4, zorder=3, label=f"paper (n={len(paper_cells)})")
+
+    # Annotations only on negative-cascade outliers
+    outlier_offsets = {
+        "Natural Vibration": (-0.18, -0.005),
+        "Wagging Tail": (-0.16, -0.005),
+        "arXiv Fairness AI": (0.012, 0.0),
+        "arXiv Perovskite": (-0.22, 0.005),
+        "Heat Pipes": (0.012, -0.020),
+        "Karpathy review": (0.012, 0.0),
+        "Harvard Moot Court": (0.012, 0.0),
+        "3B1B Attention": (-0.22, -0.005),
     }
-    for name, c0, c1, delta in cells:
-        dx, dy = annot_offsets.get(name, (0.01, 0.005))
-        ax.text(c0 + dx, delta + dy, name, fontsize=6.5,
-                color="#222222", va="center")
+    for cells in (audio_cells, paper_cells):
+        for name, c0, c1, delta in cells:
+            if name in outlier_offsets:
+                dx, dy = outlier_offsets[name]
+                ax.text(c0 + dx, delta + dy, name, fontsize=6.0,
+                        color="#222222", va="center")
 
     ax.axhline(0, color="#888888", linewidth=0.5, linestyle="--")
     ax.set_xlabel(r"$C_0$ probe coverage (end-to-end baseline)")
     ax.set_ylabel(r"$\Delta_{\rm cov}=C_1-C_0$")
-    ax.set_title("Cascade coverage gain vs. baseline (Gemini cells)")
+    ax.set_title(f"Cascade coverage gain vs. $C_0$ baseline (n={len(audio_cells) + len(paper_cells)} Gemini cells)")
     ax.set_xlim(0.10, 1.0)
-    ax.set_ylim(-0.22, 0.40)
+    ax.set_ylim(-0.22, 0.55)
     ax.grid(alpha=0.25, linewidth=0.4)
+    ax.legend(loc="upper right", fontsize=7, frameon=False)
 
     fig.savefig(HERE / "fig1_inverse_correlation.pdf")
     plt.close(fig)

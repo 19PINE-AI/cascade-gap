@@ -120,16 +120,30 @@ def run(item: dict, run_dir: pathlib.Path, model: str):
 
     # C0_mimo
     c0_path = run_dir / "review_C0_mimo.txt"
+    c0_skipped_path = run_dir / "review_C0_mimo.SKIPPED"
     if c0_path.exists():
         print(f"  [C0_mimo] reusing existing", flush=True)
         review_c0 = c0_path.read_text()
+    elif c0_skipped_path.exists():
+        print(f"  [C0_mimo] previously skipped", flush=True)
+        review_c0 = None
     else:
         print(f"  [C0_mimo] {model} multimodal review on {len(image_paths)} images...", flush=True)
-        review_c0, ms = call_mimo_with_images(REVIEW_PROMPT, image_paths, model, max_tokens=8_000)
-        c0_path.write_text(review_c0)
-        print(f"    C0_mimo: {len(review_c0.split())} words ({ms/1000:.1f}s)", flush=True)
-    if not review_c0 or len(review_c0.split()) < 50:
-        raise RuntimeError(f"C0 review too short ({len(review_c0.split())} words)")
+        try:
+            review_c0, ms = call_mimo_with_images(REVIEW_PROMPT, image_paths, model, max_tokens=8_000)
+            if not review_c0 or len(review_c0.split()) < 50:
+                err_msg = f"C0 too short ({len(review_c0.split())} words) — likely silent input-size rejection"
+                print(f"    [skip] {err_msg}; proceeding with C1 only", flush=True)
+                c0_skipped_path.write_text(err_msg)
+                review_c0 = None
+            else:
+                c0_path.write_text(review_c0)
+                print(f"    C0_mimo: {len(review_c0.split())} words ({ms/1000:.1f}s)", flush=True)
+        except Exception as e:
+            err_msg = f"{type(e).__name__}: {str(e)[:200]}"
+            print(f"    [skip] C0_mimo failed ({err_msg}); proceeding with C1 only", flush=True)
+            c0_skipped_path.write_text(err_msg)
+            review_c0 = None
 
     # C1_mimo Pass-1
     c1p1_path = run_dir / "transcript_C1_pass1_mimo.txt"
@@ -156,14 +170,15 @@ def run(item: dict, run_dir: pathlib.Path, model: str):
         print(f"    C1_mimo: {len(review_c1.split())} words ({ms/1000:.1f}s)", flush=True)
 
     # Score
-    score_c0 = score_review(review_c0, reference, probes, "C0_mimo", run_dir)
+    score_c0 = score_review(review_c0, reference, probes, "C0_mimo", run_dir) if review_c0 is not None else None
     score_c1 = score_review(review_c1, reference, probes, "C1_mimo", run_dir)
 
     sp = run_dir / "summary.json"
     s = json.loads(sp.read_text()) if sp.exists() else {}
-    s.setdefault("scores", {})["C0_mimo"] = asdict(score_c0)
-    s["scores"]["C1_mimo"] = asdict(score_c1)
-    s["review_C0_mimo_word_count"] = len(review_c0.split())
+    if score_c0 is not None:
+        s.setdefault("scores", {})["C0_mimo"] = asdict(score_c0)
+        s["review_C0_mimo_word_count"] = len(review_c0.split())
+    s.setdefault("scores", {})["C1_mimo"] = asdict(score_c1)
     s["review_C1_mimo_word_count"] = len(review_c1.split())
     s["transcript_C1_pass1_mimo_word_count"] = len(c1_pass1.split())
     s["mimo_model"] = model
@@ -171,6 +186,9 @@ def run(item: dict, run_dir: pathlib.Path, model: str):
 
     print(f"\n=== Mimo {item['item_id']} ===", flush=True)
     for sc in [score_c0, score_c1]:
+        if sc is None:
+            print(f"  C0_mimo  SKIPPED", flush=True)
+            continue
         print(
             f"  {sc.condition}  halluc={sc.n_unsupported}  "
             f"cov={sc.probe_coverage:.3f} ({sc.n_covered}/{sc.n_probes})",

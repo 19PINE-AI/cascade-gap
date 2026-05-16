@@ -1,10 +1,238 @@
 {
   "cells": [
     {
+      "cell": "SNAC mtg-min",
+      "modality": "audio",
+      "task": "meeting_minutes",
+      "run_dir": "runs/audio-meeting_minutes-ietf_snac-1777518337",
+      "source_words": 9311,
+      "scores": {
+        "C0": {
+          "condition": "C0",
+          "n_unsupported": 14,
+          "n_probes": 49,
+          "n_covered": 14,
+          "halluc_score": 0,
+          "probe_coverage": 0.2857142857142857,
+          "final_score": 0.0
+        },
+        "C1": {
+          "condition": "C1",
+          "n_unsupported": 11,
+          "n_probes": 49,
+          "n_covered": 26,
+          "halluc_score": 0,
+          "probe_coverage": 0.5306122448979592,
+          "final_score": 0.0
+        }
+      },
+      "review_C0_word_count": 892,
+      "review_C1_word_count": 1030,
+      "transcript_C1_pass1_word_count": 9311,
+      "C0_words": 892,
+      "C1_words": 1030,
+      "C1_pass1_words": 9311
+    },
+    {
+      "cell": "Karpathy mtg-min",
+      "modality": "audio",
+      "task": "meeting_minutes",
+      "run_dir": "runs/audio-meeting_minutes-karpathy_sogpt-1777468873",
+      "source_words": 8527,
+      "scores": {
+        "C0": {
+          "condition": "C0",
+          "n_unsupported": 4,
+          "n_probes": 50,
+          "n_covered": 8,
+          "halluc_score": 0,
+          "probe_coverage": 0.16,
+          "final_score": 0.0
+        },
+        "C1": {
+          "condition": "C1",
+          "n_unsupported": 2,
+          "n_probes": 50,
+          "n_covered": 17,
+          "halluc_score": 0,
+          "probe_coverage": 0.34,
+          "final_score": 0.0
+        }
+      },
+      "review_C0_word_count": 617,
+      "review_C1_word_count": 717,
+      "transcript_C1_pass1_word_count": 8527,
+      "C0_words": 617,
+      "C1_words": 717,
+      "C1_pass1_words": 8527
+    },
+    {
+      "cell": "3B1B Attention",
+      "modality": "audio",
+      "task": "review",
+      "run_dir": "runs/audio-review-3b1b_attention-1778857367",
+      "source_words": 4925,
+      "scores": {
+        "C0": {
+          "condition": "C0",
+          "n_unsupported": 11,
+          "n_probes": 50,
+          "n_covered": 44,
+          "halluc_score": 0,
+          "probe_coverage": 0.88,
+          "final_score": 0.0
+        },
+        "C1": {
+          "condition": "C1",
+          "n_unsupported": 0,
+          "n_probes": 50,
+          "n_covered": 48,
+          "halluc_score": 1,
+          "probe_coverage": 0.96,
+          "final_score": 0.96
+        },
+        "C0_xvendor": {
+          "condition": "C0_xvendor",
+          "n_unsupported": 4,
+          "n_probes": 50,
+          "n_covered": 41,
+          "halluc_score": 0,
+          "probe_coverage": 0.82,
+          "final_score": 0.0
+        },
+        "C1_xvendor": {
+          "condition": "C1_xvendor",
+          "n_unsupported": 1,
+          "n_probes": 50,
+          "n_covered": 43,
+          "halluc_score": 0,
+          "probe_coverage": 0.86,
+          "final_score": 0.0
+        }
+      },
+      "review_C0_word_count": 1413,
+      "review_C1_word_count": 1409,
+      "transcript_C1_pass1_word_count": 4929,
+      "review_C0_xvendor_word_count": 1252,
+      "review_C1_xvendor_word_count": 1210,
+      "transcript_C1_pass1_xvendor_word_count": 4918,
+      "C0_words": 1413,
+      "C1_words": 1409,
+      "C1_pass1_words": 4929
+    },
+    {
+      "cell": "Doudna CRISPR",
+      "modality": "audio",
+      "task": "review",
+      "run_dir": "runs/audio-review-doudna_crispr-1778859188",
+      "source_words": 8387,
+      "scores": {
+        "C0": {
+          "condition": "C0",
+          "n_unsupported": 6,
+          "n_probes": 50,
+          "n_covered": 34,
+          "halluc_score": 0,
+          "probe_coverage": 0.68,
+          "final_score": 0.0
+        },
+        "C1": {
+          "condition": "C1",
+          "n_unsupported": 3,
+          "n_probes": 50,
+          "n_covered": 46,
+          "halluc_score": 0,
+          "probe_coverage": 0.92,
+          "final_score": 0.0
+        },
+        "C0_xvendor": {
+          "condition": "C0_xvendor",
+          "n_unsupported": 5,
+          "n_probes": 50,
+          "n_covered": 31,
+          "halluc_score": 0,
+          "probe_coverage": 0.62,
+          "final_score": 0.0
+        },
+        "C1_xvendor": {
+          "condition": "C1_xvendor",
+          "n_unsupported": 10,
+          "n_probes": 50,
+          "n_covered": 27,
+          "halluc_score": 0,
+          "probe_coverage": 0.54,
+          "final_score": 0.0
+        }
+      },
+      "review_C0_word_count": 1372,
+      "review_C1_word_count": 1862,
+      "transcript_C1_pass1_word_count": 8400,
+      "review_C0_xvendor_word_count": 1406,
+      "review_C1_xvendor_word_count": 1066,
+      "transcript_C1_pass1_xvendor_word_count": 7929,
+      "C0_words": 1372,
+      "C1_words": 1862,
+      "C1_pass1_words": 8400
+    },
+    {
+      "cell": "Harvard Moot Court",
+      "modality": "audio",
+      "task": "review",
+      "run_dir": "runs/audio-review-harvard_moot_court-1778859186",
+      "source_words": 16402,
+      "scores": {
+        "C0": {
+          "condition": "C0",
+          "n_unsupported": 11,
+          "n_probes": 50,
+          "n_covered": 18,
+          "halluc_score": 0,
+          "probe_coverage": 0.36,
+          "final_score": 0.0
+        },
+        "C1": {
+          "condition": "C1",
+          "n_unsupported": 4,
+          "n_probes": 50,
+          "n_covered": 43,
+          "halluc_score": 0,
+          "probe_coverage": 0.86,
+          "final_score": 0.0
+        },
+        "C0_xvendor": {
+          "condition": "C0_xvendor",
+          "n_unsupported": 13,
+          "n_probes": 50,
+          "n_covered": 42,
+          "halluc_score": 0,
+          "probe_coverage": 0.84,
+          "final_score": 0.0
+        },
+        "C1_xvendor": {
+          "condition": "C1_xvendor",
+          "n_unsupported": 9,
+          "n_probes": 50,
+          "n_covered": 19,
+          "halluc_score": 0,
+          "probe_coverage": 0.38,
+          "final_score": 0.0
+        }
+      },
+      "review_C0_word_count": 1487,
+      "review_C1_word_count": 2146,
+      "transcript_C1_pass1_word_count": 16402,
+      "review_C0_xvendor_word_count": 5153,
+      "review_C1_xvendor_word_count": 1573,
+      "transcript_C1_pass1_xvendor_word_count": 16053,
+      "C0_words": 1487,
+      "C1_words": 2146,
+      "C1_pass1_words": 16402
+    },
+    {
       "cell": "Karpathy review",
       "modality": "audio",
       "task": "review",
-      "speakers": 1,
+      "run_dir": "runs/audio-review-karpathy_sogpt-1777458038",
       "source_words": 8406,
       "scores": {
         "C0": {
@@ -53,57 +281,162 @@
           "final_score": 0.0
         }
       },
+      "review_C0_word_count": 1638,
+      "review_C1_word_count": 1935,
+      "transcript_C1_pass1_word_count": 8502,
+      "review_C0_xvendor_word_count": 1509,
+      "review_C1_xvendor_word_count": 1268,
+      "transcript_C1_pass1_xvendor_word_count": 8365,
+      "review_C0_gpt_audio_word_count": 3010,
       "C0_words": 1638,
-      "C1_words": 1935
+      "C1_words": 1935,
+      "C1_pass1_words": 8502
     },
     {
-      "cell": "Karpathy mtg-min",
+      "cell": "MIT 6.034 Winston",
       "modality": "audio",
-      "task": "meeting_minutes",
-      "speakers": 1,
-      "source_words": 8527,
+      "task": "review",
+      "run_dir": "runs/audio-review-mit_6034_winston-1778857365",
+      "source_words": 6926,
       "scores": {
         "C0": {
           "condition": "C0",
-          "n_unsupported": 4,
-          "n_probes": 50,
-          "n_covered": 8,
+          "n_unsupported": 17,
+          "n_probes": 48,
+          "n_covered": 37,
           "halluc_score": 0,
-          "probe_coverage": 0.16,
+          "probe_coverage": 0.7708333333333334,
           "final_score": 0.0
         },
         "C1": {
           "condition": "C1",
-          "n_unsupported": 2,
-          "n_probes": 50,
-          "n_covered": 17,
+          "n_unsupported": 4,
+          "n_probes": 48,
+          "n_covered": 47,
           "halluc_score": 0,
-          "probe_coverage": 0.34,
+          "probe_coverage": 0.9791666666666666,
+          "final_score": 0.0
+        },
+        "C0_xvendor": {
+          "condition": "C0_xvendor",
+          "n_unsupported": 10,
+          "n_probes": 48,
+          "n_covered": 29,
+          "halluc_score": 0,
+          "probe_coverage": 0.6041666666666666,
+          "final_score": 0.0
+        },
+        "C1_xvendor": {
+          "condition": "C1_xvendor",
+          "n_unsupported": 7,
+          "n_probes": 48,
+          "n_covered": 36,
+          "halluc_score": 0,
+          "probe_coverage": 0.75,
           "final_score": 0.0
         }
       },
-      "C0_words": 617,
-      "C1_words": 717
+      "review_C0_word_count": 1708,
+      "review_C1_word_count": 1557,
+      "transcript_C1_pass1_word_count": 6926,
+      "review_C0_xvendor_word_count": 1234,
+      "review_C1_xvendor_word_count": 1375,
+      "transcript_C1_pass1_xvendor_word_count": 6528,
+      "C0_words": 1708,
+      "C1_words": 1557,
+      "C1_pass1_words": 6926
     },
     {
-      "cell": "SNAC mtg-min",
+      "cell": "NeurIPS BinAI panel",
       "modality": "audio",
-      "task": "meeting_minutes",
-      "speakers": 5,
-      "source_words": 9311,
+      "task": "review",
+      "run_dir": "runs/audio-review-neurips_black_in_ai-1778859191",
+      "source_words": 5340,
       "scores": {
         "C0": {
           "condition": "C0",
-          "n_unsupported": 14,
+          "n_unsupported": 6,
           "n_probes": 49,
-          "n_covered": 14,
+          "n_covered": 45,
           "halluc_score": 0,
-          "probe_coverage": 0.2857142857142857,
+          "probe_coverage": 0.9183673469387755,
           "final_score": 0.0
         },
         "C1": {
           "condition": "C1",
-          "n_unsupported": 11,
+          "n_unsupported": 4,
+          "n_probes": 49,
+          "n_covered": 44,
+          "halluc_score": 0,
+          "probe_coverage": 0.8979591836734694,
+          "final_score": 0.0
+        },
+        "C0_xvendor": {
+          "condition": "C0_xvendor",
+          "n_unsupported": 6,
+          "n_probes": 49,
+          "n_covered": 43,
+          "halluc_score": 0,
+          "probe_coverage": 0.8775510204081632,
+          "final_score": 0.0
+        },
+        "C1_xvendor": {
+          "condition": "C1_xvendor",
+          "n_unsupported": 7,
+          "n_probes": 49,
+          "n_covered": 41,
+          "halluc_score": 0,
+          "probe_coverage": 0.8367346938775511,
+          "final_score": 0.0
+        }
+      },
+      "review_C0_word_count": 1891,
+      "review_C1_word_count": 1302,
+      "transcript_C1_pass1_word_count": 5335,
+      "review_C0_xvendor_word_count": 1493,
+      "review_C1_xvendor_word_count": 1327,
+      "transcript_C1_pass1_xvendor_word_count": 5292,
+      "C0_words": 1891,
+      "C1_words": 1302,
+      "C1_pass1_words": 5335
+    },
+    {
+      "cell": "Sapolsky Behavioral",
+      "modality": "audio",
+      "task": "review",
+      "run_dir": "runs/audio-review-sapolsky_genetics-1778859184",
+      "source_words": 9987,
+      "scores": {
+        "C0": {
+          "condition": "C0",
+          "n_unsupported": 19,
+          "n_probes": 49,
+          "n_covered": 29,
+          "halluc_score": 0,
+          "probe_coverage": 0.5918367346938775,
+          "final_score": 0.0
+        },
+        "C1": {
+          "condition": "C1",
+          "n_unsupported": 15,
+          "n_probes": 49,
+          "n_covered": 46,
+          "halluc_score": 0,
+          "probe_coverage": 0.9387755102040817,
+          "final_score": 0.0
+        },
+        "C0_xvendor": {
+          "condition": "C0_xvendor",
+          "n_unsupported": 18,
+          "n_probes": 49,
+          "n_covered": 33,
+          "halluc_score": 0,
+          "probe_coverage": 0.673469387755102,
+          "final_score": 0.0
+        },
+        "C1_xvendor": {
+          "condition": "C1_xvendor",
+          "n_unsupported": 6,
           "n_probes": 49,
           "n_covered": 26,
           "halluc_score": 0,
@@ -111,43 +444,129 @@
           "final_score": 0.0
         }
       },
-      "C0_words": 892,
-      "C1_words": 1030
+      "review_C0_word_count": 1607,
+      "review_C1_word_count": 2353,
+      "transcript_C1_pass1_word_count": 12069,
+      "review_C0_xvendor_word_count": 2311,
+      "review_C1_xvendor_word_count": 1524,
+      "transcript_C1_pass1_xvendor_word_count": 12041,
+      "C0_words": 1607,
+      "C1_words": 2353,
+      "C1_pass1_words": 12069
     },
     {
-      "cell": "Wagging Tail",
-      "modality": "paper",
+      "cell": "Stanford Decarb",
+      "modality": "audio",
       "task": "review",
-      "page_count": 9,
-      "source_words": 3745,
+      "run_dir": "runs/audio-review-stanford_decarb-1778859192",
+      "source_words": 12002,
       "scores": {
         "C0": {
           "condition": "C0",
-          "n_unsupported": 3,
-          "n_probes": 49,
-          "n_covered": 39,
+          "n_unsupported": 11,
+          "n_probes": 50,
+          "n_covered": 35,
           "halluc_score": 0,
-          "probe_coverage": 0.7959183673469388,
+          "probe_coverage": 0.7,
           "final_score": 0.0
         },
         "C1": {
           "condition": "C1",
+          "n_unsupported": 6,
+          "n_probes": 50,
+          "n_covered": 45,
+          "halluc_score": 0,
+          "probe_coverage": 0.9,
+          "final_score": 0.0
+        },
+        "C0_xvendor": {
+          "condition": "C0_xvendor",
+          "n_unsupported": 7,
+          "n_probes": 50,
+          "n_covered": 39,
+          "halluc_score": 0,
+          "probe_coverage": 0.78,
+          "final_score": 0.0
+        },
+        "C1_xvendor": {
+          "condition": "C1_xvendor",
           "n_unsupported": 1,
-          "n_probes": 49,
+          "n_probes": 50,
           "n_covered": 38,
           "halluc_score": 0,
-          "probe_coverage": 0.7755102040816326,
+          "probe_coverage": 0.76,
           "final_score": 0.0
         }
       },
-      "C0_words": 1364,
-      "C1_words": 1314,
-      "C1_pass1_words": 3530
+      "review_C0_word_count": 1572,
+      "review_C1_word_count": 1824,
+      "transcript_C1_pass1_word_count": 12001,
+      "review_C0_xvendor_word_count": 1744,
+      "review_C1_xvendor_word_count": 1640,
+      "transcript_C1_pass1_xvendor_word_count": 11932,
+      "C0_words": 1572,
+      "C1_words": 1824,
+      "C1_pass1_words": 12001
+    },
+    {
+      "cell": "Veritasium Math",
+      "modality": "audio",
+      "task": "review",
+      "run_dir": "runs/audio-review-veritasium_math-1778857368",
+      "source_words": 5451,
+      "scores": {
+        "C0": {
+          "condition": "C0",
+          "n_unsupported": 14,
+          "n_probes": 50,
+          "n_covered": 41,
+          "halluc_score": 0,
+          "probe_coverage": 0.82,
+          "final_score": 0.0
+        },
+        "C1": {
+          "condition": "C1",
+          "n_unsupported": 6,
+          "n_probes": 50,
+          "n_covered": 48,
+          "halluc_score": 0,
+          "probe_coverage": 0.96,
+          "final_score": 0.0
+        },
+        "C0_xvendor": {
+          "condition": "C0_xvendor",
+          "n_unsupported": 9,
+          "n_probes": 50,
+          "n_covered": 30,
+          "halluc_score": 0,
+          "probe_coverage": 0.6,
+          "final_score": 0.0
+        },
+        "C1_xvendor": {
+          "condition": "C1_xvendor",
+          "n_unsupported": 7,
+          "n_probes": 50,
+          "n_covered": 29,
+          "halluc_score": 0,
+          "probe_coverage": 0.58,
+          "final_score": 0.0
+        }
+      },
+      "review_C0_word_count": 2056,
+      "review_C1_word_count": 2712,
+      "transcript_C1_pass1_word_count": 5570,
+      "review_C0_xvendor_word_count": 1173,
+      "review_C1_xvendor_word_count": 1169,
+      "transcript_C1_pass1_xvendor_word_count": 5528,
+      "C0_words": 2056,
+      "C1_words": 2712,
+      "C1_pass1_words": 5570
     },
     {
       "cell": "Env Test",
       "modality": "paper",
       "task": "review",
+      "run_dir": "runs/paper-review-19680000724-1777468706",
       "page_count": 18,
       "source_words": 5891,
       "scores": {
@@ -170,6 +589,9 @@
           "final_score": 0.0
         }
       },
+      "review_C0_word_count": 1628,
+      "review_C1_word_count": 1739,
+      "transcript_C1_pass1_word_count": 5885,
       "C0_words": 1628,
       "C1_words": 1739,
       "C1_pass1_words": 5885
@@ -178,6 +600,7 @@
       "cell": "Dynamic Response",
       "modality": "paper",
       "task": "review",
+      "run_dir": "runs/paper-review-19690008405-1777468708",
       "page_count": 41,
       "source_words": 6891,
       "scores": {
@@ -200,6 +623,9 @@
           "final_score": 0.0
         }
       },
+      "review_C0_word_count": 1093,
+      "review_C1_word_count": 1053,
+      "transcript_C1_pass1_word_count": 6716,
       "C0_words": 1093,
       "C1_words": 1053,
       "C1_pass1_words": 6716
@@ -208,6 +634,7 @@
       "cell": "Natural Vibration",
       "modality": "paper",
       "task": "review",
+      "run_dir": "runs/paper-review-19690013408-1777471789",
       "page_count": 42,
       "source_words": 11222,
       "scores": {
@@ -239,15 +666,19 @@
           "final_score": 0.0
         }
       },
+      "review_C0_word_count": 1593,
+      "review_C1_word_count": 1341,
+      "transcript_C1_pass1_word_count": 11220,
+      "review_C1_stripped_word_count": 1807,
       "C0_words": 1593,
       "C1_words": 1341,
-      "C1_pass1_words": 11220,
-      "review_C1_stripped_word_count": 1807
+      "C1_pass1_words": 11220
     },
     {
       "cell": "Thermal Analysis",
       "modality": "paper",
       "task": "review",
+      "run_dir": "runs/paper-review-19700023812-1777471791",
       "page_count": 66,
       "source_words": 11169,
       "scores": {
@@ -306,20 +737,24 @@
           "final_score": 0.0
         }
       },
-      "C0_words": 1187,
-      "C1_words": 1473,
-      "C1_pass1_words": 11229,
+      "review_C0_word_count": 1187,
+      "review_C1_word_count": 1473,
+      "transcript_C1_pass1_word_count": 11229,
       "review_C0_claude_word_count": 3005,
       "review_C1_claude_word_count": 2811,
+      "transcript_C1_pass1_claude_word_count": 11284,
       "review_C0_mimo_word_count": 1018,
       "review_C1_mimo_word_count": 1114,
-      "transcript_C1_pass1_claude_word_count": 11284,
-      "transcript_C1_pass1_mimo_word_count": 8063
+      "transcript_C1_pass1_mimo_word_count": 8063,
+      "C0_words": 1187,
+      "C1_words": 1473,
+      "C1_pass1_words": 11229
     },
     {
       "cell": "Heat Pipes",
       "modality": "paper",
       "task": "review",
+      "run_dir": "runs/paper-review-19700025120-1777462513",
       "page_count": 104,
       "source_words": 22192,
       "scores": {
@@ -441,94 +876,293 @@
           "final_score": 0.0
         }
       },
-      "C0_words": 1837,
-      "C1_words": 1815,
-      "C1_pass1_words": 22159,
-      "review_C0_claude_word_count": 3308,
-      "review_C1_claude_word_count": 2077,
-      "review_C0_mimo_word_count": 862,
-      "review_C1_mimo_word_count": 1586,
-      "review_C1_stripped_claude_word_count": 2471,
-      "review_C1c_claude_word_count": 2769,
+      "review_C0_word_count": 1837,
+      "review_C1_word_count": 1815,
+      "transcript_C1_pass1_word_count": 22159,
       "review_C1c_word_count": 955,
       "review_C1c_concat_word_count": 2747,
+      "review_C0_claude_word_count": 3308,
+      "review_C1_claude_word_count": 2077,
+      "transcript_C1_pass1_claude_word_count": 21803,
+      "review_C1_stripped_claude_word_count": 2471,
+      "review_C1c_claude_word_count": 2769,
       "review_C1c_claude_concat_word_count": 2777,
       "review_C1c_stripped_claude_word_count": 2673,
       "review_C1c_stripped_claude_concat_word_count": 2766,
-      "transcript_C1_pass1_claude_word_count": 21803,
-      "transcript_C1_pass1_mimo_word_count": 19674
-    }
-  ],
-  "inter_judge": {
-    "runs": [
-      {
-        "run_dir": "runs/paper-review-19700025120-1777462513",
-        "n_probes": 50,
-        "conditions": {
-          "C0": {
-            "gpt5_unsupported": 14,
-            "claude_unsupported": 12,
-            "gpt5_covered": 36,
-            "claude_covered": 39,
-            "n_probes_compared": 50,
-            "per_probe_agreement_pct": 0.94
-          },
-          "C0_claude": {
-            "gpt5_unsupported": 4,
-            "claude_unsupported": 3,
-            "gpt5_covered": 45,
-            "claude_covered": 45,
-            "n_probes_compared": 50,
-            "per_probe_agreement_pct": 1.0
-          },
-          "C1": {
-            "gpt5_unsupported": 11,
-            "claude_unsupported": 11,
-            "gpt5_covered": 39,
-            "claude_covered": 41,
-            "n_probes_compared": 50,
-            "per_probe_agreement_pct": 0.96
-          },
-          "C1_claude": {
-            "gpt5_unsupported": 20,
-            "claude_unsupported": 18,
-            "gpt5_covered": 45,
-            "claude_covered": 46,
-            "n_probes_compared": 50,
-            "per_probe_agreement_pct": 0.98
-          },
-          "C1c": {
-            "gpt5_unsupported": 4,
-            "claude_unsupported": 4,
-            "gpt5_covered": 29,
-            "claude_covered": 29,
-            "n_probes_compared": 50,
-            "per_probe_agreement_pct": 1.0
-          }
+      "review_C0_mimo_word_count": 862,
+      "review_C1_mimo_word_count": 1586,
+      "transcript_C1_pass1_mimo_word_count": 19674,
+      "C0_words": 1837,
+      "C1_words": 1815,
+      "C1_pass1_words": 22159
+    },
+    {
+      "cell": "Wagging Tail",
+      "modality": "paper",
+      "task": "review",
+      "run_dir": "runs/paper-review-19720009221-1777458461",
+      "page_count": 9,
+      "source_words": 3745,
+      "scores": {
+        "C0": {
+          "condition": "C0",
+          "n_unsupported": 3,
+          "n_probes": 49,
+          "n_covered": 39,
+          "halluc_score": 0,
+          "probe_coverage": 0.7959183673469388,
+          "final_score": 0.0
         },
-        "direction_agreement": [
-          {
-            "vendor": "gemini",
-            "pair": "C0_vs_C1",
-            "halluc_gpt5": "C1<C0",
-            "halluc_claude": "C1<C0",
-            "halluc_agree": true,
-            "cov_gpt5": "C1>C0",
-            "cov_claude": "C1>C0",
-            "cov_agree": true
-          },
-          {
-            "vendor": "claude",
-            "pair": "C0_claude_vs_C1_claude",
-            "halluc_gpt5": "C1>C0",
-            "halluc_claude": "C1>C0",
-            "halluc_agree": true,
-            "cov_gpt5": "tie",
-            "cov_claude": "C1>C0",
-            "cov_agree": false
-          }
-        ]
-      }
-    ]
-  }
+        "C1": {
+          "condition": "C1",
+          "n_unsupported": 1,
+          "n_probes": 49,
+          "n_covered": 38,
+          "halluc_score": 0,
+          "probe_coverage": 0.7755102040816326,
+          "final_score": 0.0
+        }
+      },
+      "review_C0_word_count": 1364,
+      "review_C1_word_count": 1314,
+      "transcript_C1_pass1_word_count": 3530,
+      "C0_words": 1364,
+      "C1_words": 1314,
+      "C1_pass1_words": 3530
+    },
+    {
+      "cell": "SP-5100 Shock",
+      "modality": "paper",
+      "task": "review",
+      "run_dir": "runs/paper-review-19720022550-1778857333",
+      "page_count": 176,
+      "source_words": 46148,
+      "scores": {
+        "C0": {
+          "condition": "C0",
+          "n_unsupported": 47,
+          "n_probes": 48,
+          "n_covered": 25,
+          "halluc_score": 0,
+          "probe_coverage": 0.5208333333333334,
+          "final_score": 0.0
+        },
+        "C1": {
+          "condition": "C1",
+          "n_unsupported": 45,
+          "n_probes": 48,
+          "n_covered": 29,
+          "halluc_score": 0,
+          "probe_coverage": 0.6041666666666666,
+          "final_score": 0.0
+        },
+        "C1_claude": {
+          "condition": "C1_claude",
+          "n_unsupported": 47,
+          "n_probes": 48,
+          "n_covered": 39,
+          "halluc_score": 0,
+          "probe_coverage": 0.8125,
+          "final_score": 0.0
+        },
+        "C1_mimo": {
+          "condition": "C1_mimo",
+          "n_unsupported": 60,
+          "n_probes": 48,
+          "n_covered": 11,
+          "halluc_score": 0,
+          "probe_coverage": 0.22916666666666666,
+          "final_score": 0.0
+        }
+      },
+      "review_C0_word_count": 2083,
+      "review_C1_word_count": 2260,
+      "transcript_C1_pass1_word_count": 45512,
+      "review_C1_claude_word_count": 2939,
+      "transcript_C1_pass1_claude_word_count": 44829,
+      "review_C1_mimo_word_count": 1742,
+      "transcript_C1_pass1_mimo_word_count": 43215,
+      "C0_words": 2083,
+      "C1_words": 2260,
+      "C1_pass1_words": 45512
+    },
+    {
+      "cell": "arXiv Fairness AI",
+      "modality": "paper",
+      "task": "review",
+      "run_dir": "runs/paper-review-2605.09852-1778859219",
+      "page_count": 53,
+      "source_words": 31160,
+      "scores": {
+        "C0": {
+          "condition": "C0",
+          "n_unsupported": 14,
+          "n_probes": 50,
+          "n_covered": 25,
+          "halluc_score": 0,
+          "probe_coverage": 0.5,
+          "final_score": 0.0
+        },
+        "C1": {
+          "condition": "C1",
+          "n_unsupported": 15,
+          "n_probes": 50,
+          "n_covered": 20,
+          "halluc_score": 0,
+          "probe_coverage": 0.4,
+          "final_score": 0.0
+        },
+        "C0_mimo": {
+          "condition": "C0_mimo",
+          "n_unsupported": 0,
+          "n_probes": 50,
+          "n_covered": 0,
+          "halluc_score": 1,
+          "probe_coverage": 0.0,
+          "final_score": 0.0
+        },
+        "C1_mimo": {
+          "condition": "C1_mimo",
+          "n_unsupported": 18,
+          "n_probes": 50,
+          "n_covered": 16,
+          "halluc_score": 0,
+          "probe_coverage": 0.32,
+          "final_score": 0.0
+        },
+        "C1_claude": {
+          "condition": "C1_claude",
+          "n_unsupported": 23,
+          "n_probes": 50,
+          "n_covered": 35,
+          "halluc_score": 0,
+          "probe_coverage": 0.7,
+          "final_score": 0.0
+        }
+      },
+      "review_C0_word_count": 1895,
+      "review_C1_word_count": 1401,
+      "transcript_C1_pass1_word_count": 31150,
+      "review_C0_mimo_word_count": 0,
+      "review_C1_mimo_word_count": 1416,
+      "transcript_C1_pass1_mimo_word_count": 27459,
+      "review_C1_claude_word_count": 2496,
+      "transcript_C1_pass1_claude_word_count": 31020,
+      "C0_words": 1895,
+      "C1_words": 1401,
+      "C1_pass1_words": 31150
+    },
+    {
+      "cell": "arXiv Megagauss",
+      "modality": "paper",
+      "task": "review",
+      "run_dir": "runs/paper-review-2605.11379-1778859223",
+      "page_count": 75,
+      "source_words": 32033,
+      "scores": {
+        "C0": {
+          "condition": "C0",
+          "n_unsupported": 36,
+          "n_probes": 50,
+          "n_covered": 33,
+          "halluc_score": 0,
+          "probe_coverage": 0.66,
+          "final_score": 0.0
+        },
+        "C1": {
+          "condition": "C1",
+          "n_unsupported": 32,
+          "n_probes": 50,
+          "n_covered": 34,
+          "halluc_score": 0,
+          "probe_coverage": 0.68,
+          "final_score": 0.0
+        },
+        "C1_claude": {
+          "condition": "C1_claude",
+          "n_unsupported": 17,
+          "n_probes": 50,
+          "n_covered": 46,
+          "halluc_score": 0,
+          "probe_coverage": 0.92,
+          "final_score": 0.0
+        },
+        "C1_mimo": {
+          "condition": "C1_mimo",
+          "n_unsupported": 19,
+          "n_probes": 50,
+          "n_covered": 13,
+          "halluc_score": 0,
+          "probe_coverage": 0.26,
+          "final_score": 0.0
+        }
+      },
+      "review_C0_word_count": 2488,
+      "review_C1_word_count": 2104,
+      "transcript_C1_pass1_word_count": 32016,
+      "review_C1_claude_word_count": 2907,
+      "transcript_C1_pass1_claude_word_count": 30465,
+      "review_C1_mimo_word_count": 1472,
+      "transcript_C1_pass1_mimo_word_count": 26726,
+      "C0_words": 2488,
+      "C1_words": 2104,
+      "C1_pass1_words": 32016
+    },
+    {
+      "cell": "arXiv Perovskite",
+      "modality": "paper",
+      "task": "review",
+      "run_dir": "runs/paper-review-2605.13991-1778859221",
+      "page_count": 80,
+      "source_words": 19527,
+      "scores": {
+        "C0": {
+          "condition": "C0",
+          "n_unsupported": 2,
+          "n_probes": 50,
+          "n_covered": 45,
+          "halluc_score": 0,
+          "probe_coverage": 0.9,
+          "final_score": 0.0
+        },
+        "C1": {
+          "condition": "C1",
+          "n_unsupported": 3,
+          "n_probes": 50,
+          "n_covered": 37,
+          "halluc_score": 0,
+          "probe_coverage": 0.74,
+          "final_score": 0.0
+        },
+        "C1_claude": {
+          "condition": "C1_claude",
+          "n_unsupported": 0,
+          "n_probes": 50,
+          "n_covered": 45,
+          "halluc_score": 1,
+          "probe_coverage": 0.9,
+          "final_score": 0.9
+        },
+        "C1_mimo": {
+          "condition": "C1_mimo",
+          "n_unsupported": 2,
+          "n_probes": 50,
+          "n_covered": 45,
+          "halluc_score": 0,
+          "probe_coverage": 0.9,
+          "final_score": 0.0
+        }
+      },
+      "review_C0_word_count": 2301,
+      "review_C1_word_count": 1721,
+      "transcript_C1_pass1_word_count": 19537,
+      "review_C1_claude_word_count": 2243,
+      "transcript_C1_pass1_claude_word_count": 19326,
+      "review_C1_mimo_word_count": 4641,
+      "transcript_C1_pass1_mimo_word_count": 19242,
+      "C0_words": 2301,
+      "C1_words": 1721,
+      "C1_pass1_words": 19537
+    }
+  ]
 }

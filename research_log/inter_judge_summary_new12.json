@@ -1,0 +1,612 @@
+{
+  "runs": [
+    {
+      "run_dir": "runs/audio-review-3b1b_attention-1778857367",
+      "n_probes": 50,
+      "conditions": {
+        "C0": {
+          "gpt5_unsupported": 11,
+          "claude_unsupported": 5,
+          "gpt5_covered": 44,
+          "claude_covered": 45,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.94
+        },
+        "C0_xvendor": {
+          "gpt5_unsupported": 4,
+          "claude_unsupported": 3,
+          "gpt5_covered": 41,
+          "claude_covered": 41,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.96
+        },
+        "C1": {
+          "gpt5_unsupported": 0,
+          "claude_unsupported": 0,
+          "gpt5_covered": 48,
+          "claude_covered": 48,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.96
+        },
+        "C1_xvendor": {
+          "gpt5_unsupported": 1,
+          "claude_unsupported": 1,
+          "gpt5_covered": 43,
+          "claude_covered": 43,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.96
+        }
+      },
+      "direction_agreement": [
+        {
+          "vendor": "gemini",
+          "pair": "C0_vs_C1",
+          "halluc_gpt5": "C1<C0",
+          "halluc_claude": "C1<C0",
+          "halluc_agree": true,
+          "cov_gpt5": "C1>C0",
+          "cov_claude": "C1>C0",
+          "cov_agree": true
+        }
+      ]
+    },
+    {
+      "run_dir": "runs/audio-review-doudna_crispr-1778859188",
+      "n_probes": 50,
+      "conditions": {
+        "C0": {
+          "gpt5_unsupported": 6,
+          "claude_unsupported": 3,
+          "gpt5_covered": 34,
+          "claude_covered": 38,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.92
+        },
+        "C0_xvendor": {
+          "gpt5_unsupported": 5,
+          "claude_unsupported": 2,
+          "gpt5_covered": 31,
+          "claude_covered": 32,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.94
+        },
+        "C1": {
+          "gpt5_unsupported": 3,
+          "claude_unsupported": 2,
+          "gpt5_covered": 46,
+          "claude_covered": 48,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.96
+        },
+        "C1_xvendor": {
+          "gpt5_unsupported": 10,
+          "claude_unsupported": 5,
+          "gpt5_covered": 27,
+          "claude_covered": 35,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.84
+        }
+      },
+      "direction_agreement": [
+        {
+          "vendor": "gemini",
+          "pair": "C0_vs_C1",
+          "halluc_gpt5": "C1<C0",
+          "halluc_claude": "C1<C0",
+          "halluc_agree": true,
+          "cov_gpt5": "C1>C0",
+          "cov_claude": "C1>C0",
+          "cov_agree": true
+        }
+      ]
+    },
+    {
+      "run_dir": "runs/audio-review-harvard_moot_court-1778859186",
+      "n_probes": 50,
+      "conditions": {
+        "C0": {
+          "gpt5_unsupported": 11,
+          "claude_unsupported": 8,
+          "gpt5_covered": 18,
+          "claude_covered": 22,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.92
+        },
+        "C0_xvendor": {
+          "gpt5_unsupported": 13,
+          "claude_unsupported": 11,
+          "gpt5_covered": 42,
+          "claude_covered": 42,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.96
+        },
+        "C1": {
+          "gpt5_unsupported": 4,
+          "claude_unsupported": 5,
+          "gpt5_covered": 43,
+          "claude_covered": 43,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.92
+        },
+        "C1_xvendor": {
+          "gpt5_unsupported": 9,
+          "claude_unsupported": 8,
+          "gpt5_covered": 19,
+          "claude_covered": 20,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.9
+        }
+      },
+      "direction_agreement": [
+        {
+          "vendor": "gemini",
+          "pair": "C0_vs_C1",
+          "halluc_gpt5": "C1<C0",
+          "halluc_claude": "C1<C0",
+          "halluc_agree": true,
+          "cov_gpt5": "C1>C0",
+          "cov_claude": "C1>C0",
+          "cov_agree": true
+        }
+      ]
+    },
+    {
+      "run_dir": "runs/audio-review-mit_6034_winston-1778857365",
+      "n_probes": 48,
+      "conditions": {
+        "C0": {
+          "gpt5_unsupported": 17,
+          "claude_unsupported": 12,
+          "gpt5_covered": 37,
+          "claude_covered": 39,
+          "n_probes_compared": 48,
+          "per_probe_agreement_pct": 0.9375
+        },
+        "C0_xvendor": {
+          "gpt5_unsupported": 10,
+          "claude_unsupported": 5,
+          "gpt5_covered": 29,
+          "claude_covered": 30,
+          "n_probes_compared": 48,
+          "per_probe_agreement_pct": 0.9791666666666666
+        },
+        "C1": {
+          "gpt5_unsupported": 4,
+          "claude_unsupported": 3,
+          "gpt5_covered": 47,
+          "claude_covered": 47,
+          "n_probes_compared": 48,
+          "per_probe_agreement_pct": 1.0
+        },
+        "C1_xvendor": {
+          "gpt5_unsupported": 7,
+          "claude_unsupported": 5,
+          "gpt5_covered": 36,
+          "claude_covered": 41,
+          "n_probes_compared": 48,
+          "per_probe_agreement_pct": 0.8958333333333334
+        }
+      },
+      "direction_agreement": [
+        {
+          "vendor": "gemini",
+          "pair": "C0_vs_C1",
+          "halluc_gpt5": "C1<C0",
+          "halluc_claude": "C1<C0",
+          "halluc_agree": true,
+          "cov_gpt5": "C1>C0",
+          "cov_claude": "C1>C0",
+          "cov_agree": true
+        }
+      ]
+    },
+    {
+      "run_dir": "runs/audio-review-neurips_black_in_ai-1778859191",
+      "n_probes": 49,
+      "conditions": {
+        "C0": {
+          "gpt5_unsupported": 6,
+          "claude_unsupported": 2,
+          "gpt5_covered": 45,
+          "claude_covered": 47,
+          "n_probes_compared": 49,
+          "per_probe_agreement_pct": 0.9591836734693877
+        },
+        "C0_xvendor": {
+          "gpt5_unsupported": 6,
+          "claude_unsupported": 5,
+          "gpt5_covered": 43,
+          "claude_covered": 45,
+          "n_probes_compared": 49,
+          "per_probe_agreement_pct": 0.9591836734693877
+        },
+        "C1": {
+          "gpt5_unsupported": 4,
+          "claude_unsupported": 3,
+          "gpt5_covered": 44,
+          "claude_covered": 47,
+          "n_probes_compared": 49,
+          "per_probe_agreement_pct": 0.9387755102040817
+        },
+        "C1_xvendor": {
+          "gpt5_unsupported": 7,
+          "claude_unsupported": 4,
+          "gpt5_covered": 41,
+          "claude_covered": 45,
+          "n_probes_compared": 49,
+          "per_probe_agreement_pct": 0.9183673469387755
+        }
+      },
+      "direction_agreement": [
+        {
+          "vendor": "gemini",
+          "pair": "C0_vs_C1",
+          "halluc_gpt5": "C1<C0",
+          "halluc_claude": "C1>C0",
+          "halluc_agree": false,
+          "cov_gpt5": "C1<C0",
+          "cov_claude": "tie",
+          "cov_agree": false
+        }
+      ]
+    },
+    {
+      "run_dir": "runs/audio-review-sapolsky_genetics-1778859184",
+      "n_probes": 49,
+      "conditions": {
+        "C0": {
+          "gpt5_unsupported": 19,
+          "claude_unsupported": 17,
+          "gpt5_covered": 29,
+          "claude_covered": 34,
+          "n_probes_compared": 49,
+          "per_probe_agreement_pct": 0.8979591836734694
+        },
+        "C0_xvendor": {
+          "gpt5_unsupported": 18,
+          "claude_unsupported": 19,
+          "gpt5_covered": 33,
+          "claude_covered": 36,
+          "n_probes_compared": 49,
+          "per_probe_agreement_pct": 0.9387755102040817
+        },
+        "C1": {
+          "gpt5_unsupported": 15,
+          "claude_unsupported": 12,
+          "gpt5_covered": 46,
+          "claude_covered": 47,
+          "n_probes_compared": 49,
+          "per_probe_agreement_pct": 0.9795918367346939
+        },
+        "C1_xvendor": {
+          "gpt5_unsupported": 6,
+          "claude_unsupported": 9,
+          "gpt5_covered": 26,
+          "claude_covered": 35,
+          "n_probes_compared": 49,
+          "per_probe_agreement_pct": 0.8163265306122449
+        }
+      },
+      "direction_agreement": [
+        {
+          "vendor": "gemini",
+          "pair": "C0_vs_C1",
+          "halluc_gpt5": "C1<C0",
+          "halluc_claude": "C1<C0",
+          "halluc_agree": true,
+          "cov_gpt5": "C1>C0",
+          "cov_claude": "C1>C0",
+          "cov_agree": true
+        }
+      ]
+    },
+    {
+      "run_dir": "runs/audio-review-stanford_decarb-1778859192",
+      "n_probes": 50,
+      "conditions": {
+        "C0": {
+          "gpt5_unsupported": 11,
+          "claude_unsupported": 8,
+          "gpt5_covered": 35,
+          "claude_covered": 37,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.96
+        },
+        "C0_xvendor": {
+          "gpt5_unsupported": 7,
+          "claude_unsupported": 1,
+          "gpt5_covered": 39,
+          "claude_covered": 41,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.96
+        },
+        "C1": {
+          "gpt5_unsupported": 6,
+          "claude_unsupported": 3,
+          "gpt5_covered": 45,
+          "claude_covered": 48,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.94
+        },
+        "C1_xvendor": {
+          "gpt5_unsupported": 1,
+          "claude_unsupported": 2,
+          "gpt5_covered": 38,
+          "claude_covered": 43,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.9
+        }
+      },
+      "direction_agreement": [
+        {
+          "vendor": "gemini",
+          "pair": "C0_vs_C1",
+          "halluc_gpt5": "C1<C0",
+          "halluc_claude": "C1<C0",
+          "halluc_agree": true,
+          "cov_gpt5": "C1>C0",
+          "cov_claude": "C1>C0",
+          "cov_agree": true
+        }
+      ]
+    },
+    {
+      "run_dir": "runs/audio-review-veritasium_math-1778857368",
+      "n_probes": 50,
+      "conditions": {
+        "C0": {
+          "gpt5_unsupported": 14,
+          "claude_unsupported": 13,
+          "gpt5_covered": 41,
+          "claude_covered": 44,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.94
+        },
+        "C0_xvendor": {
+          "gpt5_unsupported": 9,
+          "claude_unsupported": 5,
+          "gpt5_covered": 30,
+          "claude_covered": 32,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.92
+        },
+        "C1": {
+          "gpt5_unsupported": 6,
+          "claude_unsupported": 3,
+          "gpt5_covered": 48,
+          "claude_covered": 49,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.98
+        },
+        "C1_xvendor": {
+          "gpt5_unsupported": 7,
+          "claude_unsupported": 2,
+          "gpt5_covered": 29,
+          "claude_covered": 33,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.92
+        }
+      },
+      "direction_agreement": [
+        {
+          "vendor": "gemini",
+          "pair": "C0_vs_C1",
+          "halluc_gpt5": "C1<C0",
+          "halluc_claude": "C1<C0",
+          "halluc_agree": true,
+          "cov_gpt5": "C1>C0",
+          "cov_claude": "C1>C0",
+          "cov_agree": true
+        }
+      ]
+    },
+    {
+      "run_dir": "runs/paper-review-19720022550-1778857333",
+      "n_probes": 48,
+      "conditions": {
+        "C0": {
+          "gpt5_unsupported": 47,
+          "claude_unsupported": 36,
+          "gpt5_covered": 25,
+          "claude_covered": 29,
+          "n_probes_compared": 48,
+          "per_probe_agreement_pct": 0.9166666666666666
+        },
+        "C1": {
+          "gpt5_unsupported": 45,
+          "claude_unsupported": 68,
+          "gpt5_covered": 29,
+          "claude_covered": 33,
+          "n_probes_compared": 48,
+          "per_probe_agreement_pct": 0.9166666666666666
+        },
+        "C1_claude": {
+          "gpt5_unsupported": 47,
+          "claude_unsupported": 24,
+          "gpt5_covered": 39,
+          "claude_covered": 40,
+          "n_probes_compared": 48,
+          "per_probe_agreement_pct": 0.9791666666666666
+        },
+        "C1_mimo": {
+          "gpt5_unsupported": 60,
+          "claude_unsupported": 27,
+          "gpt5_covered": 11,
+          "claude_covered": 12,
+          "n_probes_compared": 48,
+          "per_probe_agreement_pct": 0.9791666666666666
+        }
+      },
+      "direction_agreement": [
+        {
+          "vendor": "gemini",
+          "pair": "C0_vs_C1",
+          "halluc_gpt5": "C1<C0",
+          "halluc_claude": "C1>C0",
+          "halluc_agree": false,
+          "cov_gpt5": "C1>C0",
+          "cov_claude": "C1>C0",
+          "cov_agree": true
+        }
+      ]
+    },
+    {
+      "run_dir": "runs/paper-review-2605.09852-1778859219",
+      "n_probes": 50,
+      "conditions": {
+        "C0": {
+          "gpt5_unsupported": 14,
+          "claude_unsupported": 11,
+          "gpt5_covered": 25,
+          "claude_covered": 29,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.92
+        },
+        "C0_mimo": {
+          "gpt5_unsupported": 0,
+          "claude_unsupported": 0,
+          "gpt5_covered": 0,
+          "claude_covered": 0,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 1.0
+        },
+        "C1": {
+          "gpt5_unsupported": 15,
+          "claude_unsupported": 9,
+          "gpt5_covered": 20,
+          "claude_covered": 26,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.88
+        },
+        "C1_claude": {
+          "gpt5_unsupported": 23,
+          "claude_unsupported": 22,
+          "gpt5_covered": 35,
+          "claude_covered": 40,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.86
+        },
+        "C1_mimo": {
+          "gpt5_unsupported": 18,
+          "claude_unsupported": 8,
+          "gpt5_covered": 16,
+          "claude_covered": 23,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.86
+        }
+      },
+      "direction_agreement": [
+        {
+          "vendor": "gemini",
+          "pair": "C0_vs_C1",
+          "halluc_gpt5": "C1>C0",
+          "halluc_claude": "C1<C0",
+          "halluc_agree": false,
+          "cov_gpt5": "C1<C0",
+          "cov_claude": "C1<C0",
+          "cov_agree": true
+        }
+      ]
+    },
+    {
+      "run_dir": "runs/paper-review-2605.11379-1778859223",
+      "n_probes": 50,
+      "conditions": {
+        "C0": {
+          "gpt5_unsupported": 36,
+          "claude_unsupported": 19,
+          "gpt5_covered": 33,
+          "claude_covered": 39,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.84
+        },
+        "C1": {
+          "gpt5_unsupported": 32,
+          "claude_unsupported": 20,
+          "gpt5_covered": 34,
+          "claude_covered": 37,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.9
+        },
+        "C1_claude": {
+          "gpt5_unsupported": 17,
+          "claude_unsupported": 13,
+          "gpt5_covered": 46,
+          "claude_covered": 47,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.98
+        },
+        "C1_mimo": {
+          "gpt5_unsupported": 19,
+          "claude_unsupported": 13,
+          "gpt5_covered": 13,
+          "claude_covered": 16,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.9
+        }
+      },
+      "direction_agreement": [
+        {
+          "vendor": "gemini",
+          "pair": "C0_vs_C1",
+          "halluc_gpt5": "C1<C0",
+          "halluc_claude": "C1>C0",
+          "halluc_agree": false,
+          "cov_gpt5": "C1>C0",
+          "cov_claude": "C1<C0",
+          "cov_agree": false
+        }
+      ]
+    },
+    {
+      "run_dir": "runs/paper-review-2605.13991-1778859221",
+      "n_probes": 50,
+      "conditions": {
+        "C0": {
+          "gpt5_unsupported": 2,
+          "claude_unsupported": 2,
+          "gpt5_covered": 45,
+          "claude_covered": 46,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.98
+        },
+        "C1": {
+          "gpt5_unsupported": 3,
+          "claude_unsupported": 4,
+          "gpt5_covered": 37,
+          "claude_covered": 39,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.96
+        },
+        "C1_claude": {
+          "gpt5_unsupported": 0,
+          "claude_unsupported": 0,
+          "gpt5_covered": 45,
+          "claude_covered": 45,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 1.0
+        },
+        "C1_mimo": {
+          "gpt5_unsupported": 2,
+          "claude_unsupported": 1,
+          "gpt5_covered": 45,
+          "claude_covered": 46,
+          "n_probes_compared": 50,
+          "per_probe_agreement_pct": 0.98
+        }
+      },
+      "direction_agreement": [
+        {
+          "vendor": "gemini",
+          "pair": "C0_vs_C1",
+          "halluc_gpt5": "C1>C0",
+          "halluc_claude": "C1>C0",
+          "halluc_agree": true,
+          "cov_gpt5": "C1<C0",
+          "cov_claude": "C1<C0",
+          "cov_agree": true
+        }
+      ]
+    }
+  ]
+}

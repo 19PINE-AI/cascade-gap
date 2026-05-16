@@ -298,18 +298,39 @@ def call_gemini_chunked_audio(
     return "\n\n".join(pieces), total_ms
 
 
-def call_gpt5_judge(prompt: str, max_completion_tokens: int = 16_384) -> tuple[str, int]:
-    """GPT-5.4 with reasoning_effort='high' — used for probe extraction & judging."""
-    client = OpenAI()
+def call_gpt5_judge(prompt: str, max_completion_tokens: int = 32_768) -> tuple[str, int]:
+    """GPT-5.4 with reasoning_effort='high' — used for probe extraction & judging.
+
+    Routes via OpenRouter when CASCADE_USE_OPENROUTER=1 (the OPENAI_API_KEY in this
+    environment has insufficient scope; OpenRouter has working access).
+    Retries up to 3 times on empty responses (GPT-5.4 reasoning sometimes returns
+    empty content when reasoning budget consumes the whole completion budget).
+    """
+    if os.environ.get("CASCADE_USE_OPENROUTER", "1") == "1":
+        client = OpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=os.environ["OPENROUTER_API_KEY"],
+        )
+        model = "openai/gpt-5.4"
+        kwargs = {"max_tokens": max_completion_tokens, "reasoning_effort": "high"}
+    else:
+        client = OpenAI()
+        model = "gpt-5.4"
+        kwargs = {"max_completion_tokens": max_completion_tokens, "reasoning_effort": "high"}
     t0 = time.time()
-    r = client.chat.completions.create(
-        model="gpt-5.4",
-        messages=[{"role": "user", "content": prompt}],
-        max_completion_tokens=max_completion_tokens,
-        reasoning_effort="high",
-    )
+    text = ""
+    for attempt in range(3):
+        r = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            **kwargs,
+        )
+        text = (r.choices[0].message.content or "").strip()
+        if text:
+            break
+        print(f"      [warn] judge returned empty on attempt {attempt+1}/3; retrying", flush=True)
     ms = int((time.time() - t0) * 1000)
-    return (r.choices[0].message.content or "").strip(), ms
+    return text, ms
 
 
 # --- JSON parsing ------------------------------------------------------------
@@ -350,8 +371,79 @@ def parse_json(text: str):
                 end = i + 1
                 break
     if end is None:
+        # Truncated JSON — salvage what we can by finding the last complete object/element.
+        # Useful when judge's reasoning + JSON exceeded the completion budget.
+        salvaged = _salvage_truncated(t[start:])
+        if salvaged is not None:
+            print(f"      [warn] judge JSON truncated; salvaged partial parse", flush=True)
+            return salvaged
         raise ValueError(f"unbalanced JSON. first 300: {text[:300]!r}")
     return json.loads(t[start:end])
+
+
+def _salvage_truncated(s: str):
+    """Salvage a partial JSON object that was cut mid-stream.
+    Walks the string forward and finds the last position where the JSON parses cleanly
+    after closing any open brackets/braces. Returns the parsed object or None.
+    """
+    # Strategy: try truncating progressively from the end, attempting to close
+    # any open structures, and parse. Return the best partial.
+    if not s or s[0] not in "[{":
+        return None
+    # Find the last comma or `]`/`}` followed by valid context, then close
+    last_known_good_idx = None
+    depth_stack = []
+    in_str = False
+    esc = False
+    for i, c in enumerate(s):
+        if esc:
+            esc = False
+            continue
+        if c == "\\":
+            esc = True
+            continue
+        if c == '"':
+            in_str = not in_str
+            continue
+        if in_str:
+            continue
+        if c in "[{":
+            depth_stack.append(c)
+        elif c in "]}":
+            if depth_stack:
+                depth_stack.pop()
+        # After a closed element, this is a safe restart point
+        if not in_str and c in "]}" and depth_stack:
+            last_known_good_idx = i + 1
+    # Try to construct a closing tail
+    if last_known_good_idx is None:
+        return None
+    head = s[:last_known_good_idx]
+    # Close any remaining open structures
+    # Re-scan to find depth at last_known_good_idx
+    remaining = list(depth_stack)
+    # Need to scan head to count remaining stack
+    rem_stack = []
+    in_str = False
+    esc = False
+    for c in head:
+        if esc:
+            esc = False; continue
+        if c == "\\":
+            esc = True; continue
+        if c == '"':
+            in_str = not in_str; continue
+        if in_str: continue
+        if c in "[{":
+            rem_stack.append(c)
+        elif c in "]}":
+            if rem_stack: rem_stack.pop()
+    closer = "".join("]" if x == "[" else "}" for x in reversed(rem_stack))
+    candidate = head + closer
+    try:
+        return json.loads(candidate)
+    except Exception:
+        return None
 
 
 # --- pipeline ----------------------------------------------------------------

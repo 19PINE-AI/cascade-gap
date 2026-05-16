@@ -59,11 +59,14 @@ def call_claude_with_images(prompt: str, image_paths: list[str], model: str, max
         content.append(_img_block(pathlib.Path(ip)))
     content.append({"type": "text", "text": prompt})
 
+    # Use 1M context beta when there are many images (>15 ≈ default context limit)
+    extra_headers = {"anthropic-beta": "context-1m-2025-08-07"} if len(image_paths) > 15 else {}
     t0 = time.time()
     resp = client.messages.create(
         model=model,
         max_tokens=max_tokens,
         messages=[{"role": "user", "content": content}],
+        extra_headers=extra_headers,
     )
     ms = int((time.time() - t0) * 1000)
     text_parts = [b.text for b in resp.content if getattr(b, "type", "") == "text"]
@@ -133,14 +136,24 @@ def run(item: dict, run_dir: pathlib.Path, model: str):
 
     # Claude C0 — multimodal end-to-end review
     c0_path = run_dir / "review_C0_claude.txt"
+    c0_skipped_path = run_dir / "review_C0_claude.SKIPPED"
     if c0_path.exists():
         print(f"  [C0-claude] reusing existing", flush=True)
         review_c0 = c0_path.read_text()
+    elif c0_skipped_path.exists():
+        print(f"  [C0-claude] previously skipped (too large)", flush=True)
+        review_c0 = None
     else:
         print(f"  [C0-claude] {model} multimodal end-to-end review on {len(image_paths)} images...", flush=True)
-        review_c0, ms = call_claude_with_images(REVIEW_PROMPT, image_paths, model, max_tokens=8_192)
-        c0_path.write_text(review_c0)
-        print(f"    C0-claude: {len(review_c0.split())} words ({ms/1000:.1f}s)", flush=True)
+        try:
+            review_c0, ms = call_claude_with_images(REVIEW_PROMPT, image_paths, model, max_tokens=8_192)
+            c0_path.write_text(review_c0)
+            print(f"    C0-claude: {len(review_c0.split())} words ({ms/1000:.1f}s)", flush=True)
+        except Exception as e:
+            err_msg = f"{type(e).__name__}: {str(e)[:200]}"
+            print(f"    [skip] C0-claude failed ({err_msg}); proceeding with C1 only", flush=True)
+            c0_skipped_path.write_text(err_msg)
+            review_c0 = None
 
     # Claude C1 Pass-1 — chunked OCR (1 page/call)
     c1p1_path = run_dir / "transcript_C1_pass1_claude.txt"
@@ -167,14 +180,15 @@ def run(item: dict, run_dir: pathlib.Path, model: str):
         print(f"    C1-claude: {len(review_c1.split())} words ({ms/1000:.1f}s)", flush=True)
 
     # Score (uses GPT-5.4 judge against the existing Gemini-generated reference + probes)
-    score_c0 = score_review(review_c0, reference, probes, "C0_claude", run_dir)
+    score_c0 = score_review(review_c0, reference, probes, "C0_claude", run_dir) if review_c0 is not None else None
     score_c1 = score_review(review_c1, reference, probes, "C1_claude", run_dir)
 
     summary_path = run_dir / "summary.json"
     summary = json.loads(summary_path.read_text()) if summary_path.exists() else {}
-    summary.setdefault("scores", {})["C0_claude"] = asdict(score_c0)
-    summary["scores"]["C1_claude"] = asdict(score_c1)
-    summary["review_C0_claude_word_count"] = len(review_c0.split())
+    if score_c0 is not None:
+        summary.setdefault("scores", {})["C0_claude"] = asdict(score_c0)
+        summary["review_C0_claude_word_count"] = len(review_c0.split())
+    summary.setdefault("scores", {})["C1_claude"] = asdict(score_c1)
     summary["review_C1_claude_word_count"] = len(review_c1.split())
     summary["transcript_C1_pass1_claude_word_count"] = len(c1_pass1.split())
     summary["claude_model"] = model
@@ -182,6 +196,9 @@ def run(item: dict, run_dir: pathlib.Path, model: str):
 
     print(f"\n=== Claude {item['item_id']} ===", flush=True)
     for s in [score_c0, score_c1]:
+        if s is None:
+            print(f"  C0_claude  SKIPPED (request too large)", flush=True)
+            continue
         print(
             f"  {s.condition}  halluc_score={s.halluc_score} (unsupported={s.n_unsupported})  "
             f"probe_cov={s.probe_coverage:.3f} ({s.n_covered}/{s.n_probes})  "
