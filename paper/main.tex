@@ -381,6 +381,16 @@ Full per-cell tables for the original 10 cells in Appendix~\ref{appdx:inter_judg
 \section{Discussion}
 \label{sec:discussion}
 
+\paragraph{Cascade cost.}
+The cascade buys coverage and faithfulness improvements at a substantial API-call multiplier. End-to-end ($C_0$) is one multimodal call; cascade ($C_1$) is $N+1$ calls for an $N$-page paper (chunked OCR + a single text Pass-2) or $N_{\rm audio}+1$ calls for an audio source split into $N_{\rm audio}$ 30-min chunks. For the cells in this paper that means call-count ratios from $\approx 2\times$ (3B1B 26-min audio: 1 chunk + 1 Pass-2 = 2 calls) up to $\approx 177\times$ (SP-5100 176-page paper: 176 OCR + 1 Pass-2 = 177 calls). Figure~\ref{fig:cost_pareto} plots $\Delta_{\rm cov}$ against the per-cell $C_1/C_0$ call-count ratio. The chunked variant adds $K$ sub-summary calls (we used $K=5$ in this paper), so $C_{1c}^{\rm concat}$ is $N+K$ calls and $C_{1c}$ is $N+K+1$. Output-token volume scales similarly: the cascade Pass-1 produces a transcript that is roughly as long as the source itself (\emph{e.g.,} Heat~Pipes Pass-1 transcript is 22k words against a 22k-word source), so the cascade's total output token budget is $\sim 10\times$ the end-to-end review for paper cells. We do not pretend the cascade is free; the question is whether the faithfulness gain is worth the call-count multiplier for a given task. The 21-cell evidence in this paper says: on long-form review where end-to-end has measurable headroom, yes; on already-saturated cells (NeurIPS panel $C_0=0.92$, Perovskite $C_0=0.90$) the multiplier buys nothing.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.62\linewidth]{figures/fig5_cost_pareto.pdf}
+\caption{\textbf{Cascade coverage gain vs.\ API call-count cost.} Each point is one Gemini cell. The $C_1/C_0$ call ratio for paper cells is $N+1$ (page-chunked OCR + one Pass-2) and ranges from $10\times$ for a 9-page paper to $177\times$ for SP-5100. Audio cells use 30-min chunked ASR (ratio $\approx 2$--$3\times$). The cascade buys most of its coverage gain at the audio end and small or negative gains at the high-cost paper end --- e.g., Perovskite at $81\times$ call ratio loses 16~pp of coverage. SP-5100 at $177\times$ has $C_0$ baseline so low (0.52) that the cascade still wins on coverage (+8~pp) but at the highest cost in the dataset.}
+\label{fig:cost_pareto}
+\end{figure}
+
 \paragraph{Cascade as a deployment choice.}
 For long-form multimodal review generation the right cascade choice is governed by source length, citation density, and the model's relative text-vs-multimodal reasoning strength. We give a small predictive checklist (Table~\ref{tab:checklist}) drawn from the cells in this paper.
 
@@ -397,8 +407,9 @@ Audio talk, single speaker, sub-hour & Cascade strongly Pareto-positive on capab
 Multi-speaker meeting (60 min) & Cascade still Pareto-positive (SNAC: $+24.5$ pp cov). & Default $C_1$. \\
 Moderate paper (40--70 pp) & Cascade Pareto-positive across vendors. & Default $C_1$. \\
 Long paper, low $C_0$ baseline, moderate citation density (Gemini Heat Pipes) & Mode A dominant. & $C_{1c}^{\rm concat}$ (chunked, no merge). \\
-Long paper, low $C_0$ baseline, plus signs of Mode~B (Mimo Heat Pipes) & Modes A and B both observed; no isolation experiment. & $C_{1c}^{\rm concat}$ for coverage; consider $C_1^{\rm strip}$ as a parallel control. Validate per source. \\
-Long paper, citation-heavy, well-known refs (Claude Heat Pipes) & Mode B dominant. & Use $C_0$ or $C_1^{\rm strip}$; do not default to $C_1$. \\
+Long paper, low $C_0$ baseline, plus signs of Mode~B (Mimo Heat Pipes) & Modes A and B both observed; no isolation experiment. & $C_{1c}^{\rm concat}$ for coverage. (Strip intervention shows no detectable effect on Claude at $n=5$; do not rely on it.) \\
+Long paper, citation-heavy, well-known refs (Claude Heat Pipes, SP-5100, Fairness~AI, Megagauss) & Mode B dominant. & Use $C_0$ when it fits; cascade with multi-seed averaging or a faithfulness post-filter. Citation stripping does \emph{not} pass our $n=5$ test on Claude. \\
+Modern arXiv survey, high $C_0$ baseline, Gemini & Mode A signature; cascade often hurts coverage. & Use $C_0$; if cascade is required, $C_{1c}^{\rm concat}$ recovers most coverage at +5--22 hallucination cost. \\
 \bottomrule
 \end{tabular}
 \end{table}

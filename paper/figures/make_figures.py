@@ -296,9 +296,71 @@ def fig4_failure_modes():
     print("[fig4] saved")
 
 
+def fig5_cost_pareto():
+    """Cost-Pareto: per-cell API call count vs cascade coverage gain.
+    Cascade requires N+1 calls for an N-page paper (N OCR + 1 Pass-2);
+    end-to-end requires 1 call. The chunked variant requires N+K+1 calls
+    (N OCR + K sub-summary + 1 merge). The figure shows that the
+    coverage gain is bought with a roughly N-fold call-count multiplier.
+    """
+    fig, ax = plt.subplots(figsize=(4.6, 3.2))
+    audio_pts, paper_pts = [], []
+    for c in DATA["cells"]:
+        s = c["scores"]
+        if "C0" not in s or "C1" not in s:
+            continue
+        c0_cov = s["C0"]["probe_coverage"]
+        c1_cov = s["C1"]["probe_coverage"]
+        d_cov = c1_cov - c0_cov
+        # Estimated C1 / C0 API-call count ratio.
+        # Audio: ASR is 1 call per 30-min chunk; review is 1 call.
+        # Paper: OCR is 1 call per page; review is 1 call.
+        if c.get("modality") == "audio":
+            src = c.get("source_words") or 1
+            # 30-min chunk ≈ 4500 words at conversational speech rate
+            n_chunks = max(1, round(src / 4500))
+            c0_calls = 1
+            c1_calls = n_chunks + 1
+            audio_pts.append((c1_calls / c0_calls, d_cov, c["cell"], n_chunks))
+        else:
+            n_pages = c.get("page_count") or 1
+            c0_calls = 1
+            c1_calls = n_pages + 1
+            paper_pts.append((c1_calls / c0_calls, d_cov, c["cell"], n_pages))
+
+    audio_x = [p[0] for p in audio_pts]
+    audio_y = [p[1] for p in audio_pts]
+    paper_x = [p[0] for p in paper_pts]
+    paper_y = [p[1] for p in paper_pts]
+
+    ax.scatter(audio_x, audio_y, s=40, color=C_GEMINI, marker="o",
+               edgecolor="black", linewidth=0.4, label=f"audio (n={len(audio_pts)})", zorder=3)
+    ax.scatter(paper_x, paper_y, s=40, color=C_CLAUDE, marker="s",
+               edgecolor="black", linewidth=0.4, label=f"paper (n={len(paper_pts)})", zorder=3)
+
+    # Annotate outlier high-cost cells
+    for pts in (paper_pts, audio_pts):
+        for x, y, name, n in pts:
+            if x >= 50 or abs(y) >= 0.30:
+                ax.text(x * 1.06, y, name, fontsize=6.0, va="center")
+
+    ax.axhline(0, color="#888888", linewidth=0.5, linestyle="--")
+    ax.set_xscale("log")
+    ax.set_xlabel(r"$C_1$ / $C_0$ API call-count ratio (log)")
+    ax.set_ylabel(r"$\Delta_{\rm cov} = C_1 - C_0$")
+    ax.set_title("Coverage gain vs.\\ cascade call-count cost (21 Gemini cells)")
+    ax.grid(alpha=0.25, linewidth=0.4, which="both")
+    ax.legend(loc="lower left", frameon=False, fontsize=8)
+
+    fig.savefig(HERE / "fig5_cost_pareto.pdf")
+    plt.close(fig)
+    print("[fig5] saved")
+
+
 if __name__ == "__main__":
     fig1_inverse_correlation()
     fig2_cross_vendor_thermal()
     fig3_heatpipes_pareto()
     fig4_failure_modes()
+    fig5_cost_pareto()
     print("All figures generated.")
