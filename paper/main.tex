@@ -228,14 +228,17 @@ The Gemini side of Mode~B is less sharp because Gemini already hallucinates many
 \end{itemize}
 The two modes can compound (Mimo Heat Pipes shows both signatures: a severe $C_0$ compression ceiling consistent with Mode~A, plus a $+5$-hallucination $C_1$ increase consistent with Mode~B; we did not run either intervention on Mimo to isolate the modes experimentally) or operate in isolation (Heat Pipes Gemini is dominantly Mode~A; Heat Pipes Claude is dominantly Mode~B).
 
-\subsection{Engineering fixes are vendor-conditional and do not compound}
+\subsection{Engineering fixes: replication, scope, and Pass-2 stochasticity}
 \label{sec:fixes}
 
-We tested three combinations on Heat Pipes 104pp Claude:
+We tested the two interventions on multiple cells in this revision: citation stripping ($C_1^{\rm strip}$) on \emph{four} Claude cells (Heat~Pipes + the three new Mode-B candidates) and chunked Pass-2 ($C_{1c}$ and $C_{1c}^{\rm concat}$) on \emph{three} Gemini cells (Heat~Pipes + the two new arXiv Mode-A candidates).
+
+\paragraph{Heat Pipes 104pp Claude (original).}
+The original Heat~Pipes Claude cell remains the cleanest demonstration. Strip dominates plain $C_1$ ($20\,h \to 13\,h$, $0.90 \to 0.98$ cov), and combining strip with chunked Pass-2 does not improve over strip alone (Table~\ref{tab:hp_claude_variants}).
 
 \begin{table}[h]
 \centering
-\caption{Cascade variants on Heat Pipes 104pp Claude. The Pareto frontier is $\{C_0, C_1^{\rm strip}\}$: $C_0$ achieves the lowest hallucination count (4), and $C_1^{\rm strip}$ is the only cascade variant with both the best cascade-faithfulness (13) and best coverage (0.980). Combining strip with chunked Pass-2 does not improve over strip alone on this cell.}
+\caption{Heat Pipes 104pp Claude (original). Strip dominates plain $C_1$ on both axes; chunked combinations do not improve over strip alone.}
 \label{tab:hp_claude_variants}
 \small
 \begin{tabular}{lrrr}
@@ -253,9 +256,49 @@ $C_{1c}^{\rm strip+concat}$ (strip + chunked, no merge) & 16 & 0.980 & 2{,}766 \
 \end{tabular}
 \end{table}
 
-On the single Claude/Heat-Pipes cell where we tested all combinations, the two fixes do not compound: strip alone (13 halluc) dominates strip+chunked combinations (16--18 halluc) at equal coverage (0.98). We hypothesize that sub-summarization re-introduces citation surface forms from training data even when the input transcript was stripped, undoing the input-strip benefit. Re-stripping after sub-summarization should recover additivity but we did not test that. We caution against generalizing the non-additivity to other cells or vendors without replication.
+\paragraph{Mode-B fix replication on 3 new long Claude cells.}
+The citation-stripping intervention has \emph{mixed} replication on the new Mode-B candidates (Table~\ref{tab:mode_b_strip_replication}). On SP-5100 (193 surface forms replaced), strip cuts hallucinations roughly in half ($47\to 24$) at a moderate coverage cost ($0.81\to 0.71$); this is the cleanest replication of the Heat~Pipes pattern. On Megagauss (298 surface forms replaced), strip has essentially no effect on either axis ($17\to 19$, $0.92\to 0.94$, both within noise) --- a clean null despite the highest strip count we have. On Fairness~AI (only 1 surface form replaced, because the arXiv paper uses author-year and short bracketed citations that our two regexes do not match), the ``stripped'' Pass-2 happened to produce a substantially different review than the original $C_1$ ($23\to 41$ hallucinations, $0.70\to 0.62$ cov), revealing that Claude's text-only Pass-2 is itself non-deterministic --- our \texttt{call\_claude\_text\_only} wrapper did not pin temperature, so this delta is mostly Pass-2 stochasticity rather than a strip effect.
+
+\begin{table}[h]
+\centering
+\caption{Mode~B citation-strip intervention across four long Claude cells. ``surface forms'' counts the regex hits replaced with \texttt{[REF]}; Heat~Pipes (recall) and SP-5100 are the only cells where the intervention reduces $C_1$ hallucinations more than expected from Pass-2 noise. Fairness~AI is a near-null intervention (only 1 surface form matched our regexes) but its $C_1$ vs $C_1^{\rm strip}$ delta reveals significant Claude Pass-2 stochasticity (see text).}
+\label{tab:mode_b_strip_replication}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Cell & len & surface forms & $C_1$ h & $C_1$ cov & $C_1^{\rm strip}$ h & $C_1^{\rm strip}$ cov \\
+\midrule
+Heat~Pipes (recall)        & 104p & 55 & 20 & 0.900 & \textbf{13} & \textbf{0.980} \\
+SP-5100 (new)              & 176p & 193 & 47 & 0.812 & \textbf{24} & 0.708 \\
+arXiv Megagauss (new)      &  75p & 298 & 17 & 0.920 & 19 & 0.940 \\
+arXiv Fairness~AI (new)    &  53p & 1  & 23 & 0.700 & 41 & 0.620 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Mode-A fix replication on 2 new arXiv cells.}
+Chunked Pass-2 was tested on Heat~Pipes Gemini (Table~\ref{tab:hp_claude_variants}; the Claude rows there are mirrored on Gemini in Figure~\ref{fig:failure_modes}) and the two arXiv counter-cells. The pattern is consistent: $C_{1c}^{\rm concat}$ (chunked, no merge) recovers coverage on long sources at a hallucination cost, while $C_{1c}$ (chunked + merge) over-compresses (Table~\ref{tab:mode_a_chunked_replication}). On Perovskite, $C_{1c}^{\rm concat}$ moves coverage from plain $C_1$'s $0.74$ to $0.82$ ($+8$~pp) at a $+10$-hallucination cost; on Fairness~AI it moves coverage from $0.40$ to $0.52$ ($+12$~pp) at a $+22$-hallucination cost. Both arXiv cells confirm the Mode-A pattern: chunking sub-summaries without an aggressive merge step lifts coverage on a long source, and the cost is more hallucinations from the same surface-form / training-prior pathway as Mode~B.
+
+\begin{table}[h]
+\centering
+\caption{Mode~A chunked-Pass-2 across three Gemini long-paper cells. $C_{1c}^{\rm concat}$ (chunked, no merge) is the variant that consistently lifts coverage; $C_{1c}$ (chunked + merge) over-compresses on long arXiv inputs.}
+\label{tab:mode_a_chunked_replication}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Cell & len & $C_1$ h/cov & $C_{1c}$ h/cov & $C_{1c}^{\rm concat}$ h/cov & $\Delta_{\rm cov}^{\rm concat}$ \\
+\midrule
+Heat~Pipes (recall)    & 104p & 11 / 0.78 & 4 / 0.58 & 16 / 0.94 & $+0.16$ \\
+arXiv Perovskite (new) &  80p & 3  / 0.74 & 1 / 0.10 & 13 / 0.82 & $+0.08$ \\
+arXiv Fairness~AI (new)&  53p & 15 / 0.40 & 5 / 0.32 & 37 / 0.52 & $+0.12$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \paragraph{Citation stripping has vendor-conditional sign.} Applied to Gemini Natural Vibration 42pp (the original counter-cell) the same intervention moves halluc 5$\to$12 (worse) but coverage 0.49$\to$0.81 ($+32$ pp). Same intervention, opposite hallucination direction. We interpret citation stripping not as a universal Mode~B fix but as a context perturbation whose effect depends on the model's relationship to citation surface forms: Claude treats them as triggers for prior-knowledge expansion (stripping reduces hallucinations); Gemini treats them as anchors that constrain output structure (stripping de-anchors and the model writes a longer, more aggressive summary).
+
+\paragraph{Pass-2 stochasticity caveat.}
+The Fairness~AI strip result above (where the input transcript was changed at exactly one location and the Pass-2 output diverged from $23$ to $41$ hallucinations) is itself a finding: Claude's text-only Pass-2 in our \texttt{call\_claude\_text\_only} wrapper did not pin temperature, so $C_1^{\rm strip}$ vs.\ $C_1$ deltas on Claude include genuine Pass-2 stochasticity. The Heat~Pipes ``strip helps Claude'' finding therefore has a single-run-of-strip-vs-single-run-of-plain caveat we did not run multi-seed averaging on. By contrast, all Gemini text-only Pass-2 calls use temperature $0.0$ and are deterministic. A clean redo would pin Claude to temperature $0.0$ and average over $\geq 3$ seeds; we did not do this in this revision and flag it as the most actionable methodological follow-up to the strip results.
 
 \subsection{Held-out predictor (logistic regression, LOOCV)}
 \label{sec:predictor}

@@ -65,6 +65,7 @@ def call_claude_with_images(prompt: str, image_paths: list[str], model: str, max
     resp = client.messages.create(
         model=model,
         max_tokens=max_tokens,
+        temperature=0.0,  # pin for reproducibility
         messages=[{"role": "user", "content": content}],
         extra_headers=extra_headers,
     )
@@ -79,6 +80,7 @@ def call_claude_text_only(prompt: str, model: str, max_tokens: int = 8_000):
     resp = client.messages.create(
         model=model,
         max_tokens=max_tokens,
+        temperature=0.0,  # pin for reproducibility; previously unset (Anthropic default ≈ 1.0)
         messages=[{"role": "user", "content": [{"type": "text", "text": prompt}]}],
     )
     ms = int((time.time() - t0) * 1000)

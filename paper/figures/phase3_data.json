@@ -973,6 +973,15 @@
           "halluc_score": 0,
           "probe_coverage": 0.22916666666666666,
           "final_score": 0.0
+        },
+        "C1_stripped_claude": {
+          "condition": "C1_stripped_claude",
+          "n_unsupported": 24,
+          "n_probes": 48,
+          "n_covered": 34,
+          "halluc_score": 0,
+          "probe_coverage": 0.7083333333333334,
+          "final_score": 0.0
         }
       },
       "review_C0_word_count": 2083,
@@ -982,6 +991,7 @@
       "transcript_C1_pass1_claude_word_count": 44829,
       "review_C1_mimo_word_count": 1742,
       "transcript_C1_pass1_mimo_word_count": 43215,
+      "review_C1_stripped_claude_word_count": 2982,
       "C0_words": 2083,
       "C1_words": 2260,
       "C1_pass1_words": 45512
@@ -1038,6 +1048,33 @@
           "halluc_score": 0,
           "probe_coverage": 0.7,
           "final_score": 0.0
+        },
+        "C1_stripped_claude": {
+          "condition": "C1_stripped_claude",
+          "n_unsupported": 41,
+          "n_probes": 50,
+          "n_covered": 31,
+          "halluc_score": 0,
+          "probe_coverage": 0.62,
+          "final_score": 0.0
+        },
+        "C1c": {
+          "condition": "C1c",
+          "n_unsupported": 5,
+          "n_probes": 50,
+          "n_covered": 16,
+          "halluc_score": 0,
+          "probe_coverage": 0.32,
+          "final_score": 0.0
+        },
+        "C1c_concat": {
+          "condition": "C1c_concat",
+          "n_unsupported": 37,
+          "n_probes": 50,
+          "n_covered": 26,
+          "halluc_score": 0,
+          "probe_coverage": 0.52,
+          "final_score": 0.0
         }
       },
       "review_C0_word_count": 1895,
@@ -1048,6 +1085,9 @@
       "transcript_C1_pass1_mimo_word_count": 27459,
       "review_C1_claude_word_count": 2496,
       "transcript_C1_pass1_claude_word_count": 31020,
+      "review_C1_stripped_claude_word_count": 2459,
+      "review_C1c_word_count": 833,
+      "review_C1c_concat_word_count": 2560,
       "C0_words": 1895,
       "C1_words": 1401,
       "C1_pass1_words": 31150
@@ -1095,6 +1135,15 @@
           "halluc_score": 0,
           "probe_coverage": 0.26,
           "final_score": 0.0
+        },
+        "C1_stripped_claude": {
+          "condition": "C1_stripped_claude",
+          "n_unsupported": 19,
+          "n_probes": 50,
+          "n_covered": 47,
+          "halluc_score": 0,
+          "probe_coverage": 0.94,
+          "final_score": 0.0
         }
       },
       "review_C0_word_count": 2488,
@@ -1104,6 +1153,7 @@
       "transcript_C1_pass1_claude_word_count": 30465,
       "review_C1_mimo_word_count": 1472,
       "transcript_C1_pass1_mimo_word_count": 26726,
+      "review_C1_stripped_claude_word_count": 2960,
       "C0_words": 2488,
       "C1_words": 2104,
       "C1_pass1_words": 32016
@@ -1151,6 +1201,24 @@
           "halluc_score": 0,
           "probe_coverage": 0.9,
           "final_score": 0.0
+        },
+        "C1c": {
+          "condition": "C1c",
+          "n_unsupported": 1,
+          "n_probes": 50,
+          "n_covered": 5,
+          "halluc_score": 0,
+          "probe_coverage": 0.1,
+          "final_score": 0.0
+        },
+        "C1c_concat": {
+          "condition": "C1c_concat",
+          "n_unsupported": 13,
+          "n_probes": 50,
+          "n_covered": 41,
+          "halluc_score": 0,
+          "probe_coverage": 0.82,
+          "final_score": 0.0
         }
       },
       "review_C0_word_count": 2301,
@@ -1160,6 +1228,8 @@
       "transcript_C1_pass1_claude_word_count": 19326,
       "review_C1_mimo_word_count": 4641,
       "transcript_C1_pass1_mimo_word_count": 19242,
+      "review_C1c_word_count": 172,
+      "review_C1c_concat_word_count": 2412,
       "C0_words": 2301,
       "C1_words": 1721,
       "C1_pass1_words": 19537
