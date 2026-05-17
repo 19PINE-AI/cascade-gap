@@ -1,0 +1,60 @@
+{
+  "runs": [
+    {
+      "run_dir": "runs/audio-review-karpathy_sogpt-1777458038",
+      "n_probes_gemini_extracted": 51,
+      "n_probes_claude_extracted": 55,
+      "original_gpt_C0_cov": 0.6274509803921569,
+      "original_gpt_C1_cov": 0.9607843137254902,
+      "original_gpt_delta_cov": 0.33333333333333337,
+      "claudeprobes_gpt_C0_cov": 0.5272727272727272,
+      "claudeprobes_gpt_C1_cov": 0.9272727272727272,
+      "claudeprobes_gpt_delta_cov": 0.4,
+      "claudeprobes_claude_C0_cov": 0.7090909090909091,
+      "claudeprobes_claude_C1_cov": 0.9454545454545454,
+      "claudeprobes_claude_delta_cov": 0.23636363636363633
+    },
+    {
+      "run_dir": "runs/paper-review-19700025120-1777462513",
+      "n_probes_gemini_extracted": 50,
+      "n_probes_claude_extracted": 60,
+      "original_gpt_C0_cov": 0.72,
+      "original_gpt_C1_cov": 0.78,
+      "original_gpt_delta_cov": 0.06000000000000005,
+      "claudeprobes_gpt_C0_cov": 0.65,
+      "claudeprobes_gpt_C1_cov": 0.7,
+      "claudeprobes_gpt_delta_cov": 0.04999999999999993,
+      "claudeprobes_claude_C0_cov": 0.7666666666666667,
+      "claudeprobes_claude_C1_cov": 0.8,
+      "claudeprobes_claude_delta_cov": 0.033333333333333326
+    },
+    {
+      "run_dir": "runs/paper-review-19690013408-1777471789",
+      "n_probes_gemini_extracted": 47,
+      "n_probes_claude_extracted": 50,
+      "original_gpt_C0_cov": 0.6595744680851063,
+      "original_gpt_C1_cov": 0.48936170212765956,
+      "original_gpt_delta_cov": -0.17021276595744678,
+      "claudeprobes_gpt_C0_cov": 0.76,
+      "claudeprobes_gpt_C1_cov": 0.6,
+      "claudeprobes_gpt_delta_cov": -0.16000000000000003,
+      "claudeprobes_claude_C0_cov": 0.88,
+      "claudeprobes_claude_C1_cov": 0.68,
+      "claudeprobes_claude_delta_cov": -0.19999999999999996
+    },
+    {
+      "run_dir": "runs/paper-review-2605.11379-1778859223",
+      "n_probes_gemini_extracted": 50,
+      "n_probes_claude_extracted": 60,
+      "original_gpt_C0_cov": 0.66,
+      "original_gpt_C1_cov": 0.68,
+      "original_gpt_delta_cov": 0.020000000000000018,
+      "claudeprobes_gpt_C0_cov": 0.6,
+      "claudeprobes_gpt_C1_cov": 0.6,
+      "claudeprobes_gpt_delta_cov": 0.0,
+      "claudeprobes_claude_C0_cov": 0.75,
+      "claudeprobes_claude_C1_cov": 0.75,
+      "claudeprobes_claude_delta_cov": 0.0
+    }
+  ]
+}

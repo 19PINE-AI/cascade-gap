@@ -1,0 +1,46 @@
+{
+  "runs": [
+    {
+      "run_dir": "runs/audio-review-mit_6034_winston-1778857365",
+      "n_probes_gemini_extracted": 48,
+      "n_probes_claude_extracted": 50,
+      "original_gpt_C0_cov": 0.7708333333333334,
+      "original_gpt_C1_cov": 0.9791666666666666,
+      "original_gpt_delta_cov": 0.20833333333333326,
+      "claudeprobes_gpt_C0_cov": 0.72,
+      "claudeprobes_gpt_C1_cov": 0.9,
+      "claudeprobes_gpt_delta_cov": 0.18000000000000005,
+      "claudeprobes_claude_C0_cov": 0.84,
+      "claudeprobes_claude_C1_cov": 0.96,
+      "claudeprobes_claude_delta_cov": 0.12
+    },
+    {
+      "run_dir": "runs/paper-review-2605.09852-1778859219",
+      "n_probes_gemini_extracted": 50,
+      "n_probes_claude_extracted": 50,
+      "original_gpt_C0_cov": 0.5,
+      "original_gpt_C1_cov": 0.4,
+      "original_gpt_delta_cov": -0.09999999999999998,
+      "claudeprobes_gpt_C0_cov": 0.46,
+      "claudeprobes_gpt_C1_cov": 0.36,
+      "claudeprobes_gpt_delta_cov": -0.10000000000000003,
+      "claudeprobes_claude_C0_cov": 0.58,
+      "claudeprobes_claude_C1_cov": 0.62,
+      "claudeprobes_claude_delta_cov": 0.040000000000000036
+    },
+    {
+      "run_dir": "runs/paper-review-2605.13991-1778859221",
+      "n_probes_gemini_extracted": 50,
+      "n_probes_claude_extracted": 54,
+      "original_gpt_C0_cov": 0.9,
+      "original_gpt_C1_cov": 0.74,
+      "original_gpt_delta_cov": -0.16000000000000003,
+      "claudeprobes_gpt_C0_cov": 0.9074074074074074,
+      "claudeprobes_gpt_C1_cov": 0.7407407407407407,
+      "claudeprobes_gpt_delta_cov": -0.16666666666666674,
+      "claudeprobes_claude_C0_cov": 0.9259259259259259,
+      "claudeprobes_claude_C1_cov": 0.8148148148148148,
+      "claudeprobes_claude_delta_cov": -0.11111111111111116
+    }
+  ]
+}

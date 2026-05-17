@@ -765,7 +765,18 @@
           "n_covered": 36,
           "halluc_score": 0,
           "probe_coverage": 0.72,
-          "final_score": 0.0
+          "final_score": 0.0,
+          "n_unsupported_median": 16,
+          "n_unsupported_calls": [
+            14,
+            15,
+            18,
+            18
+          ],
+          "n_unsupported_range": [
+            14,
+            18
+          ]
         },
         "C1": {
           "condition": "C1",
@@ -774,7 +785,18 @@
           "n_covered": 39,
           "halluc_score": 0,
           "probe_coverage": 0.78,
-          "final_score": 0.0
+          "final_score": 0.0,
+          "n_unsupported_median": 12,
+          "n_unsupported_calls": [
+            11,
+            12,
+            15,
+            13
+          ],
+          "n_unsupported_range": [
+            11,
+            15
+          ]
         },
         "C1c": {
           "condition": "C1c",
@@ -801,7 +823,17 @@
           "n_covered": 45,
           "halluc_score": 0,
           "probe_coverage": 0.9,
-          "final_score": 0.0
+          "final_score": 0.0,
+          "n_unsupported_median": 3,
+          "n_unsupported_calls": [
+            4,
+            2,
+            3
+          ],
+          "n_unsupported_range": [
+            2,
+            4
+          ]
         },
         "C1_claude": {
           "condition": "C1_claude",
@@ -810,7 +842,17 @@
           "n_covered": 45,
           "halluc_score": 0,
           "probe_coverage": 0.9,
-          "final_score": 0.0
+          "final_score": 0.0,
+          "n_unsupported_median": 20,
+          "n_unsupported_calls": [
+            20,
+            20,
+            21
+          ],
+          "n_unsupported_range": [
+            20,
+            21
+          ]
         },
         "C1_stripped_claude": {
           "condition": "C1_stripped_claude",
@@ -1045,7 +1087,19 @@
           "n_covered": 25,
           "halluc_score": 0,
           "probe_coverage": 0.5208333333333334,
-          "final_score": 0.0
+          "final_score": 0.0,
+          "n_unsupported_median": 47,
+          "n_unsupported_calls": [
+            47,
+            46,
+            47,
+            52,
+            47
+          ],
+          "n_unsupported_range": [
+            46,
+            52
+          ]
         },
         "C1": {
           "condition": "C1",
@@ -1054,7 +1108,19 @@
           "n_covered": 29,
           "halluc_score": 0,
           "probe_coverage": 0.6041666666666666,
-          "final_score": 0.0
+          "final_score": 0.0,
+          "n_unsupported_median": 59,
+          "n_unsupported_calls": [
+            45,
+            59,
+            59,
+            104,
+            31
+          ],
+          "n_unsupported_range": [
+            31,
+            104
+          ]
         },
         "C1_claude": {
           "condition": "C1_claude",
@@ -1063,7 +1129,18 @@
           "n_covered": 39,
           "halluc_score": 0,
           "probe_coverage": 0.8125,
-          "final_score": 0.0
+          "final_score": 0.0,
+          "n_unsupported_median": 85,
+          "n_unsupported_calls": [
+            47,
+            97,
+            85,
+            85
+          ],
+          "n_unsupported_range": [
+            47,
+            97
+          ]
         },
         "C1_mimo": {
           "condition": "C1_mimo",
@@ -1141,7 +1218,18 @@
           "n_covered": 25,
           "halluc_score": 0,
           "probe_coverage": 0.5,
-          "final_score": 0.0
+          "final_score": 0.0,
+          "n_unsupported_median": 14,
+          "n_unsupported_calls": [
+            14,
+            25,
+            14,
+            15
+          ],
+          "n_unsupported_range": [
+            14,
+            25
+          ]
         },
         "C1": {
           "condition": "C1",
@@ -1150,7 +1238,18 @@
           "n_covered": 20,
           "halluc_score": 0,
           "probe_coverage": 0.4,
-          "final_score": 0.0
+          "final_score": 0.0,
+          "n_unsupported_median": 14,
+          "n_unsupported_calls": [
+            15,
+            29,
+            14,
+            11
+          ],
+          "n_unsupported_range": [
+            11,
+            29
+          ]
         },
         "C0_mimo": {
           "condition": "C0_mimo",
@@ -1177,7 +1276,18 @@
           "n_covered": 35,
           "halluc_score": 0,
           "probe_coverage": 0.7,
-          "final_score": 0.0
+          "final_score": 0.0,
+          "n_unsupported_median": 27,
+          "n_unsupported_calls": [
+            23,
+            26,
+            39,
+            29
+          ],
+          "n_unsupported_range": [
+            23,
+            39
+          ]
         },
         "C1_stripped_claude": {
           "condition": "C1_stripped_claude",
@@ -1257,7 +1367,19 @@
           "n_covered": 33,
           "halluc_score": 0,
           "probe_coverage": 0.66,
-          "final_score": 0.0
+          "final_score": 0.0,
+          "n_unsupported_median": 36,
+          "n_unsupported_calls": [
+            36,
+            36,
+            36,
+            36,
+            26
+          ],
+          "n_unsupported_range": [
+            26,
+            36
+          ]
         },
         "C1": {
           "condition": "C1",
@@ -1266,7 +1388,19 @@
           "n_covered": 34,
           "halluc_score": 0,
           "probe_coverage": 0.68,
-          "final_score": 0.0
+          "final_score": 0.0,
+          "n_unsupported_median": 30,
+          "n_unsupported_calls": [
+            32,
+            28,
+            30,
+            29,
+            30
+          ],
+          "n_unsupported_range": [
+            28,
+            32
+          ]
         },
         "C1_claude": {
           "condition": "C1_claude",
@@ -1275,7 +1409,18 @@
           "n_covered": 46,
           "halluc_score": 0,
           "probe_coverage": 0.92,
-          "final_score": 0.0
+          "final_score": 0.0,
+          "n_unsupported_median": 15,
+          "n_unsupported_calls": [
+            17,
+            14,
+            16,
+            14
+          ],
+          "n_unsupported_range": [
+            14,
+            17
+          ]
         },
         "C1_mimo": {
           "condition": "C1_mimo",

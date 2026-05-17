@@ -1,0 +1,548 @@
+{
+  "multi_judge": {
+    "rows": [
+      {
+        "cell": "Heat Pipes Gemini C0",
+        "run_dir": "paper-review-19700025120-1777462513",
+        "review": "review_C0.txt",
+        "n_judge_calls": 4,
+        "counts": [
+          14,
+          15,
+          18,
+          18
+        ],
+        "min": 14,
+        "max": 18,
+        "median": 16,
+        "mean": 16.2,
+        "range": 4
+      },
+      {
+        "cell": "Heat Pipes Gemini C1",
+        "run_dir": "paper-review-19700025120-1777462513",
+        "review": "review_C1.txt",
+        "n_judge_calls": 4,
+        "counts": [
+          11,
+          12,
+          15,
+          13
+        ],
+        "min": 11,
+        "max": 15,
+        "median": 12,
+        "mean": 12.8,
+        "range": 4
+      },
+      {
+        "cell": "SP-5100 Gemini C0",
+        "run_dir": "paper-review-19720022550-1778857333",
+        "review": "review_C0.txt",
+        "n_judge_calls": 5,
+        "counts": [
+          47,
+          46,
+          47,
+          52,
+          47
+        ],
+        "min": 46,
+        "max": 52,
+        "median": 47,
+        "mean": 47.8,
+        "range": 6
+      },
+      {
+        "cell": "SP-5100 Gemini C1",
+        "run_dir": "paper-review-19720022550-1778857333",
+        "review": "review_C1.txt",
+        "n_judge_calls": 5,
+        "counts": [
+          45,
+          59,
+          59,
+          104,
+          31
+        ],
+        "min": 31,
+        "max": 104,
+        "median": 59,
+        "mean": 59.6,
+        "range": 73
+      },
+      {
+        "cell": "SP-5100 Claude C1",
+        "run_dir": "paper-review-19720022550-1778857333",
+        "review": "review_C1_claude.txt",
+        "n_judge_calls": 4,
+        "counts": [
+          47,
+          97,
+          85,
+          85
+        ],
+        "min": 47,
+        "max": 97,
+        "median": 85,
+        "mean": 78.5,
+        "range": 50
+      },
+      {
+        "cell": "Megagauss Gemini C0",
+        "run_dir": "paper-review-2605.11379-1778859223",
+        "review": "review_C0.txt",
+        "n_judge_calls": 5,
+        "counts": [
+          36,
+          36,
+          36,
+          36,
+          26
+        ],
+        "min": 26,
+        "max": 36,
+        "median": 36,
+        "mean": 34,
+        "range": 10
+      },
+      {
+        "cell": "Megagauss Gemini C1",
+        "run_dir": "paper-review-2605.11379-1778859223",
+        "review": "review_C1.txt",
+        "n_judge_calls": 5,
+        "counts": [
+          32,
+          28,
+          30,
+          29,
+          30
+        ],
+        "min": 28,
+        "max": 32,
+        "median": 30,
+        "mean": 29.8,
+        "range": 4
+      },
+      {
+        "cell": "Megagauss Claude C1",
+        "run_dir": "paper-review-2605.11379-1778859223",
+        "review": "review_C1_claude.txt",
+        "n_judge_calls": 4,
+        "counts": [
+          17,
+          14,
+          16,
+          14
+        ],
+        "min": 14,
+        "max": 17,
+        "median": 15,
+        "mean": 15.2,
+        "range": 3
+      },
+      {
+        "cell": "Fairness AI Gemini C0",
+        "run_dir": "paper-review-2605.09852-1778859219",
+        "review": "review_C0.txt",
+        "n_judge_calls": 4,
+        "counts": [
+          14,
+          25,
+          14,
+          15
+        ],
+        "min": 14,
+        "max": 25,
+        "median": 14,
+        "mean": 17,
+        "range": 11
+      },
+      {
+        "cell": "Fairness AI Gemini C1",
+        "run_dir": "paper-review-2605.09852-1778859219",
+        "review": "review_C1.txt",
+        "n_judge_calls": 4,
+        "counts": [
+          15,
+          29,
+          14,
+          11
+        ],
+        "min": 11,
+        "max": 29,
+        "median": 14,
+        "mean": 17.2,
+        "range": 18
+      },
+      {
+        "cell": "Fairness AI Claude C1",
+        "run_dir": "paper-review-2605.09852-1778859219",
+        "review": "review_C1_claude.txt",
+        "n_judge_calls": 4,
+        "counts": [
+          23,
+          26,
+          39,
+          29
+        ],
+        "min": 23,
+        "max": 39,
+        "median": 27,
+        "mean": 29.2,
+        "range": 16
+      },
+      {
+        "cell": "Heat Pipes Claude C0",
+        "run_dir": "paper-review-19700025120-1777462513",
+        "review": "review_C0_claude.txt",
+        "n_judge_calls": 3,
+        "counts": [
+          4,
+          2,
+          3
+        ],
+        "min": 2,
+        "max": 4,
+        "median": 3,
+        "mean": 3,
+        "range": 2
+      },
+      {
+        "cell": "Heat Pipes Claude C1",
+        "run_dir": "paper-review-19700025120-1777462513",
+        "review": "review_C1_claude.txt",
+        "n_judge_calls": 3,
+        "counts": [
+          20,
+          20,
+          21
+        ],
+        "min": 20,
+        "max": 21,
+        "median": 20,
+        "mean": 20.3,
+        "range": 1
+      }
+    ]
+  },
+  "multi_seed": {
+    "rows": [
+      {
+        "cell": "MIT 6.034 Winston",
+        "run_dir": "audio-review-mit_6034_winston-1778857365",
+        "n_seeds": 5,
+        "seeds": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "halluc_seeds": [
+          7,
+          10,
+          7,
+          6,
+          7
+        ],
+        "cov_seeds": [
+          1.0,
+          0.9583,
+          0.9583,
+          1.0,
+          0.9375
+        ],
+        "halluc_mean": 7.4,
+        "halluc_stdev": 1.52,
+        "halluc_range": [
+          6,
+          10
+        ],
+        "cov_mean": 0.9708,
+        "cov_stdev": 0.028,
+        "cov_range": [
+          0.9375,
+          1.0
+        ],
+        "baseline_C1_halluc": 4,
+        "baseline_C1_cov": 0.9791666666666666
+      },
+      {
+        "cell": "Sapolsky Behavioral",
+        "run_dir": "audio-review-sapolsky_genetics-1778859184",
+        "n_seeds": 4,
+        "seeds": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "halluc_seeds": [
+          17,
+          15,
+          11,
+          15
+        ],
+        "cov_seeds": [
+          0.8776,
+          0.9184,
+          0.898,
+          0.898
+        ],
+        "halluc_mean": 14.5,
+        "halluc_stdev": 2.52,
+        "halluc_range": [
+          11,
+          17
+        ],
+        "cov_mean": 0.898,
+        "cov_stdev": 0.0167,
+        "cov_range": [
+          0.8776,
+          0.9184
+        ],
+        "baseline_C1_halluc": 15,
+        "baseline_C1_cov": 0.9387755102040817
+      },
+      {
+        "cell": "Heat Pipes Gemini",
+        "run_dir": "paper-review-19700025120-1777462513",
+        "n_seeds": 5,
+        "seeds": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "halluc_seeds": [
+          14,
+          15,
+          19,
+          17,
+          12
+        ],
+        "cov_seeds": [
+          0.72,
+          0.76,
+          0.76,
+          0.64,
+          0.78
+        ],
+        "halluc_mean": 15.4,
+        "halluc_stdev": 2.7,
+        "halluc_range": [
+          12,
+          19
+        ],
+        "cov_mean": 0.732,
+        "cov_stdev": 0.0559,
+        "cov_range": [
+          0.64,
+          0.78
+        ],
+        "baseline_C1_halluc": 11,
+        "baseline_C1_cov": 0.78
+      },
+      {
+        "cell": "arXiv Perovskite",
+        "run_dir": "paper-review-2605.13991-1778859221",
+        "n_seeds": 5,
+        "seeds": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "halluc_seeds": [
+          2,
+          5,
+          5,
+          8,
+          4
+        ],
+        "cov_seeds": [
+          0.84,
+          0.9,
+          0.8,
+          0.78,
+          0.9
+        ],
+        "halluc_mean": 4.8,
+        "halluc_stdev": 2.17,
+        "halluc_range": [
+          2,
+          8
+        ],
+        "cov_mean": 0.844,
+        "cov_stdev": 0.0555,
+        "cov_range": [
+          0.78,
+          0.9
+        ],
+        "baseline_C1_halluc": 3,
+        "baseline_C1_cov": 0.74
+      }
+    ]
+  },
+  "iterative_refinement": {
+    "rows": [
+      {
+        "cell": "Heat Pipes",
+        "vendor": "claude",
+        "run_dir": "paper-review-19700025120-1777462513",
+        "baseline_label": "C1_claude",
+        "baseline": {
+          "n_unsupported": 20,
+          "n_probes": 50,
+          "n_covered": 45,
+          "probe_coverage": 0.9
+        },
+        "iter_label": "C1_iter_claude",
+        "iter_score": {
+          "n_unsupported": 15,
+          "n_probes": 50,
+          "n_covered": 37,
+          "probe_coverage": 0.74
+        },
+        "n_claims_total": 98,
+        "n_claims_supported": 98,
+        "n_claims_rejected": 0
+      },
+      {
+        "cell": "Heat Pipes",
+        "vendor": "gemini",
+        "run_dir": "paper-review-19700025120-1777462513",
+        "baseline_label": "C1",
+        "baseline": {
+          "n_unsupported": 11,
+          "n_probes": 50,
+          "n_covered": 39,
+          "probe_coverage": 0.78
+        },
+        "iter_label": "C1_iter_gemini",
+        "iter_score": {
+          "n_unsupported": 6,
+          "n_probes": 50,
+          "n_covered": 20,
+          "probe_coverage": 0.4
+        },
+        "n_claims_total": 67,
+        "n_claims_supported": 67,
+        "n_claims_rejected": 0
+      },
+      {
+        "cell": "Natural Vibration",
+        "vendor": "gemini",
+        "run_dir": "paper-review-19690013408-1777471789",
+        "baseline_label": "C1",
+        "baseline": {
+          "n_unsupported": 5,
+          "n_probes": 47,
+          "n_covered": 23,
+          "probe_coverage": 0.48936170212765956
+        },
+        "iter_label": "C1_iter_gemini",
+        "iter_score": {
+          "n_unsupported": 0,
+          "n_probes": 47,
+          "n_covered": 26,
+          "probe_coverage": 0.5531914893617021
+        },
+        "n_claims_total": 93,
+        "n_claims_supported": 93,
+        "n_claims_rejected": 0
+      },
+      {
+        "cell": "arXiv Fairness AI",
+        "vendor": "gemini",
+        "run_dir": "paper-review-2605.09852-1778859219",
+        "baseline_label": "C1",
+        "baseline": {
+          "n_unsupported": 15,
+          "n_probes": 50,
+          "n_covered": 20,
+          "probe_coverage": 0.4
+        },
+        "iter_label": "C1_iter_gemini",
+        "iter_score": {
+          "n_unsupported": 18,
+          "n_probes": 50,
+          "n_covered": 15,
+          "probe_coverage": 0.3
+        },
+        "n_claims_total": 75,
+        "n_claims_supported": 75,
+        "n_claims_rejected": 0
+      },
+      {
+        "cell": "arXiv Fairness AI",
+        "vendor": "claude",
+        "run_dir": "paper-review-2605.09852-1778859219",
+        "baseline_label": "C1_claude",
+        "baseline": {
+          "n_unsupported": 23,
+          "n_probes": 50,
+          "n_covered": 35,
+          "probe_coverage": 0.7
+        },
+        "iter_label": "C1_iter_claude",
+        "iter_score": {
+          "n_unsupported": 23,
+          "n_probes": 50,
+          "n_covered": 17,
+          "probe_coverage": 0.34
+        },
+        "n_claims_total": 126,
+        "n_claims_supported": 126,
+        "n_claims_rejected": 0
+      },
+      {
+        "cell": "SP-5100",
+        "vendor": "claude",
+        "run_dir": "paper-review-19720022550-1778857333",
+        "baseline_label": "C1_claude",
+        "baseline": {
+          "n_unsupported": 47,
+          "n_probes": 48,
+          "n_covered": 39,
+          "probe_coverage": 0.8125
+        },
+        "iter_label": "C1_iter_claude",
+        "iter_score": {
+          "n_unsupported": 56,
+          "n_probes": 48,
+          "n_covered": 28,
+          "probe_coverage": 0.5833333333333334
+        },
+        "n_claims_total": 138,
+        "n_claims_supported": 138,
+        "n_claims_rejected": 0
+      },
+      {
+        "cell": "arXiv Megagauss",
+        "vendor": "claude",
+        "run_dir": "paper-review-2605.11379-1778859223",
+        "baseline_label": "C1_claude",
+        "baseline": {
+          "n_unsupported": 17,
+          "n_probes": 50,
+          "n_covered": 46,
+          "probe_coverage": 0.92
+        },
+        "iter_label": "C1_iter_claude",
+        "iter_score": {
+          "n_unsupported": 30,
+          "n_probes": 50,
+          "n_covered": 35,
+          "probe_coverage": 0.7
+        },
+        "n_claims_total": 139,
+        "n_claims_supported": 139,
+        "n_claims_rejected": 0
+      }
+    ]
+  }
+}

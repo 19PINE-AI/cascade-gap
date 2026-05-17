@@ -5,14 +5,16 @@ Outputs:
   - Bootstrap 95% CIs for the mean Δ_cov across cells (with and without
     meeting-minutes cells; sign test against zero).
   - Bootstrap 95% CIs for Pearson r between C0 baseline and Δ_cov.
-  - Held-out predictor: logistic regression on (baseline_cov, log10(source_words))
-    predicting sign(Δ_cov > 0); LOOCV AUC.
+  - Held-out predictor: logistic regression on cell features (now including
+    citation-surface-form density per 1k transcript words) predicting
+    sign(Δ_cov > 0); LOOCV AUC.
 """
 from __future__ import annotations
 
 import json
 import math
 import pathlib
+import re
 import sys
 
 import numpy as np
@@ -21,7 +23,30 @@ from sklearn.metrics import roc_auc_score
 
 
 HERE = pathlib.Path(__file__).resolve().parent
-DATA = json.loads((HERE.parent / "paper/figures/phase3_data.json").read_text())
+REPO = HERE.parent
+DATA = json.loads((REPO / "paper/figures/phase3_data.json").read_text())
+
+
+# Citation-surface-form regexes (mirror citation_strip.py)
+_CITE_RE = [
+    re.compile(r"\[\s*\d+(?:\s*[-–,]\s*\d+)*\s*\]"),
+    re.compile(r"\b(?:references?|refs?\.?)\s+\d+(?:\s*(?:[-–,]|\band\b)\s*\d+)*",
+               re.IGNORECASE),
+]
+
+
+def citation_density_per_1k(run_dir: pathlib.Path) -> float:
+    """Count citation surface forms per 1k words in transcript_C1_pass1.txt.
+    Returns 0.0 if the transcript is missing (e.g., audio cells where C1 Pass-1
+    is an ASR transcript with no formal citations).
+    """
+    t = run_dir / "transcript_C1_pass1.txt"
+    if not t.exists():
+        return 0.0
+    text = t.read_text()
+    n_words = max(1, len(text.split()))
+    n_cites = sum(len(p.findall(text)) for p in _CITE_RE)
+    return n_cites * 1000.0 / n_words
 
 
 # ----------------------------------------------------------------------
@@ -197,6 +222,7 @@ def held_out_predictor():
       - log10 source_words
       - baseline_halluc (C0 unsupported claims)
       - modality dummy (1=paper, 0=audio)
+      - citation surface forms per 1k transcript words (Mode-B trigger)
     """
     print("\n=== Held-out predictor (logistic regression, LOOCV) ===")
     X = []
@@ -213,7 +239,9 @@ def held_out_predictor():
         h1 = s["C1"]["n_unsupported"]
         sw = c.get("source_words") or 1
         modality_p = 1 if c.get("modality") == "paper" else 0
-        X.append([c0, math.log10(sw), h0, modality_p])
+        run_dir = REPO / c.get("run_dir", "")
+        cite_density = citation_density_per_1k(run_dir) if run_dir.exists() else 0.0
+        X.append([c0, math.log10(sw), h0, modality_p, cite_density])
         y_pos.append(1 if (c1 - c0) > 0 else 0)
         # Strict cascade win: improves on at least one axis outside noise floor, and not worse on the other.
         d_cov = c1 - c0
@@ -227,7 +255,7 @@ def held_out_predictor():
         names.append(c["cell"])
 
     X = np.array(X)
-    feat_names = ["C0_cov", "log10_words", "C0_halluc", "is_paper"]
+    feat_names = ["C0_cov", "log10_words", "C0_halluc", "is_paper", "cite_density_per1k"]
     n = len(X)
 
     for task_label, y in [("sign(Δ_cov > 0)", np.array(y_pos)),
@@ -267,7 +295,33 @@ def held_out_predictor():
         for nm, xi, yi, pi in zip(names, X, y, preds):
             if yi == 0:
                 tag = "MISS" if pi > thresh else "HIT"
-                print(f"    [{tag}] {nm[:22]:<22}  C0={xi[0]:.3f}  log10_sw={xi[1]:.3f}  h0={int(xi[2])}  paper={int(xi[3])}  pred={pi:.3f}")
+                print(
+                    f"    [{tag}] {nm[:22]:<22}  C0={xi[0]:.3f}  "
+                    f"log10_sw={xi[1]:.3f}  h0={int(xi[2])}  paper={int(xi[3])}  "
+                    f"cite/1k={xi[4]:.2f}  pred={pi:.3f}"
+                )
+
+    # Also report a no-cite-density baseline so we can show what the new feature buys.
+    print("\n=== Predictor ablation: 4-feature baseline (no cite density) ===")
+    X4 = X[:, :4]
+    for task_label, y in [("sign(Δ_cov > 0)", np.array(y_pos)),
+                          ("strict cascade win", np.array(y_strict))]:
+        if y.sum() in (0, n):
+            continue
+        preds = np.zeros(n, dtype=float)
+        for i in range(n):
+            mask = np.ones(n, dtype=bool); mask[i] = False
+            if y[mask].sum() in (0, mask.sum()):
+                preds[i] = float(y.mean()); continue
+            lr = LogisticRegression(max_iter=2000, solver="lbfgs")
+            lr.fit(X4[mask], y[mask])
+            preds[i] = lr.predict_proba(X4[i:i + 1])[0, 1]
+        try:
+            auc4 = roc_auc_score(y, preds)
+        except Exception:
+            auc4 = float("nan")
+        acc4 = ((preds > 0.5).astype(int) == y).mean()
+        print(f"  {task_label}:  LOOCV AUC = {auc4:.3f}  accuracy = {acc4:.3f}")
 
 
 def main():

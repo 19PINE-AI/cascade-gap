@@ -357,10 +357,393 @@ def fig5_cost_pareto():
     print("[fig5] saved")
 
 
+# ============================================================
+# Figure 0: Protocol schematic — C0 vs C1 boxes-and-arrows diagram.
+# ============================================================
+def fig0_protocol_schematic():
+    # Single wide axis with two side-by-side diagrams.
+    fig, ax = plt.subplots(figsize=(7.0, 2.6))
+    ax.set_xlim(0, 22)
+    ax.set_ylim(0, 7.5)
+    ax.axis("off")
+
+    def box(x, y, w, h, fc, ec, text, fontsize=8, textcolor="black"):
+        ax.add_patch(plt.Rectangle((x, y), w, h, fc=fc, ec=ec, lw=1.2))
+        ax.text(x + w/2, y + h/2, text, ha="center", va="center",
+                fontsize=fontsize, color=textcolor)
+
+    # ---- LEFT: C0 end-to-end ----
+    ax.text(5.0, 7.0, r"$C_0$: end-to-end", ha="center", fontsize=10, fontweight="bold")
+    box(0.3, 3.0, 2.4, 1.8, "#eef4fa", C_GEMINI, "audio /\npaper imgs", fontsize=8)
+    box(3.7, 2.7, 2.8, 2.4, C_GEMINI, "black", "model\n(multimodal)", fontsize=8, textcolor="white")
+    box(7.5, 3.0, 2.4, 1.8, "#fff4f4", C_CLAUDE, "review\narticle", fontsize=8)
+    ax.annotate("", xy=(3.6, 3.9), xytext=(2.75, 3.9),
+                arrowprops=dict(arrowstyle="->", color="black", lw=1.1))
+    ax.annotate("", xy=(7.45, 3.9), xytext=(6.55, 3.9),
+                arrowprops=dict(arrowstyle="->", color="black", lw=1.1))
+    ax.text(5.0, 1.8, "1 call", ha="center", fontsize=8, color="#444444", style="italic")
+
+    # Divider
+    ax.plot([10.7, 10.7], [0.3, 6.7], color="#dddddd", linewidth=1.0)
+
+    # ---- RIGHT: C1 cascade ----
+    ax.text(16.5, 7.0, r"$C_1$: same-weights cascade (Pass-1 $\to$ Pass-2)",
+            ha="center", fontsize=10, fontweight="bold")
+    # Source on the left
+    box(11.2, 3.0, 2.4, 1.8, "#eef4fa", C_GEMINI, "audio /\npaper imgs", fontsize=8)
+    # Pass-1 model (top)
+    box(14.7, 4.6, 2.6, 1.6, C_GEMINI, "black", "model Pass-1\n(ASR / OCR)", fontsize=7.5, textcolor="white")
+    # Transcript box (middle, between top and bottom)
+    box(18.4, 3.0, 2.0, 1.8, "#fffbee", "#cc8800", "text\ntranscript", fontsize=8)
+    # Pass-2 model (bottom)
+    box(14.7, 1.4, 2.6, 1.6, C_GEMINI, "black", "model Pass-2\n(text-only)", fontsize=7.5, textcolor="white")
+    # Review (far right, below transcript)
+    box(11.2, 0.5, 2.4, 1.8, "#fff4f4", C_CLAUDE, "review\narticle", fontsize=8)
+
+    # Arrows
+    # source -> Pass-1
+    ax.annotate("", xy=(14.65, 5.4), xytext=(13.65, 4.5),
+                arrowprops=dict(arrowstyle="->", color="black", lw=1.0))
+    # Pass-1 -> transcript
+    ax.annotate("", xy=(18.35, 4.0), xytext=(17.35, 5.0),
+                arrowprops=dict(arrowstyle="->", color="black", lw=1.0))
+    # transcript -> Pass-2
+    ax.annotate("", xy=(17.35, 2.5), xytext=(18.35, 3.5),
+                arrowprops=dict(arrowstyle="->", color="black", lw=1.0))
+    # Pass-2 -> review
+    ax.annotate("", xy=(13.65, 1.4), xytext=(14.65, 1.9),
+                arrowprops=dict(arrowstyle="->", color="black", lw=1.0))
+    # Cost label
+    ax.text(16.5, 0.0, "$N+1$ calls  (page-chunked OCR / 30-min ASR chunks + 1 text Pass-2)",
+            ha="center", fontsize=7.5, color="#444444", style="italic")
+
+    fig.savefig(HERE / "fig0_protocol_schematic.pdf")
+    plt.close(fig)
+    print("[fig0] saved")
+
+
+# ============================================================
+# Figure 6: Multi-seed (n=5) envelopes for the 4 verification cells.
+# Strip on NV (Gemini) + chunked-concat on 3 arXiv cells.
+# ============================================================
+def fig6_multiseed_envelopes():
+    # Cell sources
+    sources = [
+        ("Natural Vibration / strip",
+         "runs/paper-review-19690013408-1777471789/multi_seed_C1_stripped_ms.json",
+         12, 0.809, 5, 0.489),   # orig_n1_h, orig_n1_cov, c1_base_h, c1_base_cov
+        ("Fairness AI / chunked-concat",
+         "runs/paper-review-2605.09852-1778859219/multi_seed_C1c_concat_ms.json",
+         37, 0.520, 15, 0.400),
+        ("Megagauss / chunked-concat",
+         "runs/paper-review-2605.11379-1778859223/multi_seed_C1c_concat_ms.json",
+         36, 0.740, 32, 0.680),
+        ("Perovskite / chunked-concat",
+         "runs/paper-review-2605.13991-1778859221/multi_seed_C1c_concat_ms.json",
+         13, 0.820, 3, 0.740),
+    ]
+
+    fig, axes = plt.subplots(1, 4, figsize=(7.5, 2.2), sharey=False)
+    for ax, (label, path, orig_h, orig_cov, c1h, c1c) in zip(axes, sources):
+        runs = json.loads((HERE.parent.parent / path).read_text())["runs"]
+        seeds = sorted(runs, key=lambda r: r["seed"])
+        hs = [r["n_unsupported"] for r in seeds]
+        cs = [r["probe_coverage"] for r in seeds]
+        x_jitter = np.arange(1, 6) * 0.0  # not used; we plot in 2D (cov, halluc)
+
+        # Twin-axis style: instead show as 2D (cov on x, halluc on y, inverted)
+        ax.scatter(cs, hs, s=42, color=C_GEMINI, marker="o",
+                   edgecolor="black", linewidth=0.4, zorder=3, label="n=5 seeds")
+        # mean cross
+        mc, mh = float(np.mean(cs)), float(np.mean(hs))
+        ax.scatter([mc], [mh], s=120, marker="x", color="black",
+                   linewidth=1.4, zorder=4, label="n=5 mean")
+        # original n=1 marker
+        ax.scatter([orig_cov], [orig_h], s=70, color=C_CLAUDE, marker="*",
+                   edgecolor="black", linewidth=0.4, zorder=4, label=r"orig $n{=}1$ (T=0)")
+        # baseline C1 marker
+        ax.scatter([c1c], [c1h], s=50, color="white", marker="o",
+                   edgecolor="#555555", linewidth=0.8, zorder=2, label=r"baseline $C_1$")
+
+        ax.set_xlabel("cov  (→)", fontsize=8)
+        ax.set_ylabel("halluc  (↓)", fontsize=8)
+        ax.invert_yaxis()
+        # Tight axis to include all points with margin
+        all_h = hs + [orig_h, c1h]
+        all_c = cs + [orig_cov, c1c]
+        ax.set_xlim(min(all_c) - 0.05, max(all_c) + 0.05)
+        ax.set_ylim(max(all_h) + 3, min(all_h) - 3)
+        ax.set_title(label, fontsize=8)
+        ax.grid(alpha=0.25, linewidth=0.4)
+
+    # Single shared legend
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="upper center", bbox_to_anchor=(0.5, 1.07),
+               ncol=4, frameon=False, fontsize=8)
+
+    fig.tight_layout()
+    fig.savefig(HERE / "fig6_multiseed_envelopes.pdf")
+    plt.close(fig)
+    print("[fig6] saved")
+
+
+# ============================================================
+# Figure 7: Three sources of stochasticity (Claude Pass-2, Gemini Pass-2,
+# GPT-5.4 judge variance on the same review file).
+# ============================================================
+def fig7_stochasticity_decomp():
+    # Data from the paper Section 3.5 stochasticity table:
+    # Claude Pass-2 generation variance (different reviews, judged once each)
+    claude_pass2 = {
+        "Heat Pipes $C_1$":  [9, 11, 11, 15, 20],   # n=5 from previous verification
+        "Heat Pipes $C_1^{strip}$": [5, 11, 13, 14, 14],
+    }
+    gemini_pass2 = {
+        # Strip on Natural Vibration n=5 from this revision
+        "NV strip $C_1$": [15, 11, 9, 8, 8],
+    }
+    judge_var = {
+        # Same Claude SP-5100 C1 review, judged 4 times
+        "SP-5100 Claude $C_1$": [47, 85, 85, 97],
+        # Same Gemini SP-5100 C1 review, judged 3 times
+        "SP-5100 Gemini $C_1$": [25, 45, 59],
+        # Same Claude HP C1 review, judged 3 times
+        "HP Claude $C_1$": [20, 20, 21],
+    }
+
+    fig, axes = plt.subplots(1, 3, figsize=(7.5, 2.3))
+
+    def draw_panel(ax, data, color, title, ylabel="hallucinations", show_legend=True):
+        labels = list(data.keys())
+        x = np.arange(len(labels))
+        for xi, name in zip(x, labels):
+            vals = data[name]
+            jitter = (np.arange(len(vals)) - (len(vals)-1)/2) * 0.05
+            ax.scatter(np.full_like(vals, xi, dtype=float) + jitter, vals,
+                       color=color, edgecolor="black", linewidth=0.4, s=42, zorder=3)
+            ax.scatter([xi], [np.mean(vals)], color="black", marker="_", s=300, zorder=4)
+            # Range bar
+            ax.plot([xi, xi], [min(vals), max(vals)], color="#666666", linewidth=0.6, zorder=2)
+        ax.set_xticks(x)
+        ax.set_xticklabels(labels, fontsize=7.5, rotation=20, ha="right")
+        ax.set_ylabel(ylabel, fontsize=8)
+        ax.set_title(title, fontsize=8.5)
+        ax.grid(alpha=0.25, linewidth=0.4, axis="y")
+
+    draw_panel(axes[0], claude_pass2, C_CLAUDE, "Claude Pass-2 (different reviews,\nsame prompt, n=5 seeds)")
+    draw_panel(axes[1], gemini_pass2, C_GEMINI, "Gemini Pass-2 (different seeds,\nT=0.7, n=5)")
+    draw_panel(axes[2], judge_var, C_GPT,
+               "GPT-5.4 judge variance\n(same review re-judged)")
+
+    fig.tight_layout()
+    fig.savefig(HERE / "fig7_stochasticity.pdf")
+    plt.close(fig)
+    print("[fig7] saved")
+
+
+# ============================================================
+# Figure 8: Probe-circularity check (Claude-extracted probes on 3 cells).
+# ============================================================
+def fig8_probe_circularity():
+    summary_path = HERE.parent.parent / "research_log" / "probe_circularity_summary.json"
+    expanded_path = HERE.parent.parent / "research_log" / "probe_circularity_expanded.json"
+    runs = json.loads(summary_path.read_text())["runs"]
+    if expanded_path.exists():
+        runs = runs + json.loads(expanded_path.read_text())["runs"]
+    # Pick the human-readable names + ordering (audio first, then paper by length)
+    rename = {
+        "audio-review-karpathy_sogpt-1777458038":      "Karpathy\n(big win)",
+        "audio-review-mit_6034_winston-1778857365":    "MIT 6.034\n(big win)",
+        "paper-review-19700025120-1777462513":         "Heat Pipes\n(small +)",
+        "paper-review-19690013408-1777471789":         "Nat. Vib.\n(Mode-B)",
+        "paper-review-2605.09852-1778859219":          "Fair. AI\n(Mode-A)",
+        "paper-review-2605.11379-1778859223":          "Megagauss\n(wash)",
+        "paper-review-2605.13991-1778859221":          "Perovskite\n(near-noise)",
+    }
+    order = list(rename.keys())
+    by_key = {r["run_dir"].split("/")[-1]: r for r in runs if r["run_dir"].split("/")[-1] in rename}
+    cells = []
+    for k in order:
+        if k not in by_key:
+            continue
+        r = by_key[k]
+        cells.append({
+            "name": rename[k],
+            "orig": r["original_gpt_delta_cov"],
+            "claude_gpt": r["claudeprobes_gpt_delta_cov"],
+            "claude_claude": r["claudeprobes_claude_delta_cov"],
+        })
+
+    fig, ax = plt.subplots(figsize=(7.5, 2.8))
+    x = np.arange(len(cells))
+    width = 0.28
+    orig = [c["orig"] for c in cells]
+    cg   = [c["claude_gpt"] for c in cells]
+    cc   = [c["claude_claude"] for c in cells]
+
+    b1 = ax.bar(x - width, orig, width, color=C_GEMINI, label="orig (Gemini probes, GPT judge)")
+    b2 = ax.bar(x,         cg,   width, color=C_GPT,    label="Claude probes, GPT judge")
+    b3 = ax.bar(x + width, cc,   width, color=C_CLAUDE, label="Claude probes, Claude judge")
+
+    # Labels above bars
+    for bars in (b1, b2, b3):
+        for rect in bars:
+            v = rect.get_height()
+            y = v + (0.012 if v >= 0 else -0.012)
+            ax.text(rect.get_x() + rect.get_width()/2, y, f"{v:+.2f}",
+                    ha="center", va="bottom" if v >= 0 else "top", fontsize=7)
+
+    ax.axhline(0, color="#888888", linewidth=0.5, linestyle="--")
+    ax.set_xticks(x)
+    ax.set_xticklabels([c["name"] for c in cells], fontsize=7.5)
+    ax.set_ylabel(r"$\Delta_{\rm cov} = C_1 - C_0$")
+    ax.set_title(f"Probe-circularity check across {len(cells)} cells $\\times$ 2 judges (revised)")
+    ax.set_ylim(min(orig + cg + cc) - 0.08, max(orig + cg + cc) + 0.14)
+    ax.legend(loc="upper right", frameon=False, fontsize=7.5)
+    ax.grid(alpha=0.25, linewidth=0.4, axis="y")
+
+    fig.tight_layout()
+    fig.savefig(HERE / "fig8_probe_circularity.pdf")
+    plt.close(fig)
+    print("[fig8] saved")
+
+
+# ============================================================
+# Figure 9: Reference-bias check (Whisper on 3B1B + EasyOCR on Wagging Tail).
+# ============================================================
+def fig9_reference_bias():
+    repo = HERE.parent.parent
+    # All available reference_bias_summary.json files (now 4 cells: 2 audio, 2 paper)
+    paths = [
+        ("3B1B (Whisper)",    repo / "runs/audio-review-3b1b_attention-1778857367/reference_bias_summary.json"),
+        ("Karpathy (Whisper)",repo / "runs/audio-review-karpathy_sogpt-1777458038/reference_bias_summary.json"),
+        ("Wagging Tail\n(EasyOCR)", repo / "runs/paper-review-19720009221-1777458461/reference_bias_summary.json"),
+        ("Thermal Anl.\n(EasyOCR)", repo / "runs/paper-review-19700023812-1777471791/reference_bias_summary.json"),
+    ]
+    fig, axes = plt.subplots(1, 4, figsize=(11.0, 2.8))
+    for ax, (label, p) in zip(axes, paths):
+        d = json.loads(p.read_text())
+        cats = ["orig", "alt-ref\nGPT judge", "alt-ref\nClaude judge"]
+        d_halluc = [d["original"]["delta_halluc"], d["altref_gpt5"]["delta_halluc"], d["altref_claude"]["delta_halluc"]]
+        d_cov = [d["original"]["delta_cov"], d["altref_gpt5"]["delta_cov"], d["altref_claude"]["delta_cov"]]
+
+        x = np.arange(len(cats))
+        width = 0.36
+        bars_h = ax.bar(x - width/2, d_halluc, width, color=C_GEMINI, label=r"$\Delta_{\rm halluc}$")
+        ax2 = ax.twinx()
+        bars_c = ax2.bar(x + width/2, d_cov, width, color=C_CLAUDE, alpha=0.85, label=r"$\Delta_{\rm cov}$")
+
+        # Numeric labels
+        for rect in bars_h:
+            v = rect.get_height()
+            ax.text(rect.get_x() + rect.get_width()/2,
+                    v + (0.4 if v >= 0 else -0.4),
+                    f"{int(v):+d}", ha="center",
+                    va="bottom" if v >= 0 else "top", fontsize=7, color=C_GEMINI)
+        for rect in bars_c:
+            v = rect.get_height()
+            ax2.text(rect.get_x() + rect.get_width()/2,
+                     v + (0.008 if v >= 0 else -0.008),
+                     f"{v:+.2f}", ha="center",
+                     va="bottom" if v >= 0 else "top", fontsize=7, color=C_CLAUDE)
+
+        ax.axhline(0, color="#888888", linewidth=0.5, linestyle="--")
+        ax.set_xticks(x)
+        ax.set_xticklabels(cats, fontsize=7.5)
+        ax.set_ylabel(r"$\Delta_{\rm halluc}$  ($\downarrow$=cascade wins)", fontsize=8, color=C_GEMINI)
+        ax2.set_ylabel(r"$\Delta_{\rm cov}$  ($\uparrow$=cascade wins)", fontsize=8, color=C_CLAUDE)
+        ax.set_title(label, fontsize=9)
+        ax.spines["top"].set_visible(False); ax2.spines["top"].set_visible(False)
+        ax.tick_params(axis="y", labelcolor=C_GEMINI)
+        ax2.tick_params(axis="y", labelcolor=C_CLAUDE)
+        ax.set_ylim(min(d_halluc) - 3, max(d_halluc) + 3)
+        ax2.set_ylim(min(d_cov) - 0.04, max(d_cov) + 0.04)
+
+    fig.subplots_adjust(wspace=0.55)
+    fig.tight_layout()
+    fig.savefig(HERE / "fig9_reference_bias.pdf")
+    plt.close(fig)
+    print("[fig9] saved")
+
+
+# ============================================================
+# Figure 10: Inter-judge scatter (GPT-5.4 vs Claude judge on hallucinations
+# and on probe coverage, both axes simultaneously).
+# ============================================================
+def fig10_inter_judge_scatter():
+    # Pull from inter_judge_summary_new12.json + the original inter_judge_summary.json
+    repo = HERE.parent.parent
+    summaries = []
+    for p in [repo / "research_log/inter_judge_summary.json",
+              repo / "research_log/inter_judge_summary_new12.json"]:
+        if not p.exists():
+            continue
+        d = json.loads(p.read_text())
+        for run in d.get("runs", []):
+            for label, conds in run.get("conditions", {}).items():
+                g_h = conds.get("gpt5_unsupported")
+                c_h = conds.get("claude_unsupported")
+                g_c = conds.get("gpt5_covered")
+                c_c = conds.get("claude_covered")
+                if g_h is None or c_h is None:
+                    continue
+                summaries.append({
+                    "label": label,
+                    "gpt_h": g_h, "claude_h": c_h,
+                    "gpt_c": g_c, "claude_c": c_c,
+                })
+
+    fig, axes = plt.subplots(1, 2, figsize=(6.4, 2.6))
+
+    # ---- Halluc panel ----
+    ax = axes[0]
+    gpt_h  = np.array([s["gpt_h"]    for s in summaries])
+    cla_h  = np.array([s["claude_h"] for s in summaries])
+    mx = max(gpt_h.max(), cla_h.max()) + 5
+    ax.plot([0, mx], [0, mx], color="#888888", linewidth=0.5, linestyle="--",
+            label="judges agree")
+    # Also draw a 0.71x line (Claude/GPT median ratio reported in paper)
+    ax.plot([0, mx], [0, mx * 0.71], color="#888888", linewidth=0.5, linestyle=":",
+            label=r"Claude $\approx 0.71\times$ GPT")
+    ax.scatter(gpt_h, cla_h, s=20, color=C_GEMINI, edgecolor="black", linewidth=0.3, zorder=3)
+    ax.set_xlim(0, mx); ax.set_ylim(0, mx)
+    ax.set_xlabel("GPT-5.4 unsupported claims", fontsize=8)
+    ax.set_ylabel("Claude unsupported claims", fontsize=8)
+    ax.set_title(f"Hallucination counts (n={len(summaries)} cells × conditions)", fontsize=9)
+    ax.legend(loc="lower right", frameon=False, fontsize=7)
+    ax.grid(alpha=0.25, linewidth=0.4)
+
+    # ---- Coverage panel ----
+    ax = axes[1]
+    gpt_c = np.array([s["gpt_c"]    for s in summaries if s["gpt_c"] is not None])
+    cla_c = np.array([s["claude_c"] for s in summaries if s["claude_c"] is not None])
+    mx = max(gpt_c.max(), cla_c.max()) + 3
+    ax.plot([0, mx], [0, mx], color="#888888", linewidth=0.5, linestyle="--",
+            label="judges agree")
+    ax.scatter(gpt_c, cla_c, s=20, color=C_CLAUDE, edgecolor="black", linewidth=0.3, zorder=3)
+    ax.set_xlim(0, mx); ax.set_ylim(0, mx)
+    ax.set_xlabel("GPT-5.4 probes covered", fontsize=8)
+    ax.set_ylabel("Claude probes covered", fontsize=8)
+    ax.set_title("Coverage counts (judges much more aligned)", fontsize=9)
+    ax.legend(loc="lower right", frameon=False, fontsize=7)
+    ax.grid(alpha=0.25, linewidth=0.4)
+
+    fig.tight_layout()
+    fig.savefig(HERE / "fig10_inter_judge_scatter.pdf")
+    plt.close(fig)
+    print("[fig10] saved")
+
+
 if __name__ == "__main__":
+    fig0_protocol_schematic()
     fig1_inverse_correlation()
     fig2_cross_vendor_thermal()
     fig3_heatpipes_pareto()
     fig4_failure_modes()
     fig5_cost_pareto()
+    fig6_multiseed_envelopes()
+    fig7_stochasticity_decomp()
+    fig8_probe_circularity()
+    fig9_reference_bias()
+    fig10_inter_judge_scatter()
     print("All figures generated.")

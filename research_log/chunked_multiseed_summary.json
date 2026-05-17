@@ -1,0 +1,118 @@
+{
+  "rows": [
+    {
+      "cell": "arXiv Fairness AI",
+      "n": 5,
+      "halluc_seeds": [
+        31,
+        30,
+        35,
+        31,
+        31
+      ],
+      "cov_seeds": [
+        0.48,
+        0.58,
+        0.44,
+        0.46,
+        0.52
+      ],
+      "halluc_mean": 31.6,
+      "halluc_stdev": 1.9493588689617927,
+      "cov_mean": 0.496,
+      "cov_stdev": 0.055497747702046414,
+      "cov_range": [
+        0.44,
+        0.58
+      ],
+      "halluc_range": [
+        30,
+        35
+      ],
+      "baseline_C1_halluc": 15,
+      "baseline_C1_cov": 0.4,
+      "orig_n1_halluc": 37,
+      "orig_n1_cov": 0.52,
+      "cov_gain_n5_mean": 0.09599999999999997,
+      "halluc_cost_n5_mean": 16.6,
+      "direction_holds": true,
+      "orig_in_n5_envelope_on_cov": true
+    },
+    {
+      "cell": "arXiv Megagauss",
+      "n": 5,
+      "halluc_seeds": [
+        44,
+        42,
+        44,
+        35,
+        46
+      ],
+      "cov_seeds": [
+        0.64,
+        0.66,
+        0.66,
+        0.68,
+        0.68
+      ],
+      "halluc_mean": 42.2,
+      "halluc_stdev": 4.266145801540309,
+      "cov_mean": 0.664,
+      "cov_stdev": 0.016733200530681527,
+      "cov_range": [
+        0.64,
+        0.68
+      ],
+      "halluc_range": [
+        35,
+        46
+      ],
+      "baseline_C1_halluc": 32,
+      "baseline_C1_cov": 0.68,
+      "orig_n1_halluc": 36,
+      "orig_n1_cov": 0.74,
+      "cov_gain_n5_mean": -0.016000000000000014,
+      "halluc_cost_n5_mean": 10.200000000000003,
+      "direction_holds": false,
+      "orig_in_n5_envelope_on_cov": false
+    },
+    {
+      "cell": "arXiv Perovskite",
+      "n": 5,
+      "halluc_seeds": [
+        14,
+        14,
+        19,
+        19,
+        17
+      ],
+      "cov_seeds": [
+        0.8,
+        0.8,
+        0.84,
+        0.84,
+        0.88
+      ],
+      "halluc_mean": 16.6,
+      "halluc_stdev": 2.5099800796022267,
+      "cov_mean": 0.832,
+      "cov_stdev": 0.033466401061363,
+      "cov_range": [
+        0.8,
+        0.88
+      ],
+      "halluc_range": [
+        14,
+        19
+      ],
+      "baseline_C1_halluc": 3,
+      "baseline_C1_cov": 0.74,
+      "orig_n1_halluc": 13,
+      "orig_n1_cov": 0.82,
+      "cov_gain_n5_mean": 0.09199999999999997,
+      "halluc_cost_n5_mean": 13.600000000000001,
+      "direction_holds": true,
+      "orig_in_n5_envelope_on_cov": true
+    }
+  ]
+}

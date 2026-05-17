@@ -1,0 +1,405 @@
+{
+  "multi_seed_envelopes": [
+    {
+      "cell": "MIT 6.034 Winston",
+      "run_dir": "audio-review-mit_6034_winston-1778857365",
+      "n": 5,
+      "seeds": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "halluc": [
+        7,
+        10,
+        7,
+        6,
+        7
+      ],
+      "cov": [
+        1.0,
+        0.9583,
+        0.9583,
+        1.0,
+        0.9375
+      ],
+      "halluc_mean": 7.4,
+      "halluc_stdev": 1.52,
+      "cov_mean": 0.9708,
+      "cov_stdev": 0.028,
+      "baseline_C1_halluc": 4,
+      "baseline_C1_cov": 0.9791666666666666
+    },
+    {
+      "cell": "Sapolsky Behavioral",
+      "run_dir": "audio-review-sapolsky_genetics-1778859184",
+      "n": 4,
+      "seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "halluc": [
+        17,
+        15,
+        11,
+        15
+      ],
+      "cov": [
+        0.8776,
+        0.9184,
+        0.898,
+        0.898
+      ],
+      "halluc_mean": 14.5,
+      "halluc_stdev": 2.52,
+      "cov_mean": 0.898,
+      "cov_stdev": 0.0167,
+      "baseline_C1_halluc": 15,
+      "baseline_C1_cov": 0.9387755102040817
+    },
+    {
+      "cell": "Heat Pipes Gemini",
+      "run_dir": "paper-review-19700025120-1777462513",
+      "n": 5,
+      "seeds": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "halluc": [
+        14,
+        15,
+        19,
+        17,
+        12
+      ],
+      "cov": [
+        0.72,
+        0.76,
+        0.76,
+        0.64,
+        0.78
+      ],
+      "halluc_mean": 15.4,
+      "halluc_stdev": 2.7,
+      "cov_mean": 0.732,
+      "cov_stdev": 0.0559,
+      "baseline_C1_halluc": 11,
+      "baseline_C1_cov": 0.78
+    },
+    {
+      "cell": "arXiv Perovskite",
+      "run_dir": "paper-review-2605.13991-1778859221",
+      "n": 5,
+      "seeds": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "halluc": [
+        2,
+        5,
+        5,
+        8,
+        4
+      ],
+      "cov": [
+        0.84,
+        0.9,
+        0.8,
+        0.78,
+        0.9
+      ],
+      "halluc_mean": 4.8,
+      "halluc_stdev": 2.17,
+      "cov_mean": 0.844,
+      "cov_stdev": 0.0555,
+      "baseline_C1_halluc": 3,
+      "baseline_C1_cov": 0.74
+    }
+  ],
+  "iterative_refinement": [
+    {
+      "cell": "Heat Pipes Claude",
+      "vendor": "claude",
+      "run_dir": "paper-review-19700025120-1777462513",
+      "baseline_C1_halluc": 20,
+      "baseline_C1_cov": 0.9,
+      "iter_halluc": 15,
+      "iter_cov": 0.74,
+      "delta_halluc": -5,
+      "delta_cov": -0.16,
+      "n_claims_total": 98,
+      "n_claims_supported": 98,
+      "n_claims_rejected": 0
+    },
+    {
+      "cell": "Heat Pipes Gemini",
+      "vendor": "gemini",
+      "run_dir": "paper-review-19700025120-1777462513",
+      "baseline_C1_halluc": 11,
+      "baseline_C1_cov": 0.78,
+      "iter_halluc": 6,
+      "iter_cov": 0.4,
+      "delta_halluc": -5,
+      "delta_cov": -0.38,
+      "n_claims_total": 67,
+      "n_claims_supported": 67,
+      "n_claims_rejected": 0
+    },
+    {
+      "cell": "Natural Vibration",
+      "vendor": "gemini",
+      "run_dir": "paper-review-19690013408-1777471789",
+      "baseline_C1_halluc": 5,
+      "baseline_C1_cov": 0.4894,
+      "iter_halluc": 0,
+      "iter_cov": 0.5532,
+      "delta_halluc": -5,
+      "delta_cov": 0.0638,
+      "n_claims_total": 93,
+      "n_claims_supported": 93,
+      "n_claims_rejected": 0
+    },
+    {
+      "cell": "arXiv Fairness AI Gemini",
+      "vendor": "gemini",
+      "run_dir": "paper-review-2605.09852-1778859219",
+      "baseline_C1_halluc": 15,
+      "baseline_C1_cov": 0.4,
+      "iter_halluc": 18,
+      "iter_cov": 0.3,
+      "delta_halluc": 3,
+      "delta_cov": -0.1,
+      "n_claims_total": 75,
+      "n_claims_supported": 75,
+      "n_claims_rejected": 0
+    },
+    {
+      "cell": "arXiv Fairness AI Claude",
+      "vendor": "claude",
+      "run_dir": "paper-review-2605.09852-1778859219",
+      "baseline_C1_halluc": 23,
+      "baseline_C1_cov": 0.7,
+      "iter_halluc": 23,
+      "iter_cov": 0.34,
+      "delta_halluc": 0,
+      "delta_cov": -0.36,
+      "n_claims_total": 126,
+      "n_claims_supported": 126,
+      "n_claims_rejected": 0
+    },
+    {
+      "cell": "SP-5100 Claude",
+      "vendor": "claude",
+      "run_dir": "paper-review-19720022550-1778857333",
+      "baseline_C1_halluc": 47,
+      "baseline_C1_cov": 0.8125,
+      "iter_halluc": 56,
+      "iter_cov": 0.5833,
+      "delta_halluc": 9,
+      "delta_cov": -0.2292,
+      "n_claims_total": 138,
+      "n_claims_supported": 138,
+      "n_claims_rejected": 0
+    },
+    {
+      "cell": "arXiv Megagauss Claude",
+      "vendor": "claude",
+      "run_dir": "paper-review-2605.11379-1778859223",
+      "baseline_C1_halluc": 17,
+      "baseline_C1_cov": 0.92,
+      "iter_halluc": 30,
+      "iter_cov": 0.7,
+      "delta_halluc": 13,
+      "delta_cov": -0.22,
+      "n_claims_total": 139,
+      "n_claims_supported": 139,
+      "n_claims_rejected": 0
+    }
+  ],
+  "probe_circularity_all_cells": [
+    {
+      "cell_run_dir": "audio-review-karpathy_sogpt-1777458038",
+      "n_probes_gemini": 51,
+      "n_probes_claude": 55,
+      "orig_delta_cov": 0.3333,
+      "claudepr_gpt_delta": 0.4,
+      "claudepr_claude_delta": 0.2364
+    },
+    {
+      "cell_run_dir": "audio-review-mit_6034_winston-1778857365",
+      "n_probes_gemini": 48,
+      "n_probes_claude": 50,
+      "orig_delta_cov": 0.2083,
+      "claudepr_gpt_delta": 0.18,
+      "claudepr_claude_delta": 0.12
+    },
+    {
+      "cell_run_dir": "paper-review-19690013408-1777471789",
+      "n_probes_gemini": 47,
+      "n_probes_claude": 50,
+      "orig_delta_cov": -0.1702,
+      "claudepr_gpt_delta": -0.16,
+      "claudepr_claude_delta": -0.2
+    },
+    {
+      "cell_run_dir": "paper-review-19700025120-1777462513",
+      "n_probes_gemini": 50,
+      "n_probes_claude": 60,
+      "orig_delta_cov": 0.06,
+      "claudepr_gpt_delta": 0.05,
+      "claudepr_claude_delta": 0.0333
+    },
+    {
+      "cell_run_dir": "paper-review-2605.09852-1778859219",
+      "n_probes_gemini": 50,
+      "n_probes_claude": 50,
+      "orig_delta_cov": -0.1,
+      "claudepr_gpt_delta": -0.1,
+      "claudepr_claude_delta": 0.04
+    },
+    {
+      "cell_run_dir": "paper-review-2605.11379-1778859223",
+      "n_probes_gemini": 50,
+      "n_probes_claude": 60,
+      "orig_delta_cov": 0.02,
+      "claudepr_gpt_delta": 0.0,
+      "claudepr_claude_delta": 0.0
+    },
+    {
+      "cell_run_dir": "paper-review-2605.13991-1778859221",
+      "n_probes_gemini": 50,
+      "n_probes_claude": 54,
+      "orig_delta_cov": -0.16,
+      "claudepr_gpt_delta": -0.1667,
+      "claudepr_claude_delta": -0.1111
+    }
+  ],
+  "reference_bias_all_cells": [
+    {
+      "cell_run_dir": "audio-review-3b1b_attention-1778857367",
+      "ref_kind": "whisper-base",
+      "n_probes_alt": 50,
+      "original": {
+        "C0_halluc": 11,
+        "C1_halluc": 0,
+        "C0_cov": 0.88,
+        "C1_cov": 0.96,
+        "delta_halluc": -11,
+        "delta_cov": 0.07999999999999996
+      },
+      "altref_gpt5": {
+        "C0_halluc": 12,
+        "C1_halluc": 5,
+        "C0_cov": 0.88,
+        "C1_cov": 1.0,
+        "delta_halluc": -7,
+        "delta_cov": 0.12
+      },
+      "altref_claude": {
+        "C0_halluc": 6,
+        "C1_halluc": 0,
+        "C0_cov": 0.94,
+        "C1_cov": 1.0,
+        "delta_halluc": -6,
+        "delta_cov": 0.06000000000000005
+      }
+    },
+    {
+      "cell_run_dir": "audio-review-karpathy_sogpt-1777458038",
+      "ref_kind": "whisper-base",
+      "n_probes_alt": 51,
+      "original": {
+        "C0_halluc": 13,
+        "C1_halluc": 3,
+        "C0_cov": 0.6274509803921569,
+        "C1_cov": 0.9607843137254902,
+        "delta_halluc": -10,
+        "delta_cov": 0.33333333333333337
+      },
+      "altref_gpt5": {
+        "C0_halluc": 13,
+        "C1_halluc": 9,
+        "C0_cov": 0.5294117647058824,
+        "C1_cov": 0.8823529411764706,
+        "delta_halluc": -4,
+        "delta_cov": 0.3529411764705882
+      },
+      "altref_claude": {
+        "C0_halluc": 8,
+        "C1_halluc": 2,
+        "C0_cov": 0.7450980392156863,
+        "C1_cov": 0.9215686274509803,
+        "delta_halluc": -6,
+        "delta_cov": 0.17647058823529405
+      }
+    },
+    {
+      "cell_run_dir": "paper-review-19700023812-1777471791",
+      "ref_kind": "easyocr",
+      "n_probes_alt": 53,
+      "original": {
+        "C0_halluc": 5,
+        "C1_halluc": 2,
+        "C0_cov": 0.68,
+        "C1_cov": 0.84,
+        "delta_halluc": -3,
+        "delta_cov": 0.15999999999999992
+      },
+      "altref_gpt5": {
+        "C0_halluc": 5,
+        "C1_halluc": 7,
+        "C0_cov": 0.6226415094339622,
+        "C1_cov": 0.7169811320754716,
+        "delta_halluc": 2,
+        "delta_cov": 0.09433962264150941
+      },
+      "altref_claude": {
+        "C0_halluc": 4,
+        "C1_halluc": 5,
+        "C0_cov": 0.660377358490566,
+        "C1_cov": 0.7547169811320755,
+        "delta_halluc": 1,
+        "delta_cov": 0.09433962264150952
+      }
+    },
+    {
+      "cell_run_dir": "paper-review-19720009221-1777458461",
+      "ref_kind": "easyocr",
+      "n_probes_alt": 52,
+      "original": {
+        "C0_halluc": 3,
+        "C1_halluc": 1,
+        "C0_cov": 0.7959183673469388,
+        "C1_cov": 0.7755102040816326,
+        "delta_halluc": -2,
+        "delta_cov": -0.020408163265306145
+      },
+      "altref_gpt5": {
+        "C0_halluc": 11,
+        "C1_halluc": 10,
+        "C0_cov": 0.7307692307692307,
+        "C1_cov": 0.7115384615384616,
+        "delta_halluc": -1,
+        "delta_cov": -0.019230769230769162
+      },
+      "altref_claude": {
+        "C0_halluc": 11,
+        "C1_halluc": 8,
+        "C0_cov": 0.8461538461538461,
+        "C1_cov": 0.8076923076923077,
+        "delta_halluc": -3,
+        "delta_cov": -0.038461538461538436
+      }
+    }
+  ]
+}
