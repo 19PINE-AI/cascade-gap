@@ -49,7 +49,7 @@ def fig1_inverse_correlation():
     """Cascade coverage gain vs baseline. n=21 cells, colored by modality.
     Adds OLS regression line + bootstrap 95% CI band on slope.
     """
-    fig, ax = plt.subplots(figsize=(4.6, 3.2))
+    fig, ax = plt.subplots(figsize=(5.6, 3.6))
     audio_cells, paper_cells = [], []
     for c in DATA["cells"]:
         s = c["scores"]
@@ -97,33 +97,45 @@ def fig1_inverse_correlation():
     ax.scatter(paper_c0, paper_d, s=42, color=C_CLAUDE, marker="s",
                edgecolor="black", linewidth=0.4, zorder=3, label=f"paper (n={len(paper_cells)})")
 
-    # Annotations only on negative-cascade outliers
-    outlier_offsets = {
-        "Natural Vibration": (-0.18, -0.005),
-        "Wagging Tail": (-0.16, -0.005),
-        "arXiv Fairness AI": (0.012, 0.0),
-        "arXiv Perovskite": (-0.22, 0.005),
-        "Heat Pipes": (0.012, -0.020),
-        "Karpathy review": (0.012, 0.0),
-        "Harvard Moot Court": (0.012, 0.0),
-        "3B1B Attention": (-0.22, -0.005),
+    # Annotate only the most-cited cells (saturated, big-win, counter-cells)
+    # with leader lines. Keeps the plot readable while highlighting the cells
+    # the paper text refers to.
+    outlier_anchors = {
+        "Harvard Moot Court":  ( 0.20,  0.52),
+        "Karpathy review":     ( 0.78,  0.46),
+        "Sapolsky Behavioral": ( 0.40,  0.42),
+        "MIT 6.034 Winston":   ( 0.92,  0.30),
+        "Heat Pipes":          ( 0.96,  0.13),
+        "3B1B Attention":      ( 0.96,  0.18),
+        "NeurIPS BinAI panel": ( 0.99,  0.07),
+        "Wagging Tail":        ( 0.62,  0.10),
+        "arXiv Fairness AI":   ( 0.78, -0.07),
+        "arXiv Perovskite":    ( 0.70, -0.22),
+        "Natural Vibration":   ( 0.53, -0.22),
     }
-    for cells in (audio_cells, paper_cells):
-        for name, c0, c1, delta in cells:
-            if name in outlier_offsets:
-                dx, dy = outlier_offsets[name]
-                ax.text(c0 + dx, delta + dy, name, fontsize=6.0,
-                        color="#222222", va="center")
+    all_cells = audio_cells + paper_cells
+    for name, c0, c1, delta in all_cells:
+        if name in outlier_anchors:
+            ax_x, ax_y = outlier_anchors[name]
+            ax.annotate(name, xy=(c0, delta), xytext=(ax_x, ax_y),
+                        fontsize=6.5, color="#333333",
+                        ha="center", va="center",
+                        arrowprops=dict(arrowstyle="-", color="#888888",
+                                        lw=0.4, alpha=0.6,
+                                        shrinkA=2, shrinkB=4))
 
     ax.axhline(0, color="#888888", linewidth=0.5, linestyle="--")
-    ax.set_xlabel(r"$C_0$ probe coverage (end-to-end baseline)")
-    ax.set_ylabel(r"$\Delta_{\rm cov}=C_1-C_0$")
-    ax.set_title(f"Cascade coverage gain vs. $C_0$ baseline (n={len(audio_cells) + len(paper_cells)} Gemini cells)")
-    ax.set_xlim(0.10, 1.0)
-    ax.set_ylim(-0.22, 0.55)
+    ax.set_xlabel(r"$C_0$ probe coverage (end-to-end baseline)", fontsize=9)
+    ax.set_ylabel(r"$\Delta_{\rm cov}=C_1-C_0$", fontsize=9)
+    ax.set_title(f"Cascade coverage gain vs. $C_0$ baseline (n={len(audio_cells) + len(paper_cells)} Gemini cells)", fontsize=10)
+    ax.set_xlim(0.10, 1.02)
+    ax.set_ylim(-0.25, 0.58)
     ax.grid(alpha=0.25, linewidth=0.4)
-    ax.legend(loc="upper right", fontsize=7, frameon=False)
+    # Legend in lower-left of the plot area — region empty in this dataset
+    ax.legend(loc="lower left", fontsize=7.5, frameon=True,
+              facecolor="white", edgecolor="#cccccc", framealpha=0.92)
 
+    fig.tight_layout()
     fig.savefig(HERE / "fig1_inverse_correlation.pdf")
     plt.close(fig)
     print("[fig1] saved")
@@ -207,24 +219,24 @@ def fig3_heatpipes_pareto():
                    edgecolor=color_for[vendor], linewidth=1.4,
                    label=leg, zorder=3)
 
-    # Annotations
+    # Annotations — place labels offset from markers so subscripts don't overlap
+    # Format: (label, vendor) -> (dx, dy) in axis-data units
     annot_offsets = {
-        # (label, vendor, halluc): (dx, dy)
-        ("$C_0$", "Gemini"):     (-0.06, -1.0),
-        ("$C_1$", "Gemini"):     (-0.05,  0.7),
-        ("$C_{1c}$", "Gemini"):  (-0.10, -0.5),
-        ("$C_{1c}^{\\rm concat}$", "Gemini"): (0.005, -0.7),
-        ("$C_0$", "Claude"):     (0.006, 0.0),
-        ("$C_1$", "Claude"):     (-0.05, 0.9),
-        ("$C_1^{\\rm strip}$", "Claude"): (-0.10, 1.0),
-        ("$C_{1c}$", "Claude"):  (0.006, 0.4),
-        ("$C_0$", "Mimo"):       (0.006, 0.0),
-        ("$C_1$", "Mimo"):       (0.006, 0.0),
+        ("$C_0$", "Gemini"):     ( 0.005, -1.4),
+        ("$C_1$", "Gemini"):     ( 0.022,  0.0),
+        ("$C_{1c}$", "Gemini"):  (-0.020, -1.2),
+        ("$C_{1c}^{\\rm concat}$", "Gemini"): (-0.030, -1.4),
+        ("$C_0$", "Claude"):     ( 0.022, -0.2),
+        ("$C_1$", "Claude"):     ( 0.022,  0.0),
+        ("$C_1^{\\rm strip}$", "Claude"): (-0.060, -1.0),
+        ("$C_{1c}$", "Claude"):  ( 0.022,  0.0),
+        ("$C_0$", "Mimo"):       ( 0.022, -0.2),
+        ("$C_1$", "Mimo"):       ( 0.022,  0.0),
     }
     for label, h, cov, vendor, marker, fill in points:
-        dx, dy = annot_offsets.get((label, vendor), (0.006, 0.4))
+        dx, dy = annot_offsets.get((label, vendor), (0.022, 0.0))
         ax.annotate(label, (cov, h), xytext=(cov + dx, h + dy),
-                    fontsize=6.5, color=color_for[vendor])
+                    fontsize=7.5, color=color_for[vendor], va="center")
 
     ax.set_xlabel("Probe coverage  (higher is better →)")
     ax.set_ylabel("Hallucinations  (← lower is better)")
@@ -612,54 +624,89 @@ def fig8_probe_circularity():
 # Figure 9: Reference-bias check (Whisper on 3B1B + EasyOCR on Wagging Tail).
 # ============================================================
 def fig9_reference_bias():
+    """Reference-bias check across 4 cells, single panel.
+
+    A single grouped-bar panel is easier to read than 4 twin-axis panels
+    because the cross-cell story is "coverage direction preserved on all 4,
+    hallucination direction flips on Thermal under EasyOCR".
+    We plot two stacked sub-panels: one for Δ_halluc, one for Δ_cov.
+    """
     repo = HERE.parent.parent
-    # All available reference_bias_summary.json files (now 4 cells: 2 audio, 2 paper)
     paths = [
-        ("3B1B (Whisper)",    repo / "runs/audio-review-3b1b_attention-1778857367/reference_bias_summary.json"),
-        ("Karpathy (Whisper)",repo / "runs/audio-review-karpathy_sogpt-1777458038/reference_bias_summary.json"),
-        ("Wagging Tail\n(EasyOCR)", repo / "runs/paper-review-19720009221-1777458461/reference_bias_summary.json"),
-        ("Thermal Anl.\n(EasyOCR)", repo / "runs/paper-review-19700023812-1777471791/reference_bias_summary.json"),
+        ("3B1B Attention\n(Whisper)",       repo / "runs/audio-review-3b1b_attention-1778857367/reference_bias_summary.json"),
+        ("Karpathy review\n(Whisper)",      repo / "runs/audio-review-karpathy_sogpt-1777458038/reference_bias_summary.json"),
+        ("Wagging Tail 9p\n(EasyOCR)",      repo / "runs/paper-review-19720009221-1777458461/reference_bias_summary.json"),
+        ("Thermal Anl. 66p\n(EasyOCR)",     repo / "runs/paper-review-19700023812-1777471791/reference_bias_summary.json"),
     ]
-    fig, axes = plt.subplots(1, 4, figsize=(11.0, 2.8))
-    for ax, (label, p) in zip(axes, paths):
+    cells = []
+    for name, p in paths:
         d = json.loads(p.read_text())
-        cats = ["orig", "alt-ref\nGPT judge", "alt-ref\nClaude judge"]
-        d_halluc = [d["original"]["delta_halluc"], d["altref_gpt5"]["delta_halluc"], d["altref_claude"]["delta_halluc"]]
-        d_cov = [d["original"]["delta_cov"], d["altref_gpt5"]["delta_cov"], d["altref_claude"]["delta_cov"]]
+        cells.append({
+            "name": name,
+            "h_orig":  d["original"]["delta_halluc"],
+            "h_gpt":   d["altref_gpt5"]["delta_halluc"],
+            "h_clau":  d["altref_claude"]["delta_halluc"],
+            "c_orig":  d["original"]["delta_cov"],
+            "c_gpt":   d["altref_gpt5"]["delta_cov"],
+            "c_clau":  d["altref_claude"]["delta_cov"],
+        })
 
-        x = np.arange(len(cats))
-        width = 0.36
-        bars_h = ax.bar(x - width/2, d_halluc, width, color=C_GEMINI, label=r"$\Delta_{\rm halluc}$")
-        ax2 = ax.twinx()
-        bars_c = ax2.bar(x + width/2, d_cov, width, color=C_CLAUDE, alpha=0.85, label=r"$\Delta_{\rm cov}$")
+    fig, (ax_h, ax_c) = plt.subplots(2, 1, figsize=(7.5, 3.6), sharex=True,
+                                     gridspec_kw=dict(hspace=0.18))
 
-        # Numeric labels
-        for rect in bars_h:
+    x = np.arange(len(cells))
+    width = 0.27
+
+    # --- Top: Δ_halluc ---
+    h_orig  = [c["h_orig"] for c in cells]
+    h_gpt   = [c["h_gpt"] for c in cells]
+    h_clau  = [c["h_clau"] for c in cells]
+    b1 = ax_h.bar(x - width, h_orig, width, color=C_GEMINI, label="orig (Gemini ref, GPT judge)")
+    b2 = ax_h.bar(x,         h_gpt,  width, color=C_GPT,    label="alt-ref, GPT judge")
+    b3 = ax_h.bar(x + width, h_clau, width, color=C_CLAUDE, label="alt-ref, Claude judge")
+    for bars in (b1, b2, b3):
+        for rect in bars:
             v = rect.get_height()
-            ax.text(rect.get_x() + rect.get_width()/2,
-                    v + (0.4 if v >= 0 else -0.4),
-                    f"{int(v):+d}", ha="center",
-                    va="bottom" if v >= 0 else "top", fontsize=7, color=C_GEMINI)
-        for rect in bars_c:
-            v = rect.get_height()
-            ax2.text(rect.get_x() + rect.get_width()/2,
-                     v + (0.008 if v >= 0 else -0.008),
-                     f"{v:+.2f}", ha="center",
-                     va="bottom" if v >= 0 else "top", fontsize=7, color=C_CLAUDE)
+            y_off = 0.4 if v >= 0 else -0.4
+            ax_h.text(rect.get_x() + rect.get_width()/2, v + y_off,
+                      f"{int(v):+d}", ha="center",
+                      va="bottom" if v >= 0 else "top", fontsize=7)
+    ax_h.axhline(0, color="#888888", linewidth=0.6, linestyle="--")
+    ax_h.set_ylabel(r"$\Delta_{\rm halluc}$  ($\downarrow$ = cascade wins)", fontsize=8.5)
+    ax_h.set_title("Reference-bias check: cascade direction across 4 cells under 3 ref/judge combos", fontsize=9.5)
+    ax_h.grid(alpha=0.2, linewidth=0.4, axis="y")
+    ax_h.legend(loc="lower right", frameon=False, fontsize=7.5, ncol=3)
+    ax_h.set_ylim(min(h_orig + h_gpt + h_clau) - 3, max(h_orig + h_gpt + h_clau) + 4)
 
-        ax.axhline(0, color="#888888", linewidth=0.5, linestyle="--")
-        ax.set_xticks(x)
-        ax.set_xticklabels(cats, fontsize=7.5)
-        ax.set_ylabel(r"$\Delta_{\rm halluc}$  ($\downarrow$=cascade wins)", fontsize=8, color=C_GEMINI)
-        ax2.set_ylabel(r"$\Delta_{\rm cov}$  ($\uparrow$=cascade wins)", fontsize=8, color=C_CLAUDE)
-        ax.set_title(label, fontsize=9)
-        ax.spines["top"].set_visible(False); ax2.spines["top"].set_visible(False)
-        ax.tick_params(axis="y", labelcolor=C_GEMINI)
-        ax2.tick_params(axis="y", labelcolor=C_CLAUDE)
-        ax.set_ylim(min(d_halluc) - 3, max(d_halluc) + 3)
-        ax2.set_ylim(min(d_cov) - 0.04, max(d_cov) + 0.04)
+    # --- Bottom: Δ_cov ---
+    c_orig = [c["c_orig"] for c in cells]
+    c_gpt  = [c["c_gpt"] for c in cells]
+    c_clau = [c["c_clau"] for c in cells]
+    ax_c.bar(x - width, c_orig, width, color=C_GEMINI)
+    ax_c.bar(x,         c_gpt,  width, color=C_GPT)
+    ax_c.bar(x + width, c_clau, width, color=C_CLAUDE)
+    for xx, v in zip(x - width, c_orig):
+        ax_c.text(xx, v + (0.008 if v >= 0 else -0.008), f"{v:+.2f}",
+                  ha="center", va="bottom" if v >= 0 else "top", fontsize=7)
+    for xx, v in zip(x, c_gpt):
+        ax_c.text(xx, v + (0.008 if v >= 0 else -0.008), f"{v:+.2f}",
+                  ha="center", va="bottom" if v >= 0 else "top", fontsize=7)
+    for xx, v in zip(x + width, c_clau):
+        ax_c.text(xx, v + (0.008 if v >= 0 else -0.008), f"{v:+.2f}",
+                  ha="center", va="bottom" if v >= 0 else "top", fontsize=7)
+    ax_c.axhline(0, color="#888888", linewidth=0.6, linestyle="--")
+    ax_c.set_ylabel(r"$\Delta_{\rm cov}$  ($\uparrow$ = cascade wins)", fontsize=8.5)
+    ax_c.set_xticks(x)
+    ax_c.set_xticklabels([c["name"] for c in cells], fontsize=8)
+    ax_c.grid(alpha=0.2, linewidth=0.4, axis="y")
+    ax_c.set_ylim(min(c_orig + c_gpt + c_clau) - 0.04, max(c_orig + c_gpt + c_clau) + 0.06)
 
-    fig.subplots_adjust(wspace=0.55)
+    # Annotation: highlight the Thermal flip
+    ax_h.annotate("flip $\\rightarrow$",
+                  xy=(3 + width, 1.5), xytext=(3.6, 4),
+                  fontsize=8, color="#c33", ha="center",
+                  arrowprops=dict(arrowstyle="->", color="#c33", lw=0.8))
+
     fig.tight_layout()
     fig.savefig(HERE / "fig9_reference_bias.pdf")
     plt.close(fig)
@@ -734,6 +781,180 @@ def fig10_inter_judge_scatter():
     print("[fig10] saved")
 
 
+# ============================================================
+# Figure 11: Iterative-refinement Pareto frontier across 7 cells.
+# Shows where C1_iter wins (Natural Vibration: Pareto-positive), trades
+# (Heat Pipes both vendors), and loses (3 long arXiv surveys).
+# ============================================================
+def fig11_iter_pareto():
+    """Pareto plot: C1 baseline → C1_iter on (cov, halluc) for each of 7 cells.
+    Arrows show direction of intervention; cells are color-coded by source
+    distribution (NASA papers vs modern arXiv surveys).
+    """
+    repo = HERE.parent.parent
+    agg = json.loads((repo / "research_log/revision_aggregate.json").read_text())
+    rows = agg.get("iterative_refinement", [])
+
+    # Classify cells
+    nasa_cells = {"Heat Pipes Claude", "Heat Pipes Gemini", "Natural Vibration"}
+    arxiv_cells = {"arXiv Fairness AI Gemini", "arXiv Fairness AI Claude",
+                   "SP-5100 Claude", "arXiv Megagauss Claude"}
+
+    fig, ax = plt.subplots(figsize=(6.0, 3.6))
+
+    # Per-cell label placement (anchor in data coords, away from arrow midpoint)
+    label_anchors = {
+        "Heat Pipes Claude":         (0.62,  17),
+        "Heat Pipes Gemini":         (0.62,   3),
+        "Natural Vibration":         (0.70,  -3.5),
+        "arXiv Fairness AI Gemini":  (0.32,  11),
+        "arXiv Fairness AI Claude":  (0.46,  26),
+        "SP-5100 Claude":            (0.70,  42),
+        "arXiv Megagauss Claude":    (0.85,  20),
+    }
+
+    for r in rows:
+        name = r["cell"]
+        if r["baseline_C1_halluc"] is None:
+            continue
+        b_h, b_c = r["baseline_C1_halluc"], r["baseline_C1_cov"]
+        i_h, i_c = r["iter_halluc"], r["iter_cov"]
+        color = "#2a7fbf" if name in nasa_cells else "#c33a2a"
+        # Baseline circle
+        ax.scatter([b_c], [b_h], s=70, facecolor="white",
+                   edgecolor=color, linewidth=1.4, zorder=3)
+        # Iter star
+        ax.scatter([i_c], [i_h], s=130, marker="*",
+                   color=color, edgecolor="black", linewidth=0.5, zorder=4)
+        # Arrow baseline → iter
+        ax.annotate("", xy=(i_c, i_h), xytext=(b_c, b_h),
+                    arrowprops=dict(arrowstyle="->", color=color,
+                                    lw=1.1, alpha=0.55, shrinkA=8, shrinkB=10),
+                    zorder=2)
+        # Cell label with leader-line, anchored to the iter star
+        short = (name.replace(" Claude", " (Claude)").replace(" Gemini", " (Gem)")
+                 .replace("arXiv ", ""))
+        lx, ly = label_anchors.get(name, ((b_c + i_c) / 2, (b_h + i_h) / 2 - 1.5))
+        ax.annotate(short, xy=(i_c, i_h), xytext=(lx, ly),
+                    fontsize=6.5, ha="center", va="center", color="#333",
+                    arrowprops=dict(arrowstyle="-", color="#999",
+                                    lw=0.3, alpha=0.5, shrinkA=2, shrinkB=8))
+
+    ax.axhline(0, color="#888888", linewidth=0.4, linestyle="--", alpha=0.5)
+    ax.invert_yaxis()  # halluc ↓ = up
+    ax.set_xlabel(r"Probe coverage  ($\rightarrow$ = better)", fontsize=9)
+    ax.set_ylabel(r"Hallucinations  ($\uparrow$ = better)", fontsize=9)
+    ax.set_title(r"Iterative refinement ($C_{1\rm iter}$) across 7 cells: "
+                 r"baseline $C_1$ (○) $\rightarrow$ $C_{1\rm iter}$ ($\bigstar$)",
+                 fontsize=9.5)
+    ax.grid(alpha=0.25, linewidth=0.4)
+
+    # Custom legend
+    import matplotlib.patches as mpatches
+    from matplotlib.lines import Line2D
+    legend_elems = [
+        Line2D([0], [0], marker="o", color="w", markerfacecolor="white",
+               markeredgecolor="#2a7fbf", markersize=8,
+               markeredgewidth=1.2, label=r"NASA paper baseline $C_1$"),
+        Line2D([0], [0], marker="*", color="w", markerfacecolor="#2a7fbf",
+               markeredgecolor="black", markersize=11,
+               markeredgewidth=0.4, label=r"NASA $\,C_{1\rm iter}$"),
+        Line2D([0], [0], marker="o", color="w", markerfacecolor="white",
+               markeredgecolor="#c33a2a", markersize=8,
+               markeredgewidth=1.2, label=r"arXiv survey baseline $C_1$"),
+        Line2D([0], [0], marker="*", color="w", markerfacecolor="#c33a2a",
+               markeredgecolor="black", markersize=11,
+               markeredgewidth=0.4, label=r"arXiv $\,C_{1\rm iter}$"),
+    ]
+    ax.legend(handles=legend_elems, loc="lower left", frameon=False,
+              fontsize=7.5, ncol=2)
+
+    fig.tight_layout()
+    fig.savefig(HERE / "fig11_iter_pareto.pdf")
+    plt.close(fig)
+    print("[fig11] saved")
+
+
+# ============================================================
+# Figure 12: Headline multi-seed envelopes for the 4 cells in §3.1.
+# Side-by-side per-cell scatter of n=5 T=0.7 seeds vs the published n=1 baseline.
+# ============================================================
+def fig12_headline_multiseed():
+    """For each of MIT 6.034, Sapolsky, Heat Pipes Gemini, arXiv Perovskite:
+    plot the n=5 seed envelope on (cov, halluc) and overlay the published n=1
+    point. Highlight whether the n=1 sits inside or outside the envelope.
+    """
+    repo = HERE.parent.parent
+    agg = json.loads((repo / "research_log/revision_aggregate.json").read_text())
+    rows = [r for r in agg.get("multi_seed_envelopes", []) if r["n"] >= 3]
+
+    fig, axes = plt.subplots(1, 4, figsize=(11.0, 2.7), sharey=False)
+
+    for ax, r in zip(axes, rows):
+        seeds_h = r["halluc"]
+        seeds_c = r["cov"]
+        mh = r["halluc_mean"]
+        mc = r["cov_mean"]
+        bh = r["baseline_C1_halluc"]
+        bc = r["baseline_C1_cov"]
+
+        # n=5 envelope rectangle (range box)
+        h_lo, h_hi = min(seeds_h), max(seeds_h)
+        c_lo, c_hi = min(seeds_c), max(seeds_c)
+        ax.fill_between([c_lo, c_hi], [h_lo, h_lo], [h_hi, h_hi],
+                        color="#cce5ff", alpha=0.4, zorder=1,
+                        label="n=5 envelope")
+
+        # Individual seeds
+        ax.scatter(seeds_c, seeds_h, s=40, color=C_GEMINI, marker="o",
+                   edgecolor="black", linewidth=0.4, zorder=3, label="n=5 seeds")
+        # n=5 mean cross
+        ax.scatter([mc], [mh], s=110, marker="x", color="black",
+                   linewidth=1.6, zorder=4, label=r"$n=5$ mean")
+        # Published n=1 baseline star
+        out_h = bh < h_lo or bh > h_hi
+        out_c = bc < c_lo or bc > c_hi
+        star_edge = "#c33" if (out_h or out_c) else "black"
+        star_size = 130 if (out_h or out_c) else 95
+        ax.scatter([bc], [bh], s=star_size, marker="*",
+                   color="#fdc863", edgecolor=star_edge,
+                   linewidth=0.8 if star_edge == "black" else 1.4,
+                   zorder=5, label=r"published $n=1$ ($T{=}0$)")
+
+        # Pad axes
+        all_h = seeds_h + [bh]
+        all_c = seeds_c + [bc]
+        pad_h = max(2, (max(all_h) - min(all_h)) * 0.2)
+        pad_c = max(0.03, (max(all_c) - min(all_c)) * 0.15)
+        ax.set_xlim(min(all_c) - pad_c, max(all_c) + pad_c)
+        ax.set_ylim(max(all_h) + pad_h, min(all_h) - pad_h)  # inverted
+        ax.set_xlabel(r"cov ($\rightarrow$)", fontsize=8)
+        ax.set_ylabel(r"halluc ($\downarrow$)", fontsize=8)
+        # Title: cell name + envelope status badge
+        flag = ""
+        if out_h and out_c:
+            flag = "  (n=1 outside on both)"
+        elif out_h:
+            flag = "  (n=1 outside on halluc)"
+        elif out_c:
+            flag = "  (n=1 outside on cov)"
+        else:
+            flag = "  (n=1 inside envelope)"
+        ax.set_title(r["cell"] + flag, fontsize=8)
+        ax.grid(alpha=0.25, linewidth=0.4)
+
+    # Single shared legend
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="upper center",
+               bbox_to_anchor=(0.5, 1.06),
+               ncol=4, frameon=False, fontsize=8)
+
+    fig.tight_layout()
+    fig.savefig(HERE / "fig12_headline_multiseed.pdf")
+    plt.close(fig)
+    print("[fig12] saved")
+
+
 if __name__ == "__main__":
     fig0_protocol_schematic()
     fig1_inverse_correlation()
@@ -746,4 +967,6 @@ if __name__ == "__main__":
     fig8_probe_circularity()
     fig9_reference_bias()
     fig10_inter_judge_scatter()
+    fig11_iter_pareto()
+    fig12_headline_multiseed()
     print("All figures generated.")
