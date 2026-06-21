@@ -135,7 +135,22 @@ We tested H1 directly at the activation level on an open VLM (Qwen2.5-VL-7B), co
 \end{figure}
 
 \paragraph{E7 --- no audio substrate gap either, once the speech is intelligible.}
-We replicate the E6 logit-lens on an omni model (Qwen2.5-Omni Thinker), presenting each novel fact as text vs as \emph{synthesized speech}. The result is a methodological caution turned finding: with low-quality TTS (espeak; only $71\%$ of clips intelligible to the model's own ASR) audio appeared to have a substrate gap (answer accuracy $0.83$, readout-depth gap $90\%$ CI $[0.64, 1.78]$, \emph{not} equivalent) --- but this tracked \emph{intelligibility}, not modality. With a clean neural voice (\texttt{mms-tts-eng}; $88\%$ ASR-intelligible) the gap vanishes: audio answer accuracy $1.00$ ($\geq$ text $0.96$), readout depth $22.96$ vs.\ text $22.58$, depth-gap $90\%$ CI $[0.18, 0.57]$ --- \textbf{TOST-equivalent within $\pm 1$ layer}. So neither documents (E6) nor audio (E7) carry an intrinsic reasoning-substrate penalty for propositional content; the cascade win is decomposition, not substrate, in both modalities. (CosyVoice2 was our intended voice but its packaged build was unusable in our environment; we used \texttt{mms-tts-eng}, and report the espeak-vs-clean contrast because it is a cautionary result in its own right --- garbled TTS manufactures a spurious substrate gap.)
+We replicate the E6 logit-lens on an omni model (Qwen2.5-Omni Thinker), presenting each novel fact as text vs as \emph{synthesized speech}, across three TTS engines of increasing quality (Table~\ref{tab:e7}). The result is a methodological caution turned finding: with low-quality TTS (espeak; only $71\%$ of clips intelligible to the model's own ASR) audio \emph{appears} to have a substrate gap (answer accuracy $0.83$, readout-depth gap $90\%$ CI $[0.64, 1.78]$, \emph{not} equivalent) --- but this tracks \emph{intelligibility}, not modality. With two independent high-quality neural voices --- \texttt{mms-tts-eng} ($88\%$ intelligible) and the more natural \texttt{fish-speech-1.5} ($96\%$) --- the gap vanishes and stabilizes: audio answer accuracy $1.00$ ($\geq$ text $0.96$), readout depth $\approx\!22.96$ vs.\ text $22.58$, depth-gap $90\%$ CIs $[0.18,0.57]$ and $[0.21,0.54]$ --- both \textbf{TOST-equivalent within $\pm 1$ layer}. So neither documents (E6) nor audio (E7) carry an intrinsic reasoning-substrate penalty for propositional content; the cascade win is decomposition, not substrate, in both modalities. (We intended CosyVoice2 but its packaged build was unusable in our environment; the espeak-vs-clean contrast is reported because it is a cautionary result in its own right --- garbled TTS manufactures a spurious substrate gap, so audio-substrate claims must control for TTS intelligibility.)
+
+\begin{table}[h]
+\small\centering
+\caption{E7 audio readout (Qwen2.5-Omni Thinker, 24 novel facts): the apparent audio substrate gap is a TTS-intelligibility artifact. ``Intellig.'': fraction of clips the model's own ASR transcribes correctly. Depth-gap = audio$-$text readout depth (layers); TOST SESOI $\pm 1$ layer.}
+\label{tab:e7}
+\begin{tabular}{lccccc}
+\toprule
+TTS & intellig. & text acc & audio acc & depth-gap 90\% CI & TOST-equivalent \\
+\midrule
+espeak (robotic)        & 0.71 & 0.96 & 0.83 & $[0.64, 1.78]$ & no (spurious gap) \\
+\texttt{mms-tts-eng} (clean)   & 0.88 & 0.96 & 1.00 & $[0.18, 0.57]$ & \textbf{yes} \\
+\texttt{fish-speech-1.5} (natural) & 0.96 & 0.96 & 1.00 & $[0.21, 0.54]$ & \textbf{yes} \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \paragraph{E2 --- the win requires a separate, full-budget synthesis pass.}
 If decomposition merely externalizes content into one context, doing both steps in a single call should suffice. It does not. A single call instructed to first transcribe verbatim and then write the review (modality attached) \emph{collapses}: coverage falls far below $C_1$ on every paper that produced a review (Thermal $0.84\!\to\!0.40$, Fairness~AI $0.40\!\to\!0.24$; Table~\ref{tab:mech_cond}), and on the three longest sources (MIT~audio, Natural~Vibration, Heat~Pipes) the call never emits a review at all --- the transcript consumes the entire output budget, with long documents degenerating into the TOC dot-leader loop the chunked protocol was built to avoid (\S\ref{sec:protocol}). The active ingredient is therefore the \emph{decomposition into two passes with independent output budgets}, not text-in-context per se.

@@ -1716,5 +1716,95 @@
     "n_probes": 50,
     "n_unsupported": 9,
     "review_words": 1511
+  },
+  {
+    "cell": "heat_pipes",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.42,
+    "n_covered": 21,
+    "n_probes": 50,
+    "n_unsupported": 9,
+    "review_words": 1048
+  },
+  {
+    "cell": "wagging",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.776,
+    "n_covered": 38,
+    "n_probes": 49,
+    "n_unsupported": 6,
+    "review_words": 1175
+  },
+  {
+    "cell": "wagging",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.755,
+    "n_covered": 37,
+    "n_probes": 49,
+    "n_unsupported": 4,
+    "review_words": 1111
+  },
+  {
+    "cell": "wagging",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.653,
+    "n_covered": 32,
+    "n_probes": 49,
+    "n_unsupported": 2,
+    "review_words": 786
+  },
+  {
+    "cell": "sp5100",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.5,
+    "n_covered": 24,
+    "n_probes": 48,
+    "n_unsupported": 76,
+    "review_words": 2083
+  },
+  {
+    "cell": "sp5100",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.396,
+    "n_covered": 19,
+    "n_probes": 48,
+    "n_unsupported": 37,
+    "review_words": 1534
+  },
+  {
+    "cell": "sp5100",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.167,
+    "n_covered": 8,
+    "n_probes": 48,
+    "n_unsupported": 2,
+    "review_words": 626
+  },
+  {
+    "cell": "fairness",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.38,
+    "n_covered": 19,
+    "n_probes": 50,
+    "n_unsupported": 14,
+    "review_words": 1266
+  },
+  {
+    "cell": "fairness",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.44,
+    "n_covered": 22,
+    "n_probes": 50,
+    "n_unsupported": 10,
+    "review_words": 1348
   }
 ]
