@@ -54,6 +54,8 @@ if lad:
         for r in sorted([x for x in lad if x["model"]==m], key=lambda x:x["K"]):
             t = r["tost_depth_gap"]
             w(f"| {m.split('/')[-1]} | {r['K']} | {r['text_acc']} | {r['img_acc']} | {r['text_depth']} | {r['img_depth']} | {t['ci90']} | {t['equivalent']} |")
+    w("\n_Note: Qwen2.5-VL-32B excluded — it verbalizes the answer in a form the single-token matcher "
+      "could not capture (acc=0 artifact), so its readout numbers are unreliable; 3B+7B carry the claim._")
     w("\n**Verdict:** if equivalence holds across models and K, the no-substrate-gap finding generalizes; "
       "watch whether any gap opens at high K (parametric-load prediction).")
 else:
