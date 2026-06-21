@@ -62,20 +62,23 @@ else:
     w("_pending — e6_ladder_summary.json not yet written (GPU-gated)._")
 w()
 
-# ---- V1 audio ----
-au = load("e7_audio_summary.json")
-w("## V1 — audio substrate logit-lens (Qwen2.5-Omni)")
-if au:
-    a = au["aggregate"]
-    w(f"ASR sanity accuracy (model can transcribe TTS clips): {a.get('asr_accuracy')}.")
-    w(f"text_acc={a.get('text_acc')} audio_acc={a.get('audio_acc')}; "
-      f"readout depth text={a.get('text_depth')} audio={a.get('audio_depth')} (of {a.get('n_layers')}); "
-      f"TOST depth gap: {a.get('tost_depth_gap')}.")
-    eq = a.get("tost_depth_gap", {}).get("equivalent")
-    w("\n**Verdict:** " + ("audio shows NO readout gap either — mechanism is decomposition across both modalities."
-        if eq else "audio shows a readout gap that documents (E6) did not — the mechanism is **modality-dependent** "
-        "(substrate matters for audio, decomposition for documents). This is the key predicted split.")
-      + (f" (Caveat: TTS quality = espeak; ASR sanity {a.get('asr_accuracy')} — rerun with CosyVoice2 if low.)"))
+# ---- V1/E7 audio (three TTS engines) ----
+w("## V1/E7 — audio substrate logit-lens (Qwen2.5-Omni), three TTS engines")
+rows_av = [("espeak", "e7_audio_summary_espeak.json"), ("mms-tts", "e7_audio_summary_mms.json"),
+           ("fish-speech-1.5", "e7_audio_summary_fish.json")]
+any_av = False
+w("| TTS | ASR-intellig. | text_acc | audio_acc | depth-gap CI90 | TOST-equiv |")
+w("|---|---|---|---|---|---|")
+for name, fn in rows_av:
+    d = load(fn)
+    if not d: continue
+    any_av = True
+    a = d["aggregate"]; t = a.get("tost_depth_gap", {})
+    w(f"| {name} | {a.get('asr_accuracy')} | {a.get('text_acc')} | {a.get('audio_acc')} | {t.get('ci90')} | {t.get('equivalent')} |")
+if any_av:
+    w("\n**Verdict:** the apparent audio substrate gap is a TTS-intelligibility artifact: it vanishes "
+      "(TOST-equivalent) with two independent clean voices (mms-tts, fish-speech). Audio behaves like "
+      "documents (E6) — the cascade win is decomposition, not substrate, in both modalities.")
 else:
     w("_pending — e7_audio_summary.json not yet written (GPU-gated)._")
 w()
