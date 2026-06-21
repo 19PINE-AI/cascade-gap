@@ -1,0 +1,56 @@
+[
+  {
+    "cell": "arxiv_fairness_53pp",
+    "exp": "E5",
+    "regime": "arxiv Mode-A reversal",
+    "born_digital": true,
+    "native_text_words": 30575,
+    "review_words": 1288,
+    "label": "E5",
+    "n_unsupported": 13,
+    "n_probes": 50,
+    "n_covered": 17,
+    "coverage": 0.34,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 14,
+        "coverage": 0.5,
+        "n_covered": 25,
+        "n_probes": 50
+      },
+      "C1": {
+        "n_unsupported": 15,
+        "coverage": 0.4,
+        "n_covered": 20,
+        "n_probes": 50
+      }
+    }
+  },
+  {
+    "cell": "arxiv_perovskite_80pp",
+    "exp": "E5",
+    "regime": "arxiv near-noise",
+    "born_digital": true,
+    "native_text_words": 18427,
+    "review_words": 1915,
+    "label": "E5",
+    "n_unsupported": 4,
+    "n_probes": 50,
+    "n_covered": 40,
+    "coverage": 0.8,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 2,
+        "coverage": 0.9,
+        "n_covered": 45,
+        "n_probes": 50
+      },
+      "C1": {
+        "n_unsupported": 3,
+        "coverage": 0.74,
+        "n_covered": 37,
+        "n_probes": 50
+      }
+    }
+  }
+]

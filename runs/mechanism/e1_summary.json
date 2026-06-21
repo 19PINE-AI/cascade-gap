@@ -1,0 +1,182 @@
+[
+  {
+    "cell": "mit_6034",
+    "exp": "E1",
+    "error": "JSONDecodeError: Expecting value: line 139 column 1 (char 759)"
+  },
+  {
+    "cell": "3b1b_attention",
+    "exp": "E1",
+    "regime": "audio clean-halluc-win",
+    "review_words": 1537,
+    "label": "E1",
+    "n_unsupported": 5,
+    "n_probes": 50,
+    "n_covered": 50,
+    "coverage": 1.0,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 11,
+        "coverage": 0.88,
+        "n_covered": 44,
+        "n_probes": 50
+      },
+      "C1": {
+        "n_unsupported": 0,
+        "coverage": 0.96,
+        "n_covered": 48,
+        "n_probes": 50
+      }
+    }
+  },
+  {
+    "cell": "wagging_tail_9pp",
+    "exp": "E1",
+    "regime": "paper high-baseline",
+    "review_words": 1331,
+    "label": "E1",
+    "n_unsupported": 2,
+    "n_probes": 49,
+    "n_covered": 38,
+    "coverage": 0.776,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 3,
+        "coverage": 0.796,
+        "n_covered": 39,
+        "n_probes": 49
+      },
+      "C1": {
+        "n_unsupported": 1,
+        "coverage": 0.776,
+        "n_covered": 38,
+        "n_probes": 49
+      }
+    }
+  },
+  {
+    "cell": "natural_vib_42pp",
+    "exp": "E1",
+    "regime": "paper Mode-B counter",
+    "review_words": 1575,
+    "label": "E1",
+    "n_unsupported": 9,
+    "n_probes": 47,
+    "n_covered": 37,
+    "coverage": 0.787,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 4,
+        "coverage": 0.66,
+        "n_covered": 31,
+        "n_probes": 47
+      },
+      "C1": {
+        "n_unsupported": 5,
+        "coverage": 0.489,
+        "n_covered": 23,
+        "n_probes": 47
+      }
+    }
+  },
+  {
+    "cell": "thermal_66pp",
+    "exp": "E1",
+    "regime": "paper strong-win",
+    "review_words": 1173,
+    "label": "E1",
+    "n_unsupported": 1,
+    "n_probes": 50,
+    "n_covered": 34,
+    "coverage": 0.68,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 5,
+        "coverage": 0.68,
+        "n_covered": 34,
+        "n_probes": 50
+      },
+      "C1": {
+        "n_unsupported": 2,
+        "coverage": 0.84,
+        "n_covered": 42,
+        "n_probes": 50
+      }
+    }
+  },
+  {
+    "cell": "heat_pipes_104pp",
+    "exp": "E1",
+    "regime": "paper Mode-A/B long",
+    "review_words": 1506,
+    "label": "E1",
+    "n_unsupported": 10,
+    "n_probes": 50,
+    "n_covered": 33,
+    "coverage": 0.66,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 14,
+        "coverage": 0.72,
+        "n_covered": 36,
+        "n_probes": 50
+      },
+      "C1": {
+        "n_unsupported": 11,
+        "coverage": 0.78,
+        "n_covered": 39,
+        "n_probes": 50
+      }
+    }
+  },
+  {
+    "cell": "arxiv_fairness_53pp",
+    "exp": "E1",
+    "regime": "arxiv Mode-A reversal",
+    "review_words": 1439,
+    "label": "E1",
+    "n_unsupported": 11,
+    "n_probes": 50,
+    "n_covered": 19,
+    "coverage": 0.38,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 14,
+        "coverage": 0.5,
+        "n_covered": 25,
+        "n_probes": 50
+      },
+      "C1": {
+        "n_unsupported": 15,
+        "coverage": 0.4,
+        "n_covered": 20,
+        "n_probes": 50
+      }
+    }
+  },
+  {
+    "cell": "arxiv_perovskite_80pp",
+    "exp": "E1",
+    "regime": "arxiv near-noise",
+    "review_words": 1836,
+    "label": "E1",
+    "n_unsupported": 5,
+    "n_probes": 50,
+    "n_covered": 42,
+    "coverage": 0.84,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 2,
+        "coverage": 0.9,
+        "n_covered": 45,
+        "n_probes": 50
+      },
+      "C1": {
+        "n_unsupported": 3,
+        "coverage": 0.74,
+        "n_covered": 37,
+        "n_probes": 50
+      }
+    }
+  }
+]

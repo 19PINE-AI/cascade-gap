@@ -1,0 +1,347 @@
+[
+  {
+    "model": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "K": 1,
+    "n_layers": 36,
+    "trials": 16,
+    "text_acc": 1.0,
+    "img_acc": 1.0,
+    "text_lp": -0.102,
+    "img_lp": -0.064,
+    "text_depth": 32,
+    "img_depth": 32,
+    "tost_depth_gap": {
+      "mean_diff": 0,
+      "ci90": [
+        0.0,
+        0.0
+      ],
+      "sesoi": 1.0,
+      "equivalent": true,
+      "se": 0.0,
+      "n": 16
+    }
+  },
+  {
+    "model": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "K": 4,
+    "n_layers": 36,
+    "trials": 16,
+    "text_acc": 1.0,
+    "img_acc": 1.0,
+    "text_lp": -0.057,
+    "img_lp": -0.038,
+    "text_depth": 32.25,
+    "img_depth": 32.06,
+    "tost_depth_gap": {
+      "mean_diff": -0.188,
+      "ci90": [
+        -0.411,
+        0.036
+      ],
+      "sesoi": 1.0,
+      "equivalent": true,
+      "se": 0.136,
+      "n": 16
+    }
+  },
+  {
+    "model": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "K": 8,
+    "n_layers": 36,
+    "trials": 16,
+    "text_acc": 1.0,
+    "img_acc": 1.0,
+    "text_lp": -0.051,
+    "img_lp": -0.047,
+    "text_depth": 32.19,
+    "img_depth": 32.06,
+    "tost_depth_gap": {
+      "mean_diff": -0.125,
+      "ci90": [
+        -0.265,
+        0.015
+      ],
+      "sesoi": 1.0,
+      "equivalent": true,
+      "se": 0.085,
+      "n": 16
+    }
+  },
+  {
+    "model": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "K": 16,
+    "n_layers": 36,
+    "trials": 16,
+    "text_acc": 1.0,
+    "img_acc": 1.0,
+    "text_lp": -0.075,
+    "img_lp": -0.048,
+    "text_depth": 32.75,
+    "img_depth": 32.06,
+    "tost_depth_gap": {
+      "mean_diff": -0.688,
+      "ci90": [
+        -0.884,
+        -0.491
+      ],
+      "sesoi": 1.0,
+      "equivalent": true,
+      "se": 0.12,
+      "n": 16
+    }
+  },
+  {
+    "model": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "K": 24,
+    "n_layers": 36,
+    "trials": 16,
+    "text_acc": 1.0,
+    "img_acc": 1.0,
+    "text_lp": -0.058,
+    "img_lp": -0.051,
+    "text_depth": 32.62,
+    "img_depth": 32,
+    "tost_depth_gap": {
+      "mean_diff": -0.625,
+      "ci90": [
+        -0.831,
+        -0.419
+      ],
+      "sesoi": 1.0,
+      "equivalent": true,
+      "se": 0.125,
+      "n": 16
+    }
+  },
+  {
+    "model": "Qwen/Qwen2.5-VL-7B-Instruct",
+    "K": 1,
+    "n_layers": 28,
+    "trials": 16,
+    "text_acc": 1.0,
+    "img_acc": 1.0,
+    "text_lp": -0.015,
+    "img_lp": -0.006,
+    "text_depth": 24.31,
+    "img_depth": 24.44,
+    "tost_depth_gap": {
+      "mean_diff": 0.125,
+      "ci90": [
+        -0.015,
+        0.265
+      ],
+      "sesoi": 1.0,
+      "equivalent": true,
+      "se": 0.085,
+      "n": 16
+    }
+  },
+  {
+    "model": "Qwen/Qwen2.5-VL-7B-Instruct",
+    "K": 4,
+    "n_layers": 28,
+    "trials": 16,
+    "text_acc": 1.0,
+    "img_acc": 1.0,
+    "text_lp": -0.018,
+    "img_lp": -0.003,
+    "text_depth": 24.25,
+    "img_depth": 24.12,
+    "tost_depth_gap": {
+      "mean_diff": -0.125,
+      "ci90": [
+        -0.265,
+        0.015
+      ],
+      "sesoi": 1.0,
+      "equivalent": true,
+      "se": 0.085,
+      "n": 16
+    }
+  },
+  {
+    "model": "Qwen/Qwen2.5-VL-7B-Instruct",
+    "K": 8,
+    "n_layers": 28,
+    "trials": 16,
+    "text_acc": 1.0,
+    "img_acc": 1.0,
+    "text_lp": -0.009,
+    "img_lp": -0.004,
+    "text_depth": 24,
+    "img_depth": 24,
+    "tost_depth_gap": {
+      "mean_diff": 0,
+      "ci90": [
+        -0.15,
+        0.15
+      ],
+      "sesoi": 1.0,
+      "equivalent": true,
+      "se": 0.091,
+      "n": 16
+    }
+  },
+  {
+    "model": "Qwen/Qwen2.5-VL-7B-Instruct",
+    "K": 16,
+    "n_layers": 28,
+    "trials": 16,
+    "text_acc": 1.0,
+    "img_acc": 1.0,
+    "text_lp": -0.012,
+    "img_lp": -0.004,
+    "text_depth": 24.06,
+    "img_depth": 24.12,
+    "tost_depth_gap": {
+      "mean_diff": 0.062,
+      "ci90": [
+        -0.04,
+        0.165
+      ],
+      "sesoi": 1.0,
+      "equivalent": true,
+      "se": 0.062,
+      "n": 16
+    }
+  },
+  {
+    "model": "Qwen/Qwen2.5-VL-7B-Instruct",
+    "K": 24,
+    "n_layers": 28,
+    "trials": 16,
+    "text_acc": 1.0,
+    "img_acc": 1.0,
+    "text_lp": -0.018,
+    "img_lp": -0.006,
+    "text_depth": 24.06,
+    "img_depth": 24.12,
+    "tost_depth_gap": {
+      "mean_diff": 0.062,
+      "ci90": [
+        -0.04,
+        0.165
+      ],
+      "sesoi": 1.0,
+      "equivalent": true,
+      "se": 0.062,
+      "n": 16
+    }
+  },
+  {
+    "model": "Qwen/Qwen2.5-VL-32B-Instruct",
+    "K": 1,
+    "n_layers": 64,
+    "trials": 16,
+    "text_acc": 0.0,
+    "img_acc": 0.0,
+    "text_lp": -9.186,
+    "img_lp": -7.226,
+    "text_depth": 55.12,
+    "img_depth": 54.38,
+    "tost_depth_gap": {
+      "mean_diff": -0.75,
+      "ci90": [
+        -1.717,
+        0.217
+      ],
+      "sesoi": 1.0,
+      "equivalent": false,
+      "se": 0.588,
+      "n": 16
+    }
+  },
+  {
+    "model": "Qwen/Qwen2.5-VL-32B-Instruct",
+    "K": 4,
+    "n_layers": 64,
+    "trials": 16,
+    "text_acc": 0.0,
+    "img_acc": 0.0,
+    "text_lp": -9.411,
+    "img_lp": -7.444,
+    "text_depth": 53.88,
+    "img_depth": 53.62,
+    "tost_depth_gap": {
+      "mean_diff": -0.25,
+      "ci90": [
+        -1.24,
+        0.74
+      ],
+      "sesoi": 1.0,
+      "equivalent": false,
+      "se": 0.602,
+      "n": 16
+    }
+  },
+  {
+    "model": "Qwen/Qwen2.5-VL-32B-Instruct",
+    "K": 8,
+    "n_layers": 64,
+    "trials": 16,
+    "text_acc": 0.0,
+    "img_acc": 0.0,
+    "text_lp": -9.607,
+    "img_lp": -7.607,
+    "text_depth": 53.62,
+    "img_depth": 54.25,
+    "tost_depth_gap": {
+      "mean_diff": 0.625,
+      "ci90": [
+        -0.044,
+        1.294
+      ],
+      "sesoi": 1.0,
+      "equivalent": false,
+      "se": 0.407,
+      "n": 16
+    }
+  },
+  {
+    "model": "Qwen/Qwen2.5-VL-32B-Instruct",
+    "K": 16,
+    "n_layers": 64,
+    "trials": 16,
+    "text_acc": 0.0,
+    "img_acc": 0.0,
+    "text_lp": -9.482,
+    "img_lp": -8.246,
+    "text_depth": 54.44,
+    "img_depth": 54.31,
+    "tost_depth_gap": {
+      "mean_diff": -0.125,
+      "ci90": [
+        -0.723,
+        0.473
+      ],
+      "sesoi": 1.0,
+      "equivalent": true,
+      "se": 0.364,
+      "n": 16
+    }
+  },
+  {
+    "model": "Qwen/Qwen2.5-VL-32B-Instruct",
+    "K": 24,
+    "n_layers": 64,
+    "trials": 16,
+    "text_acc": 0.0,
+    "img_acc": 0.0,
+    "text_lp": -8.807,
+    "img_lp": -8.023,
+    "text_depth": 53.88,
+    "img_depth": 55.81,
+    "tost_depth_gap": {
+      "mean_diff": 1.938,
+      "ci90": [
+        1.043,
+        2.832
+      ],
+      "sesoi": 1.0,
+      "equivalent": false,
+      "se": 0.544,
+      "n": 16
+    }
+  }
+]

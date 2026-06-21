@@ -1,0 +1,87 @@
+{
+  "n_cells": 1,
+  "n_rows": 2,
+  "seeds_per_cell_cond": {
+    "C1": 1.0,
+    "E1": 1.0,
+    "E2": 0.0
+  },
+  "coverage_contrasts": {
+    "E2_vs_C1": {
+      "contrast": "E2-vs-C1",
+      "key": "coverage",
+      "n_pairs": 0,
+      "mean_a": null,
+      "mean_b": null,
+      "mean_diff": null,
+      "boot_ci95": [
+        null,
+        null
+      ],
+      "n_a_worse": 0,
+      "n_a_better": 0
+    },
+    "E1_vs_C1": {
+      "contrast": "E1-vs-C1",
+      "key": "coverage",
+      "n_pairs": 1,
+      "mean_a": 1.0,
+      "mean_b": 0.98,
+      "mean_diff": 0.02,
+      "boot_ci95": [
+        null,
+        null
+      ],
+      "n_a_worse": 0,
+      "n_a_better": 1,
+      "tost": {
+        "equivalent": null,
+        "n": 1
+      }
+    }
+  },
+  "halluc_contrasts": {
+    "E1_vs_C1": {
+      "contrast": "E1-vs-C1",
+      "key": "n_unsupported",
+      "n_pairs": 1,
+      "mean_a": 1.0,
+      "mean_b": 5.0,
+      "mean_diff": -4.0,
+      "boot_ci95": [
+        null,
+        null
+      ],
+      "n_a_worse": 1,
+      "n_a_better": 0
+    }
+  },
+  "E2_review_failures": {
+    "cells_with_failures": {},
+    "total_failed_runs": 0
+  },
+  "synthesis_variance": {
+    "C1": {
+      "mean_within_cell_seed_sd_coverage": null,
+      "n_cells_with>=2_seeds": 0
+    },
+    "E1": {
+      "mean_within_cell_seed_sd_coverage": null,
+      "n_cells_with>=2_seeds": 0
+    },
+    "E2": {
+      "mean_within_cell_seed_sd_coverage": null,
+      "n_cells_with>=2_seeds": 0
+    }
+  },
+  "mixed_effects_coverage": {
+    "Intercept": 0.0,
+    "C(cond, Treatment('C1'))[T.E1]": 0.02,
+    "Group Var": 0.0,
+    "pvalues": {
+      "Intercept": NaN,
+      "C(cond, Treatment('C1'))[T.E1]": NaN,
+      "Group Var": NaN
+    }
+  }
+}

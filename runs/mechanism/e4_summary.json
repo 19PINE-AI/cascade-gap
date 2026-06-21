@@ -1,0 +1,26 @@
+[
+  {
+    "cell": "heat_pipes_104pp",
+    "dpi": 96,
+    "prompt_tokens": 112007,
+    "n_images": 104,
+    "review_words": 1952,
+    "label": "E4_96dpi",
+    "n_unsupported": 11,
+    "n_probes": 50,
+    "n_covered": 38,
+    "coverage": 0.76
+  },
+  {
+    "cell": "heat_pipes_104pp",
+    "dpi": 200,
+    "prompt_tokens": 111855,
+    "n_images": 104,
+    "review_words": 1645,
+    "label": "E4_200dpi",
+    "n_unsupported": 7,
+    "n_probes": 50,
+    "n_covered": 37,
+    "coverage": 0.74
+  }
+]

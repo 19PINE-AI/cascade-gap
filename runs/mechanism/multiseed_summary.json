@@ -1,0 +1,1720 @@
+[
+  {
+    "cell": "3b1b",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.98,
+    "n_covered": 49,
+    "n_probes": 50,
+    "n_unsupported": 5,
+    "review_words": 1558
+  },
+  {
+    "cell": "3b1b",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 1.0,
+    "n_covered": 50,
+    "n_probes": 50,
+    "n_unsupported": 1,
+    "review_words": 1583
+  },
+  {
+    "cell": "3b1b",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.9,
+    "n_covered": 45,
+    "n_probes": 50,
+    "n_unsupported": 3,
+    "review_words": 1085
+  },
+  {
+    "cell": "doudna",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.92,
+    "n_covered": 46,
+    "n_probes": 50,
+    "n_unsupported": 3,
+    "review_words": 1937
+  },
+  {
+    "cell": "doudna",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.9,
+    "n_covered": 45,
+    "n_probes": 50,
+    "n_unsupported": 6,
+    "review_words": 1852
+  },
+  {
+    "cell": "doudna",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.68,
+    "n_covered": 34,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 1219
+  },
+  {
+    "cell": "harvard",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.72,
+    "n_covered": 36,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 2134
+  },
+  {
+    "cell": "harvard",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.68,
+    "n_covered": 34,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 2374
+  },
+  {
+    "cell": "harvard",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.42,
+    "n_covered": 21,
+    "n_probes": 50,
+    "n_unsupported": 14,
+    "review_words": 1210
+  },
+  {
+    "cell": "karpathy",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.882,
+    "n_covered": 45,
+    "n_probes": 51,
+    "n_unsupported": 2,
+    "review_words": 1889
+  },
+  {
+    "cell": "karpathy",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.902,
+    "n_covered": 46,
+    "n_probes": 51,
+    "n_unsupported": 9,
+    "review_words": 1884
+  },
+  {
+    "cell": "karpathy",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.706,
+    "n_covered": 36,
+    "n_probes": 51,
+    "n_unsupported": 8,
+    "review_words": 1223
+  },
+  {
+    "cell": "mit6034",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.979,
+    "n_covered": 47,
+    "n_probes": 48,
+    "n_unsupported": 9,
+    "review_words": 1872
+  },
+  {
+    "cell": "mit6034",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.958,
+    "n_covered": 46,
+    "n_probes": 48,
+    "n_unsupported": 9,
+    "review_words": 1720
+  },
+  {
+    "cell": "mit6034",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.854,
+    "n_covered": 41,
+    "n_probes": 48,
+    "n_unsupported": 8,
+    "review_words": 1488
+  },
+  {
+    "cell": "neurips",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.98,
+    "n_covered": 48,
+    "n_probes": 49,
+    "n_unsupported": 3,
+    "review_words": 1664
+  },
+  {
+    "cell": "neurips",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.939,
+    "n_covered": 46,
+    "n_probes": 49,
+    "n_unsupported": 6,
+    "review_words": 1743
+  },
+  {
+    "cell": "neurips",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.939,
+    "n_covered": 46,
+    "n_probes": 49,
+    "n_unsupported": 2,
+    "review_words": 1379
+  },
+  {
+    "cell": "sapolsky",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.816,
+    "n_covered": 40,
+    "n_probes": 49,
+    "n_unsupported": 9,
+    "review_words": 1983
+  },
+  {
+    "cell": "sapolsky",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.776,
+    "n_covered": 38,
+    "n_probes": 49,
+    "n_unsupported": 14,
+    "review_words": 2070
+  },
+  {
+    "cell": "sapolsky",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.673,
+    "n_covered": 33,
+    "n_probes": 49,
+    "n_unsupported": 19,
+    "review_words": 1534
+  },
+  {
+    "cell": "stanford",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.98,
+    "n_covered": 49,
+    "n_probes": 50,
+    "n_unsupported": 8,
+    "review_words": 1779
+  },
+  {
+    "cell": "stanford",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.94,
+    "n_covered": 47,
+    "n_probes": 50,
+    "n_unsupported": 5,
+    "review_words": 1847
+  },
+  {
+    "cell": "stanford",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.78,
+    "n_covered": 39,
+    "n_probes": 50,
+    "n_unsupported": 7,
+    "review_words": 1406
+  },
+  {
+    "cell": "veritasium",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.98,
+    "n_covered": 49,
+    "n_probes": 50,
+    "n_unsupported": 6,
+    "review_words": 2946
+  },
+  {
+    "cell": "veritasium",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.98,
+    "n_covered": 49,
+    "n_probes": 50,
+    "n_unsupported": 7,
+    "review_words": 2799
+  },
+  {
+    "cell": "veritasium",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.88,
+    "n_covered": 44,
+    "n_probes": 50,
+    "n_unsupported": 11,
+    "review_words": 1906
+  },
+  {
+    "cell": "snac_min",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.531,
+    "n_covered": 26,
+    "n_probes": 49,
+    "n_unsupported": 13,
+    "review_words": 1044
+  },
+  {
+    "cell": "snac_min",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.837,
+    "n_covered": 41,
+    "n_probes": 49,
+    "n_unsupported": 5,
+    "review_words": 1227
+  },
+  {
+    "cell": "snac_min",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.49,
+    "n_covered": 24,
+    "n_probes": 49,
+    "n_unsupported": 5,
+    "review_words": 849
+  },
+  {
+    "cell": "karpathy_min",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.3,
+    "n_covered": 15,
+    "n_probes": 50,
+    "n_unsupported": 0,
+    "review_words": 665
+  },
+  {
+    "cell": "karpathy_min",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.76,
+    "n_covered": 38,
+    "n_probes": 50,
+    "n_unsupported": 5,
+    "review_words": 1925
+  },
+  {
+    "cell": "karpathy_min",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.74,
+    "n_covered": 37,
+    "n_probes": 50,
+    "n_unsupported": 8,
+    "review_words": 1189
+  },
+  {
+    "cell": "env_test",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.96,
+    "n_covered": 48,
+    "n_probes": 50,
+    "n_unsupported": 5,
+    "review_words": 1729
+  },
+  {
+    "cell": "env_test",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.92,
+    "n_covered": 46,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 1455
+  },
+  {
+    "cell": "env_test",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.74,
+    "n_covered": 37,
+    "n_probes": 50,
+    "n_unsupported": 3,
+    "review_words": 1101
+  },
+  {
+    "cell": "dyn_resp",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.64,
+    "n_covered": 32,
+    "n_probes": 50,
+    "n_unsupported": 6,
+    "review_words": 1008
+  },
+  {
+    "cell": "dyn_resp",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.66,
+    "n_covered": 33,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 805
+  },
+  {
+    "cell": "dyn_resp",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.44,
+    "n_covered": 22,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 687
+  },
+  {
+    "cell": "nat_vib",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.617,
+    "n_covered": 29,
+    "n_probes": 47,
+    "n_unsupported": 6,
+    "review_words": 1193
+  },
+  {
+    "cell": "nat_vib",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.596,
+    "n_covered": 28,
+    "n_probes": 47,
+    "n_unsupported": 10,
+    "review_words": 1445
+  },
+  {
+    "cell": "nat_vib",
+    "cond": "E2",
+    "seed": 0,
+    "error": "no review (budget/format)",
+    "review_words": 0
+  },
+  {
+    "cell": "thermal",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.74,
+    "n_covered": 37,
+    "n_probes": 50,
+    "n_unsupported": 3,
+    "review_words": 1354
+  },
+  {
+    "cell": "thermal",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.8,
+    "n_covered": 40,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 1208
+  },
+  {
+    "cell": "thermal",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.46,
+    "n_covered": 23,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 716
+  },
+  {
+    "cell": "heat_pipes",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.48,
+    "n_covered": 24,
+    "n_probes": 50,
+    "n_unsupported": 7,
+    "review_words": 1224
+  },
+  {
+    "cell": "heat_pipes",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.7,
+    "n_covered": 35,
+    "n_probes": 50,
+    "n_unsupported": 14,
+    "review_words": 1705
+  },
+  {
+    "cell": "heat_pipes",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.3,
+    "n_covered": 15,
+    "n_probes": 50,
+    "n_unsupported": 7,
+    "review_words": 783
+  },
+  {
+    "cell": "wagging",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.816,
+    "n_covered": 40,
+    "n_probes": 49,
+    "n_unsupported": 2,
+    "review_words": 1254
+  },
+  {
+    "cell": "wagging",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.776,
+    "n_covered": 38,
+    "n_probes": 49,
+    "n_unsupported": 2,
+    "review_words": 1293
+  },
+  {
+    "cell": "wagging",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.571,
+    "n_covered": 28,
+    "n_probes": 49,
+    "n_unsupported": 4,
+    "review_words": 794
+  },
+  {
+    "cell": "sp5100",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.562,
+    "n_covered": 27,
+    "n_probes": 48,
+    "n_unsupported": 58,
+    "review_words": 2198
+  },
+  {
+    "cell": "sp5100",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.458,
+    "n_covered": 22,
+    "n_probes": 48,
+    "n_unsupported": 43,
+    "review_words": 2056
+  },
+  {
+    "cell": "sp5100",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.312,
+    "n_covered": 15,
+    "n_probes": 48,
+    "n_unsupported": 2,
+    "review_words": 864
+  },
+  {
+    "cell": "fairness",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.36,
+    "n_covered": 18,
+    "n_probes": 50,
+    "n_unsupported": 12,
+    "review_words": 1166
+  },
+  {
+    "cell": "fairness",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.32,
+    "n_covered": 16,
+    "n_probes": 50,
+    "n_unsupported": 22,
+    "review_words": 1387
+  },
+  {
+    "cell": "fairness",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.24,
+    "n_covered": 12,
+    "n_probes": 50,
+    "n_unsupported": 7,
+    "review_words": 954
+  },
+  {
+    "cell": "megagauss",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.36,
+    "n_covered": 18,
+    "n_probes": 50,
+    "n_unsupported": 29,
+    "review_words": 1373
+  },
+  {
+    "cell": "megagauss",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.7,
+    "n_covered": 35,
+    "n_probes": 50,
+    "n_unsupported": 35,
+    "review_words": 2598
+  },
+  {
+    "cell": "megagauss",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.28,
+    "n_covered": 14,
+    "n_probes": 50,
+    "n_unsupported": 0,
+    "review_words": 919
+  },
+  {
+    "cell": "perovskite",
+    "cond": "C1",
+    "seed": 0,
+    "coverage": 0.72,
+    "n_covered": 36,
+    "n_probes": 50,
+    "n_unsupported": 2,
+    "review_words": 1487
+  },
+  {
+    "cell": "perovskite",
+    "cond": "E1",
+    "seed": 0,
+    "coverage": 0.8,
+    "n_covered": 40,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 1540
+  },
+  {
+    "cell": "perovskite",
+    "cond": "E2",
+    "seed": 0,
+    "coverage": 0.48,
+    "n_covered": 24,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 921
+  },
+  {
+    "cell": "3b1b",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.96,
+    "n_covered": 48,
+    "n_probes": 50,
+    "n_unsupported": 0,
+    "review_words": 1449
+  },
+  {
+    "cell": "3b1b",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 1.0,
+    "n_covered": 50,
+    "n_probes": 50,
+    "n_unsupported": 1,
+    "review_words": 1621
+  },
+  {
+    "cell": "3b1b",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.8,
+    "n_covered": 40,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 1039
+  },
+  {
+    "cell": "doudna",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.84,
+    "n_covered": 42,
+    "n_probes": 50,
+    "n_unsupported": 6,
+    "review_words": 2100
+  },
+  {
+    "cell": "doudna",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.82,
+    "n_covered": 41,
+    "n_probes": 50,
+    "n_unsupported": 7,
+    "review_words": 1653
+  },
+  {
+    "cell": "doudna",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.76,
+    "n_covered": 38,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 1396
+  },
+  {
+    "cell": "harvard",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.92,
+    "n_covered": 46,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 2483
+  },
+  {
+    "cell": "harvard",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.64,
+    "n_covered": 32,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 1848
+  },
+  {
+    "cell": "harvard",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.62,
+    "n_covered": 31,
+    "n_probes": 50,
+    "n_unsupported": 10,
+    "review_words": 1640
+  },
+  {
+    "cell": "karpathy",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.882,
+    "n_covered": 45,
+    "n_probes": 51,
+    "n_unsupported": 7,
+    "review_words": 1674
+  },
+  {
+    "cell": "karpathy",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.922,
+    "n_covered": 47,
+    "n_probes": 51,
+    "n_unsupported": 4,
+    "review_words": 2071
+  },
+  {
+    "cell": "karpathy",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.706,
+    "n_covered": 36,
+    "n_probes": 51,
+    "n_unsupported": 6,
+    "review_words": 1355
+  },
+  {
+    "cell": "mit6034",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.917,
+    "n_covered": 44,
+    "n_probes": 48,
+    "n_unsupported": 7,
+    "review_words": 1699
+  },
+  {
+    "cell": "mit6034",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.938,
+    "n_covered": 45,
+    "n_probes": 48,
+    "n_unsupported": 8,
+    "review_words": 1900
+  },
+  {
+    "cell": "mit6034",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.771,
+    "n_covered": 37,
+    "n_probes": 48,
+    "n_unsupported": 11,
+    "review_words": 1313
+  },
+  {
+    "cell": "neurips",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 1.0,
+    "n_covered": 49,
+    "n_probes": 49,
+    "n_unsupported": 4,
+    "review_words": 1615
+  },
+  {
+    "cell": "neurips",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.939,
+    "n_covered": 46,
+    "n_probes": 49,
+    "n_unsupported": 4,
+    "review_words": 1847
+  },
+  {
+    "cell": "neurips",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.878,
+    "n_covered": 43,
+    "n_probes": 49,
+    "n_unsupported": 4,
+    "review_words": 1563
+  },
+  {
+    "cell": "sapolsky",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.898,
+    "n_covered": 44,
+    "n_probes": 49,
+    "n_unsupported": 11,
+    "review_words": 2102
+  },
+  {
+    "cell": "sapolsky",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.898,
+    "n_covered": 44,
+    "n_probes": 49,
+    "n_unsupported": 16,
+    "review_words": 2363
+  },
+  {
+    "cell": "sapolsky",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.776,
+    "n_covered": 38,
+    "n_probes": 49,
+    "n_unsupported": 14,
+    "review_words": 1770
+  },
+  {
+    "cell": "stanford",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.92,
+    "n_covered": 46,
+    "n_probes": 50,
+    "n_unsupported": 7,
+    "review_words": 1669
+  },
+  {
+    "cell": "stanford",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.92,
+    "n_covered": 46,
+    "n_probes": 50,
+    "n_unsupported": 5,
+    "review_words": 1748
+  },
+  {
+    "cell": "stanford",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.62,
+    "n_covered": 31,
+    "n_probes": 50,
+    "n_unsupported": 2,
+    "review_words": 1338
+  },
+  {
+    "cell": "veritasium",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.96,
+    "n_covered": 48,
+    "n_probes": 50,
+    "n_unsupported": 11,
+    "review_words": 2407
+  },
+  {
+    "cell": "veritasium",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.94,
+    "n_covered": 47,
+    "n_probes": 50,
+    "n_unsupported": 7,
+    "review_words": 2508
+  },
+  {
+    "cell": "veritasium",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.84,
+    "n_covered": 42,
+    "n_probes": 50,
+    "n_unsupported": 9,
+    "review_words": 1654
+  },
+  {
+    "cell": "snac_min",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.408,
+    "n_covered": 20,
+    "n_probes": 49,
+    "n_unsupported": 14,
+    "review_words": 927
+  },
+  {
+    "cell": "snac_min",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.898,
+    "n_covered": 44,
+    "n_probes": 49,
+    "n_unsupported": 7,
+    "review_words": 1430
+  },
+  {
+    "cell": "snac_min",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.551,
+    "n_covered": 27,
+    "n_probes": 49,
+    "n_unsupported": 15,
+    "review_words": 946
+  },
+  {
+    "cell": "karpathy_min",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.24,
+    "n_covered": 12,
+    "n_probes": 50,
+    "n_unsupported": 1,
+    "review_words": 708
+  },
+  {
+    "cell": "karpathy_min",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.88,
+    "n_covered": 44,
+    "n_probes": 50,
+    "n_unsupported": 6,
+    "review_words": 1821
+  },
+  {
+    "cell": "karpathy_min",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.64,
+    "n_covered": 32,
+    "n_probes": 50,
+    "n_unsupported": 5,
+    "review_words": 1372
+  },
+  {
+    "cell": "env_test",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.88,
+    "n_covered": 44,
+    "n_probes": 50,
+    "n_unsupported": 5,
+    "review_words": 1232
+  },
+  {
+    "cell": "env_test",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.88,
+    "n_covered": 44,
+    "n_probes": 50,
+    "n_unsupported": 10,
+    "review_words": 1656
+  },
+  {
+    "cell": "env_test",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.8,
+    "n_covered": 40,
+    "n_probes": 50,
+    "n_unsupported": 3,
+    "review_words": 1120
+  },
+  {
+    "cell": "dyn_resp",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.68,
+    "n_covered": 34,
+    "n_probes": 50,
+    "n_unsupported": 3,
+    "review_words": 1114
+  },
+  {
+    "cell": "dyn_resp",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.62,
+    "n_covered": 31,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 925
+  },
+  {
+    "cell": "dyn_resp",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.46,
+    "n_covered": 23,
+    "n_probes": 50,
+    "n_unsupported": 3,
+    "review_words": 998
+  },
+  {
+    "cell": "nat_vib",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.681,
+    "n_covered": 32,
+    "n_probes": 47,
+    "n_unsupported": 4,
+    "review_words": 1069
+  },
+  {
+    "cell": "nat_vib",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.681,
+    "n_covered": 32,
+    "n_probes": 47,
+    "n_unsupported": 9,
+    "review_words": 1399
+  },
+  {
+    "cell": "nat_vib",
+    "cond": "E2",
+    "seed": 1,
+    "error": "no review (budget/format)",
+    "review_words": 0
+  },
+  {
+    "cell": "thermal",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.74,
+    "n_covered": 37,
+    "n_probes": 50,
+    "n_unsupported": 0,
+    "review_words": 1218
+  },
+  {
+    "cell": "thermal",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.74,
+    "n_covered": 37,
+    "n_probes": 50,
+    "n_unsupported": 2,
+    "review_words": 1087
+  },
+  {
+    "cell": "thermal",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.54,
+    "n_covered": 27,
+    "n_probes": 50,
+    "n_unsupported": 5,
+    "review_words": 776
+  },
+  {
+    "cell": "heat_pipes",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.58,
+    "n_covered": 29,
+    "n_probes": 50,
+    "n_unsupported": 10,
+    "review_words": 1270
+  },
+  {
+    "cell": "heat_pipes",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.72,
+    "n_covered": 36,
+    "n_probes": 50,
+    "n_unsupported": 11,
+    "review_words": 1689
+  },
+  {
+    "cell": "heat_pipes",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.46,
+    "n_covered": 23,
+    "n_probes": 50,
+    "n_unsupported": 9,
+    "review_words": 1416
+  },
+  {
+    "cell": "wagging",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.776,
+    "n_covered": 38,
+    "n_probes": 49,
+    "n_unsupported": 5,
+    "review_words": 1234
+  },
+  {
+    "cell": "wagging",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.755,
+    "n_covered": 37,
+    "n_probes": 49,
+    "n_unsupported": 3,
+    "review_words": 1167
+  },
+  {
+    "cell": "wagging",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.633,
+    "n_covered": 31,
+    "n_probes": 49,
+    "n_unsupported": 5,
+    "review_words": 975
+  },
+  {
+    "cell": "sp5100",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.542,
+    "n_covered": 26,
+    "n_probes": 48,
+    "n_unsupported": 49,
+    "review_words": 1739
+  },
+  {
+    "cell": "sp5100",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.438,
+    "n_covered": 21,
+    "n_probes": 48,
+    "n_unsupported": 46,
+    "review_words": 1801
+  },
+  {
+    "cell": "sp5100",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.271,
+    "n_covered": 13,
+    "n_probes": 48,
+    "n_unsupported": 4,
+    "review_words": 690
+  },
+  {
+    "cell": "fairness",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.32,
+    "n_covered": 16,
+    "n_probes": 50,
+    "n_unsupported": 11,
+    "review_words": 990
+  },
+  {
+    "cell": "fairness",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.38,
+    "n_covered": 19,
+    "n_probes": 50,
+    "n_unsupported": 14,
+    "review_words": 1559
+  },
+  {
+    "cell": "fairness",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.28,
+    "n_covered": 14,
+    "n_probes": 50,
+    "n_unsupported": 9,
+    "review_words": 697
+  },
+  {
+    "cell": "megagauss",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.0,
+    "n_covered": 0,
+    "n_probes": 50,
+    "n_unsupported": 8,
+    "review_words": 661
+  },
+  {
+    "cell": "megagauss",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.8,
+    "n_covered": 40,
+    "n_probes": 50,
+    "n_unsupported": 34,
+    "review_words": 2543
+  },
+  {
+    "cell": "megagauss",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.42,
+    "n_covered": 21,
+    "n_probes": 50,
+    "n_unsupported": 1,
+    "review_words": 987
+  },
+  {
+    "cell": "perovskite",
+    "cond": "C1",
+    "seed": 1,
+    "coverage": 0.84,
+    "n_covered": 42,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 1935
+  },
+  {
+    "cell": "perovskite",
+    "cond": "E1",
+    "seed": 1,
+    "coverage": 0.9,
+    "n_covered": 45,
+    "n_probes": 50,
+    "n_unsupported": 6,
+    "review_words": 1808
+  },
+  {
+    "cell": "perovskite",
+    "cond": "E2",
+    "seed": 1,
+    "coverage": 0.5,
+    "n_covered": 25,
+    "n_probes": 50,
+    "n_unsupported": 5,
+    "review_words": 925
+  },
+  {
+    "cell": "3b1b",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.96,
+    "n_covered": 48,
+    "n_probes": 50,
+    "n_unsupported": 3,
+    "review_words": 1528
+  },
+  {
+    "cell": "3b1b",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 1.0,
+    "n_covered": 50,
+    "n_probes": 50,
+    "n_unsupported": 2,
+    "review_words": 1482
+  },
+  {
+    "cell": "3b1b",
+    "cond": "E2",
+    "seed": 2,
+    "error": "no review (budget/format)",
+    "review_words": 0
+  },
+  {
+    "cell": "doudna",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.86,
+    "n_covered": 43,
+    "n_probes": 50,
+    "n_unsupported": 5,
+    "review_words": 1802
+  },
+  {
+    "cell": "doudna",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.94,
+    "n_covered": 47,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 1903
+  },
+  {
+    "cell": "doudna",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.72,
+    "n_covered": 36,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 1365
+  },
+  {
+    "cell": "harvard",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.84,
+    "n_covered": 42,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 2117
+  },
+  {
+    "cell": "harvard",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.58,
+    "n_covered": 29,
+    "n_probes": 50,
+    "n_unsupported": 7,
+    "review_words": 1748
+  },
+  {
+    "cell": "harvard",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.46,
+    "n_covered": 23,
+    "n_probes": 50,
+    "n_unsupported": 9,
+    "review_words": 1084
+  },
+  {
+    "cell": "karpathy",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.863,
+    "n_covered": 44,
+    "n_probes": 51,
+    "n_unsupported": 5,
+    "review_words": 1887
+  },
+  {
+    "cell": "karpathy",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.863,
+    "n_covered": 44,
+    "n_probes": 51,
+    "n_unsupported": 5,
+    "review_words": 1945
+  },
+  {
+    "cell": "karpathy",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.745,
+    "n_covered": 38,
+    "n_probes": 51,
+    "n_unsupported": 8,
+    "review_words": 1397
+  },
+  {
+    "cell": "mit6034",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.979,
+    "n_covered": 47,
+    "n_probes": 48,
+    "n_unsupported": 8,
+    "review_words": 1721
+  },
+  {
+    "cell": "mit6034",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.812,
+    "n_covered": 39,
+    "n_probes": 48,
+    "n_unsupported": 5,
+    "review_words": 1737
+  },
+  {
+    "cell": "mit6034",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.75,
+    "n_covered": 36,
+    "n_probes": 48,
+    "n_unsupported": 7,
+    "review_words": 1325
+  },
+  {
+    "cell": "neurips",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.918,
+    "n_covered": 45,
+    "n_probes": 49,
+    "n_unsupported": 5,
+    "review_words": 1435
+  },
+  {
+    "cell": "neurips",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.918,
+    "n_covered": 45,
+    "n_probes": 49,
+    "n_unsupported": 8,
+    "review_words": 1660
+  },
+  {
+    "cell": "neurips",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.878,
+    "n_covered": 43,
+    "n_probes": 49,
+    "n_unsupported": 4,
+    "review_words": 1177
+  },
+  {
+    "cell": "sapolsky",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.878,
+    "n_covered": 43,
+    "n_probes": 49,
+    "n_unsupported": 15,
+    "review_words": 2297
+  },
+  {
+    "cell": "sapolsky",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.857,
+    "n_covered": 42,
+    "n_probes": 49,
+    "n_unsupported": 18,
+    "review_words": 2163
+  },
+  {
+    "cell": "sapolsky",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.653,
+    "n_covered": 32,
+    "n_probes": 49,
+    "n_unsupported": 11,
+    "review_words": 1415
+  },
+  {
+    "cell": "stanford",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 1.0,
+    "n_covered": 50,
+    "n_probes": 50,
+    "n_unsupported": 3,
+    "review_words": 1731
+  },
+  {
+    "cell": "stanford",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.86,
+    "n_covered": 43,
+    "n_probes": 50,
+    "n_unsupported": 7,
+    "review_words": 1872
+  },
+  {
+    "cell": "stanford",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.9,
+    "n_covered": 45,
+    "n_probes": 50,
+    "n_unsupported": 8,
+    "review_words": 1158
+  },
+  {
+    "cell": "veritasium",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.96,
+    "n_covered": 48,
+    "n_probes": 50,
+    "n_unsupported": 9,
+    "review_words": 2436
+  },
+  {
+    "cell": "veritasium",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.92,
+    "n_covered": 46,
+    "n_probes": 50,
+    "n_unsupported": 7,
+    "review_words": 2503
+  },
+  {
+    "cell": "veritasium",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.86,
+    "n_covered": 43,
+    "n_probes": 50,
+    "n_unsupported": 12,
+    "review_words": 1506
+  },
+  {
+    "cell": "snac_min",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.469,
+    "n_covered": 23,
+    "n_probes": 49,
+    "n_unsupported": 12,
+    "review_words": 1090
+  },
+  {
+    "cell": "snac_min",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.898,
+    "n_covered": 44,
+    "n_probes": 49,
+    "n_unsupported": 8,
+    "review_words": 1406
+  },
+  {
+    "cell": "snac_min",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.694,
+    "n_covered": 34,
+    "n_probes": 49,
+    "n_unsupported": 15,
+    "review_words": 1298
+  },
+  {
+    "cell": "karpathy_min",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.26,
+    "n_covered": 13,
+    "n_probes": 50,
+    "n_unsupported": 7,
+    "review_words": 713
+  },
+  {
+    "cell": "karpathy_min",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.76,
+    "n_covered": 38,
+    "n_probes": 50,
+    "n_unsupported": 7,
+    "review_words": 1705
+  },
+  {
+    "cell": "karpathy_min",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.54,
+    "n_covered": 27,
+    "n_probes": 50,
+    "n_unsupported": 8,
+    "review_words": 1148
+  },
+  {
+    "cell": "env_test",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.94,
+    "n_covered": 47,
+    "n_probes": 50,
+    "n_unsupported": 2,
+    "review_words": 1599
+  },
+  {
+    "cell": "env_test",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.94,
+    "n_covered": 47,
+    "n_probes": 50,
+    "n_unsupported": 6,
+    "review_words": 1664
+  },
+  {
+    "cell": "env_test",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.76,
+    "n_covered": 38,
+    "n_probes": 50,
+    "n_unsupported": 5,
+    "review_words": 977
+  },
+  {
+    "cell": "dyn_resp",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.66,
+    "n_covered": 33,
+    "n_probes": 50,
+    "n_unsupported": 2,
+    "review_words": 1080
+  },
+  {
+    "cell": "dyn_resp",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.62,
+    "n_covered": 31,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 982
+  },
+  {
+    "cell": "dyn_resp",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.52,
+    "n_covered": 26,
+    "n_probes": 50,
+    "n_unsupported": 4,
+    "review_words": 1009
+  },
+  {
+    "cell": "nat_vib",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.489,
+    "n_covered": 23,
+    "n_probes": 47,
+    "n_unsupported": 8,
+    "review_words": 1114
+  },
+  {
+    "cell": "nat_vib",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.787,
+    "n_covered": 37,
+    "n_probes": 47,
+    "n_unsupported": 8,
+    "review_words": 1559
+  },
+  {
+    "cell": "nat_vib",
+    "cond": "E2",
+    "seed": 2,
+    "error": "no review (budget/format)",
+    "review_words": 0
+  },
+  {
+    "cell": "thermal",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.68,
+    "n_covered": 34,
+    "n_probes": 50,
+    "n_unsupported": 6,
+    "review_words": 1128
+  },
+  {
+    "cell": "thermal",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.7,
+    "n_covered": 35,
+    "n_probes": 50,
+    "n_unsupported": 6,
+    "review_words": 1231
+  },
+  {
+    "cell": "thermal",
+    "cond": "E2",
+    "seed": 2,
+    "coverage": 0.42,
+    "n_covered": 21,
+    "n_probes": 50,
+    "n_unsupported": 3,
+    "review_words": 632
+  },
+  {
+    "cell": "heat_pipes",
+    "cond": "C1",
+    "seed": 2,
+    "coverage": 0.64,
+    "n_covered": 32,
+    "n_probes": 50,
+    "n_unsupported": 7,
+    "review_words": 1402
+  },
+  {
+    "cell": "heat_pipes",
+    "cond": "E1",
+    "seed": 2,
+    "coverage": 0.72,
+    "n_covered": 36,
+    "n_probes": 50,
+    "n_unsupported": 9,
+    "review_words": 1511
+  }
+]

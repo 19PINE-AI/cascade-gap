@@ -1,0 +1,190 @@
+[
+  {
+    "cell": "mit_6034",
+    "exp": "E2",
+    "regime": "audio strong-win",
+    "error": "no review section (single-call output budget exceeded by transcript)",
+    "raw_words": 2023,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 17,
+        "coverage": 0.771,
+        "n_covered": 37,
+        "n_probes": 48
+      },
+      "C1": {
+        "n_unsupported": 4,
+        "coverage": 0.979,
+        "n_covered": 47,
+        "n_probes": 48
+      }
+    }
+  },
+  {
+    "cell": "3b1b_attention",
+    "exp": "E2",
+    "regime": "audio clean-halluc-win",
+    "review_words": 971,
+    "label": "E2",
+    "n_unsupported": 1,
+    "n_probes": 50,
+    "n_covered": 40,
+    "coverage": 0.8,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 11,
+        "coverage": 0.88,
+        "n_covered": 44,
+        "n_probes": 50
+      },
+      "C1": {
+        "n_unsupported": 0,
+        "coverage": 0.96,
+        "n_covered": 48,
+        "n_probes": 50
+      }
+    }
+  },
+  {
+    "cell": "wagging_tail_9pp",
+    "exp": "E2",
+    "regime": "paper high-baseline",
+    "review_words": 1011,
+    "label": "E2",
+    "n_unsupported": 5,
+    "n_probes": 49,
+    "n_covered": 31,
+    "coverage": 0.633,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 3,
+        "coverage": 0.796,
+        "n_covered": 39,
+        "n_probes": 49
+      },
+      "C1": {
+        "n_unsupported": 1,
+        "coverage": 0.776,
+        "n_covered": 38,
+        "n_probes": 49
+      }
+    }
+  },
+  {
+    "cell": "natural_vib_42pp",
+    "exp": "E2",
+    "regime": "paper Mode-B counter",
+    "error": "no review section (single-call output budget exceeded by transcript)",
+    "raw_words": 62374,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 4,
+        "coverage": 0.66,
+        "n_covered": 31,
+        "n_probes": 47
+      },
+      "C1": {
+        "n_unsupported": 5,
+        "coverage": 0.489,
+        "n_covered": 23,
+        "n_probes": 47
+      }
+    }
+  },
+  {
+    "cell": "thermal_66pp",
+    "exp": "E2",
+    "regime": "paper strong-win",
+    "review_words": 722,
+    "label": "E2",
+    "n_unsupported": 3,
+    "n_probes": 50,
+    "n_covered": 20,
+    "coverage": 0.4,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 5,
+        "coverage": 0.68,
+        "n_covered": 34,
+        "n_probes": 50
+      },
+      "C1": {
+        "n_unsupported": 2,
+        "coverage": 0.84,
+        "n_covered": 42,
+        "n_probes": 50
+      }
+    }
+  },
+  {
+    "cell": "heat_pipes_104pp",
+    "exp": "E2",
+    "regime": "paper Mode-A/B long",
+    "error": "no review section (single-call output budget exceeded by transcript)",
+    "raw_words": 56560,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 14,
+        "coverage": 0.72,
+        "n_covered": 36,
+        "n_probes": 50
+      },
+      "C1": {
+        "n_unsupported": 11,
+        "coverage": 0.78,
+        "n_covered": 39,
+        "n_probes": 50
+      }
+    }
+  },
+  {
+    "cell": "arxiv_fairness_53pp",
+    "exp": "E2",
+    "regime": "arxiv Mode-A reversal",
+    "review_words": 689,
+    "label": "E2",
+    "n_unsupported": 11,
+    "n_probes": 50,
+    "n_covered": 12,
+    "coverage": 0.24,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 14,
+        "coverage": 0.5,
+        "n_covered": 25,
+        "n_probes": 50
+      },
+      "C1": {
+        "n_unsupported": 15,
+        "coverage": 0.4,
+        "n_covered": 20,
+        "n_probes": 50
+      }
+    }
+  },
+  {
+    "cell": "arxiv_perovskite_80pp",
+    "exp": "E2",
+    "regime": "arxiv near-noise",
+    "review_words": 1251,
+    "label": "E2",
+    "n_unsupported": 5,
+    "n_probes": 50,
+    "n_covered": 40,
+    "coverage": 0.8,
+    "baseline": {
+      "C0": {
+        "n_unsupported": 2,
+        "coverage": 0.9,
+        "n_covered": 45,
+        "n_probes": 50
+      },
+      "C1": {
+        "n_unsupported": 3,
+        "coverage": 0.74,
+        "n_covered": 37,
+        "n_probes": 50
+      }
+    }
+  }
+]

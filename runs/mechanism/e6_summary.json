@@ -1,0 +1,7275 @@
+{
+  "aggregate": {
+    "model": "Qwen/Qwen2.5-VL-7B-Instruct",
+    "n_facts": 20,
+    "n_layers": 28,
+    "text_answer_accuracy": 1.0,
+    "img_answer_accuracy": 1.0,
+    "text_mean_final_logprob": -0.106,
+    "img_mean_final_logprob": -0.049,
+    "text_mean_readout_depth": 24.15,
+    "img_mean_readout_depth": 24.5
+  },
+  "items": [
+    {
+      "fact": "The Zorblatt device weighs 7 kilograms.",
+      "answer": "7",
+      "ans_token_id": 22,
+      "text_final_logprob": -0.18875347077846527,
+      "text_final_top1": true,
+      "img_final_logprob": -0.09659142047166824,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 25,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.03890609741211,
+          "ans_rank": 34786,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.993005752563477,
+          "ans_rank": 24890,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.404536247253418,
+          "ans_rank": 39542,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -16.269004821777344,
+          "ans_rank": 96040,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -19.36948585510254,
+          "ans_rank": 139479,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -24.53912353515625,
+          "ans_rank": 143940,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.21999740600586,
+          "ans_rank": 112620,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.844834327697754,
+          "ans_rank": 68334,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -15.858597755432129,
+          "ans_rank": 88512,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -13.081266403198242,
+          "ans_rank": 22646,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -14.649271965026855,
+          "ans_rank": 35705,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -14.958176612854004,
+          "ans_rank": 54845,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.320209503173828,
+          "ans_rank": 14828,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -11.904888153076172,
+          "ans_rank": 13639,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -10.678930282592773,
+          "ans_rank": 5180,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -11.658927917480469,
+          "ans_rank": 14547,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -11.189837455749512,
+          "ans_rank": 8771,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.06352424621582,
+          "ans_rank": 20368,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.176313400268555,
+          "ans_rank": 25250,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.695793151855469,
+          "ans_rank": 33468,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.66954517364502,
+          "ans_rank": 35567,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -13.780640602111816,
+          "ans_rank": 39622,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.533798217773438,
+          "ans_rank": 6041,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -7.540317535400391,
+          "ans_rank": 82,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.051957368850708,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.962065577507019,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.003493992844596505,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0004751745145767927,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.18875347077846527,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.03890609741211,
+          "ans_rank": 34786,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.518916130065918,
+          "ans_rank": 19967,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.556499481201172,
+          "ans_rank": 24921,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.01180362701416,
+          "ans_rank": 79640,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -17.929128646850586,
+          "ans_rank": 131107,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -22.69535255432129,
+          "ans_rank": 132782,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.485376358032227,
+          "ans_rank": 113182,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -15.771223068237305,
+          "ans_rank": 83052,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -17.29543685913086,
+          "ans_rank": 112212,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -14.709274291992188,
+          "ans_rank": 57680,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -16.934898376464844,
+          "ans_rank": 98993,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -17.041606903076172,
+          "ans_rank": 104474,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.33288288116455,
+          "ans_rank": 21187,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -13.598489761352539,
+          "ans_rank": 42664,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.277690887451172,
+          "ans_rank": 17304,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -12.907476425170898,
+          "ans_rank": 32349,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.184696197509766,
+          "ans_rank": 17389,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -13.11355209350586,
+          "ans_rank": 36509,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.903059005737305,
+          "ans_rank": 36429,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.15933609008789,
+          "ans_rank": 37511,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -14.149748802185059,
+          "ans_rank": 34091,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -15.551661491394043,
+          "ans_rank": 59453,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -13.027788162231445,
+          "ans_rank": 15016,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -9.23925495147705,
+          "ans_rank": 403,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -2.7152585983276367,
+          "ans_rank": 2,
+          "is_top1": false
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -2.2098937034606934,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0033197076991200447,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0004991239402443171,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.09659142047166824,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Quffin engine produces 5 megawatts.",
+      "answer": "5",
+      "ans_token_id": 20,
+      "text_final_logprob": -0.027116982266306877,
+      "text_final_top1": true,
+      "img_final_logprob": -0.017698924988508224,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 24,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.22640609741211,
+          "ans_rank": 37884,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.978121757507324,
+          "ans_rank": 24090,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.082956314086914,
+          "ans_rank": 32885,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.571292877197266,
+          "ans_rank": 79473,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -19.169246673583984,
+          "ans_rank": 139689,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -25.009235382080078,
+          "ans_rank": 147683,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.870817184448242,
+          "ans_rank": 127739,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -15.29129695892334,
+          "ans_rank": 82913,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -15.83182144165039,
+          "ans_rank": 94642,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -13.239908218383789,
+          "ans_rank": 28730,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -14.168944358825684,
+          "ans_rank": 25720,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -15.550125122070312,
+          "ans_rank": 65658,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.489171981811523,
+          "ans_rank": 17992,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -11.703691482543945,
+          "ans_rank": 11458,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -11.133035659790039,
+          "ans_rank": 8003,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -12.59278678894043,
+          "ans_rank": 30295,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -11.6935453414917,
+          "ans_rank": 14510,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.144180297851562,
+          "ans_rank": 21829,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.29144287109375,
+          "ans_rank": 27811,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.625434875488281,
+          "ans_rank": 31162,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.535722732543945,
+          "ans_rank": 22822,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -13.37106704711914,
+          "ans_rank": 21516,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -10.62355899810791,
+          "ans_rank": 1546,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -4.90034818649292,
+          "ans_rank": 6,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -0.2901800572872162,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.3008825182914734,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0009844223968684673,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.000835903687402606,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.027116982266306877,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.22640609741211,
+          "ans_rank": 37884,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.245651245117188,
+          "ans_rank": 16086,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.070514678955078,
+          "ans_rank": 17989,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -14.485506057739258,
+          "ans_rank": 66598,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -17.903545379638672,
+          "ans_rank": 131938,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -23.14887809753418,
+          "ans_rank": 139108,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.792146682739258,
+          "ans_rank": 123860,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -15.640260696411133,
+          "ans_rank": 83140,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -17.30290985107422,
+          "ans_rank": 112941,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -14.802213668823242,
+          "ans_rank": 63090,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -16.8153076171875,
+          "ans_rank": 91040,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -17.680322647094727,
+          "ans_rank": 115306,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -13.286087036132812,
+          "ans_rank": 37182,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -14.15805435180664,
+          "ans_rank": 55557,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -13.002275466918945,
+          "ans_rank": 27795,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -13.905181884765625,
+          "ans_rank": 55374,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.986019134521484,
+          "ans_rank": 29854,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -13.490726470947266,
+          "ans_rank": 44781,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.327796936035156,
+          "ans_rank": 45963,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.472162246704102,
+          "ans_rank": 44121,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.951123237609863,
+          "ans_rank": 24248,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -14.459235191345215,
+          "ans_rank": 27934,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.712592124938965,
+          "ans_rank": 3938,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -6.15015983581543,
+          "ans_rank": 15,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.24677574634552,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -1.01483154296875,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0014675810234621167,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.00042465253500267863,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.017698924988508224,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Plindor tower stands 9 meters tall.",
+      "answer": "9",
+      "ans_token_id": 24,
+      "text_final_logprob": -0.18929195404052734,
+      "text_final_top1": true,
+      "img_final_logprob": -0.062233466655015945,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 25,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -14.38265609741211,
+          "ans_rank": 25077,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.899602890014648,
+          "ans_rank": 40270,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -14.099475860595703,
+          "ans_rank": 54713,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -16.29448890686035,
+          "ans_rank": 99202,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -19.660749435424805,
+          "ans_rank": 144016,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -23.888410568237305,
+          "ans_rank": 143760,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.185049057006836,
+          "ans_rank": 114662,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.224225997924805,
+          "ans_rank": 52467,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -15.445550918579102,
+          "ans_rank": 81327,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -14.393302917480469,
+          "ans_rank": 50552,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -15.23094367980957,
+          "ans_rank": 48952,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -16.3270263671875,
+          "ans_rank": 89638,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.853801727294922,
+          "ans_rank": 22783,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -12.566818237304688,
+          "ans_rank": 22499,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.232341766357422,
+          "ans_rank": 19467,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -12.899751663208008,
+          "ans_rank": 36851,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.470823287963867,
+          "ans_rank": 25992,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.56691837310791,
+          "ans_rank": 29606,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.975935935974121,
+          "ans_rank": 43571,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.554174423217773,
+          "ans_rank": 30206,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.195972442626953,
+          "ans_rank": 24517,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -14.107047080993652,
+          "ans_rank": 40911,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.31367301940918,
+          "ans_rank": 4220,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -7.841579437255859,
+          "ans_rank": 137,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -0.6698862314224243,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.5591105222702026,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0050940485671162605,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.00042358008795417845,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.18929195404052734,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -14.38265609741211,
+          "ans_rank": 25077,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.709456443786621,
+          "ans_rank": 39259,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.609375,
+          "ans_rank": 45266,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.270898818969727,
+          "ans_rank": 85486,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -17.934289932250977,
+          "ans_rank": 132710,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -21.96837043762207,
+          "ans_rank": 131387,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -18.721010208129883,
+          "ans_rank": 108532,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.833938598632812,
+          "ans_rank": 62775,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -16.826417922973633,
+          "ans_rank": 115350,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -15.56671142578125,
+          "ans_rank": 90859,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -16.819965362548828,
+          "ans_rank": 115569,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -17.72310447692871,
+          "ans_rank": 128837,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.85866928100586,
+          "ans_rank": 28912,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -15.09896469116211,
+          "ans_rank": 76611,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -14.253198623657227,
+          "ans_rank": 50873,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -14.56932544708252,
+          "ans_rank": 71485,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -13.669164657592773,
+          "ans_rank": 41634,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -13.639959335327148,
+          "ans_rank": 47388,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -14.203489303588867,
+          "ans_rank": 67855,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.644756317138672,
+          "ans_rank": 48405,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -14.543852806091309,
+          "ans_rank": 40648,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -15.816265106201172,
+          "ans_rank": 69205,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -12.487196922302246,
+          "ans_rank": 11473,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -9.104482650756836,
+          "ans_rank": 528,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.9898555278778076,
+          "ans_rank": 1,
+          "is_top1": false
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -1.6096768379211426,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.014296839945018291,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0003782987187150866,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.062233466655015945,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Brenzo capsule holds 4 liters.",
+      "answer": "4",
+      "ans_token_id": 19,
+      "text_final_logprob": -0.022099072113633156,
+      "text_final_top1": true,
+      "img_final_logprob": -0.015107027254998684,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 24,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -16.33675765991211,
+          "ans_rank": 59229,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.446874618530273,
+          "ans_rank": 32400,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.336365699768066,
+          "ans_rank": 38487,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.418871879577637,
+          "ans_rank": 78203,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -18.551483154296875,
+          "ans_rank": 135309,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -24.32547378540039,
+          "ans_rank": 146318,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -18.754804611206055,
+          "ans_rank": 107116,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.231016159057617,
+          "ans_rank": 53429,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -15.199095726013184,
+          "ans_rank": 79685,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -12.679588317871094,
+          "ans_rank": 18328,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -14.019510269165039,
+          "ans_rank": 24698,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -14.530646324157715,
+          "ans_rank": 45128,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -11.733278274536133,
+          "ans_rank": 9641,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -10.850810050964355,
+          "ans_rank": 5270,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -10.719160079956055,
+          "ans_rank": 5399,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -12.2791166305542,
+          "ans_rank": 24375,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -11.662406921386719,
+          "ans_rank": 13603,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -11.797550201416016,
+          "ans_rank": 16576,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.047994613647461,
+          "ans_rank": 23025,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -11.8231840133667,
+          "ans_rank": 17762,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -12.240825653076172,
+          "ans_rank": 14156,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -11.838391304016113,
+          "ans_rank": 11555,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -9.187108993530273,
+          "ans_rank": 636,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -4.661411285400391,
+          "ans_rank": 3,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -0.6731825470924377,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.11423926800489426,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0018434212543070316,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0012432949151843786,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.022099072113633156,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -16.33675765991211,
+          "ans_rank": 59229,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.924038887023926,
+          "ans_rank": 25222,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.48251724243164,
+          "ans_rank": 23841,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -14.696133613586426,
+          "ans_rank": 71068,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -17.47931671142578,
+          "ans_rank": 126422,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -22.38559913635254,
+          "ans_rank": 132244,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -18.847776412963867,
+          "ans_rank": 101605,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.831446647644043,
+          "ans_rank": 59480,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -16.525964736938477,
+          "ans_rank": 102561,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -13.23222541809082,
+          "ans_rank": 31436,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -15.929556846618652,
+          "ans_rank": 69256,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -16.08046531677246,
+          "ans_rank": 78924,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -11.41804313659668,
+          "ans_rank": 10436,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -12.69952392578125,
+          "ans_rank": 24407,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.274093627929688,
+          "ans_rank": 16504,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -13.527120590209961,
+          "ans_rank": 45549,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.71381664276123,
+          "ans_rank": 24676,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.887809753417969,
+          "ans_rank": 31476,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.879610061645508,
+          "ans_rank": 35100,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.766653060913086,
+          "ans_rank": 28930,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.409526824951172,
+          "ans_rank": 20885,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -14.135320663452148,
+          "ans_rank": 27908,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.193473815917969,
+          "ans_rank": 2882,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -6.065866947174072,
+          "ans_rank": 9,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.6917355060577393,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.25862064957618713,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0024963426403701305,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0008997444529086351,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.015107027254998684,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Tarnal beacon flashes 8 times per minute.",
+      "answer": "8",
+      "ans_token_id": 23,
+      "text_final_logprob": -0.14128021895885468,
+      "text_final_top1": true,
+      "img_final_logprob": -0.07759842276573181,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 24,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -16.02328109741211,
+          "ans_rank": 52743,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -14.090996742248535,
+          "ans_rank": 44911,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -14.155858039855957,
+          "ans_rank": 56466,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -16.180267333984375,
+          "ans_rank": 95989,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -19.28469467163086,
+          "ans_rank": 140350,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -23.763160705566406,
+          "ans_rank": 141518,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -18.302833557128906,
+          "ans_rank": 92929,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.774664878845215,
+          "ans_rank": 65753,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -15.344317436218262,
+          "ans_rank": 75653,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -13.514018058776855,
+          "ans_rank": 30940,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -15.670790672302246,
+          "ans_rank": 62454,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -15.317995071411133,
+          "ans_rank": 64974,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.701743125915527,
+          "ans_rank": 19261,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -12.303667068481445,
+          "ans_rank": 18570,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -11.917348861694336,
+          "ans_rank": 15170,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -12.162568092346191,
+          "ans_rank": 21781,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.129839897155762,
+          "ans_rank": 19551,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -11.982187271118164,
+          "ans_rank": 18963,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.249500274658203,
+          "ans_rank": 26257,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.585548400878906,
+          "ans_rank": 29482,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.043819427490234,
+          "ans_rank": 26548,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -12.663897514343262,
+          "ans_rank": 20523,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -9.983413696289062,
+          "ans_rank": 1817,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -6.054876327514648,
+          "ans_rank": 13,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -0.5093401670455933,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.12255526334047318,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.005489513278007507,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0011449456214904785,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.14128021895885468,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -16.02328109741211,
+          "ans_rank": 52743,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.291727066040039,
+          "ans_rank": 32045,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.02606201171875,
+          "ans_rank": 33223,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.177967071533203,
+          "ans_rank": 83339,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -18.026721954345703,
+          "ans_rank": 132747,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -22.149932861328125,
+          "ans_rank": 126902,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -18.686389923095703,
+          "ans_rank": 99384,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -15.390974044799805,
+          "ans_rank": 75379,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -16.784496307373047,
+          "ans_rank": 100882,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -14.846369743347168,
+          "ans_rank": 67539,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -16.628963470458984,
+          "ans_rank": 94888,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -16.3923397064209,
+          "ans_rank": 87920,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.128357887268066,
+          "ans_rank": 17728,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -14.088142395019531,
+          "ans_rank": 54009,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -13.447161674499512,
+          "ans_rank": 36267,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -13.216891288757324,
+          "ans_rank": 38809,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.869128227233887,
+          "ans_rank": 27646,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.68377685546875,
+          "ans_rank": 28033,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.78030014038086,
+          "ans_rank": 33454,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.11601734161377,
+          "ans_rank": 36905,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -14.024238586425781,
+          "ans_rank": 37513,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -14.453560829162598,
+          "ans_rank": 50338,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.398165702819824,
+          "ans_rank": 5854,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -7.5404276847839355,
+          "ans_rank": 63,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.5303252935409546,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.386713445186615,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.005717945750802755,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0005544078885577619,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.07759842276573181,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Wexlar probe orbits at 6 kilometers.",
+      "answer": "6",
+      "ans_token_id": 21,
+      "text_final_logprob": -0.2568981647491455,
+      "text_final_top1": true,
+      "img_final_logprob": -0.06805891543626785,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 24,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.81624984741211,
+          "ans_rank": 48703,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.679903030395508,
+          "ans_rank": 36233,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.430790901184082,
+          "ans_rank": 39802,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.5639009475708,
+          "ans_rank": 77471,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -19.120136260986328,
+          "ans_rank": 137607,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -24.38690185546875,
+          "ans_rank": 145417,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.111228942871094,
+          "ans_rank": 118587,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.866735458374023,
+          "ans_rank": 69991,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -15.368754386901855,
+          "ans_rank": 78848,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -13.291186332702637,
+          "ans_rank": 28093,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -15.14702320098877,
+          "ans_rank": 45522,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -15.70925235748291,
+          "ans_rank": 71243,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.9137601852417,
+          "ans_rank": 24657,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -11.42312240600586,
+          "ans_rank": 8918,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -11.406547546386719,
+          "ans_rank": 10322,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -12.369980812072754,
+          "ans_rank": 25795,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -11.875747680664062,
+          "ans_rank": 16569,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -11.820870399475098,
+          "ans_rank": 16628,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.264162063598633,
+          "ans_rank": 26774,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.705329895019531,
+          "ans_rank": 32493,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -12.876426696777344,
+          "ans_rank": 20193,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -13.408321380615234,
+          "ans_rank": 34392,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.292501449584961,
+          "ans_rank": 8378,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -7.131380558013916,
+          "ans_rank": 58,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.6451482772827148,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -1.647518515586853,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.006727426778525114,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0005192600074224174,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.2568981647491455,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.81624984741211,
+          "ans_rank": 48703,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.592910766601562,
+          "ans_rank": 20595,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.205550193786621,
+          "ans_rank": 19711,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -14.363388061523438,
+          "ans_rank": 61089,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -17.782459259033203,
+          "ans_rank": 128514,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -22.94961929321289,
+          "ans_rank": 139926,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.198678970336914,
+          "ans_rank": 119211,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -15.478776931762695,
+          "ans_rank": 75752,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -16.93902015686035,
+          "ans_rank": 106044,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -14.619309425354004,
+          "ans_rank": 61952,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -17.400693893432617,
+          "ans_rank": 112183,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -17.705001831054688,
+          "ans_rank": 115436,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -13.041296005249023,
+          "ans_rank": 33501,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -13.629343032836914,
+          "ans_rank": 45373,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.799723625183105,
+          "ans_rank": 25951,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -13.418184280395508,
+          "ans_rank": 45276,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.430351257324219,
+          "ans_rank": 22133,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.644769668579102,
+          "ans_rank": 28113,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.390378952026367,
+          "ans_rank": 48659,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.281524658203125,
+          "ans_rank": 41206,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -14.58676528930664,
+          "ans_rank": 32666,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -14.75799560546875,
+          "ans_rank": 40159,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.853616714477539,
+          "ans_rank": 9982,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -7.761841773986816,
+          "ans_rank": 125,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.9619150161743164,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -1.704291582107544,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.004771750420331955,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.00021181246847845614,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.06805891543626785,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Glomp reactor runs for 3 hours.",
+      "answer": "3",
+      "ans_token_id": 18,
+      "text_final_logprob": -0.068496935069561,
+      "text_final_top1": true,
+      "img_final_logprob": -0.031214643269777298,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 25,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -16.12484359741211,
+          "ans_rank": 54791,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.98045539855957,
+          "ans_rank": 24211,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.150347709655762,
+          "ans_rank": 34433,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.956865310668945,
+          "ans_rank": 90617,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -19.10823631286621,
+          "ans_rank": 139167,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -25.04161262512207,
+          "ans_rank": 147820,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -21.596567153930664,
+          "ans_rank": 145047,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -17.200611114501953,
+          "ans_rank": 127016,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -18.119457244873047,
+          "ans_rank": 135712,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -15.78911018371582,
+          "ans_rank": 84725,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -17.685808181762695,
+          "ans_rank": 98586,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -18.279251098632812,
+          "ans_rank": 128229,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -14.667439460754395,
+          "ans_rank": 58822,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -13.119169235229492,
+          "ans_rank": 30974,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.669227600097656,
+          "ans_rank": 26849,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -14.389668464660645,
+          "ans_rank": 76824,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -13.28817367553711,
+          "ans_rank": 43026,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -13.316115379333496,
+          "ans_rank": 45455,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.34691047668457,
+          "ans_rank": 52062,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.81631851196289,
+          "ans_rank": 57613,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.478801727294922,
+          "ans_rank": 28565,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -13.397795677185059,
+          "ans_rank": 28766,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.221707344055176,
+          "ans_rank": 6963,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -6.3489179611206055,
+          "ans_rank": 17,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.9154045581817627,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.7323615550994873,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.009069555439054966,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0012337700463831425,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.068496935069561,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -16.12484359741211,
+          "ans_rank": 54791,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.603878021240234,
+          "ans_rank": 20057,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.632957458496094,
+          "ans_rank": 26130,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.098352432250977,
+          "ans_rank": 81016,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -17.960769653320312,
+          "ans_rank": 132364,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -23.322298049926758,
+          "ans_rank": 141083,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -20.794597625732422,
+          "ans_rank": 138811,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -17.14408302307129,
+          "ans_rank": 116574,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -19.4715576171875,
+          "ans_rank": 141586,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -16.134872436523438,
+          "ans_rank": 94034,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -18.257617950439453,
+          "ans_rank": 126198,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -19.037811279296875,
+          "ans_rank": 135148,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -13.283226013183594,
+          "ans_rank": 37530,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -14.471485137939453,
+          "ans_rank": 63905,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -13.433126449584961,
+          "ans_rank": 36003,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -15.29990291595459,
+          "ans_rank": 95694,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -13.861797332763672,
+          "ans_rank": 50110,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -13.70806884765625,
+          "ans_rank": 50209,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.467279434204102,
+          "ans_rank": 49541,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -14.00760269165039,
+          "ans_rank": 54204,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.921534538269043,
+          "ans_rank": 25837,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -14.468450546264648,
+          "ans_rank": 33317,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.449816703796387,
+          "ans_rank": 7624,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -6.725866794586182,
+          "ans_rank": 26,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -3.01993727684021,
+          "ans_rank": 2,
+          "is_top1": false
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -1.0911107063293457,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.010523895733058453,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0004618293314706534,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.031214643269777298,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Frindle array contains 2 panels.",
+      "answer": "2",
+      "ans_token_id": 17,
+      "text_final_logprob": -0.009848575107753277,
+      "text_final_top1": true,
+      "img_final_logprob": -0.013053558766841888,
+      "img_final_top1": true,
+      "text_readout_depth": 25,
+      "img_readout_depth": 25,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.94515609741211,
+          "ans_rank": 51245,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.94150161743164,
+          "ans_rank": 23320,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.77991008758545,
+          "ans_rank": 47264,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -16.62104606628418,
+          "ans_rank": 102371,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -20.100984573364258,
+          "ans_rank": 146136,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -26.85298728942871,
+          "ans_rank": 151235,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -20.85397720336914,
+          "ans_rank": 139968,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -16.491037368774414,
+          "ans_rank": 110463,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -17.61631965637207,
+          "ans_rank": 129539,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -16.508363723754883,
+          "ans_rank": 89935,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -18.36326026916504,
+          "ans_rank": 110057,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -18.275259017944336,
+          "ans_rank": 120426,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -14.66133975982666,
+          "ans_rank": 52468,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -13.811500549316406,
+          "ans_rank": 44648,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.649447441101074,
+          "ans_rank": 25526,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -14.513574600219727,
+          "ans_rank": 78514,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -13.851594924926758,
+          "ans_rank": 54647,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -13.436813354492188,
+          "ans_rank": 46524,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.53480339050293,
+          "ans_rank": 56417,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.910261154174805,
+          "ans_rank": 35769,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -12.437999725341797,
+          "ans_rank": 13160,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -13.813158988952637,
+          "ans_rank": 20667,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.62866497039795,
+          "ans_rank": 2275,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -7.776516914367676,
+          "ans_rank": 40,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -2.7424306869506836,
+          "ans_rank": 1,
+          "is_top1": false
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -1.1173882484436035,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0025341559667140245,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0005824061809107661,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.009848575107753277,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.94515609741211,
+          "ans_rank": 51245,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.307073593139648,
+          "ans_rank": 16490,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.815755844116211,
+          "ans_rank": 29035,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.803573608398438,
+          "ans_rank": 93067,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -18.900569915771484,
+          "ans_rank": 140856,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -25.223665237426758,
+          "ans_rank": 148045,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -21.05792999267578,
+          "ans_rank": 137259,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -16.637880325317383,
+          "ans_rank": 99571,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -18.470882415771484,
+          "ans_rank": 123743,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -15.937565803527832,
+          "ans_rank": 79953,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -17.415102005004883,
+          "ans_rank": 98068,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -18.53472900390625,
+          "ans_rank": 120073,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -13.977059364318848,
+          "ans_rank": 51659,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -14.458259582519531,
+          "ans_rank": 61467,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -13.278088569641113,
+          "ans_rank": 32145,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -15.407672882080078,
+          "ans_rank": 95382,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -14.355730056762695,
+          "ans_rank": 59575,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -14.059724807739258,
+          "ans_rank": 57824,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -14.406362533569336,
+          "ans_rank": 72917,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -14.022544860839844,
+          "ans_rank": 54465,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.725936889648438,
+          "ans_rank": 25093,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -14.50587272644043,
+          "ans_rank": 36194,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -12.364676475524902,
+          "ans_rank": 6274,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -7.857351303100586,
+          "ans_rank": 53,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -3.3577404022216797,
+          "ans_rank": 3,
+          "is_top1": false
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -1.689945936203003,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0030485368333756924,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0003570872650016099,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.013053558766841888,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Yarvix module spans 5 meters.",
+      "answer": "5",
+      "ans_token_id": 20,
+      "text_final_logprob": -0.09887340664863586,
+      "text_final_top1": true,
+      "img_final_logprob": -0.03802821785211563,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 24,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.22640609741211,
+          "ans_rank": 37884,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.936360359191895,
+          "ans_rank": 23148,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.008516311645508,
+          "ans_rank": 31613,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -16.214658737182617,
+          "ans_rank": 87380,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -20.18096923828125,
+          "ans_rank": 143157,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -26.004104614257812,
+          "ans_rank": 147885,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -20.58941650390625,
+          "ans_rank": 129282,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -15.47510051727295,
+          "ans_rank": 82816,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -16.690032958984375,
+          "ans_rank": 103845,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -14.097784042358398,
+          "ans_rank": 39155,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -15.373940467834473,
+          "ans_rank": 37093,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -15.885436058044434,
+          "ans_rank": 74573,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.476637840270996,
+          "ans_rank": 15853,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -12.023719787597656,
+          "ans_rank": 13050,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -11.206558227539062,
+          "ans_rank": 8377,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -12.677911758422852,
+          "ans_rank": 31815,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -11.600650787353516,
+          "ans_rank": 12785,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.204838752746582,
+          "ans_rank": 22513,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.385494232177734,
+          "ans_rank": 29401,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.940085411071777,
+          "ans_rank": 37306,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.050551414489746,
+          "ans_rank": 26048,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -13.345865249633789,
+          "ans_rank": 30878,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -10.938490867614746,
+          "ans_rank": 5400,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -5.7037482261657715,
+          "ans_rank": 15,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.5153448581695557,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -1.3485846519470215,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0020114206708967686,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0006201728247106075,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.09887340664863586,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.22640609741211,
+          "ans_rank": 37884,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.382841110229492,
+          "ans_rank": 17520,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.14179515838623,
+          "ans_rank": 18971,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -14.755799293518066,
+          "ans_rank": 69420,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -18.03295135498047,
+          "ans_rank": 131088,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -23.195188522338867,
+          "ans_rank": 137646,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.634462356567383,
+          "ans_rank": 116552,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -15.86210823059082,
+          "ans_rank": 80188,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -18.23971939086914,
+          "ans_rank": 119845,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -15.24062728881836,
+          "ans_rank": 68635,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -17.054590225219727,
+          "ans_rank": 98949,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -17.653642654418945,
+          "ans_rank": 119805,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -13.160192489624023,
+          "ans_rank": 34953,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -14.119815826416016,
+          "ans_rank": 55421,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.895161628723145,
+          "ans_rank": 25478,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -13.962592124938965,
+          "ans_rank": 56675,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.901439666748047,
+          "ans_rank": 28587,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -13.56497573852539,
+          "ans_rank": 46730,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.446432113647461,
+          "ans_rank": 49194,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.762850761413574,
+          "ans_rank": 51512,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -14.369601249694824,
+          "ans_rank": 39681,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -14.75955581665039,
+          "ans_rank": 43244,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.585152626037598,
+          "ans_rank": 7457,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -6.180469512939453,
+          "ans_rank": 21,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.6386194229125977,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -1.5923218727111816,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0025097797624766827,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.00035637227119877934,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.03802821785211563,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Drovani crystal vibrates at 7 hertz.",
+      "answer": "7",
+      "ans_token_id": 22,
+      "text_final_logprob": -0.24135206639766693,
+      "text_final_top1": true,
+      "img_final_logprob": -0.05005815625190735,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 24,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.03890609741211,
+          "ans_rank": 34786,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.813122749328613,
+          "ans_rank": 22109,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.286064147949219,
+          "ans_rank": 37120,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.987445831298828,
+          "ans_rank": 92418,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -18.924333572387695,
+          "ans_rank": 137511,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -23.996294021606445,
+          "ans_rank": 143943,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -18.889446258544922,
+          "ans_rank": 113241,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.777746200561523,
+          "ans_rank": 68797,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -15.659594535827637,
+          "ans_rank": 86136,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -12.669387817382812,
+          "ans_rank": 17833,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -14.188858032226562,
+          "ans_rank": 27057,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -14.636554718017578,
+          "ans_rank": 50115,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.11380386352539,
+          "ans_rank": 14193,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -11.718689918518066,
+          "ans_rank": 12413,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -10.86257553100586,
+          "ans_rank": 6396,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -12.177743911743164,
+          "ans_rank": 22403,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -11.765501022338867,
+          "ans_rank": 15300,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.337309837341309,
+          "ans_rank": 24747,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.454032897949219,
+          "ans_rank": 30914,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.105046272277832,
+          "ans_rank": 42973,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -14.389347076416016,
+          "ans_rank": 49413,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -14.691484451293945,
+          "ans_rank": 58748,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -12.028768539428711,
+          "ans_rank": 8731,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -7.340175628662109,
+          "ans_rank": 55,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -0.6553210020065308,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.553397536277771,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0035213150549679995,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0013988957507535815,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.24135206639766693,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.03890609741211,
+          "ans_rank": 34786,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.882757186889648,
+          "ans_rank": 25099,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.99829387664795,
+          "ans_rank": 32808,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.36256217956543,
+          "ans_rank": 89884,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -18.05838966369629,
+          "ans_rank": 133075,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -22.72879409790039,
+          "ans_rank": 135717,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.168869018554688,
+          "ans_rank": 115254,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -15.771930694580078,
+          "ans_rank": 88734,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -17.40934944152832,
+          "ans_rank": 117013,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -14.140995979309082,
+          "ans_rank": 52159,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -16.674440383911133,
+          "ans_rank": 99373,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -16.573251724243164,
+          "ans_rank": 96484,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.158071517944336,
+          "ans_rank": 18369,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -13.478988647460938,
+          "ans_rank": 40448,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.520563125610352,
+          "ans_rank": 20592,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -13.371431350708008,
+          "ans_rank": 42063,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.588326454162598,
+          "ans_rank": 23057,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -13.398468017578125,
+          "ans_rank": 42610,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.23924446105957,
+          "ans_rank": 44048,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.61113166809082,
+          "ans_rank": 49777,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -15.223753929138184,
+          "ans_rank": 51142,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -16.243690490722656,
+          "ans_rank": 76265,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -13.14747428894043,
+          "ans_rank": 12679,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -8.632133483886719,
+          "ans_rank": 135,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.679416298866272,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -1.2619421482086182,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0017578639090061188,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0006102845072746277,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.05005815625190735,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Membic rotor spins 4 times.",
+      "answer": "4",
+      "ans_token_id": 19,
+      "text_final_logprob": -0.04334813728928566,
+      "text_final_top1": true,
+      "img_final_logprob": -0.05355359986424446,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 25,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -16.33675765991211,
+          "ans_rank": 59229,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.49623966217041,
+          "ans_rank": 32423,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.393144607543945,
+          "ans_rank": 39046,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.717148780822754,
+          "ans_rank": 82673,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -18.947534561157227,
+          "ans_rank": 136846,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -24.977392196655273,
+          "ans_rank": 147125,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.043766021728516,
+          "ans_rank": 106851,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.391183853149414,
+          "ans_rank": 55845,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -15.577445983886719,
+          "ans_rank": 82821,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -13.415708541870117,
+          "ans_rank": 23742,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -14.464509963989258,
+          "ans_rank": 22335,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -15.133933067321777,
+          "ans_rank": 52930,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -11.7313814163208,
+          "ans_rank": 8816,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -10.705230712890625,
+          "ans_rank": 4507,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -10.546610832214355,
+          "ans_rank": 4459,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -12.178955078125,
+          "ans_rank": 21995,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -11.866493225097656,
+          "ans_rank": 15489,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.143078804016113,
+          "ans_rank": 20635,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.608097076416016,
+          "ans_rank": 33114,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.290373802185059,
+          "ans_rank": 45483,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.283163070678711,
+          "ans_rank": 28910,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -12.973274230957031,
+          "ans_rank": 23813,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -9.90894889831543,
+          "ans_rank": 2160,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -5.423374176025391,
+          "ans_rank": 11,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -0.8291598558425903,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.15368929505348206,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0029169651679694653,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0016933638835325837,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.04334813728928566,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -16.33675765991211,
+          "ans_rank": 59229,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.823790550231934,
+          "ans_rank": 23366,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.262937545776367,
+          "ans_rank": 20433,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -14.549115180969238,
+          "ans_rank": 65386,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -17.432363510131836,
+          "ans_rank": 123887,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -22.244503021240234,
+          "ans_rank": 129973,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -18.42578887939453,
+          "ans_rank": 95464,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.561600685119629,
+          "ans_rank": 52834,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -16.761354446411133,
+          "ans_rank": 102382,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -13.653076171875,
+          "ans_rank": 34830,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -16.019392013549805,
+          "ans_rank": 63935,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -16.54477882385254,
+          "ans_rank": 86896,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -11.599294662475586,
+          "ans_rank": 12119,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -12.889999389648438,
+          "ans_rank": 28329,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.393919944763184,
+          "ans_rank": 18991,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -13.608393669128418,
+          "ans_rank": 48415,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.917360305786133,
+          "ans_rank": 29617,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.905607223510742,
+          "ans_rank": 31981,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.0104341506958,
+          "ans_rank": 38754,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.106124877929688,
+          "ans_rank": 35245,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.128478050231934,
+          "ans_rank": 21123,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -12.888822555541992,
+          "ans_rank": 21666,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -10.728886604309082,
+          "ans_rank": 4677,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -6.5702948570251465,
+          "ans_rank": 26,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.865186333656311,
+          "ans_rank": 1,
+          "is_top1": false
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.42970553040504456,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.004873896017670631,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0008557948167435825,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.05355359986424446,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Snithe valve opens to 6 degrees.",
+      "answer": "6",
+      "ans_token_id": 21,
+      "text_final_logprob": -0.0947876051068306,
+      "text_final_top1": true,
+      "img_final_logprob": -0.036881670355796814,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 25,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.81624984741211,
+          "ans_rank": 48703,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.692526817321777,
+          "ans_rank": 36516,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.415163040161133,
+          "ans_rank": 39670,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.432586669921875,
+          "ans_rank": 77491,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -19.08002471923828,
+          "ans_rank": 140082,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -24.822059631347656,
+          "ans_rank": 147080,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.422943115234375,
+          "ans_rank": 121114,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.752574920654297,
+          "ans_rank": 68164,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -15.1759672164917,
+          "ans_rank": 72989,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -13.549196243286133,
+          "ans_rank": 28061,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -15.002331733703613,
+          "ans_rank": 35182,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -15.41305160522461,
+          "ans_rank": 64505,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.600848197937012,
+          "ans_rank": 19358,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -11.196920394897461,
+          "ans_rank": 7366,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -10.913590431213379,
+          "ans_rank": 6495,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -12.151637077331543,
+          "ans_rank": 21638,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -11.59933090209961,
+          "ans_rank": 12771,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -11.53611946105957,
+          "ans_rank": 12580,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -11.868141174316406,
+          "ans_rank": 19418,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -11.754789352416992,
+          "ans_rank": 15028,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -12.788351058959961,
+          "ans_rank": 9327,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -13.26463794708252,
+          "ans_rank": 21446,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -10.818095207214355,
+          "ans_rank": 3900,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -7.62052583694458,
+          "ans_rank": 92,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.600130558013916,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -1.4328418970108032,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.009341460652649403,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.00048744716332294047,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.0947876051068306,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.81624984741211,
+          "ans_rank": 48703,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.76479434967041,
+          "ans_rank": 22594,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.476417541503906,
+          "ans_rank": 23677,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -14.592972755432129,
+          "ans_rank": 68697,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -17.96064567565918,
+          "ans_rank": 132487,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -23.509986877441406,
+          "ans_rank": 143020,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.506921768188477,
+          "ans_rank": 124660,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -15.407402992248535,
+          "ans_rank": 76610,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -16.773929595947266,
+          "ans_rank": 104212,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -14.135608673095703,
+          "ans_rank": 50553,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -16.739181518554688,
+          "ans_rank": 97645,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -17.320985794067383,
+          "ans_rank": 106759,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.812503814697266,
+          "ans_rank": 28339,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -13.38299560546875,
+          "ans_rank": 38367,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.418390274047852,
+          "ans_rank": 19515,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -13.311105728149414,
+          "ans_rank": 42244,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.325636863708496,
+          "ans_rank": 20228,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.511560440063477,
+          "ans_rank": 25499,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.095039367675781,
+          "ans_rank": 41103,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.898447036743164,
+          "ans_rank": 32152,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.803328514099121,
+          "ans_rank": 17345,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -15.03580093383789,
+          "ans_rank": 35584,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.695754051208496,
+          "ans_rank": 5948,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -8.517306327819824,
+          "ans_rank": 144,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -2.5588560104370117,
+          "ans_rank": 1,
+          "is_top1": false
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -2.0437960624694824,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.010760852135717869,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.00016830935783218592,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.036881670355796814,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Plaxen coil stores 8 joules.",
+      "answer": "8",
+      "ans_token_id": 23,
+      "text_final_logprob": -0.09911807626485825,
+      "text_final_top1": true,
+      "img_final_logprob": -0.031489141285419464,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 24,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -16.02328109741211,
+          "ans_rank": 52743,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -14.173196792602539,
+          "ans_rank": 46302,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -14.304713249206543,
+          "ans_rank": 59385,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -16.54560089111328,
+          "ans_rank": 103543,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -19.602956771850586,
+          "ans_rank": 143240,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -24.041431427001953,
+          "ans_rank": 142308,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -18.483444213867188,
+          "ans_rank": 94196,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.415544509887695,
+          "ans_rank": 56654,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -14.975772857666016,
+          "ans_rank": 66195,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -13.274723052978516,
+          "ans_rank": 22835,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -15.666659355163574,
+          "ans_rank": 49774,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -15.298049926757812,
+          "ans_rank": 58249,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.412174224853516,
+          "ans_rank": 17048,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -11.985678672790527,
+          "ans_rank": 14975,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -11.60571575164795,
+          "ans_rank": 11658,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -11.922431945800781,
+          "ans_rank": 18326,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -11.852445602416992,
+          "ans_rank": 15982,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -11.68032455444336,
+          "ans_rank": 14932,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -11.999547004699707,
+          "ans_rank": 21863,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.135957717895508,
+          "ans_rank": 22328,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -12.15372085571289,
+          "ans_rank": 11390,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -12.810214042663574,
+          "ans_rank": 17898,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -10.342262268066406,
+          "ans_rank": 1124,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -6.552589416503906,
+          "ans_rank": 10,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -0.4679355323314667,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.11866617202758789,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.005239683203399181,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0006805725861340761,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.09911807626485825,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -16.02328109741211,
+          "ans_rank": 52743,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.54770278930664,
+          "ans_rank": 36307,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.368681907653809,
+          "ans_rank": 40089,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.481155395507812,
+          "ans_rank": 91586,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -17.958740234375,
+          "ans_rank": 133246,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -22.275053024291992,
+          "ans_rank": 128409,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -18.447072982788086,
+          "ans_rank": 96161,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -15.113829612731934,
+          "ans_rank": 71730,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -16.566547393798828,
+          "ans_rank": 98745,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -14.981682777404785,
+          "ans_rank": 70159,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -16.866758346557617,
+          "ans_rank": 98930,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -16.226459503173828,
+          "ans_rank": 91051,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.157441139221191,
+          "ans_rank": 17301,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -14.375532150268555,
+          "ans_rank": 57696,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -13.466995239257812,
+          "ans_rank": 35075,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -13.308874130249023,
+          "ans_rank": 39465,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.890052795410156,
+          "ans_rank": 26478,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.942036628723145,
+          "ans_rank": 31770,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.005324363708496,
+          "ans_rank": 37309,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.224329948425293,
+          "ans_rank": 37603,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.40199089050293,
+          "ans_rank": 21232,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -14.55128002166748,
+          "ans_rank": 39377,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.656045913696289,
+          "ans_rank": 4244,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -7.323072910308838,
+          "ans_rank": 36,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.7496892213821411,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.454973042011261,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.006494605448096991,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0005445189890451729,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.031489141285419464,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Kribbo lens magnifies 3 times.",
+      "answer": "3",
+      "ans_token_id": 18,
+      "text_final_logprob": -0.026497473940253258,
+      "text_final_top1": true,
+      "img_final_logprob": -0.019703028723597527,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 24,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -16.12484359741211,
+          "ans_rank": 54791,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.145792007446289,
+          "ans_rank": 26648,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.42393684387207,
+          "ans_rank": 39558,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -16.514312744140625,
+          "ans_rank": 98658,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -19.394514083862305,
+          "ans_rank": 139943,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -25.22850799560547,
+          "ans_rank": 148083,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -21.481975555419922,
+          "ans_rank": 145232,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -17.433576583862305,
+          "ans_rank": 131999,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -18.48061180114746,
+          "ans_rank": 142406,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -16.52303123474121,
+          "ans_rank": 103913,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -17.081134796142578,
+          "ans_rank": 101882,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -17.62040138244629,
+          "ans_rank": 122988,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -14.067001342773438,
+          "ans_rank": 45359,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -12.590583801269531,
+          "ans_rank": 23167,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -11.835865020751953,
+          "ans_rank": 14062,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -13.593036651611328,
+          "ans_rank": 53788,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.65286922454834,
+          "ans_rank": 28451,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.591715812683105,
+          "ans_rank": 29063,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.425742149353027,
+          "ans_rank": 29887,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.519229888916016,
+          "ans_rank": 29223,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -12.70040512084961,
+          "ans_rank": 11772,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -12.860733985900879,
+          "ans_rank": 12077,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -9.604935646057129,
+          "ans_rank": 435,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -4.657135009765625,
+          "ans_rank": 1,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -0.4835677742958069,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.16905851662158966,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0017851145239546895,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0007738456479273736,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.026497473940253258,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -16.12484359741211,
+          "ans_rank": 54791,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.773006439208984,
+          "ans_rank": 22627,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.703746795654297,
+          "ans_rank": 27285,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.425348281860352,
+          "ans_rank": 86521,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -18.405597686767578,
+          "ans_rank": 137700,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -23.41585922241211,
+          "ans_rank": 141950,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -20.746788024902344,
+          "ans_rank": 140025,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -17.15395736694336,
+          "ans_rank": 119781,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -19.206483840942383,
+          "ans_rank": 143215,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -16.04380226135254,
+          "ans_rank": 95841,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -17.58124542236328,
+          "ans_rank": 114280,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -18.229251861572266,
+          "ans_rank": 128696,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -13.014237403869629,
+          "ans_rank": 32140,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -14.12337589263916,
+          "ans_rank": 54215,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.980337142944336,
+          "ans_rank": 26873,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -14.979437828063965,
+          "ans_rank": 84840,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -13.71902847290039,
+          "ans_rank": 45647,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -13.275917053222656,
+          "ans_rank": 39393,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.998956680297852,
+          "ans_rank": 37561,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.972756385803223,
+          "ans_rank": 31497,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.37338638305664,
+          "ans_rank": 12417,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -13.609017372131348,
+          "ans_rank": 13718,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -10.070270538330078,
+          "ans_rank": 662,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -5.753057479858398,
+          "ans_rank": 4,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.1549040079116821,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.21901018917560577,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.002090770285576582,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0002928543253801763,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.019703028723597527,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Voltic drum weighs 9 tons.",
+      "answer": "9",
+      "ans_token_id": 24,
+      "text_final_logprob": -0.1297025829553604,
+      "text_final_top1": true,
+      "img_final_logprob": -0.058267392218112946,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 24,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -14.38265609741211,
+          "ans_rank": 25077,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.838951110839844,
+          "ans_rank": 39358,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.994120597839355,
+          "ans_rank": 52747,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -16.052310943603516,
+          "ans_rank": 94563,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -19.381378173828125,
+          "ans_rank": 142502,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -23.76404571533203,
+          "ans_rank": 142818,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -18.82253646850586,
+          "ans_rank": 113403,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -13.865806579589844,
+          "ans_rank": 45154,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -15.224923133850098,
+          "ans_rank": 80329,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -14.124971389770508,
+          "ans_rank": 46937,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -14.93315601348877,
+          "ans_rank": 44859,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -15.979430198669434,
+          "ans_rank": 81447,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.599355697631836,
+          "ans_rank": 18903,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -12.153796195983887,
+          "ans_rank": 16772,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -11.978620529174805,
+          "ans_rank": 15815,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -12.734543800354004,
+          "ans_rank": 32896,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.28117847442627,
+          "ans_rank": 22273,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.256990432739258,
+          "ans_rank": 23933,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.907791137695312,
+          "ans_rank": 42133,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.229586601257324,
+          "ans_rank": 24597,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -12.750214576721191,
+          "ans_rank": 20929,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -12.471368789672852,
+          "ans_rank": 19672,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -10.277592658996582,
+          "ans_rank": 2289,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -6.680351257324219,
+          "ans_rank": 30,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -0.5040273666381836,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.4077827036380768,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.005083136726170778,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0005782362422905862,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.1297025829553604,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -14.38265609741211,
+          "ans_rank": 25077,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.809654235839844,
+          "ans_rank": 41036,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.706393241882324,
+          "ans_rank": 46922,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.271724700927734,
+          "ans_rank": 86963,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -17.896379470825195,
+          "ans_rank": 132609,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -21.954641342163086,
+          "ans_rank": 132561,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -18.416101455688477,
+          "ans_rank": 108730,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.466093063354492,
+          "ans_rank": 56177,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -16.524255752563477,
+          "ans_rank": 113663,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -15.434516906738281,
+          "ans_rank": 89468,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -16.65123748779297,
+          "ans_rank": 113007,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -17.58634376525879,
+          "ans_rank": 125803,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.630785942077637,
+          "ans_rank": 24203,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -14.899354934692383,
+          "ans_rank": 71154,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -14.129034996032715,
+          "ans_rank": 48711,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -14.542932510375977,
+          "ans_rank": 71604,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -13.786212921142578,
+          "ans_rank": 44666,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -13.42825984954834,
+          "ans_rank": 42741,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.937643051147461,
+          "ans_rank": 60455,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.113496780395508,
+          "ans_rank": 37800,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.434481620788574,
+          "ans_rank": 27422,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -14.516823768615723,
+          "ans_rank": 45791,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.922188758850098,
+          "ans_rank": 8930,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -8.179004669189453,
+          "ans_rank": 196,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.6949453353881836,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -1.3474929332733154,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.011084291152656078,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0005869334563612938,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.058267392218112946,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Hesper node links 2 servers.",
+      "answer": "2",
+      "ans_token_id": 17,
+      "text_final_logprob": -0.08676605671644211,
+      "text_final_top1": true,
+      "img_final_logprob": -0.10655943304300308,
+      "img_final_top1": true,
+      "text_readout_depth": 26,
+      "img_readout_depth": 26,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.94515609741211,
+          "ans_rank": 51245,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.843938827514648,
+          "ans_rank": 22257,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.611738204956055,
+          "ans_rank": 44333,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -16.42449951171875,
+          "ans_rank": 98646,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -20.34437370300293,
+          "ans_rank": 145999,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -27.940641403198242,
+          "ans_rank": 151344,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -21.71454620361328,
+          "ans_rank": 140510,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -16.440837860107422,
+          "ans_rank": 105599,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -17.88032341003418,
+          "ans_rank": 122824,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -16.774728775024414,
+          "ans_rank": 80979,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -17.809371948242188,
+          "ans_rank": 79862,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -18.009504318237305,
+          "ans_rank": 117261,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -14.512866973876953,
+          "ans_rank": 47241,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -13.921740531921387,
+          "ans_rank": 44764,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -13.01548957824707,
+          "ans_rank": 33502,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -14.851539611816406,
+          "ans_rank": 89306,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -14.128670692443848,
+          "ans_rank": 62551,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -14.197965621948242,
+          "ans_rank": 68295,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -14.283445358276367,
+          "ans_rank": 78894,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.88920783996582,
+          "ans_rank": 63123,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -12.30284595489502,
+          "ans_rank": 16851,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -13.884051322937012,
+          "ans_rank": 31463,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -12.42400074005127,
+          "ans_rank": 18717,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -9.316550254821777,
+          "ans_rank": 357,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -5.405031681060791,
+          "ans_rank": 9,
+          "is_top1": false
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -3.4001197814941406,
+          "ans_rank": 2,
+          "is_top1": false
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.07519898563623428,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0031428963411599398,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.08676605671644211,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.94515609741211,
+          "ans_rank": 51245,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.242533683776855,
+          "ans_rank": 15612,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.681453704833984,
+          "ans_rank": 26845,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.561850547790527,
+          "ans_rank": 82835,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -19.09922981262207,
+          "ans_rank": 138906,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -25.877368927001953,
+          "ans_rank": 148125,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -21.73727035522461,
+          "ans_rank": 137998,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -16.889690399169922,
+          "ans_rank": 98139,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -19.62459945678711,
+          "ans_rank": 128621,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -17.34304428100586,
+          "ans_rank": 90032,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -18.014358520507812,
+          "ans_rank": 95814,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -18.37061309814453,
+          "ans_rank": 124608,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -13.462440490722656,
+          "ans_rank": 37919,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -14.643462181091309,
+          "ans_rank": 70993,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -13.600866317749023,
+          "ans_rank": 43162,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -15.425556182861328,
+          "ans_rank": 101714,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -14.411030769348145,
+          "ans_rank": 69279,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -14.335797309875488,
+          "ans_rank": 70698,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -14.827911376953125,
+          "ans_rank": 90552,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -14.78240966796875,
+          "ans_rank": 82704,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.900961875915527,
+          "ans_rank": 35860,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -13.695554733276367,
+          "ans_rank": 34178,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -12.327618598937988,
+          "ans_rank": 16734,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -8.151212692260742,
+          "ans_rank": 151,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -4.409543991088867,
+          "ans_rank": 6,
+          "is_top1": false
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -2.664238929748535,
+          "ans_rank": 1,
+          "is_top1": false
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.04004482924938202,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0011518517276272178,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.10655943304300308,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Grindel pump moves 6 gallons.",
+      "answer": "6",
+      "ans_token_id": 21,
+      "text_final_logprob": -0.05544489622116089,
+      "text_final_top1": true,
+      "img_final_logprob": -0.04022473841905594,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 24,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.81624984741211,
+          "ans_rank": 48703,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.51727294921875,
+          "ans_rank": 33744,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.26253890991211,
+          "ans_rank": 36316,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.172220230102539,
+          "ans_rank": 69726,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -18.610395431518555,
+          "ans_rank": 135078,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -24.14236068725586,
+          "ans_rank": 145657,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -18.977018356323242,
+          "ans_rank": 115835,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.86080265045166,
+          "ans_rank": 70050,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -15.065250396728516,
+          "ans_rank": 72595,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -13.231038093566895,
+          "ans_rank": 24112,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -15.243423461914062,
+          "ans_rank": 45375,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -15.835230827331543,
+          "ans_rank": 71774,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.842832565307617,
+          "ans_rank": 21960,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -11.219733238220215,
+          "ans_rank": 6987,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -10.991142272949219,
+          "ans_rank": 6799,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -12.066648483276367,
+          "ans_rank": 20121,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -11.581676483154297,
+          "ans_rank": 12642,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -11.380019187927246,
+          "ans_rank": 11220,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -11.960904121398926,
+          "ans_rank": 21198,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -11.6771821975708,
+          "ans_rank": 15093,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -12.26789665222168,
+          "ans_rank": 12375,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -12.730870246887207,
+          "ans_rank": 20748,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -10.665938377380371,
+          "ans_rank": 4029,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -6.379240036010742,
+          "ans_rank": 25,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -0.8430915474891663,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.768356442451477,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.004518536850810051,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0002157455455744639,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.05544489622116089,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.81624984741211,
+          "ans_rank": 48703,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.70580768585205,
+          "ans_rank": 22277,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.317495346069336,
+          "ans_rank": 21522,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -14.297935485839844,
+          "ans_rank": 61796,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -17.541908264160156,
+          "ans_rank": 127403,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -23.136844635009766,
+          "ans_rank": 141115,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.463960647583008,
+          "ans_rank": 119932,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -15.436497688293457,
+          "ans_rank": 78111,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -16.451292037963867,
+          "ans_rank": 103357,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -14.409465789794922,
+          "ans_rank": 56773,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -17.381744384765625,
+          "ans_rank": 110021,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -17.383920669555664,
+          "ans_rank": 113129,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.977845191955566,
+          "ans_rank": 30888,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -13.460206985473633,
+          "ans_rank": 38493,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.342816352844238,
+          "ans_rank": 17788,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -13.25202465057373,
+          "ans_rank": 39668,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.4386568069458,
+          "ans_rank": 20715,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.298575401306152,
+          "ans_rank": 21153,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.028213500976562,
+          "ans_rank": 38667,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.859225273132324,
+          "ans_rank": 30891,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.888998031616211,
+          "ans_rank": 28100,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -14.583151817321777,
+          "ans_rank": 49163,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.926815032958984,
+          "ans_rank": 11372,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -8.216231346130371,
+          "ans_rank": 139,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -2.3596458435058594,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -1.9051154851913452,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.010590896010398865,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.00016759421851020306,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.04022473841905594,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Norvell disk records 4 tracks.",
+      "answer": "4",
+      "ans_token_id": 19,
+      "text_final_logprob": -0.04078499227762222,
+      "text_final_top1": true,
+      "img_final_logprob": -0.0597371980547905,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 24,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -16.33675765991211,
+          "ans_rank": 59229,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.550809860229492,
+          "ans_rank": 33294,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.403879165649414,
+          "ans_rank": 39799,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.82806396484375,
+          "ans_rank": 83354,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -19.232236862182617,
+          "ans_rank": 138186,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -25.193008422851562,
+          "ans_rank": 146753,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.51682472229004,
+          "ans_rank": 113618,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.59904956817627,
+          "ans_rank": 60591,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -16.008941650390625,
+          "ans_rank": 89084,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -13.535078048706055,
+          "ans_rank": 25156,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -14.813180923461914,
+          "ans_rank": 26397,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -15.097769737243652,
+          "ans_rank": 50730,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -11.932384490966797,
+          "ans_rank": 10436,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -10.950833320617676,
+          "ans_rank": 5757,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -10.94754695892334,
+          "ans_rank": 6649,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -12.50421142578125,
+          "ans_rank": 27994,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -11.819169998168945,
+          "ans_rank": 15523,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -11.841474533081055,
+          "ans_rank": 16636,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.318584442138672,
+          "ans_rank": 27574,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.564845085144043,
+          "ans_rank": 27471,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -12.461852073669434,
+          "ans_rank": 16085,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -12.507737159729004,
+          "ans_rank": 10017,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -10.244026184082031,
+          "ans_rank": 929,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -5.651103496551514,
+          "ans_rank": 5,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -0.45519664883613586,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.06228319928050041,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0010218166280537844,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.000660439720377326,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.04078499227762222,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -16.33675765991211,
+          "ans_rank": 59229,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.003089904785156,
+          "ans_rank": 26079,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.385077476501465,
+          "ans_rank": 22138,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -14.718509674072266,
+          "ans_rank": 66587,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -17.61071014404297,
+          "ans_rank": 124665,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -22.631162643432617,
+          "ans_rank": 128367,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -18.98953628540039,
+          "ans_rank": 95082,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.943327903747559,
+          "ans_rank": 58371,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -17.836849212646484,
+          "ans_rank": 109706,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -14.558058738708496,
+          "ans_rank": 43537,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -16.74726104736328,
+          "ans_rank": 72376,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -17.330493927001953,
+          "ans_rank": 88560,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -11.924665451049805,
+          "ans_rank": 14847,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -13.165688514709473,
+          "ans_rank": 33708,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.96971321105957,
+          "ans_rank": 27914,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -13.893682479858398,
+          "ans_rank": 55136,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -13.092456817626953,
+          "ans_rank": 33725,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -13.079035758972168,
+          "ans_rank": 36600,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.248167037963867,
+          "ans_rank": 44636,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.166271209716797,
+          "ans_rank": 34087,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.386656761169434,
+          "ans_rank": 22737,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -13.153504371643066,
+          "ans_rank": 18110,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -10.297154426574707,
+          "ans_rank": 1914,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -6.718559265136719,
+          "ans_rank": 20,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.398095965385437,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.15251955389976501,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.001642665360122919,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0003965306677855551,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.0597371980547905,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Crelloft mast rises 7 meters.",
+      "answer": "7",
+      "ans_token_id": 22,
+      "text_final_logprob": -0.2767881155014038,
+      "text_final_top1": true,
+      "img_final_logprob": -0.08430197834968567,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 26,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.03890609741211,
+          "ans_rank": 34786,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.072916984558105,
+          "ans_rank": 25346,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.451986312866211,
+          "ans_rank": 40342,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -16.306804656982422,
+          "ans_rank": 96169,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -19.30459213256836,
+          "ans_rank": 139706,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -24.244491577148438,
+          "ans_rank": 143889,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.43443489074707,
+          "ans_rank": 115004,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -14.887259483337402,
+          "ans_rank": 70471,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -15.776942253112793,
+          "ans_rank": 89149,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -13.655476570129395,
+          "ans_rank": 30430,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -14.788841247558594,
+          "ans_rank": 38335,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -15.343620300292969,
+          "ans_rank": 66655,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.51077938079834,
+          "ans_rank": 17037,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -12.196653366088867,
+          "ans_rank": 16070,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -10.936439514160156,
+          "ans_rank": 6521,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -11.769706726074219,
+          "ans_rank": 16038,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -11.356359481811523,
+          "ans_rank": 10496,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.22184944152832,
+          "ans_rank": 22883,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.312820434570312,
+          "ans_rank": 28412,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.977808952331543,
+          "ans_rank": 39959,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.923592567443848,
+          "ans_rank": 39523,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -14.306487083435059,
+          "ans_rank": 52287,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.635710716247559,
+          "ans_rank": 9312,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -7.718277931213379,
+          "ans_rank": 122,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.1599795818328857,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -1.0111308097839355,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0027314042672514915,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0005004345439374447,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.2767881155014038,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.03890609741211,
+          "ans_rank": 34786,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.941542625427246,
+          "ans_rank": 25209,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.89511489868164,
+          "ans_rank": 30925,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.287283897399902,
+          "ans_rank": 85020,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -17.73649024963379,
+          "ans_rank": 129502,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -22.261781692504883,
+          "ans_rank": 131911,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -18.99724578857422,
+          "ans_rank": 112927,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -15.573875427246094,
+          "ans_rank": 84379,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -16.890592575073242,
+          "ans_rank": 110592,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -14.401878356933594,
+          "ans_rank": 56783,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -16.830429077148438,
+          "ans_rank": 104245,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -17.037845611572266,
+          "ans_rank": 107736,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.102792739868164,
+          "ans_rank": 17917,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -13.787364959716797,
+          "ans_rank": 46970,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.651594161987305,
+          "ans_rank": 21852,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -13.206585884094238,
+          "ans_rank": 38550,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.519087791442871,
+          "ans_rank": 22455,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -13.457672119140625,
+          "ans_rank": 44445,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.304143905639648,
+          "ans_rank": 46014,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.810981750488281,
+          "ans_rank": 54008,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -14.828836441040039,
+          "ans_rank": 48667,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -16.528539657592773,
+          "ans_rank": 82340,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -13.491304397583008,
+          "ans_rank": 26114,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -9.753988265991211,
+          "ans_rank": 640,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -3.123056650161743,
+          "ans_rank": 2,
+          "is_top1": false
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -2.3223073482513428,
+          "ans_rank": 1,
+          "is_top1": false
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0037245445419102907,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.00037555795279331505,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.08430197834968567,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    },
+    {
+      "fact": "The Pluvex tank stores 5 barrels.",
+      "answer": "5",
+      "ans_token_id": 20,
+      "text_final_logprob": -0.02814473956823349,
+      "text_final_top1": true,
+      "img_final_logprob": -0.018991656601428986,
+      "img_final_top1": true,
+      "text_readout_depth": 24,
+      "img_readout_depth": 24,
+      "text_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.22640609741211,
+          "ans_rank": 37884,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -13.153833389282227,
+          "ans_rank": 27067,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -13.251306533813477,
+          "ans_rank": 35972,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -15.813855171203613,
+          "ans_rank": 86324,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -19.364084243774414,
+          "ans_rank": 141801,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -24.76256561279297,
+          "ans_rank": 147532,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.93706512451172,
+          "ans_rank": 128505,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -15.391571998596191,
+          "ans_rank": 83948,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -16.013580322265625,
+          "ans_rank": 98622,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -13.497543334960938,
+          "ans_rank": 31242,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -14.67178726196289,
+          "ans_rank": 30392,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -15.618192672729492,
+          "ans_rank": 67728,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.341948509216309,
+          "ans_rank": 14432,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -11.652291297912598,
+          "ans_rank": 10034,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -10.687192916870117,
+          "ans_rank": 5118,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -12.27234172821045,
+          "ans_rank": 23789,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -11.607686042785645,
+          "ans_rank": 12748,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -12.10749626159668,
+          "ans_rank": 20610,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -12.235828399658203,
+          "ans_rank": 25668,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -12.515180587768555,
+          "ans_rank": 27079,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -12.334281921386719,
+          "ans_rank": 14189,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -13.021240234375,
+          "ans_rank": 17327,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -10.557283401489258,
+          "ans_rank": 2651,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -4.8417134284973145,
+          "ans_rank": 8,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -0.2597366273403168,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.22771264612674713,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0007240534760057926,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.0005452338373288512,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.02814473956823349,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ],
+      "img_layers": [
+        {
+          "layer": 0,
+          "ans_logprob": -15.22640609741211,
+          "ans_rank": 37884,
+          "is_top1": false
+        },
+        {
+          "layer": 1,
+          "ans_logprob": -12.559247016906738,
+          "ans_rank": 20349,
+          "is_top1": false
+        },
+        {
+          "layer": 2,
+          "ans_logprob": -12.388986587524414,
+          "ans_rank": 22619,
+          "is_top1": false
+        },
+        {
+          "layer": 3,
+          "ans_logprob": -14.865509986877441,
+          "ans_rank": 75241,
+          "is_top1": false
+        },
+        {
+          "layer": 4,
+          "ans_logprob": -17.767976760864258,
+          "ans_rank": 130602,
+          "is_top1": false
+        },
+        {
+          "layer": 5,
+          "ans_logprob": -22.729557037353516,
+          "ans_rank": 136849,
+          "is_top1": false
+        },
+        {
+          "layer": 6,
+          "ans_logprob": -19.519275665283203,
+          "ans_rank": 117330,
+          "is_top1": false
+        },
+        {
+          "layer": 7,
+          "ans_logprob": -15.482359886169434,
+          "ans_rank": 79561,
+          "is_top1": false
+        },
+        {
+          "layer": 8,
+          "ans_logprob": -16.918649673461914,
+          "ans_rank": 109331,
+          "is_top1": false
+        },
+        {
+          "layer": 9,
+          "ans_logprob": -14.615316390991211,
+          "ans_rank": 61238,
+          "is_top1": false
+        },
+        {
+          "layer": 10,
+          "ans_logprob": -16.536880493164062,
+          "ans_rank": 92515,
+          "is_top1": false
+        },
+        {
+          "layer": 11,
+          "ans_logprob": -17.02334213256836,
+          "ans_rank": 111642,
+          "is_top1": false
+        },
+        {
+          "layer": 12,
+          "ans_logprob": -12.959232330322266,
+          "ans_rank": 30600,
+          "is_top1": false
+        },
+        {
+          "layer": 13,
+          "ans_logprob": -13.918122291564941,
+          "ans_rank": 48747,
+          "is_top1": false
+        },
+        {
+          "layer": 14,
+          "ans_logprob": -12.315183639526367,
+          "ans_rank": 16523,
+          "is_top1": false
+        },
+        {
+          "layer": 15,
+          "ans_logprob": -13.503422737121582,
+          "ans_rank": 43980,
+          "is_top1": false
+        },
+        {
+          "layer": 16,
+          "ans_logprob": -12.601330757141113,
+          "ans_rank": 21925,
+          "is_top1": false
+        },
+        {
+          "layer": 17,
+          "ans_logprob": -13.242997169494629,
+          "ans_rank": 38663,
+          "is_top1": false
+        },
+        {
+          "layer": 18,
+          "ans_logprob": -13.115537643432617,
+          "ans_rank": 39804,
+          "is_top1": false
+        },
+        {
+          "layer": 19,
+          "ans_logprob": -13.326628684997559,
+          "ans_rank": 36782,
+          "is_top1": false
+        },
+        {
+          "layer": 20,
+          "ans_logprob": -13.5837984085083,
+          "ans_rank": 23181,
+          "is_top1": false
+        },
+        {
+          "layer": 21,
+          "ans_logprob": -13.679412841796875,
+          "ans_rank": 23380,
+          "is_top1": false
+        },
+        {
+          "layer": 22,
+          "ans_logprob": -11.3458833694458,
+          "ans_rank": 4677,
+          "is_top1": false
+        },
+        {
+          "layer": 23,
+          "ans_logprob": -6.297458648681641,
+          "ans_rank": 23,
+          "is_top1": false
+        },
+        {
+          "layer": 24,
+          "ans_logprob": -1.3508654832839966,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 25,
+          "ans_logprob": -0.8836698532104492,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 26,
+          "ans_logprob": -0.0015798242529854178,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 27,
+          "ans_logprob": -0.00025876989820972085,
+          "ans_rank": 0,
+          "is_top1": true
+        },
+        {
+          "layer": 28,
+          "ans_logprob": -0.018991656601428986,
+          "ans_rank": 0,
+          "is_top1": true
+        }
+      ]
+    }
+  ]
+}
