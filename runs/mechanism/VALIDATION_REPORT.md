@@ -1,5 +1,5 @@
 # Mechanism validation report (V1/V2/V3)
-_generated: 2026-06-21T10:21:52Z (autonomous overnight run)_
+_generated: 2026-06-21T10:22:07Z (autonomous overnight run)_
 
 ## V2 — multi-seed conditions on all 21 cells (powered)
 Mean seeds/cell: C1=5.0, E1=4.95, E2=4.67. n_cells=21.

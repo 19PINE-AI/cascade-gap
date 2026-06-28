@@ -32,9 +32,24 @@ if e3:
     fig.tight_layout(); fig.savefig(FIG/"fig_mech_e3.pdf"); plt.close(fig)
     print("wrote fig_mech_e3.pdf")
 
-# ---------- Fig B: E6 load sweep ----------
+# ---------- Fig B: E6 load sweep (7B, from V3 ladder; K up to 24) ----------
+ladder = load("e6_ladder")
 e6l = load("e6_load")
-if e6l:
+if ladder:
+    rows = sorted((r for r in ladder if "7B" in r["model"]), key=lambda r: r["K"])
+    Ks = [r["K"] for r in rows]
+    fig, (a1,a2) = plt.subplots(1,2, figsize=(9,3.6))
+    a1.plot(Ks,[r["text_acc"] for r in rows],"o-",color="#2c7fb8",label="text")
+    a1.plot(Ks,[r["img_acc"] for r in rows],"s--",color="#d95f0e",label="image")
+    a2.plot(Ks,[r["text_lp"] for r in rows],"o-",color="#2c7fb8",label="text")
+    a2.plot(Ks,[r["img_lp"] for r in rows],"s--",color="#d95f0e",label="image")
+    a1.set_xlabel("facts in context (K)"); a1.set_ylabel("answer top-1 accuracy"); a1.set_title("retrieval accuracy under load"); a1.set_ylim(0,1.05)
+    a2.set_xlabel("facts in context (K)"); a2.set_ylabel("answer log-prob"); a2.set_title("answer confidence under load")
+    a1.legend(); a2.legend()
+    fig.suptitle("E6: no cross-modal readout gap under multi-fact load (Qwen2.5-VL-7B)")
+    fig.tight_layout(); fig.savefig(FIG/"fig_mech_e6load.pdf"); plt.close(fig)
+    print("wrote fig_mech_e6load.pdf (from ladder, K up to 24)")
+elif e6l:
     by = {(r["K"],r["cond"]): r for r in e6l}
     Ks = sorted({r["K"] for r in e6l})
     fig, (a1,a2) = plt.subplots(1,2, figsize=(9,3.6))
@@ -44,7 +59,7 @@ if e6l:
     a1.set_xlabel("facts in context (K)"); a1.set_ylabel("answer top-1 accuracy"); a1.set_title("retrieval accuracy under load")
     a2.set_xlabel("facts in context (K)"); a2.set_ylabel("answer log-prob"); a2.set_title("answer confidence under load")
     a1.legend(); a2.legend()
-    fig.suptitle("E6: cross-modal readout gap emerges under multi-fact load (Qwen2.5-VL-7B)")
+    fig.suptitle("E6: no cross-modal readout gap under multi-fact load (Qwen2.5-VL-7B)")
     fig.tight_layout(); fig.savefig(FIG/"fig_mech_e6load.pdf"); plt.close(fig)
     print("wrote fig_mech_e6load.pdf")
 
