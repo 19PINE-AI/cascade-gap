@@ -1,0 +1,840 @@
+{
+  "natural_vibration_gemini": {
+    "seeds": {
+      "1": {
+        "C1": {
+          "halluc": 12,
+          "cov": 0.46808510638297873,
+          "words": 962
+        },
+        "iter": {
+          "halluc": 2,
+          "cov": 0.723404255319149,
+          "words": 1216
+        }
+      },
+      "5": {
+        "C1": {
+          "halluc": 7,
+          "cov": 0.5531914893617021,
+          "words": 1196
+        },
+        "iter": {
+          "halluc": 4,
+          "cov": 0.574468085106383,
+          "words": 1487,
+          "n_claims": 93,
+          "n_supported": 93
+        }
+      },
+      "3": {
+        "C1": {
+          "halluc": 6,
+          "cov": 0.574468085106383,
+          "words": 1158
+        },
+        "iter": {
+          "halluc": 5,
+          "cov": 0.6382978723404256,
+          "words": 1629,
+          "n_claims": 109,
+          "n_supported": 109
+        }
+      },
+      "4": {
+        "C1": {
+          "halluc": 6,
+          "cov": 0.5106382978723404,
+          "words": 1086
+        },
+        "iter": {
+          "halluc": 2,
+          "cov": 0.7021276595744681,
+          "words": 1580,
+          "n_claims": 122,
+          "n_supported": 122
+        }
+      },
+      "2": {
+        "C1": {
+          "halluc": 8,
+          "cov": 0.574468085106383,
+          "words": 1184
+        },
+        "iter": {
+          "halluc": 5,
+          "cov": 0.6808510638297872,
+          "words": 1759,
+          "n_claims": 106,
+          "n_supported": 106
+        }
+      }
+    },
+    "agg": {
+      "C1": {
+        "n": 5,
+        "halluc_mean": 7.8,
+        "halluc_sd": 2.23,
+        "halluc_vals": [
+          12,
+          7,
+          6,
+          6,
+          8
+        ],
+        "cov_mean": 0.536,
+        "cov_sd": 0.041,
+        "cov_vals": [
+          0.468,
+          0.553,
+          0.574,
+          0.511,
+          0.574
+        ]
+      },
+      "iter": {
+        "n": 5,
+        "halluc_mean": 3.6,
+        "halluc_sd": 1.36,
+        "halluc_vals": [
+          2,
+          4,
+          5,
+          2,
+          5
+        ],
+        "cov_mean": 0.664,
+        "cov_sd": 0.053,
+        "cov_vals": [
+          0.723,
+          0.574,
+          0.638,
+          0.702,
+          0.681
+        ]
+      },
+      "delta_halluc": -4.2,
+      "delta_cov": 0.128
+    }
+  },
+  "heat_pipes_gemini": {
+    "seeds": {
+      "2": {
+        "C1": {
+          "halluc": 15,
+          "cov": 0.66,
+          "words": 1699
+        },
+        "iter": {
+          "halluc": 9,
+          "cov": 0.48,
+          "words": 1307,
+          "n_claims": 80,
+          "n_supported": 79
+        }
+      },
+      "1": {
+        "C1": {
+          "halluc": 10,
+          "cov": 0.6,
+          "words": 1292
+        },
+        "iter": {
+          "halluc": 10,
+          "cov": 0.48,
+          "words": 1271,
+          "n_claims": 82,
+          "n_supported": 82
+        }
+      },
+      "3": {
+        "C1": {
+          "halluc": 15,
+          "cov": 0.64,
+          "words": 1461
+        },
+        "iter": {
+          "halluc": 15,
+          "cov": 0.46,
+          "words": 2014,
+          "n_claims": 104,
+          "n_supported": 104
+        }
+      },
+      "4": {
+        "C1": {
+          "halluc": 14,
+          "cov": 0.62,
+          "words": 1369
+        },
+        "iter": {
+          "halluc": 6,
+          "cov": 0.4,
+          "words": 1106,
+          "n_claims": 64,
+          "n_supported": 64
+        }
+      },
+      "5": {
+        "C1": {
+          "halluc": 18,
+          "cov": 0.64,
+          "words": 1504
+        },
+        "iter": {
+          "halluc": 13,
+          "cov": 0.5,
+          "words": 1296,
+          "n_claims": 85,
+          "n_supported": 85
+        }
+      }
+    },
+    "agg": {
+      "C1": {
+        "n": 5,
+        "halluc_mean": 14.4,
+        "halluc_sd": 2.58,
+        "halluc_vals": [
+          15,
+          10,
+          15,
+          14,
+          18
+        ],
+        "cov_mean": 0.632,
+        "cov_sd": 0.02,
+        "cov_vals": [
+          0.66,
+          0.6,
+          0.64,
+          0.62,
+          0.64
+        ]
+      },
+      "iter": {
+        "n": 5,
+        "halluc_mean": 10.6,
+        "halluc_sd": 3.14,
+        "halluc_vals": [
+          9,
+          10,
+          15,
+          6,
+          13
+        ],
+        "cov_mean": 0.464,
+        "cov_sd": 0.034,
+        "cov_vals": [
+          0.48,
+          0.48,
+          0.46,
+          0.4,
+          0.5
+        ]
+      },
+      "delta_halluc": -3.8,
+      "delta_cov": -0.168
+    }
+  },
+  "heat_pipes_claude": {
+    "seeds": {
+      "1": {
+        "C1": {
+          "halluc": 19,
+          "cov": 0.98,
+          "words": 2722
+        },
+        "iter": {
+          "halluc": 14,
+          "cov": 0.78,
+          "words": 1644,
+          "n_claims": 115,
+          "n_supported": 115
+        }
+      },
+      "3": {
+        "C1": {
+          "halluc": 19,
+          "cov": 0.9,
+          "words": 2340
+        },
+        "iter": {
+          "halluc": 10,
+          "cov": 0.68,
+          "words": 1481,
+          "n_claims": 107,
+          "n_supported": 107
+        }
+      },
+      "2": {
+        "C1": {
+          "halluc": 12,
+          "cov": 0.9,
+          "words": 2721
+        },
+        "iter": {
+          "halluc": 15,
+          "cov": 0.72,
+          "words": 1522,
+          "n_claims": 97,
+          "n_supported": 97
+        }
+      },
+      "4": {
+        "C1": {
+          "halluc": 13,
+          "cov": 0.96,
+          "words": 2849
+        },
+        "iter": {
+          "halluc": 10,
+          "cov": 0.78,
+          "words": 1589,
+          "n_claims": 114,
+          "n_supported": 114
+        }
+      },
+      "5": {
+        "C1": {
+          "halluc": 11,
+          "cov": 0.92,
+          "words": 2414
+        },
+        "iter": {
+          "halluc": 22,
+          "cov": 0.72,
+          "words": 1722,
+          "n_claims": 120,
+          "n_supported": 120
+        }
+      }
+    },
+    "agg": {
+      "C1": {
+        "n": 5,
+        "halluc_mean": 14.8,
+        "halluc_sd": 3.49,
+        "halluc_vals": [
+          19,
+          19,
+          12,
+          13,
+          11
+        ],
+        "cov_mean": 0.932,
+        "cov_sd": 0.032,
+        "cov_vals": [
+          0.98,
+          0.9,
+          0.9,
+          0.96,
+          0.92
+        ]
+      },
+      "iter": {
+        "n": 5,
+        "halluc_mean": 14.2,
+        "halluc_sd": 4.4,
+        "halluc_vals": [
+          14,
+          10,
+          15,
+          10,
+          22
+        ],
+        "cov_mean": 0.736,
+        "cov_sd": 0.039,
+        "cov_vals": [
+          0.78,
+          0.68,
+          0.72,
+          0.78,
+          0.72
+        ]
+      },
+      "delta_halluc": -0.6,
+      "delta_cov": -0.196
+    }
+  },
+  "fairness_ai_gemini": {
+    "seeds": {
+      "1": {
+        "C1": {
+          "halluc": 10,
+          "cov": 0.34,
+          "words": 1276
+        },
+        "iter": {
+          "halluc": 22,
+          "cov": 0.36,
+          "words": 1484,
+          "n_claims": 85,
+          "n_supported": 85
+        }
+      },
+      "2": {
+        "C1": {
+          "halluc": 11,
+          "cov": 0.28,
+          "words": 1356
+        },
+        "iter": {
+          "halluc": 22,
+          "cov": 0.4,
+          "words": 1225,
+          "n_claims": 91,
+          "n_supported": 91
+        }
+      },
+      "4": {
+        "C1": {
+          "halluc": 27,
+          "cov": 0.36,
+          "words": 1581
+        },
+        "iter": {
+          "halluc": 22,
+          "cov": 0.34,
+          "words": 1400,
+          "n_claims": 93,
+          "n_supported": 93
+        }
+      },
+      "5": {
+        "C1": {
+          "halluc": 11,
+          "cov": 0.36,
+          "words": 1307
+        },
+        "iter": {
+          "halluc": 23,
+          "cov": 0.36,
+          "words": 1391,
+          "n_claims": 99,
+          "n_supported": 98
+        }
+      },
+      "3": {
+        "C1": {
+          "halluc": 19,
+          "cov": 0.44,
+          "words": 1599
+        },
+        "iter": {
+          "halluc": 20,
+          "cov": 0.36,
+          "words": 1339,
+          "n_claims": 100,
+          "n_supported": 100
+        }
+      }
+    },
+    "agg": {
+      "C1": {
+        "n": 5,
+        "halluc_mean": 15.6,
+        "halluc_sd": 6.56,
+        "halluc_vals": [
+          10,
+          11,
+          27,
+          11,
+          19
+        ],
+        "cov_mean": 0.356,
+        "cov_sd": 0.051,
+        "cov_vals": [
+          0.34,
+          0.28,
+          0.36,
+          0.36,
+          0.44
+        ]
+      },
+      "iter": {
+        "n": 5,
+        "halluc_mean": 21.8,
+        "halluc_sd": 0.98,
+        "halluc_vals": [
+          22,
+          22,
+          22,
+          23,
+          20
+        ],
+        "cov_mean": 0.364,
+        "cov_sd": 0.02,
+        "cov_vals": [
+          0.36,
+          0.4,
+          0.34,
+          0.36,
+          0.36
+        ]
+      },
+      "delta_halluc": 6.2,
+      "delta_cov": 0.008
+    }
+  },
+  "fairness_ai_claude": {
+    "seeds": {
+      "1": {
+        "C1": {
+          "halluc": 26,
+          "cov": 0.62,
+          "words": 2469
+        },
+        "iter": {
+          "halluc": 23,
+          "cov": 0.46,
+          "words": 1334,
+          "n_claims": 119,
+          "n_supported": 118
+        }
+      },
+      "2": {
+        "C1": {
+          "halluc": 21,
+          "cov": 0.52,
+          "words": 1905
+        },
+        "iter": {
+          "halluc": 16,
+          "cov": 0.4,
+          "words": 1327,
+          "n_claims": 106,
+          "n_supported": 104
+        }
+      },
+      "4": {
+        "C1": {
+          "halluc": 14,
+          "cov": 0.62,
+          "words": 1904
+        },
+        "iter": {
+          "halluc": 21,
+          "cov": 0.36,
+          "words": 1301,
+          "n_claims": 118,
+          "n_supported": 117
+        }
+      },
+      "3": {
+        "C1": {
+          "halluc": 22,
+          "cov": 0.48,
+          "words": 2105
+        },
+        "iter": {
+          "halluc": 25,
+          "cov": 0.4,
+          "words": 1396,
+          "n_claims": 123,
+          "n_supported": 123
+        }
+      },
+      "5": {
+        "C1": {
+          "halluc": 22,
+          "cov": 0.64,
+          "words": 2309
+        },
+        "iter": {
+          "halluc": 24,
+          "cov": 0.4,
+          "words": 1366,
+          "n_claims": 120,
+          "n_supported": 120
+        }
+      }
+    },
+    "agg": {
+      "C1": {
+        "n": 5,
+        "halluc_mean": 21,
+        "halluc_sd": 3.9,
+        "halluc_vals": [
+          26,
+          21,
+          14,
+          22,
+          22
+        ],
+        "cov_mean": 0.576,
+        "cov_sd": 0.064,
+        "cov_vals": [
+          0.62,
+          0.52,
+          0.62,
+          0.48,
+          0.64
+        ]
+      },
+      "iter": {
+        "n": 5,
+        "halluc_mean": 21.8,
+        "halluc_sd": 3.19,
+        "halluc_vals": [
+          23,
+          16,
+          21,
+          25,
+          24
+        ],
+        "cov_mean": 0.404,
+        "cov_sd": 0.032,
+        "cov_vals": [
+          0.46,
+          0.4,
+          0.36,
+          0.4,
+          0.4
+        ]
+      },
+      "delta_halluc": 0.8,
+      "delta_cov": -0.172
+    }
+  },
+  "sp5100_claude": {
+    "seeds": {
+      "2": {
+        "C1": {
+          "halluc": 86,
+          "cov": 0.625,
+          "words": 2976
+        },
+        "iter": {
+          "halluc": 59,
+          "cov": 0.6041666666666666,
+          "words": 1640,
+          "n_claims": 124,
+          "n_supported": 124
+        }
+      },
+      "1": {
+        "C1": {
+          "halluc": 36,
+          "cov": 0.7083333333333334,
+          "words": 2583
+        },
+        "iter": {
+          "halluc": 69,
+          "cov": 0.5625,
+          "words": 1847,
+          "n_claims": 129,
+          "n_supported": 129
+        }
+      },
+      "3": {
+        "C1": {
+          "halluc": 50,
+          "cov": 0.8541666666666666,
+          "words": 3950
+        },
+        "iter": {
+          "halluc": 32,
+          "cov": 0.5625,
+          "words": 1824,
+          "n_claims": 130,
+          "n_supported": 129
+        }
+      },
+      "4": {
+        "C1": {
+          "halluc": 95,
+          "cov": 0.7083333333333334,
+          "words": 2973
+        },
+        "iter": {
+          "halluc": 41,
+          "cov": 0.5833333333333334,
+          "words": 1991,
+          "n_claims": 132,
+          "n_supported": 132
+        }
+      },
+      "5": {
+        "C1": {
+          "halluc": 47,
+          "cov": 0.8125,
+          "words": 2653
+        },
+        "iter": {
+          "halluc": 48,
+          "cov": 0.5,
+          "words": 1787,
+          "n_claims": 145,
+          "n_supported": 145
+        }
+      }
+    },
+    "agg": {
+      "C1": {
+        "n": 5,
+        "halluc_mean": 62.8,
+        "halluc_sd": 23.27,
+        "halluc_vals": [
+          86,
+          36,
+          50,
+          95,
+          47
+        ],
+        "cov_mean": 0.742,
+        "cov_sd": 0.082,
+        "cov_vals": [
+          0.625,
+          0.708,
+          0.854,
+          0.708,
+          0.812
+        ]
+      },
+      "iter": {
+        "n": 5,
+        "halluc_mean": 49.8,
+        "halluc_sd": 13.04,
+        "halluc_vals": [
+          59,
+          69,
+          32,
+          41,
+          48
+        ],
+        "cov_mean": 0.562,
+        "cov_sd": 0.035,
+        "cov_vals": [
+          0.604,
+          0.562,
+          0.562,
+          0.583,
+          0.5
+        ]
+      },
+      "delta_halluc": -13.0,
+      "delta_cov": -0.18
+    }
+  },
+  "megagauss_claude": {
+    "seeds": {
+      "1": {
+        "C1": {
+          "halluc": 35,
+          "cov": 0.84,
+          "words": 3207
+        },
+        "iter": {
+          "halluc": 32,
+          "cov": 0.56,
+          "words": 1550,
+          "n_claims": 121,
+          "n_supported": 121
+        }
+      },
+      "2": {
+        "C1": {
+          "halluc": 45,
+          "cov": 0.92,
+          "words": 3265
+        },
+        "iter": {
+          "halluc": 43,
+          "cov": 0.64,
+          "words": 1687,
+          "n_claims": 128,
+          "n_supported": 128
+        }
+      },
+      "3": {
+        "C1": {
+          "halluc": 38,
+          "cov": 0.88,
+          "words": 3470
+        },
+        "iter": {
+          "halluc": 40,
+          "cov": 0.62,
+          "words": 1697,
+          "n_claims": 129,
+          "n_supported": 129
+        }
+      },
+      "4": {
+        "C1": {
+          "halluc": 47,
+          "cov": 0.9,
+          "words": 3341
+        },
+        "iter": {
+          "halluc": 26,
+          "cov": 0.72,
+          "words": 1687,
+          "n_claims": 131,
+          "n_supported": 131
+        }
+      },
+      "5": {
+        "C1": {
+          "halluc": 38,
+          "cov": 0.94,
+          "words": 4021
+        },
+        "iter": {
+          "halluc": 20,
+          "cov": 0.68,
+          "words": 1500,
+          "n_claims": 117,
+          "n_supported": 117
+        }
+      }
+    },
+    "agg": {
+      "C1": {
+        "n": 5,
+        "halluc_mean": 40.6,
+        "halluc_sd": 4.59,
+        "halluc_vals": [
+          35,
+          45,
+          38,
+          47,
+          38
+        ],
+        "cov_mean": 0.896,
+        "cov_sd": 0.034,
+        "cov_vals": [
+          0.84,
+          0.92,
+          0.88,
+          0.9,
+          0.94
+        ]
+      },
+      "iter": {
+        "n": 5,
+        "halluc_mean": 32.2,
+        "halluc_sd": 8.54,
+        "halluc_vals": [
+          32,
+          43,
+          40,
+          26,
+          20
+        ],
+        "cov_mean": 0.644,
+        "cov_sd": 0.054,
+        "cov_vals": [
+          0.56,
+          0.64,
+          0.62,
+          0.72,
+          0.68
+        ]
+      },
+      "delta_halluc": -8.4,
+      "delta_cov": -0.252
+    }
+  }
+}
