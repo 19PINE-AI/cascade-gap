@@ -1,0 +1,1689 @@
+{
+  "model": "claude",
+  "task": "sum6",
+  "nhop": 6,
+  "model_id": "claude-opus-4-7",
+  "Ks": [
+    8,
+    16,
+    24,
+    32
+  ],
+  "T": 20,
+  "sesoi": 0.1,
+  "render_params": {
+    "image": {
+      "fs": 34,
+      "lh": 58,
+      "W": 1600,
+      "degrade": null
+    },
+    "image_degraded": {
+      "fs": 14,
+      "lh": 20,
+      "W": 880,
+      "degrade": 0.17,
+      "blur": 2.3
+    }
+  },
+  "per_K": [
+    {
+      "K": 8,
+      "T": 20,
+      "text_acc": 0.95,
+      "image_acc": 1.0,
+      "image_gap": 0.05,
+      "image_tost": {
+        "ci90": [
+          0.0,
+          0.15
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      },
+      "image_degraded_acc": 0.0,
+      "image_degraded_gap": -0.95,
+      "image_degraded_tost": {
+        "ci90": [
+          -1.0,
+          -0.85
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      }
+    },
+    {
+      "K": 16,
+      "T": 20,
+      "text_acc": 0.75,
+      "image_acc": 1.0,
+      "image_gap": 0.25,
+      "image_tost": {
+        "ci90": [
+          0.1,
+          0.4
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      },
+      "image_degraded_acc": 0.0,
+      "image_degraded_gap": -0.75,
+      "image_degraded_tost": {
+        "ci90": [
+          -0.9,
+          -0.6
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      }
+    },
+    {
+      "K": 24,
+      "T": 20,
+      "text_acc": 0.8,
+      "image_acc": 1.0,
+      "image_gap": 0.2,
+      "image_tost": {
+        "ci90": [
+          0.05,
+          0.35
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      },
+      "image_degraded_acc": 0.0,
+      "image_degraded_gap": -0.8,
+      "image_degraded_tost": {
+        "ci90": [
+          -0.95,
+          -0.65
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      }
+    },
+    {
+      "K": 32,
+      "T": 20,
+      "text_acc": 0.8,
+      "image_acc": 1.0,
+      "image_gap": 0.2,
+      "image_tost": {
+        "ci90": [
+          0.05,
+          0.35
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      },
+      "image_degraded_acc": 0.0,
+      "image_degraded_gap": -0.8,
+      "image_degraded_tost": {
+        "ci90": [
+          -0.95,
+          -0.65
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      }
+    }
+  ],
+  "pooled": {
+    "n_trials_per_cond": 80,
+    "mean_text_acc": 0.825,
+    "image": {
+      "mean_acc": 1.0,
+      "gap_img_minus_text": 0.175,
+      "gap_boot_ci95": [
+        0.1,
+        0.2625
+      ],
+      "tost": {
+        "ci90": [
+          0.1125,
+          0.25
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      }
+    },
+    "image_degraded": {
+      "mean_acc": 0.0,
+      "gap_img_minus_text": -0.825,
+      "gap_boot_ci95": [
+        -0.9,
+        -0.7375
+      ],
+      "tost": {
+        "ci90": [
+          -0.8875,
+          -0.75
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      }
+    }
+  },
+  "trials": [
+    {
+      "K": 8,
+      "t": 0,
+      "ents": [
+        "Velsh anchor",
+        "Hesper node",
+        "Kessloft kite",
+        "Vendar lamp",
+        "Jandriff sled",
+        "Brenzo capsule"
+      ],
+      "gold": "293",
+      "text_ans": "293",
+      "text_ok": 1,
+      "image_ans": "293",
+      "image_ok": 1,
+      "image_degraded_ans": "253",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 1,
+      "ents": [
+        "Errat shield",
+        "Xanthe filter",
+        "Lurgan ingot",
+        "Hallander buoy",
+        "Hesper node",
+        "Fennimore gear"
+      ],
+      "gold": "341",
+      "text_ans": "341",
+      "text_ok": 1,
+      "image_ans": "341",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 2,
+      "ents": [
+        "Tibbon gate",
+        "Quorla bell",
+        "Nurthen ladder",
+        "Zorblatt device",
+        "Bantling spire",
+        "Frindle array"
+      ],
+      "gold": "422",
+      "text_ans": "422",
+      "text_ok": 1,
+      "image_ans": "422",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 3,
+      "ents": [
+        "Snithe valve",
+        "Vendar lamp",
+        "Gorvane sail",
+        "Yarvix module",
+        "Hesper node",
+        "Errat shield"
+      ],
+      "gold": "278",
+      "text_ans": "278",
+      "text_ok": 1,
+      "image_ans": "278",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 4,
+      "ents": [
+        "Snithe valve",
+        "Nurthen ladder",
+        "Velsh anchor",
+        "Quasor belt",
+        "Yarvix module",
+        "Xanthe filter"
+      ],
+      "gold": "340",
+      "text_ans": "330",
+      "text_ok": 0,
+      "image_ans": "340",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 5,
+      "ents": [
+        "Norvell disk",
+        "Kribbo lens",
+        "Gorvane sail",
+        "Tarnal beacon",
+        "Plaxen coil",
+        "Vendar lamp"
+      ],
+      "gold": "245",
+      "text_ans": "245",
+      "text_ok": 1,
+      "image_ans": "245",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 6,
+      "ents": [
+        "Quasor belt",
+        "Glomp reactor",
+        "Grindel pump",
+        "Nurthen ladder",
+        "Jandriff sled",
+        "Maddox prism"
+      ],
+      "gold": "308",
+      "text_ans": "308",
+      "text_ok": 1,
+      "image_ans": "308",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 7,
+      "ents": [
+        "Fennimore gear",
+        "Norvell disk",
+        "Tibbon gate",
+        "Plindor tower",
+        "Drovani crystal",
+        "Vendar lamp"
+      ],
+      "gold": "284",
+      "text_ans": "284",
+      "text_ok": 1,
+      "image_ans": "284",
+      "image_ok": 1,
+      "image_degraded_ans": "2",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 8,
+      "ents": [
+        "Nurthen ladder",
+        "Solvane wheel",
+        "Maddox prism",
+        "Snithe valve",
+        "Errat shield",
+        "Dapplewick rod"
+      ],
+      "gold": "313",
+      "text_ans": "313",
+      "text_ok": 1,
+      "image_ans": "313",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 9,
+      "ents": [
+        "Hesper node",
+        "Plindor tower",
+        "Voltic drum",
+        "Hallander buoy",
+        "Velsh anchor",
+        "Jandriff sled"
+      ],
+      "gold": "331",
+      "text_ans": "331",
+      "text_ok": 1,
+      "image_ans": "331",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 10,
+      "ents": [
+        "Tarnal beacon",
+        "Yarvix module",
+        "Errat shield",
+        "Drovani crystal",
+        "Nurthen ladder",
+        "Snithe valve"
+      ],
+      "gold": "322",
+      "text_ans": "322",
+      "text_ok": 1,
+      "image_ans": "322",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 11,
+      "ents": [
+        "Quorla bell",
+        "Yarvix module",
+        "Yobbler crane",
+        "Tibbon gate",
+        "Errat shield",
+        "Solvane wheel"
+      ],
+      "gold": "390",
+      "text_ans": "390",
+      "text_ok": 1,
+      "image_ans": "390",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 12,
+      "ents": [
+        "Kribbo lens",
+        "Gorvane sail",
+        "Crelloft mast",
+        "Marlox fin",
+        "Frindle array",
+        "Voltic drum"
+      ],
+      "gold": "299",
+      "text_ans": "299",
+      "text_ok": 1,
+      "image_ans": "299",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 13,
+      "ents": [
+        "Yarvix module",
+        "Gorvane sail",
+        "Fennimore gear",
+        "Rasmund chain",
+        "Maddox prism",
+        "Errat shield"
+      ],
+      "gold": "233",
+      "text_ans": "233",
+      "text_ok": 1,
+      "image_ans": "233",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 14,
+      "ents": [
+        "Crelloft mast",
+        "Maddox prism",
+        "Lurgan ingot",
+        "Frindle array",
+        "Glomp reactor",
+        "Fennimore gear"
+      ],
+      "gold": "293",
+      "text_ans": "293",
+      "text_ok": 1,
+      "image_ans": "293",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 15,
+      "ents": [
+        "Solvane wheel",
+        "Yarvix module",
+        "Quasor belt",
+        "Obrist coil",
+        "Jandriff sled",
+        "Wrenfield axle"
+      ],
+      "gold": "243",
+      "text_ans": "243",
+      "text_ok": 1,
+      "image_ans": "243",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 16,
+      "ents": [
+        "Ivellon harp",
+        "Wrenfield axle",
+        "Plaxen coil",
+        "Errat shield",
+        "Gorvane sail",
+        "Solvane wheel"
+      ],
+      "gold": "349",
+      "text_ans": "349",
+      "text_ok": 1,
+      "image_ans": "349",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 17,
+      "ents": [
+        "Frindle array",
+        "Tarrowby flask",
+        "Obrist coil",
+        "Drovani crystal",
+        "Nurthen ladder",
+        "Hallander buoy"
+      ],
+      "gold": "366",
+      "text_ans": "366",
+      "text_ok": 1,
+      "image_ans": "366",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 18,
+      "ents": [
+        "Yobbler crane",
+        "Errat shield",
+        "Pluvex tank",
+        "Plindor tower",
+        "Obrist coil",
+        "Brenzo capsule"
+      ],
+      "gold": "359",
+      "text_ans": "359",
+      "text_ok": 1,
+      "image_ans": "359",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 19,
+      "ents": [
+        "Solvane wheel",
+        "Bantling spire",
+        "Vendar lamp",
+        "Yarvix module",
+        "Tarnal beacon",
+        "Dapplewick rod"
+      ],
+      "gold": "171",
+      "text_ans": "171",
+      "text_ok": 1,
+      "image_ans": "171",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 0,
+      "ents": [
+        "Wrenfield axle",
+        "Pendrick gauge",
+        "Voltic drum",
+        "Errat shield",
+        "Hesper node",
+        "Hallander buoy"
+      ],
+      "gold": "465",
+      "text_ans": "465",
+      "text_ok": 1,
+      "image_ans": "465",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 1,
+      "ents": [
+        "Quorla bell",
+        "Ivellon harp",
+        "Hesper node",
+        "Wrenfield axle",
+        "Nurthen ladder",
+        "Tarrowby flask"
+      ],
+      "gold": "496",
+      "text_ans": "496",
+      "text_ok": 1,
+      "image_ans": "496",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 2,
+      "ents": [
+        "Fennimore gear",
+        "Vendar lamp",
+        "Plindor tower",
+        "Wrenfield axle",
+        "Solvane wheel",
+        "Pendrick gauge"
+      ],
+      "gold": "329",
+      "text_ans": "329",
+      "text_ok": 1,
+      "image_ans": "329",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 3,
+      "ents": [
+        "Jandriff sled",
+        "Membic rotor",
+        "Tarrowby flask",
+        "Plindor tower",
+        "Ulwin mast",
+        "Obrist coil"
+      ],
+      "gold": "268",
+      "text_ans": "228",
+      "text_ok": 0,
+      "image_ans": "268",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 4,
+      "ents": [
+        "Gorvane sail",
+        "Rasmund chain",
+        "Quorla bell",
+        "Glomp reactor",
+        "Fennimore gear",
+        "Pendrick gauge"
+      ],
+      "gold": "390",
+      "text_ans": "390",
+      "text_ok": 1,
+      "image_ans": "390",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 5,
+      "ents": [
+        "Crelloft mast",
+        "Plindor tower",
+        "Wexlar probe",
+        "Plaxen coil",
+        "Tibbon gate",
+        "Voltic drum"
+      ],
+      "gold": "381",
+      "text_ans": "376",
+      "text_ok": 0,
+      "image_ans": "381",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 6,
+      "ents": [
+        "Drovani crystal",
+        "Membic rotor",
+        "Zorblatt device",
+        "Kessloft kite",
+        "Tarnal beacon",
+        "Solvane wheel"
+      ],
+      "gold": "304",
+      "text_ans": "304",
+      "text_ok": 1,
+      "image_ans": "304",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 7,
+      "ents": [
+        "Wrenfield axle",
+        "Norvell disk",
+        "Voltic drum",
+        "Yobbler crane",
+        "Maddox prism",
+        "Tibbon gate"
+      ],
+      "gold": "423",
+      "text_ans": "423",
+      "text_ok": 1,
+      "image_ans": "423",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 8,
+      "ents": [
+        "Kribbo lens",
+        "Wexlar probe",
+        "Pendrick gauge",
+        "Membic rotor",
+        "Tarnal beacon",
+        "Errat shield"
+      ],
+      "gold": "309",
+      "text_ans": "309",
+      "text_ok": 1,
+      "image_ans": "309",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 9,
+      "ents": [
+        "Gorvane sail",
+        "Quffin engine",
+        "Pluvex tank",
+        "Membic rotor",
+        "Jandriff sled",
+        "Tarnal beacon"
+      ],
+      "gold": "194",
+      "text_ans": "184",
+      "text_ok": 0,
+      "image_ans": "194",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 10,
+      "ents": [
+        "Hallander buoy",
+        "Tarrowby flask",
+        "Yarvix module",
+        "Gorvane sail",
+        "Plindor tower",
+        "Cindermaw forge"
+      ],
+      "gold": "287",
+      "text_ans": "287",
+      "text_ok": 1,
+      "image_ans": "287",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 11,
+      "ents": [
+        "Quasor belt",
+        "Pluvex tank",
+        "Tarnal beacon",
+        "Membic rotor",
+        "Lurgan ingot",
+        "Wexlar probe"
+      ],
+      "gold": "312",
+      "text_ans": "312",
+      "text_ok": 1,
+      "image_ans": "312",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 12,
+      "ents": [
+        "Frindle array",
+        "Brenzo capsule",
+        "Wrenfield axle",
+        "Ivellon harp",
+        "Glomp reactor",
+        "Maddox prism"
+      ],
+      "gold": "380",
+      "text_ans": "380",
+      "text_ok": 1,
+      "image_ans": "380",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 13,
+      "ents": [
+        "Solvane wheel",
+        "Plaxen coil",
+        "Xanthe filter",
+        "Errat shield",
+        "Dapplewick rod",
+        "Crelloft mast"
+      ],
+      "gold": "265",
+      "text_ans": "265",
+      "text_ok": 1,
+      "image_ans": "265",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 14,
+      "ents": [
+        "Quasor belt",
+        "Solvane wheel",
+        "Hesper node",
+        "Cindermaw forge",
+        "Jandriff sled",
+        "Yobbler crane"
+      ],
+      "gold": "328",
+      "text_ans": "288",
+      "text_ok": 0,
+      "image_ans": "328",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 15,
+      "ents": [
+        "Hallander buoy",
+        "Glomp reactor",
+        "Drovani crystal",
+        "Gorvane sail",
+        "Membic rotor",
+        "Kribbo lens"
+      ],
+      "gold": "269",
+      "text_ans": "269",
+      "text_ok": 1,
+      "image_ans": "269",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 16,
+      "ents": [
+        "Gorvane sail",
+        "Marlox fin",
+        "Bantling spire",
+        "Grindel pump",
+        "Norvell disk",
+        "Errat shield"
+      ],
+      "gold": "262",
+      "text_ans": "258",
+      "text_ok": 0,
+      "image_ans": "262",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 17,
+      "ents": [
+        "Snithe valve",
+        "Plaxen coil",
+        "Lurgan ingot",
+        "Hallander buoy",
+        "Jandriff sled",
+        "Velsh anchor"
+      ],
+      "gold": "332",
+      "text_ans": "332",
+      "text_ok": 1,
+      "image_ans": "332",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 18,
+      "ents": [
+        "Bantling spire",
+        "Brenzo capsule",
+        "Velsh anchor",
+        "Crelloft mast",
+        "Tibbon gate",
+        "Fennimore gear"
+      ],
+      "gold": "278",
+      "text_ans": "278",
+      "text_ok": 1,
+      "image_ans": "278",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 19,
+      "ents": [
+        "Brenzo capsule",
+        "Errat shield",
+        "Quorla bell",
+        "Frindle array",
+        "Hallander buoy",
+        "Pendrick gauge"
+      ],
+      "gold": "429",
+      "text_ans": "429",
+      "text_ok": 1,
+      "image_ans": "429",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 0,
+      "ents": [
+        "Snithe valve",
+        "Pluvex tank",
+        "Hallander buoy",
+        "Grindel pump",
+        "Dapplewick rod",
+        "Ivellon harp"
+      ],
+      "gold": "359",
+      "text_ans": "359",
+      "text_ok": 1,
+      "image_ans": "359",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 1,
+      "ents": [
+        "Bantling spire",
+        "Voltic drum",
+        "Tarrowby flask",
+        "Pluvex tank",
+        "Tarnal beacon",
+        "Norvell disk"
+      ],
+      "gold": "374",
+      "text_ans": "374",
+      "text_ok": 1,
+      "image_ans": "374",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 2,
+      "ents": [
+        "Gorvane sail",
+        "Quffin engine",
+        "Fennimore gear",
+        "Pluvex tank",
+        "Obrist coil",
+        "Tarrowby flask"
+      ],
+      "gold": "267",
+      "text_ans": "267",
+      "text_ok": 1,
+      "image_ans": "267",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 3,
+      "ents": [
+        "Yobbler crane",
+        "Dapplewick rod",
+        "Bantling spire",
+        "Tibbon gate",
+        "Crelloft mast",
+        "Kribbo lens"
+      ],
+      "gold": "285",
+      "text_ans": "285",
+      "text_ok": 1,
+      "image_ans": "285",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 4,
+      "ents": [
+        "Bantling spire",
+        "Yarvix module",
+        "Tarrowby flask",
+        "Quasor belt",
+        "Hallander buoy",
+        "Crelloft mast"
+      ],
+      "gold": "301",
+      "text_ans": "331",
+      "text_ok": 0,
+      "image_ans": "301",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 5,
+      "ents": [
+        "Tarnal beacon",
+        "Cindermaw forge",
+        "Velsh anchor",
+        "Norvell disk",
+        "Dapplewick rod",
+        "Kessloft kite"
+      ],
+      "gold": "275",
+      "text_ans": "274",
+      "text_ok": 0,
+      "image_ans": "275",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 6,
+      "ents": [
+        "Pluvex tank",
+        "Yarvix module",
+        "Plaxen coil",
+        "Solvane wheel",
+        "Drovani crystal",
+        "Quasor belt"
+      ],
+      "gold": "329",
+      "text_ans": "329",
+      "text_ok": 1,
+      "image_ans": "329",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 7,
+      "ents": [
+        "Nurthen ladder",
+        "Dapplewick rod",
+        "Norvell disk",
+        "Wexlar probe",
+        "Gorvane sail",
+        "Ivellon harp"
+      ],
+      "gold": "305",
+      "text_ans": "305",
+      "text_ok": 1,
+      "image_ans": "305",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 8,
+      "ents": [
+        "Voltic drum",
+        "Frindle array",
+        "Yobbler crane",
+        "Tarrowby flask",
+        "Membic rotor",
+        "Rasmund chain"
+      ],
+      "gold": "441",
+      "text_ans": "441",
+      "text_ok": 1,
+      "image_ans": "441",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 9,
+      "ents": [
+        "Crelloft mast",
+        "Hallander buoy",
+        "Hesper node",
+        "Maddox prism",
+        "Pluvex tank",
+        "Quffin engine"
+      ],
+      "gold": "285",
+      "text_ans": "305",
+      "text_ok": 0,
+      "image_ans": "285",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 10,
+      "ents": [
+        "Glomp reactor",
+        "Cindermaw forge",
+        "Grindel pump",
+        "Plindor tower",
+        "Yobbler crane",
+        "Quffin engine"
+      ],
+      "gold": "311",
+      "text_ans": "311",
+      "text_ok": 1,
+      "image_ans": "311",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 11,
+      "ents": [
+        "Glomp reactor",
+        "Crelloft mast",
+        "Kribbo lens",
+        "Hesper node",
+        "Rasmund chain",
+        "Obrist coil"
+      ],
+      "gold": "302",
+      "text_ans": "302",
+      "text_ok": 1,
+      "image_ans": "302",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 12,
+      "ents": [
+        "Fennimore gear",
+        "Kessloft kite",
+        "Tibbon gate",
+        "Crelloft mast",
+        "Voltic drum",
+        "Marlox fin"
+      ],
+      "gold": "418",
+      "text_ans": "418",
+      "text_ok": 1,
+      "image_ans": "418",
+      "image_ok": 1,
+      "image_degraded_ans": "351",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 13,
+      "ents": [
+        "Xanthe filter",
+        "Velsh anchor",
+        "Pendrick gauge",
+        "Quorla bell",
+        "Quasor belt",
+        "Bantling spire"
+      ],
+      "gold": "344",
+      "text_ans": "344",
+      "text_ok": 1,
+      "image_ans": "344",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 14,
+      "ents": [
+        "Membic rotor",
+        "Plindor tower",
+        "Drovani crystal",
+        "Jandriff sled",
+        "Voltic drum",
+        "Cindermaw forge"
+      ],
+      "gold": "256",
+      "text_ans": "256",
+      "text_ok": 1,
+      "image_ans": "256",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 15,
+      "ents": [
+        "Tarnal beacon",
+        "Snithe valve",
+        "Tibbon gate",
+        "Maddox prism",
+        "Jandriff sled",
+        "Membic rotor"
+      ],
+      "gold": "280",
+      "text_ans": "270",
+      "text_ok": 0,
+      "image_ans": "280",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 16,
+      "ents": [
+        "Tarnal beacon",
+        "Ivellon harp",
+        "Pendrick gauge",
+        "Yobbler crane",
+        "Lurgan ingot",
+        "Obrist coil"
+      ],
+      "gold": "376",
+      "text_ans": "376",
+      "text_ok": 1,
+      "image_ans": "376",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 17,
+      "ents": [
+        "Hallander buoy",
+        "Hesper node",
+        "Xanthe filter",
+        "Plindor tower",
+        "Drovani crystal",
+        "Errat shield"
+      ],
+      "gold": "317",
+      "text_ans": "317",
+      "text_ok": 1,
+      "image_ans": "317",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 18,
+      "ents": [
+        "Cindermaw forge",
+        "Quasor belt",
+        "Solvane wheel",
+        "Crelloft mast",
+        "Velsh anchor",
+        "Voltic drum"
+      ],
+      "gold": "283",
+      "text_ans": "283",
+      "text_ok": 1,
+      "image_ans": "283",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 19,
+      "ents": [
+        "Tibbon gate",
+        "Frindle array",
+        "Nurthen ladder",
+        "Tarrowby flask",
+        "Glomp reactor",
+        "Crelloft mast"
+      ],
+      "gold": "437",
+      "text_ans": "437",
+      "text_ok": 1,
+      "image_ans": "437",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 0,
+      "ents": [
+        "Yarvix module",
+        "Dapplewick rod",
+        "Kessloft kite",
+        "Glomp reactor",
+        "Zorblatt device",
+        "Yobbler crane"
+      ],
+      "gold": "389",
+      "text_ans": "389",
+      "text_ok": 1,
+      "image_ans": "389",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 1,
+      "ents": [
+        "Grindel pump",
+        "Yarvix module",
+        "Voltic drum",
+        "Marlox fin",
+        "Bantling spire",
+        "Tibbon gate"
+      ],
+      "gold": "343",
+      "text_ans": "343",
+      "text_ok": 1,
+      "image_ans": "343",
+      "image_ok": 1,
+      "image_degraded_ans": "311",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 2,
+      "ents": [
+        "Pluvex tank",
+        "Grindel pump",
+        "Dapplewick rod",
+        "Membic rotor",
+        "Yobbler crane",
+        "Hallander buoy"
+      ],
+      "gold": "341",
+      "text_ans": "341",
+      "text_ok": 1,
+      "image_ans": "341",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 3,
+      "ents": [
+        "Quasor belt",
+        "Yarvix module",
+        "Plaxen coil",
+        "Drovani crystal",
+        "Dapplewick rod",
+        "Hesper node"
+      ],
+      "gold": "312",
+      "text_ans": "312",
+      "text_ok": 1,
+      "image_ans": "312",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 4,
+      "ents": [
+        "Lurgan ingot",
+        "Quorla bell",
+        "Tarrowby flask",
+        "Hesper node",
+        "Wexlar probe",
+        "Snithe valve"
+      ],
+      "gold": "426",
+      "text_ans": "426",
+      "text_ok": 1,
+      "image_ans": "426",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 5,
+      "ents": [
+        "Hallander buoy",
+        "Ivellon harp",
+        "Voltic drum",
+        "Fennimore gear",
+        "Solvane wheel",
+        "Tarrowby flask"
+      ],
+      "gold": "413",
+      "text_ans": "419",
+      "text_ok": 0,
+      "image_ans": "413",
+      "image_ok": 1,
+      "image_degraded_ans": "381",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 6,
+      "ents": [
+        "Plindor tower",
+        "Crelloft mast",
+        "Brenzo capsule",
+        "Lurgan ingot",
+        "Obrist coil",
+        "Frindle array"
+      ],
+      "gold": "266",
+      "text_ans": "266",
+      "text_ok": 1,
+      "image_ans": "266",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 7,
+      "ents": [
+        "Quasor belt",
+        "Tarrowby flask",
+        "Errat shield",
+        "Wrenfield axle",
+        "Tarnal beacon",
+        "Glomp reactor"
+      ],
+      "gold": "396",
+      "text_ans": "396",
+      "text_ok": 1,
+      "image_ans": "396",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 8,
+      "ents": [
+        "Marlox fin",
+        "Velsh anchor",
+        "Bantling spire",
+        "Norvell disk",
+        "Wrenfield axle",
+        "Solvane wheel"
+      ],
+      "gold": "306",
+      "text_ans": "299",
+      "text_ok": 0,
+      "image_ans": "306",
+      "image_ok": 1,
+      "image_degraded_ans": "288",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 9,
+      "ents": [
+        "Hesper node",
+        "Membic rotor",
+        "Drovani crystal",
+        "Dapplewick rod",
+        "Snithe valve",
+        "Wexlar probe"
+      ],
+      "gold": "298",
+      "text_ans": "298",
+      "text_ok": 1,
+      "image_ans": "298",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 10,
+      "ents": [
+        "Grindel pump",
+        "Lurgan ingot",
+        "Brenzo capsule",
+        "Wrenfield axle",
+        "Xanthe filter",
+        "Velsh anchor"
+      ],
+      "gold": "283",
+      "text_ans": "283",
+      "text_ok": 1,
+      "image_ans": "283",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 11,
+      "ents": [
+        "Marlox fin",
+        "Jandriff sled",
+        "Plaxen coil",
+        "Lurgan ingot",
+        "Quorla bell",
+        "Plindor tower"
+      ],
+      "gold": "357",
+      "text_ans": "357",
+      "text_ok": 1,
+      "image_ans": "357",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 12,
+      "ents": [
+        "Ivellon harp",
+        "Tarrowby flask",
+        "Jandriff sled",
+        "Obrist coil",
+        "Kribbo lens",
+        "Lurgan ingot"
+      ],
+      "gold": "278",
+      "text_ans": "278",
+      "text_ok": 1,
+      "image_ans": "278",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 13,
+      "ents": [
+        "Norvell disk",
+        "Glomp reactor",
+        "Quasor belt",
+        "Solvane wheel",
+        "Plindor tower",
+        "Voltic drum"
+      ],
+      "gold": "380",
+      "text_ans": "380",
+      "text_ok": 1,
+      "image_ans": "380",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 14,
+      "ents": [
+        "Tibbon gate",
+        "Tarrowby flask",
+        "Quasor belt",
+        "Marlox fin",
+        "Crelloft mast",
+        "Cindermaw forge"
+      ],
+      "gold": "369",
+      "text_ans": "368",
+      "text_ok": 0,
+      "image_ans": "369",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 15,
+      "ents": [
+        "Plaxen coil",
+        "Ivellon harp",
+        "Grindel pump",
+        "Errat shield",
+        "Pluvex tank",
+        "Quffin engine"
+      ],
+      "gold": "345",
+      "text_ans": "367",
+      "text_ok": 0,
+      "image_ans": "345",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 16,
+      "ents": [
+        "Crelloft mast",
+        "Quasor belt",
+        "Errat shield",
+        "Tibbon gate",
+        "Obrist coil",
+        "Dapplewick rod"
+      ],
+      "gold": "268",
+      "text_ans": "268",
+      "text_ok": 1,
+      "image_ans": "268",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 17,
+      "ents": [
+        "Zorblatt device",
+        "Ulwin mast",
+        "Rasmund chain",
+        "Crelloft mast",
+        "Velsh anchor",
+        "Obrist coil"
+      ],
+      "gold": "254",
+      "text_ans": "254",
+      "text_ok": 1,
+      "image_ans": "254",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 18,
+      "ents": [
+        "Ulwin mast",
+        "Snithe valve",
+        "Glomp reactor",
+        "Lurgan ingot",
+        "Tibbon gate",
+        "Jandriff sled"
+      ],
+      "gold": "361",
+      "text_ans": "361",
+      "text_ok": 1,
+      "image_ans": "361",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 19,
+      "ents": [
+        "Yobbler crane",
+        "Lurgan ingot",
+        "Quasor belt",
+        "Zorblatt device",
+        "Ivellon harp",
+        "Xanthe filter"
+      ],
+      "gold": "384",
+      "text_ans": "384",
+      "text_ok": 1,
+      "image_ans": "384",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    }
+  ]
+}
