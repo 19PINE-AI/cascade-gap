@@ -1,0 +1,68 @@
+{
+  "model": "gemini-2.5-flash",
+  "n_paired_cells": 5,
+  "halluc": {
+    "improved": 3,
+    "worse": 2,
+    "mean_delta": -1.4,
+    "sign_p": 1.0
+  },
+  "coverage": {
+    "improved": 1,
+    "worse": 0,
+    "mean_delta": 0.025,
+    "sign_p": 1.0
+  },
+  "rows": [
+    {
+      "cell": "3B1B Attention",
+      "min": 26,
+      "C0_h": 5,
+      "C0_cov": 0.9,
+      "C1_h": 1,
+      "C1_cov": 0.92,
+      "d_h": -4,
+      "d_cov": 0.02
+    },
+    {
+      "cell": "NeurIPS panel",
+      "min": 31,
+      "C0_h": 5,
+      "C0_cov": 0.98,
+      "C1_h": 6,
+      "C1_cov": 0.959,
+      "d_h": 1,
+      "d_cov": -0.02
+    },
+    {
+      "cell": "Karpathy",
+      "min": 42,
+      "C0_h": 3,
+      "C0_cov": 0.922,
+      "C1_h": 9,
+      "C1_cov": 0.902,
+      "d_h": 6,
+      "d_cov": -0.02
+    },
+    {
+      "cell": "MIT 6.034",
+      "min": 47,
+      "C0_h": 7,
+      "C0_cov": 0.833,
+      "C1_h": 4,
+      "C1_cov": 0.958,
+      "d_h": -3,
+      "d_cov": 0.125
+    },
+    {
+      "cell": "Harvard Moot",
+      "min": 82,
+      "C0_h": 19,
+      "C0_cov": 0.6,
+      "C1_h": 12,
+      "C1_cov": 0.62,
+      "d_h": -7,
+      "d_cov": 0.02
+    }
+  ]
+}
