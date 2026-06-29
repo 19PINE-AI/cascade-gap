@@ -1,0 +1,83 @@
+{
+  "n_cells": 3,
+  "pass1": "gpt-audio (independent, non-Google)",
+  "cov_ge_geminiC0": {
+    "claude": 3,
+    "gpt54": 3,
+    "gemini": 3
+  },
+  "rows": [
+    {
+      "cell": "3B1B Attention",
+      "C0_gem": [
+        11,
+        0.88
+      ],
+      "pass1_words": 4901,
+      "claude": {
+        "n_unsupported": 2,
+        "coverage": 1.0
+      },
+      "gpt54": {
+        "n_unsupported": 3,
+        "coverage": 1.0
+      },
+      "gpt54_cj": {
+        "n_unsupported": 1,
+        "coverage": 1.0
+      },
+      "gemini": {
+        "n_unsupported": 5,
+        "coverage": 1.0
+      }
+    },
+    {
+      "cell": "Karpathy",
+      "C0_gem": [
+        13,
+        0.627
+      ],
+      "pass1_words": 8119,
+      "claude": {
+        "n_unsupported": 6,
+        "coverage": 0.98
+      },
+      "gpt54": {
+        "n_unsupported": 6,
+        "coverage": 1.0
+      },
+      "gpt54_cj": {
+        "n_unsupported": 3,
+        "coverage": 1.0
+      },
+      "gemini": {
+        "n_unsupported": 5,
+        "coverage": 0.902
+      }
+    },
+    {
+      "cell": "MIT 6.034",
+      "C0_gem": [
+        17,
+        0.771
+      ],
+      "pass1_words": 5875,
+      "claude": {
+        "n_unsupported": 3,
+        "coverage": 0.896
+      },
+      "gpt54": {
+        "n_unsupported": 9,
+        "coverage": 0.896
+      },
+      "gpt54_cj": {
+        "n_unsupported": 3,
+        "coverage": 0.917
+      },
+      "gemini": {
+        "n_unsupported": 5,
+        "coverage": 0.854
+      }
+    }
+  ]
+}
