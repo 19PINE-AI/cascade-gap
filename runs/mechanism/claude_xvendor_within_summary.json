@@ -1,0 +1,83 @@
+{
+  "n_cells": 6,
+  "halluc": {
+    "improved": 5,
+    "worse": 1,
+    "mean_delta": 0.5,
+    "sign_p": 0.2188
+  },
+  "coverage": {
+    "improved": 1,
+    "worse": 2,
+    "mean_delta": -0.001,
+    "sign_p": 1.0
+  },
+  "rows": [
+    {
+      "cell": "Wagging Tail",
+      "pp": 9,
+      "C0_h": 5,
+      "C0_cov": 0.959,
+      "C1_h": 2,
+      "C1_cov": 0.98,
+      "d_h": -3,
+      "d_cov": 0.02,
+      "n_probes": 49
+    },
+    {
+      "cell": "Env Test",
+      "pp": 18,
+      "C0_h": 3,
+      "C0_cov": 1.0,
+      "C1_h": 2,
+      "C1_cov": 1.0,
+      "d_h": -1,
+      "d_cov": 0.0,
+      "n_probes": 50
+    },
+    {
+      "cell": "Dynamic Response",
+      "pp": 41,
+      "C0_h": 2,
+      "C0_cov": 1.0,
+      "C1_h": 1,
+      "C1_cov": 0.96,
+      "d_h": -1,
+      "d_cov": -0.04,
+      "n_probes": 50
+    },
+    {
+      "cell": "Natural Vibration",
+      "pp": 42,
+      "C0_h": 5,
+      "C0_cov": 0.915,
+      "C1_h": 4,
+      "C1_cov": 0.851,
+      "d_h": -1,
+      "d_cov": -0.064,
+      "n_probes": 47
+    },
+    {
+      "cell": "Thermal Analysis",
+      "pp": 66,
+      "C0_h": 11,
+      "C0_cov": 0.92,
+      "C1_h": 4,
+      "C1_cov": 1.0,
+      "d_h": -7,
+      "d_cov": 0.08,
+      "n_probes": 50
+    },
+    {
+      "cell": "Heat Pipes",
+      "pp": 104,
+      "C0_h": 4,
+      "C0_cov": 0.9,
+      "C1_h": 20,
+      "C1_cov": 0.9,
+      "d_h": 16,
+      "d_cov": 0.0,
+      "n_probes": 50
+    }
+  ]
+}

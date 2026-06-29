@@ -1,0 +1,1707 @@
+{
+  "model": "claude",
+  "model_id": "claude-opus-4-7",
+  "Ks": [
+    1,
+    8,
+    16,
+    24,
+    32,
+    48
+  ],
+  "T": 20,
+  "sesoi": 0.1,
+  "render_params": {
+    "image": {
+      "fs": 34,
+      "lh": 58,
+      "W": 1600,
+      "degrade": null
+    },
+    "image_degraded": {
+      "fs": 14,
+      "lh": 20,
+      "W": 880,
+      "degrade": 0.17,
+      "blur": 2.3
+    }
+  },
+  "per_K": [
+    {
+      "K": 1,
+      "T": 20,
+      "text_acc": 1.0,
+      "image_acc": 1.0,
+      "image_gap": 0.0,
+      "image_gap_ci95": [
+        0.0,
+        0.0
+      ],
+      "image_tost": {
+        "ci90": [
+          0.0,
+          0.0
+        ],
+        "sesoi": 0.1,
+        "equivalent": true
+      },
+      "image_degraded_acc": 0.15,
+      "image_degraded_gap": -0.85,
+      "image_degraded_gap_ci95": [
+        -1.0,
+        -0.7
+      ],
+      "image_degraded_tost": {
+        "ci90": [
+          -0.95,
+          -0.7
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      }
+    },
+    {
+      "K": 8,
+      "T": 20,
+      "text_acc": 1.0,
+      "image_acc": 1.0,
+      "image_gap": 0.0,
+      "image_gap_ci95": [
+        0.0,
+        0.0
+      ],
+      "image_tost": {
+        "ci90": [
+          0.0,
+          0.0
+        ],
+        "sesoi": 0.1,
+        "equivalent": true
+      },
+      "image_degraded_acc": 0.2,
+      "image_degraded_gap": -0.8,
+      "image_degraded_gap_ci95": [
+        -0.95,
+        -0.6
+      ],
+      "image_degraded_tost": {
+        "ci90": [
+          -0.95,
+          -0.65
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      }
+    },
+    {
+      "K": 16,
+      "T": 20,
+      "text_acc": 1.0,
+      "image_acc": 1.0,
+      "image_gap": 0.0,
+      "image_gap_ci95": [
+        0.0,
+        0.0
+      ],
+      "image_tost": {
+        "ci90": [
+          0.0,
+          0.0
+        ],
+        "sesoi": 0.1,
+        "equivalent": true
+      },
+      "image_degraded_acc": 0.0,
+      "image_degraded_gap": -1.0,
+      "image_degraded_gap_ci95": [
+        -1.0,
+        -1.0
+      ],
+      "image_degraded_tost": {
+        "ci90": [
+          -1.0,
+          -1.0
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      }
+    },
+    {
+      "K": 24,
+      "T": 20,
+      "text_acc": 1.0,
+      "image_acc": 1.0,
+      "image_gap": 0.0,
+      "image_gap_ci95": [
+        0.0,
+        0.0
+      ],
+      "image_tost": {
+        "ci90": [
+          0.0,
+          0.0
+        ],
+        "sesoi": 0.1,
+        "equivalent": true
+      },
+      "image_degraded_acc": 0.05,
+      "image_degraded_gap": -0.95,
+      "image_degraded_gap_ci95": [
+        -1.0,
+        -0.85
+      ],
+      "image_degraded_tost": {
+        "ci90": [
+          -1.0,
+          -0.85
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      }
+    },
+    {
+      "K": 32,
+      "T": 20,
+      "text_acc": 1.0,
+      "image_acc": 1.0,
+      "image_gap": 0.0,
+      "image_gap_ci95": [
+        0.0,
+        0.0
+      ],
+      "image_tost": {
+        "ci90": [
+          0.0,
+          0.0
+        ],
+        "sesoi": 0.1,
+        "equivalent": true
+      },
+      "image_degraded_acc": 0.25,
+      "image_degraded_gap": -0.75,
+      "image_degraded_gap_ci95": [
+        -0.9,
+        -0.55
+      ],
+      "image_degraded_tost": {
+        "ci90": [
+          -0.9,
+          -0.6
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      }
+    },
+    {
+      "K": 48,
+      "T": 20,
+      "text_acc": 1.0,
+      "image_acc": 1.0,
+      "image_gap": 0.0,
+      "image_gap_ci95": [
+        0.0,
+        0.0
+      ],
+      "image_tost": {
+        "ci90": [
+          0.0,
+          0.0
+        ],
+        "sesoi": 0.1,
+        "equivalent": true
+      },
+      "image_degraded_acc": 0.25,
+      "image_degraded_gap": -0.75,
+      "image_degraded_gap_ci95": [
+        -0.9,
+        -0.55
+      ],
+      "image_degraded_tost": {
+        "ci90": [
+          -0.9,
+          -0.6
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      }
+    }
+  ],
+  "pooled": {
+    "n_trials_per_cond": 120,
+    "mean_text_acc": 1.0,
+    "image": {
+      "mean_acc": 1.0,
+      "gap_img_minus_text": 0.0,
+      "gap_boot_ci95": [
+        0.0,
+        0.0
+      ],
+      "tost": {
+        "ci90": [
+          0.0,
+          0.0
+        ],
+        "sesoi": 0.1,
+        "equivalent": true
+      }
+    },
+    "image_degraded": {
+      "mean_acc": 0.15,
+      "gap_img_minus_text": -0.85,
+      "gap_boot_ci95": [
+        -0.9083,
+        -0.7833
+      ],
+      "tost": {
+        "ci90": [
+          -0.9,
+          -0.8
+        ],
+        "sesoi": 0.1,
+        "equivalent": false
+      }
+    }
+  },
+  "trials": [
+    {
+      "K": 1,
+      "t": 0,
+      "ent": "Cindermaw forge",
+      "gold": "37",
+      "text_ans": "37",
+      "text_ok": 1,
+      "image_ans": "37",
+      "image_ok": 1,
+      "image_degraded_ans": "17",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 1,
+      "ent": "Bantling spire",
+      "gold": "29",
+      "text_ans": "29",
+      "text_ok": 1,
+      "image_ans": "29",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 2,
+      "ent": "Vendar lamp",
+      "gold": "16",
+      "text_ans": "16",
+      "text_ok": 1,
+      "image_ans": "16",
+      "image_ok": 1,
+      "image_degraded_ans": "14",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 3,
+      "ent": "Kessloft kite",
+      "gold": "95",
+      "text_ans": "95",
+      "text_ok": 1,
+      "image_ans": "95",
+      "image_ok": 1,
+      "image_degraded_ans": "46",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 4,
+      "ent": "Dapplewick rod",
+      "gold": "20",
+      "text_ans": "20",
+      "text_ok": 1,
+      "image_ans": "20",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 5,
+      "ent": "Velsh anchor",
+      "gold": "32",
+      "text_ans": "32",
+      "text_ok": 1,
+      "image_ans": "32",
+      "image_ok": 1,
+      "image_degraded_ans": "12",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 6,
+      "ent": "Ulwin mast",
+      "gold": "53",
+      "text_ans": "53",
+      "text_ok": 1,
+      "image_ans": "53",
+      "image_ok": 1,
+      "image_degraded_ans": "12",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 7,
+      "ent": "Obrist coil",
+      "gold": "24",
+      "text_ans": "24",
+      "text_ok": 1,
+      "image_ans": "24",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 1,
+      "t": 8,
+      "ent": "Nurthen ladder",
+      "gold": "94",
+      "text_ans": "94",
+      "text_ok": 1,
+      "image_ans": "94",
+      "image_ok": 1,
+      "image_degraded_ans": "44",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 9,
+      "ent": "Vendar lamp",
+      "gold": "16",
+      "text_ans": "16",
+      "text_ok": 1,
+      "image_ans": "16",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 10,
+      "ent": "Brenzo capsule",
+      "gold": "58",
+      "text_ans": "58",
+      "text_ok": 1,
+      "image_ans": "58",
+      "image_ok": 1,
+      "image_degraded_ans": "38",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 11,
+      "ent": "Zorblatt device",
+      "gold": "64",
+      "text_ans": "64",
+      "text_ok": 1,
+      "image_ans": "64",
+      "image_ok": 1,
+      "image_degraded_ans": "14",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 12,
+      "ent": "Gorvane sail",
+      "gold": "14",
+      "text_ans": "14",
+      "text_ok": 1,
+      "image_ans": "14",
+      "image_ok": 1,
+      "image_degraded_ans": "14",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 1,
+      "t": 13,
+      "ent": "Kribbo lens",
+      "gold": "33",
+      "text_ans": "33",
+      "text_ok": 1,
+      "image_ans": "33",
+      "image_ok": 1,
+      "image_degraded_ans": "14",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 14,
+      "ent": "Wexlar probe",
+      "gold": "45",
+      "text_ans": "45",
+      "text_ok": 1,
+      "image_ans": "45",
+      "image_ok": 1,
+      "image_degraded_ans": "40",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 15,
+      "ent": "Frindle array",
+      "gold": "66",
+      "text_ans": "66",
+      "text_ok": 1,
+      "image_ans": "66",
+      "image_ok": 1,
+      "image_degraded_ans": "64",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 16,
+      "ent": "Frindle array",
+      "gold": "66",
+      "text_ans": "66",
+      "text_ok": 1,
+      "image_ans": "66",
+      "image_ok": 1,
+      "image_degraded_ans": "64",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 17,
+      "ent": "Ivellon harp",
+      "gold": "76",
+      "text_ans": "76",
+      "text_ok": 1,
+      "image_ans": "76",
+      "image_ok": 1,
+      "image_degraded_ans": "70",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 1,
+      "t": 18,
+      "ent": "Lurgan ingot",
+      "gold": "47",
+      "text_ans": "47",
+      "text_ok": 1,
+      "image_ans": "47",
+      "image_ok": 1,
+      "image_degraded_ans": "47",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 1,
+      "t": 19,
+      "ent": "Cindermaw forge",
+      "gold": "37",
+      "text_ans": "37",
+      "text_ok": 1,
+      "image_ans": "37",
+      "image_ok": 1,
+      "image_degraded_ans": "17",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 0,
+      "ent": "Xanthe filter",
+      "gold": "38",
+      "text_ans": "38",
+      "text_ok": 1,
+      "image_ans": "38",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 1,
+      "ent": "Lurgan ingot",
+      "gold": "47",
+      "text_ans": "47",
+      "text_ok": 1,
+      "image_ans": "47",
+      "image_ok": 1,
+      "image_degraded_ans": "47",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 8,
+      "t": 2,
+      "ent": "Ivellon harp",
+      "gold": "76",
+      "text_ans": "76",
+      "text_ok": 1,
+      "image_ans": "76",
+      "image_ok": 1,
+      "image_degraded_ans": "70",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 3,
+      "ent": "Tarrowby flask",
+      "gold": "87",
+      "text_ans": "87",
+      "text_ok": 1,
+      "image_ans": "87",
+      "image_ok": 1,
+      "image_degraded_ans": "32",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 4,
+      "ent": "Grindel pump",
+      "gold": "34",
+      "text_ans": "34",
+      "text_ok": 1,
+      "image_ans": "34",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 5,
+      "ent": "Drovani crystal",
+      "gold": "26",
+      "text_ans": "26",
+      "text_ok": 1,
+      "image_ans": "26",
+      "image_ok": 1,
+      "image_degraded_ans": "26",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 8,
+      "t": 6,
+      "ent": "Snithe valve",
+      "gold": "82",
+      "text_ans": "82",
+      "text_ok": 1,
+      "image_ans": "82",
+      "image_ok": 1,
+      "image_degraded_ans": "62",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 7,
+      "ent": "Rasmund chain",
+      "gold": "59",
+      "text_ans": "59",
+      "text_ok": 1,
+      "image_ans": "59",
+      "image_ok": 1,
+      "image_degraded_ans": "55",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 8,
+      "ent": "Lurgan ingot",
+      "gold": "47",
+      "text_ans": "47",
+      "text_ok": 1,
+      "image_ans": "47",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 9,
+      "ent": "Kessloft kite",
+      "gold": "95",
+      "text_ans": "95",
+      "text_ok": 1,
+      "image_ans": "95",
+      "image_ok": 1,
+      "image_degraded_ans": "38",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 10,
+      "ent": "Cindermaw forge",
+      "gold": "37",
+      "text_ans": "37",
+      "text_ok": 1,
+      "image_ans": "37",
+      "image_ok": 1,
+      "image_degraded_ans": "17",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 11,
+      "ent": "Errat shield",
+      "gold": "54",
+      "text_ans": "54",
+      "text_ok": 1,
+      "image_ans": "54",
+      "image_ok": 1,
+      "image_degraded_ans": "54",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 8,
+      "t": 12,
+      "ent": "Nurthen ladder",
+      "gold": "94",
+      "text_ans": "94",
+      "text_ok": 1,
+      "image_ans": "94",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 13,
+      "ent": "Obrist coil",
+      "gold": "24",
+      "text_ans": "24",
+      "text_ok": 1,
+      "image_ans": "24",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 8,
+      "t": 14,
+      "ent": "Membic rotor",
+      "gold": "44",
+      "text_ans": "44",
+      "text_ok": 1,
+      "image_ans": "44",
+      "image_ok": 1,
+      "image_degraded_ans": "64",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 15,
+      "ent": "Lurgan ingot",
+      "gold": "47",
+      "text_ans": "47",
+      "text_ok": 1,
+      "image_ans": "47",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 16,
+      "ent": "Pendrick gauge",
+      "gold": "98",
+      "text_ans": "98",
+      "text_ok": 1,
+      "image_ans": "98",
+      "image_ok": 1,
+      "image_degraded_ans": "90",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 17,
+      "ent": "Solvane wheel",
+      "gold": "40",
+      "text_ans": "40",
+      "text_ok": 1,
+      "image_ans": "40",
+      "image_ok": 1,
+      "image_degraded_ans": "850",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 18,
+      "ent": "Tarnal beacon",
+      "gold": "35",
+      "text_ans": "35",
+      "text_ok": 1,
+      "image_ans": "35",
+      "image_ok": 1,
+      "image_degraded_ans": "15",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 8,
+      "t": 19,
+      "ent": "Xanthe filter",
+      "gold": "38",
+      "text_ans": "38",
+      "text_ok": 1,
+      "image_ans": "38",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 0,
+      "ent": "Bantling spire",
+      "gold": "29",
+      "text_ans": "29",
+      "text_ok": 1,
+      "image_ans": "29",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 1,
+      "ent": "Tibbon gate",
+      "gold": "85",
+      "text_ans": "85",
+      "text_ok": 1,
+      "image_ans": "85",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 2,
+      "ent": "Glomp reactor",
+      "gold": "83",
+      "text_ans": "83",
+      "text_ok": 1,
+      "image_ans": "83",
+      "image_ok": 1,
+      "image_degraded_ans": "65",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 3,
+      "ent": "Yobbler crane",
+      "gold": "96",
+      "text_ans": "96",
+      "text_ok": 1,
+      "image_ans": "96",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 4,
+      "ent": "Nurthen ladder",
+      "gold": "94",
+      "text_ans": "94",
+      "text_ok": 1,
+      "image_ans": "94",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 5,
+      "ent": "Drovani crystal",
+      "gold": "26",
+      "text_ans": "26",
+      "text_ok": 1,
+      "image_ans": "26",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 6,
+      "ent": "Glomp reactor",
+      "gold": "83",
+      "text_ans": "83",
+      "text_ok": 1,
+      "image_ans": "83",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 7,
+      "ent": "Grindel pump",
+      "gold": "34",
+      "text_ans": "34",
+      "text_ok": 1,
+      "image_ans": "34",
+      "image_ok": 1,
+      "image_degraded_ans": "14",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 8,
+      "ent": "Solvane wheel",
+      "gold": "40",
+      "text_ans": "40",
+      "text_ok": 1,
+      "image_ans": "40",
+      "image_ok": 1,
+      "image_degraded_ans": "45",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 9,
+      "ent": "Kessloft kite",
+      "gold": "95",
+      "text_ans": "95",
+      "text_ok": 1,
+      "image_ans": "95",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 10,
+      "ent": "Snithe valve",
+      "gold": "82",
+      "text_ans": "82",
+      "text_ok": 1,
+      "image_ans": "82",
+      "image_ok": 1,
+      "image_degraded_ans": "60",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 11,
+      "ent": "Nurthen ladder",
+      "gold": "94",
+      "text_ans": "94",
+      "text_ok": 1,
+      "image_ans": "94",
+      "image_ok": 1,
+      "image_degraded_ans": "54",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 12,
+      "ent": "Tarrowby flask",
+      "gold": "87",
+      "text_ans": "87",
+      "text_ok": 1,
+      "image_ans": "87",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 13,
+      "ent": "Pendrick gauge",
+      "gold": "98",
+      "text_ans": "98",
+      "text_ok": 1,
+      "image_ans": "98",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 14,
+      "ent": "Norvell disk",
+      "gold": "56",
+      "text_ans": "56",
+      "text_ok": 1,
+      "image_ans": "56",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 15,
+      "ent": "Quorla bell",
+      "gold": "84",
+      "text_ans": "84",
+      "text_ok": 1,
+      "image_ans": "84",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 16,
+      "ent": "Tibbon gate",
+      "gold": "85",
+      "text_ans": "85",
+      "text_ok": 1,
+      "image_ans": "85",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 17,
+      "ent": "Quasor belt",
+      "gold": "63",
+      "text_ans": "63",
+      "text_ok": 1,
+      "image_ans": "63",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 18,
+      "ent": "Tarrowby flask",
+      "gold": "87",
+      "text_ans": "87",
+      "text_ok": 1,
+      "image_ans": "87",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 16,
+      "t": 19,
+      "ent": "Grindel pump",
+      "gold": "34",
+      "text_ans": "34",
+      "text_ok": 1,
+      "image_ans": "34",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 0,
+      "ent": "Snithe valve",
+      "gold": "82",
+      "text_ans": "82",
+      "text_ok": 1,
+      "image_ans": "82",
+      "image_ok": 1,
+      "image_degraded_ans": "60",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 1,
+      "ent": "Wexlar probe",
+      "gold": "45",
+      "text_ans": "45",
+      "text_ok": 1,
+      "image_ans": "45",
+      "image_ok": 1,
+      "image_degraded_ans": "40",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 2,
+      "ent": "Obrist coil",
+      "gold": "24",
+      "text_ans": "24",
+      "text_ok": 1,
+      "image_ans": "24",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 24,
+      "t": 3,
+      "ent": "Tarnal beacon",
+      "gold": "35",
+      "text_ans": "35",
+      "text_ok": 1,
+      "image_ans": "35",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 4,
+      "ent": "Quffin engine",
+      "gold": "12",
+      "text_ans": "12",
+      "text_ok": 1,
+      "image_ans": "12",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 5,
+      "ent": "Norvell disk",
+      "gold": "56",
+      "text_ans": "56",
+      "text_ok": 1,
+      "image_ans": "56",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 6,
+      "ent": "Maddox prism",
+      "gold": "23",
+      "text_ans": "23",
+      "text_ok": 1,
+      "image_ans": "23",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 7,
+      "ent": "Jandriff sled",
+      "gold": "11",
+      "text_ans": "11",
+      "text_ok": 1,
+      "image_ans": "11",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 8,
+      "ent": "Kessloft kite",
+      "gold": "95",
+      "text_ans": "95",
+      "text_ok": 1,
+      "image_ans": "95",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 9,
+      "ent": "Cindermaw forge",
+      "gold": "37",
+      "text_ans": "37",
+      "text_ok": 1,
+      "image_ans": "37",
+      "image_ok": 1,
+      "image_degraded_ans": "27",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 10,
+      "ent": "Velsh anchor",
+      "gold": "32",
+      "text_ans": "32",
+      "text_ok": 1,
+      "image_ans": "32",
+      "image_ok": 1,
+      "image_degraded_ans": "12",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 11,
+      "ent": "Wrenfield axle",
+      "gold": "74",
+      "text_ans": "74",
+      "text_ok": 1,
+      "image_ans": "74",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 12,
+      "ent": "Kribbo lens",
+      "gold": "33",
+      "text_ans": "33",
+      "text_ok": 1,
+      "image_ans": "33",
+      "image_ok": 1,
+      "image_degraded_ans": "14",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 13,
+      "ent": "Solvane wheel",
+      "gold": "40",
+      "text_ans": "40",
+      "text_ok": 1,
+      "image_ans": "40",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 14,
+      "ent": "Nurthen ladder",
+      "gold": "94",
+      "text_ans": "94",
+      "text_ok": 1,
+      "image_ans": "94",
+      "image_ok": 1,
+      "image_degraded_ans": "54",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 15,
+      "ent": "Tarnal beacon",
+      "gold": "35",
+      "text_ans": "35",
+      "text_ok": 1,
+      "image_ans": "35",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 16,
+      "ent": "Tarnal beacon",
+      "gold": "35",
+      "text_ans": "35",
+      "text_ok": 1,
+      "image_ans": "35",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 17,
+      "ent": "Cindermaw forge",
+      "gold": "37",
+      "text_ans": "37",
+      "text_ok": 1,
+      "image_ans": "37",
+      "image_ok": 1,
+      "image_degraded_ans": "27",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 18,
+      "ent": "Zorblatt device",
+      "gold": "64",
+      "text_ans": "64",
+      "text_ok": 1,
+      "image_ans": "64",
+      "image_ok": 1,
+      "image_degraded_ans": "14",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 24,
+      "t": 19,
+      "ent": "Vendar lamp",
+      "gold": "16",
+      "text_ans": "16",
+      "text_ok": 1,
+      "image_ans": "16",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 0,
+      "ent": "Vendar lamp",
+      "gold": "16",
+      "text_ans": "16",
+      "text_ok": 1,
+      "image_ans": "16",
+      "image_ok": 1,
+      "image_degraded_ans": "14",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 1,
+      "ent": "Velsh anchor",
+      "gold": "32",
+      "text_ans": "32",
+      "text_ok": 1,
+      "image_ans": "32",
+      "image_ok": 1,
+      "image_degraded_ans": "22",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 2,
+      "ent": "Ulwin mast",
+      "gold": "53",
+      "text_ans": "53",
+      "text_ok": 1,
+      "image_ans": "53",
+      "image_ok": 1,
+      "image_degraded_ans": "11",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 3,
+      "ent": "Maddox prism",
+      "gold": "23",
+      "text_ans": "23",
+      "text_ok": 1,
+      "image_ans": "23",
+      "image_ok": 1,
+      "image_degraded_ans": "13",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 4,
+      "ent": "Dapplewick rod",
+      "gold": "20",
+      "text_ans": "20",
+      "text_ok": 1,
+      "image_ans": "20",
+      "image_ok": 1,
+      "image_degraded_ans": "24",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 5,
+      "ent": "Plindor tower",
+      "gold": "49",
+      "text_ans": "49",
+      "text_ok": 1,
+      "image_ans": "49",
+      "image_ok": 1,
+      "image_degraded_ans": "40",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 6,
+      "ent": "Solvane wheel",
+      "gold": "40",
+      "text_ans": "40",
+      "text_ok": 1,
+      "image_ans": "40",
+      "image_ok": 1,
+      "image_degraded_ans": "40",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 32,
+      "t": 7,
+      "ent": "Plaxen coil",
+      "gold": "91",
+      "text_ans": "91",
+      "text_ok": 1,
+      "image_ans": "91",
+      "image_ok": 1,
+      "image_degraded_ans": "41",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 8,
+      "ent": "Yobbler crane",
+      "gold": "96",
+      "text_ans": "96",
+      "text_ok": 1,
+      "image_ans": "96",
+      "image_ok": 1,
+      "image_degraded_ans": "98",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 9,
+      "ent": "Glomp reactor",
+      "gold": "83",
+      "text_ans": "83",
+      "text_ok": 1,
+      "image_ans": "83",
+      "image_ok": 1,
+      "image_degraded_ans": "50",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 10,
+      "ent": "Rasmund chain",
+      "gold": "59",
+      "text_ans": "59",
+      "text_ok": 1,
+      "image_ans": "59",
+      "image_ok": 1,
+      "image_degraded_ans": "59",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 32,
+      "t": 11,
+      "ent": "Tarrowby flask",
+      "gold": "87",
+      "text_ans": "87",
+      "text_ok": 1,
+      "image_ans": "87",
+      "image_ok": 1,
+      "image_degraded_ans": "67",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 12,
+      "ent": "Quasor belt",
+      "gold": "63",
+      "text_ans": "63",
+      "text_ok": 1,
+      "image_ans": "63",
+      "image_ok": 1,
+      "image_degraded_ans": "63",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 32,
+      "t": 13,
+      "ent": "Ulwin mast",
+      "gold": "53",
+      "text_ans": "53",
+      "text_ok": 1,
+      "image_ans": "53",
+      "image_ok": 1,
+      "image_degraded_ans": "10",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 14,
+      "ent": "Gorvane sail",
+      "gold": "14",
+      "text_ans": "14",
+      "text_ok": 1,
+      "image_ans": "14",
+      "image_ok": 1,
+      "image_degraded_ans": "60",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 15,
+      "ent": "Voltic drum",
+      "gold": "89",
+      "text_ans": "89",
+      "text_ok": 1,
+      "image_ans": "89",
+      "image_ok": 1,
+      "image_degraded_ans": "89",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 32,
+      "t": 16,
+      "ent": "Cindermaw forge",
+      "gold": "37",
+      "text_ans": "37",
+      "text_ok": 1,
+      "image_ans": "37",
+      "image_ok": 1,
+      "image_degraded_ans": "27",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 17,
+      "ent": "Wexlar probe",
+      "gold": "45",
+      "text_ans": "45",
+      "text_ok": 1,
+      "image_ans": "45",
+      "image_ok": 1,
+      "image_degraded_ans": "45",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 32,
+      "t": 18,
+      "ent": "Plaxen coil",
+      "gold": "91",
+      "text_ans": "91",
+      "text_ok": 1,
+      "image_ans": "91",
+      "image_ok": 1,
+      "image_degraded_ans": "61",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 32,
+      "t": 19,
+      "ent": "Xanthe filter",
+      "gold": "38",
+      "text_ans": "38",
+      "text_ok": 1,
+      "image_ans": "38",
+      "image_ok": 1,
+      "image_degraded_ans": "39",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 0,
+      "ent": "Lurgan ingot",
+      "gold": "47",
+      "text_ans": "47",
+      "text_ok": 1,
+      "image_ans": "47",
+      "image_ok": 1,
+      "image_degraded_ans": "47",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 48,
+      "t": 1,
+      "ent": "Tibbon gate",
+      "gold": "85",
+      "text_ans": "85",
+      "text_ok": 1,
+      "image_ans": "85",
+      "image_ok": 1,
+      "image_degraded_ans": "89",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 2,
+      "ent": "Grindel pump",
+      "gold": "34",
+      "text_ans": "34",
+      "text_ok": 1,
+      "image_ans": "34",
+      "image_ok": 1,
+      "image_degraded_ans": "19",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 3,
+      "ent": "Ivellon harp",
+      "gold": "76",
+      "text_ans": "76",
+      "text_ok": 1,
+      "image_ans": "76",
+      "image_ok": 1,
+      "image_degraded_ans": "64",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 4,
+      "ent": "Zorblatt device",
+      "gold": "64",
+      "text_ans": "64",
+      "text_ok": 1,
+      "image_ans": "64",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 5,
+      "ent": "Marlox fin",
+      "gold": "75",
+      "text_ans": "75",
+      "text_ok": 1,
+      "image_ans": "75",
+      "image_ok": 1,
+      "image_degraded_ans": "75",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 48,
+      "t": 6,
+      "ent": "Kribbo lens",
+      "gold": "33",
+      "text_ans": "33",
+      "text_ok": 1,
+      "image_ans": "33",
+      "image_ok": 1,
+      "image_degraded_ans": "13",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 7,
+      "ent": "Hesper node",
+      "gold": "81",
+      "text_ans": "81",
+      "text_ok": 1,
+      "image_ans": "81",
+      "image_ok": 1,
+      "image_degraded_ans": "63",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 8,
+      "ent": "Fennimore gear",
+      "gold": "52",
+      "text_ans": "52",
+      "text_ok": 1,
+      "image_ans": "52",
+      "image_ok": 1,
+      "image_degraded_ans": "14",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 9,
+      "ent": "Velsh anchor",
+      "gold": "32",
+      "text_ans": "32",
+      "text_ok": 1,
+      "image_ans": "32",
+      "image_ok": 1,
+      "image_degraded_ans": "12",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 10,
+      "ent": "Membic rotor",
+      "gold": "44",
+      "text_ans": "44",
+      "text_ok": 1,
+      "image_ans": "44",
+      "image_ok": 1,
+      "image_degraded_ans": "14",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 11,
+      "ent": "Jandriff sled",
+      "gold": "11",
+      "text_ans": "11",
+      "text_ok": 1,
+      "image_ans": "11",
+      "image_ok": 1,
+      "image_degraded_ans": "11",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 48,
+      "t": 12,
+      "ent": "Kessloft kite",
+      "gold": "95",
+      "text_ans": "95",
+      "text_ok": 1,
+      "image_ans": "95",
+      "image_ok": 1,
+      "image_degraded_ans": null,
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 13,
+      "ent": "Xanthe filter",
+      "gold": "38",
+      "text_ans": "38",
+      "text_ok": 1,
+      "image_ans": "38",
+      "image_ok": 1,
+      "image_degraded_ans": "48",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 14,
+      "ent": "Membic rotor",
+      "gold": "44",
+      "text_ans": "44",
+      "text_ok": 1,
+      "image_ans": "44",
+      "image_ok": 1,
+      "image_degraded_ans": "44",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 48,
+      "t": 15,
+      "ent": "Zorblatt device",
+      "gold": "64",
+      "text_ans": "64",
+      "text_ok": 1,
+      "image_ans": "64",
+      "image_ok": 1,
+      "image_degraded_ans": "82",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 16,
+      "ent": "Membic rotor",
+      "gold": "44",
+      "text_ans": "44",
+      "text_ok": 1,
+      "image_ans": "44",
+      "image_ok": 1,
+      "image_degraded_ans": "44",
+      "image_degraded_ok": 1
+    },
+    {
+      "K": 48,
+      "t": 17,
+      "ent": "Norvell disk",
+      "gold": "56",
+      "text_ans": "56",
+      "text_ok": 1,
+      "image_ans": "56",
+      "image_ok": 1,
+      "image_degraded_ans": "50",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 18,
+      "ent": "Rasmund chain",
+      "gold": "59",
+      "text_ans": "59",
+      "text_ok": 1,
+      "image_ans": "59",
+      "image_ok": 1,
+      "image_degraded_ans": "14",
+      "image_degraded_ok": 0
+    },
+    {
+      "K": 48,
+      "t": 19,
+      "ent": "Plindor tower",
+      "gold": "49",
+      "text_ans": "49",
+      "text_ok": 1,
+      "image_ans": "49",
+      "image_ok": 1,
+      "image_degraded_ans": "85",
+      "image_degraded_ok": 0
+    }
+  ]
+}
