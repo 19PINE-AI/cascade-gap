@@ -14,6 +14,7 @@
 \usepackage{amssymb}
 \usepackage{amsfonts}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage{booktabs}
 \usepackage{subcaption}
 \usepackage{multirow}
@@ -64,6 +65,13 @@ Website: \url{https://01.me/research/cascade-gap}
 \end{center}
 \vspace{-0.6em}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.80\linewidth]{figures/fig0_protocol_schematic.pdf}
+\caption{\textbf{Reason-over-modality ($C_0$) vs.\ reduce-to-text-then-reason ($C_1$), same weights.} $C_0$ reads the raw audio/page images and writes the review in one call. $C_1$ first transcribes the source (Pass-1 ASR/OCR, same weights), then writes the review from that transcript alone (Pass-2, text-only, modality removed); only the reasoning step's input representation differs.}
+\label{fig:protocol_schematic}
+\end{figure}
+
 % =================================================================
 \section{Introduction}
 \label{sec:intro}
@@ -90,13 +98,6 @@ This relates to, but is distinct from, prior single-modality work. Cuervo et al.
 % =================================================================
 \section{Protocol}
 \label{sec:protocol}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{figures/fig0_protocol_schematic.pdf}
-\caption{\textbf{Reason-over-modality ($C_0$) vs.\ reduce-to-text-then-reason ($C_1$), same weights.} $C_0$ is one multimodal call: the model under test reads the raw audio or page images and writes a comprehensive review, reasoning directly over the modality. $C_1$ first reduces the source to text (Pass-1 ASR/OCR call, same model weights), then reasons over that transcript alone (Pass-2, text-only, with the raw modality absent from the Pass-2 context). The two configurations differ only in the representation the reasoning step operates over.}
-\label{fig:protocol_schematic}
-\end{figure}
 
 For each source (audio or scanned paper): (1)~A \textbf{reference transcript} is produced by Gemini~3.1~Pro ASR/OCR with chunking (30-min audio chunks, 1-page-per-call OCR, Appendix~\ref{appdx:protocol}). (2)~$C_0$ \emph{reason-over-modality} (end-to-end): the model under test reads the raw modality and writes a review article in one call. (3)~$C_1$ \emph{reduce-to-text-then-reason} (the same-weights cascade): the model under test produces its own transcript (Pass-1, same prompt as the reference), then writes the review from that transcript (Pass-2, text-only). The only thing that changes between $C_0$ and $C_1$ is whether the reasoning step sees pixels/audio or text. Figure~\ref{fig:protocol_schematic} schematizes the two configurations.
 

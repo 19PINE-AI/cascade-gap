@@ -374,9 +374,9 @@ def fig5_cost_pareto():
 # ============================================================
 def fig0_protocol_schematic():
     # Single wide axis with two side-by-side diagrams.
-    fig, ax = plt.subplots(figsize=(7.0, 2.6))
+    fig, ax = plt.subplots(figsize=(7.0, 2.3))
     ax.set_xlim(0, 22)
-    ax.set_ylim(0, 7.5)
+    ax.set_ylim(-0.4, 6.4)
     ax.axis("off")
 
     def box(x, y, w, h, fc, ec, text, fontsize=8, textcolor="black"):
@@ -385,7 +385,6 @@ def fig0_protocol_schematic():
                 fontsize=fontsize, color=textcolor)
 
     # ---- LEFT: C0 end-to-end ----
-    ax.text(5.0, 7.0, r"$C_0$: end-to-end", ha="center", fontsize=10, fontweight="bold")
     box(0.3, 3.0, 2.4, 1.8, "#eef4fa", C_GEMINI, "audio /\npaper imgs", fontsize=8)
     box(3.7, 2.7, 2.8, 2.4, C_GEMINI, "black", "model\n(multimodal)", fontsize=8, textcolor="white")
     box(7.5, 3.0, 2.4, 1.8, "#fff4f4", C_CLAUDE, "review\narticle", fontsize=8)
@@ -393,14 +392,13 @@ def fig0_protocol_schematic():
                 arrowprops=dict(arrowstyle="->", color="black", lw=1.1))
     ax.annotate("", xy=(7.45, 3.9), xytext=(6.55, 3.9),
                 arrowprops=dict(arrowstyle="->", color="black", lw=1.1))
-    ax.text(5.0, 1.8, "1 call", ha="center", fontsize=8, color="#444444", style="italic")
+    ax.text(5.0, 1.7, r"$C_0$ (end-to-end): 1 call", ha="center", fontsize=8,
+            color="#444444", style="italic")
 
     # Divider
-    ax.plot([10.7, 10.7], [0.3, 6.7], color="#dddddd", linewidth=1.0)
+    ax.plot([10.7, 10.7], [0.0, 6.3], color="#dddddd", linewidth=1.0)
 
     # ---- RIGHT: C1 cascade ----
-    ax.text(16.5, 7.0, r"$C_1$: same-weights cascade (Pass-1 $\to$ Pass-2)",
-            ha="center", fontsize=10, fontweight="bold")
     # Source on the left
     box(11.2, 3.0, 2.4, 1.8, "#eef4fa", C_GEMINI, "audio /\npaper imgs", fontsize=8)
     # Pass-1 model (top)
@@ -426,7 +424,7 @@ def fig0_protocol_schematic():
     ax.annotate("", xy=(13.65, 1.4), xytext=(14.65, 1.9),
                 arrowprops=dict(arrowstyle="->", color="black", lw=1.0))
     # Cost label
-    ax.text(16.5, 0.0, "$N+1$ calls  (page-chunked OCR / 30-min ASR chunks + 1 text Pass-2)",
+    ax.text(16.5, -0.2, r"$C_1$ (same-weights cascade): $N{+}1$ calls  (page-chunked OCR / 30-min ASR + 1 text Pass-2)",
             ha="center", fontsize=7.5, color="#444444", style="italic")
 
     fig.savefig(HERE / "fig0_protocol_schematic.pdf")
