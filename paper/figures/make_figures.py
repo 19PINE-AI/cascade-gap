@@ -29,7 +29,7 @@ mpl.rcParams.update({
 # Color palette (b/w-friendly with marker shape variation)
 C_GEMINI = "#1f77b4"   # blue
 C_CLAUDE = "#d62728"   # red
-C_MIMO   = "#2ca02c"   # green
+C_MIMO   = "#e69f00"   # green
 C_GPT    = "#9467bd"   # purple
 
 

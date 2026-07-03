@@ -20,6 +20,7 @@
 \usepackage{multirow}
 \usepackage{array}
 \usepackage{nicefrac}
+\usepackage{tcolorbox}
 
 % hyperref loaded late, then coloured to match the palette.
 \usepackage{hyperref}
@@ -37,6 +38,10 @@
 % paragraphs with long verbatim file paths and tightly-packed tables.
 \emergencystretch=3em
 
+% Box style for the running example (verbatim artifacts from the released runs).
+\newtcolorbox{examplebox}{colback=arxivaccent!4!white,colframe=arxivaccent!60!black,
+  boxrule=0.5pt,arc=2pt,left=6pt,right=6pt,top=5pt,bottom=5pt}
+
 \title{Perceive, Externalize, Synthesize:\\
 Why Two-Pass Decomposition Beats End-to-End\\
 on Long-Form Multimodal Review}
@@ -53,213 +58,315 @@ on Long-Form Multimodal Review}
 \begin{document}
 
 \maketitle
+\vspace{-1.2em}
 
 % =================================================================
 \begin{abstract}
-The default way to deploy a multimodal model on long-form review is end-to-end: feed it the raw audio or page images in one call. We show, counter-intuitively, that this is the wrong default. \textbf{Decomposing the task into two same-weights passes is systematically more faithful and more complete}---one transcribes the source to text, the other writes the review from that transcript alone, though it sees strictly \emph{less} than the end-to-end pass. Across 21 Gemini~3.1~Pro cells (11 audio, 10 papers, 9--176~pp), decomposition cuts hallucinations on 18/21 and improves coverage on 16/21 (both sign-test significant), and the gain scales inversely with the end-to-end baseline ($r{=}-0.45$): the more the monolithic pass satisfices, the more decomposition recovers. A nine-experiment study locates the cause. It is \textbf{not} perception---the model's own transcript holds $99.7\%$ of what the end-to-end pass drops---and \textbf{not} that text is a better reasoning substrate: identical content is read equally well from text and from an \emph{image} of that text, on open VLMs at the activation level and behaviorally on the frontier models, where with headroom the image is if anything \emph{better}. The cause is a \textbf{generation-side bottleneck}: one pass cannot perceive, reason, and write a long faithful review at once, so it satisfices; decomposition gives each step a dedicated, full-budget pass. The account predicts two failure modes---compression overflow and training-prior leak---both appear. The cross-vendor picture obeys the same inverse-baseline law, not a uniform replication; the headline aggregate is single-vendor. Perceive, externalize, then synthesize: the win is decomposition, not the modality.
+The default way to deploy a multimodal model on long-form review is end-to-end: feed it the raw audio or page images and ask for the review in one call. We show this default quietly \emph{satisfices}: across 21 review cells, the end-to-end pass drops roughly a third of the source content and embellishes what it keeps---despite perceiving it, since $99.7\%$ of the dropped content appears verbatim in the same model's own transcript of the same source. A nine-experiment mechanistic study shows the bottleneck is neither perception nor the reasoning substrate---identical content is read equally well from text and from an \emph{image} of that text---but \textbf{generation under load}: one pass cannot perceive, reason, and write a long faithful review at once. The mechanism dictates the fix: two same-weights passes---transcribe, then review the transcript---each with its own full output budget. This decomposition beats end-to-end on faithfulness on 18/21 cells and coverage on 16/21 (both sign-test significant), the gain scaling inversely with the end-to-end baseline ($r{=}-0.45$): the more the monolithic pass satisfices, the more decomposition recovers. The same headroom law organizes two further vendors and mixed-model pipelines, and predicts both observed failure modes. The win is the decomposition, not the modality.
 \end{abstract}
+\vspace{-0.4em}
 \begin{center}
-\small
-Code: \url{https://github.com/19PINE-AI/cascade-gap} \\[2pt]
-Website: \url{https://01.me/research/cascade-gap}
+\footnotesize
+Code: \url{https://github.com/19PINE-AI/cascade-gap} \quad$\cdot$\quad Website: \url{https://01.me/research/cascade-gap}
 \end{center}
-\vspace{-0.6em}
+\vspace{-1.2em}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.80\linewidth]{figures/fig0_protocol_schematic.pdf}
-\caption{\textbf{Reason-over-modality ($C_0$) vs.\ reduce-to-text-then-reason ($C_1$), same weights.} $C_0$ reads the raw audio/page images and writes the review in one call. $C_1$ first transcribes the source (Pass-1 ASR/OCR, same weights), then writes the review from that transcript alone (Pass-2, text-only, modality removed); only the reasoning step's input representation differs.}
-\label{fig:protocol_schematic}
+\includegraphics[width=\linewidth]{figures/fig1_showcase.pdf}
+\vspace{-8pt}
+\caption{\textbf{Results overview: decomposing long-form review into transcribe-then-review beats the end-to-end call, across models and pipelines.} Each dot is one review cell: the change in \textbf{(a)} probe coverage and \textbf{(b)} unsupported-claim count from end-to-end ($C_0$) to two-pass decomposition ($C_1$), same weights per row (the \texttt{gpt-audio} rows are mixed pipelines vs.\ the native audio model's end-to-end pass). On the headline 21-cell suite, coverage improves on 16/21 and hallucinations fall on 18/21 (sign tests $p{=}0.027$, $p{=}0.0015$); per-cell detail in Figure~\ref{fig:headline_cells}, and the regressions are the low-headroom and failure-mode cells of \S\ref{sec:failure_modes}.}
+\label{fig:headline}
 \end{figure}
 
 % =================================================================
 \section{Introduction}
 \label{sec:intro}
 
-Multimodal foundation models can read audio and document images directly. The intuitive way to deploy them on a long-form review task is therefore end-to-end: feed the model the raw source and ask for the review in one call. Keeping the original modality in context looks strictly safer: no transcription step to lose information, and the model sees everything. We argue, and measure, that this intuition is backwards for long-form review.
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.72\linewidth]{figures/fig0_protocol_schematic.pdf}
+\caption{\textbf{The two configurations, same weights.} $C_0$ (end-to-end) reads the raw audio/page images and writes the review in one call. $C_1$ (two-pass decomposition) first transcribes the source (Pass-1, same weights and prompt as the reference pipeline), then writes the review from that transcript alone (Pass-2, text-only); only the reasoning step's input representation differs.}
+\label{fig:schematic}
+\end{figure}
 
-The alternative is a same-weights two-pass decomposition: the model first transcribes the source to text (Pass-1, \emph{perceive and externalize}), then writes the review from that transcript alone (Pass-2, \emph{synthesize}, with the same weights and the raw modality removed from context). This wins. The obvious explanation, that text is simply a better substrate for the model's reasoning, turns out to be wrong. We run a nine-experiment mechanistic study (\S\ref{sec:mechanism}) that isolates the cause:
-\begin{itemize}
-\itemsep1pt
-\item \textbf{Not perception.} The model's own Pass-1 transcript covers $99.9\%$ of probes. Of the $362$ probes the end-to-end pass drops, $361$ ($99.7\%$) are present in that transcript. The model perceives the content, then loses it downstream.
-\item \textbf{Not substrate.} On an open VLM, a layer-wise logit-lens finds identical propositional content is read equally well from text and from an \emph{image} of that text, whether one fact or twenty-four packed facts, with the same answer-token log-prob and the same readout depth. The same null holds \emph{behaviorally on the headline frontier models}: Gemini~3.1~Pro and Claude~Opus~4.7 retrieve a queried fact from pixels and from text with identical accuracy up to 48 packed facts (E8), and the equivalence extends from retrieval to \emph{multi-hop reasoning} (E9, summing six packed facts)---where, on the one model with reasoning headroom, the image is reliably \emph{better} than text, the opposite of H1. A degraded-image control that the same probes flag as non-equivalent confirms the test could detect a gap if one existed. There is no intrinsic ``pixels are harder to reason over'' penalty for legible content.
-\item \textbf{It is generation under load.} A single pass cannot simultaneously perceive, reason, and write a long faithful review, so it satisfices and drops $\sim\!1/3$ of what it saw. Decomposition gives perception a dedicated externalization pass and synthesis a dedicated, \emph{full-budget} pass over complete text. Collapsing the two into one call crashes coverage or fails to emit a review at all (the transcript exhausts the output budget), so the separation, not the modality, is the active ingredient.
-\end{itemize}
-We call the pattern \textbf{perceive--externalize--synthesize}. This account also predicts the two failure modes (\S\ref{sec:failure_modes}): a compression bottleneck when synthesis cannot fit the transcript in its output budget (Mode~A), and a training-prior leak when removing the source lets synthesis confabulate (Mode~B). The latter is a genuine but secondary cost of dropping the modality, not the engine of the win.
+Multimodal foundation models read audio and document images directly, so the intuitive way to deploy them on a long-form review task---summarize this lecture, review this scanned report---is end-to-end: one call, raw source in, review out (Figure~\ref{fig:schematic}, top). Keeping the original modality in context looks strictly safer. No transcription step can lose information, and the model sees everything.
 
-This relates to, but is distinct from, prior single-modality work. Cuervo et al.~\cite{cuervo2025closing} and the Cascade Equivalence Hypothesis~\cite{ceh2026} find speech-LLMs internally behave like ASR$\to$LLM cascades, and Step-Audio-R1~\cite{stepaudior1} shows audio LLMs reasoning over a \emph{textual surrogate} of the audio. Our activation-level tests find \emph{no} reasoning-substrate penalty for propositional content in \emph{either} modality (\S\ref{sec:mechanism}): a VLM reasons over an image of text as well as over text (E6), and, once the speech is intelligible, an omni model reasons over spoken facts as well as written ones (E7), with an apparent audio gap vanishing when low-quality TTS is replaced by a clean neural voice. The Step-Audio-R1 effect is best read as task-payload-specific, not a contradiction: its tasks (music, environmental sound) have \emph{acoustic} answers that transcription discards. On documents, DocVLM~\cite{docvlm2024} reports OCR-augmented VLMs beating pure-vision VLMs at fixed budget, while vision-only configurations dominate on GUI tasks~\cite{uground2024,uitars2025}. Few cross-modality same-weights measurements exist, and fewer still isolate \emph{why}. This paper provides both, focused on \textbf{long-form review generation}, the deployment case where end-to-end models are observably weak (they drop content and embellish) and two-pass decomposition is the obvious alternative.
+This paper argues, and measures, that the intuition is backwards for long-form review, and explains why. The argument runs in three steps.
 
-\paragraph{Findings.}
-(i) Two-pass decomposition ($C_1$) beats end-to-end ($C_0$) across 21 Gemini cells on both faithfulness (18/21) and coverage (16/21), both sign-test significant, despite the synthesis pass seeing strictly less (\S\ref{sec:main}). (ii) The gain scales inversely with the $C_0$ baseline ($r{=}-0.45$): decomposition recovers most where the monolithic pass satisfices most. (iii) \emph{The mechanism is generation-side, not perception or substrate} (\S\ref{sec:mechanism}): the dropped content sits in the model's own transcript, text and image-of-text are read equally well (on open VLMs and frontier models alike), yet collapsing the two passes into one call crashes coverage. (iv) The account predicts two failure modes---compression overflow (Mode~A) and training-prior leak (Mode~B, replicated on Claude). (v) A quote-grounded iterative-refinement variant ($C_{1\rm iter}$) suppresses Mode~B where it binds but trades coverage elsewhere. (vi) GPT-5.4 and Claude judges agree on direction (coverage 19/21, hallucination 14/21; per-probe median $0.94$).
+\textbf{The observation (\S\ref{sec:observation}).} When a frontier model reviews a long source end-to-end, it quietly satisfices. On our running example---Andrej Karpathy's 42-minute \emph{State of GPT} talk---Gemini~3.1~Pro's end-to-end review covers barely six in ten of the atomic facts an independent judge extracts from the source, and a quarter of its claims are unsupported (Figure~\ref{fig:example}). The failure is not perception: asked to simply \emph{transcribe} the same audio, the same weights produce a transcript containing every single fact the review dropped. Across all 21 cells, $99.7\%$ of the content the end-to-end pass drops sits verbatim in the model's own transcript (Figure~\ref{fig:mech_e3}). The model perceives the content and then loses it downstream.
+
+\textbf{The mechanism (\S\ref{sec:mechanism}).} Where downstream? Three hypotheses fit the observation: text is a better reasoning substrate than raw audio/pixels (H1); a single pass cannot perceive, reason, and write a long faithful review at once (H2, generation under load); attention dilutes over long low-density modality tokens (H3). Nine experiments (E1--E9) separate them. The substrate hypothesis fails everywhere we can test it: identical propositional content is read equally well from text and from an \emph{image} of that text---at the activation level on open VLMs, and behaviorally on the frontier models themselves, where under reasoning load the image is, if anything, \emph{better} (Figure~\ref{fig:substrate}). What does bind is generation: collapsing transcription and review into one call crashes coverage or produces no review at all, while re-attaching the raw modality to a transcript-equipped pass changes little (Figure~\ref{fig:e2_collapse}). The bottleneck is the single pass, not the pixels.
+
+\textbf{The solution (\S\ref{sec:solution}).} The mechanism dictates the fix: give each step a dedicated, full-budget pass. Pass~1 transcribes the source (\emph{perceive and externalize}); Pass~2 writes the review from the transcript alone (\emph{synthesize}), same weights throughout. This two-pass decomposition ($C_1$) beats end-to-end ($C_0$) on faithfulness and coverage across the 21-cell suite (Figure~\ref{fig:headline}), and the gain obeys an \emph{inverse-baseline law}: it scales with how badly the monolithic pass satisfices ($r{=}-0.45$, Figure~\ref{fig:solution}). The same law---not a uniform win---organizes the cross-vendor picture (Figure~\ref{fig:xmodel}) and predicts exactly two failure modes, both observed: synthesis-budget overflow on very long sources (Mode~A) and training-prior confabulation once the grounding source is removed (Mode~B), the latter targeted by a quote-grounded refinement variant (\S\ref{sec:failure_modes}).
 
 \paragraph{Contributions.}
-(1)~A 21-cell same-weights measurement of end-to-end ($C_0$) vs.\ two-pass decomposition ($C_1$), across two modalities, three vendors, and two judges. (2)~\emph{A nine-experiment mechanistic study} (\S\ref{sec:mechanism}) that adjudicates among perception, substrate, and generation-side accounts, ruling the first two out and supporting \textbf{perceive--externalize--synthesize}: perception coverage vs.\ surfacing (E3), an open-VLM cross-modal logit-lens under load (E6), an omni-model audio analogue (E7), behavioral cross-modal retrieval (E8) and multi-hop-reasoning (E9) probes on the headline frontier models, the single-call collapse test (E2), a both-modalities control (E1), and DPI/native-text controls (E4/E5, reported with their confounds). (3)~A two-mode account of where decomposition breaks down (Mode~A compression, Mode~B training-prior leak) with deployment triggers, derived from the mechanism. (4)~An iterative-refinement variant ($C_{1\rm iter}$) that re-grounds synthesis with verbatim quotes. (5)~Systematic robustness checks ($n{=}5$ multi-seed on four cells, inter-judge on all 21, probe-circularity on 7, reference-bias on 4), with all retract/preserve verdicts reported transparently.
+(1)~A 21-cell same-weights measurement of end-to-end vs.\ two-pass decomposition on long-form review, across two modalities, three vendors, and two judges (\S\ref{sec:observation}, \S\ref{sec:solution}).
+(2)~A nine-experiment mechanistic study that adjudicates among perception, substrate, and generation-side accounts, ruling out the first two---including behavioral substrate probes on the frontier models themselves---and supporting \textbf{perceive--externalize--synthesize} (\S\ref{sec:mechanism}).
+(3)~A two-mode account of where decomposition breaks, with deployment triggers derived from the mechanism, plus two tested interventions and a quote-grounded iterative-refinement variant (\S\ref{sec:failure_modes}).
+(4)~Systematic robustness checks---inter-judge replication on all 21 cells, probe re-extraction, reference regeneration, $n{=}5$ multi-seed verification---with all retract/preserve verdicts reported transparently (\S\ref{sec:robust}).
 
 % =================================================================
-\section{Protocol}
-\label{sec:protocol}
+\section{The observation: end-to-end long-form review satisfices}
+\label{sec:observation}
 
-For each source (audio or scanned paper): (1)~A \textbf{reference transcript} is produced by Gemini~3.1~Pro ASR/OCR with chunking (30-min audio chunks, 1-page-per-call OCR, Appendix~\ref{appdx:protocol}). (2)~$C_0$ \emph{reason-over-modality} (end-to-end): the model under test reads the raw modality and writes a review article in one call. (3)~$C_1$ \emph{reduce-to-text-then-reason} (the same-weights cascade): the model under test produces its own transcript (Pass-1, same prompt as the reference), then writes the review from that transcript (Pass-2, text-only). The only thing that changes between $C_0$ and $C_1$ is whether the reasoning step sees pixels/audio or text. Figure~\ref{fig:protocol_schematic} schematizes the two configurations.
+\begin{figure}[!t]
+\begin{examplebox}
+\small
+\textbf{Running example: Gemini 3.1 Pro reviews Karpathy's \emph{State of GPT} (42-min audio), end-to-end.}
+All excerpts are verbatim from the released run artifacts.\\[4pt]
+\textbf{The talk says:} \emph{``The vocabulary size is usually a couple ten thousand tokens''} --- and the model hears it: its own transcript of the audio contains the sentence verbatim.\\[2pt]
+\textbf{The end-to-end review writes:} \emph{``A typical vocabulary size is around 10{,}000 tokens.''} --- one of \textbf{13 unsupported claims}, alongside a misdescription of RLHF as a fourth serial pipeline stage.\\[4pt]
+\textbf{The talk ends with} Karpathy prompting GPT-4: \emph{``can you say something to inspire the audience of Microsoft Build 2023?''} --- again present verbatim in the model's own transcript.\\[2pt]
+\textbf{The end-to-end review:} drops it entirely, one of \textbf{19 of 51 probes missed}. All 19 missed probes are present in the model's own 8{,}500-word transcript of the same audio.\\[4pt]
+\textbf{The two-pass review} (\S\ref{sec:solution}: same weights, written from that transcript alone) covers \textbf{49 of 51 probes with 3 unsupported claims}, and gets the example right: \emph{``Vocabulary sizes are usually a couple ten thousand tokens (e.g., 50{,}257).''}
+\end{examplebox}
+\vspace{-2pt}
+\caption{\textbf{The observation, on one real cell.} The end-to-end pass satisfices---it drops content it demonstrably perceived and embellishes what it keeps---while the same weights, decomposed into transcribe-then-review, recover both faithfulness and coverage. Karpathy is the bolded row in Figure~\ref{fig:headline_cells}a.}
+\label{fig:example}
+\end{figure}
 
-\paragraph{Scoring.} GPT-5.4 (\texttt{reasoning\_effort=high}) acts as judge. From the reference, it extracts 30--50 atomic factual probes. For each review the judge then lists every claim not supported by the reference (\emph{hallucination test}) and marks each probe as COVERED / MISSING (\emph{probe coverage}). The protocol is sharper than short-form QA: the review must be both exhaustive (high coverage) and faithful (zero hallucination). Because most frontier models fail the zero-hallucination bar, we report counts and rates as operational measures.
+\paragraph{Task and protocol.}
+The task is long-form review: given a 26--85-minute recording or a 9--176-page scanned paper, write a review article that is \emph{exhaustive} (covers the source's content) and \emph{faithful} (adds nothing the source does not support). For each source, a reference transcript is produced by Gemini~3.1~Pro ASR/OCR with chunking (30-min audio chunks, 1-page-per-call OCR; Appendix~\ref{appdx:protocol}). GPT-5.4 (\texttt{reasoning\_effort=high}) acts as judge: from the reference it extracts 30--50 atomic factual probes, then scores each review for \emph{probe coverage} (each probe COVERED/MISSING) and lists every claim the reference does not support (\emph{hallucination count}). We treat $|\Delta h|\le 1$ on low-count cells and $|\Delta_{\rm cov}|\le 0.04$ as within noise, and report Wilson/bootstrap CIs and sign tests for aggregates (Appendix~\ref{appdx:protocol}). The suite has 21 Gemini cells: 11 audio cells over 10 recordings (talks, lectures, panels, meetings) and 10 papers (seven 1968--1972 NASA reports, three post-cutoff 2026 arXiv reviews); Appendix~\ref{appdx:cell_table} lists them all. The configuration under study first is $C_0$, \emph{end-to-end}: the model reads the raw modality and writes the review in one call.
 
-\paragraph{Noise floor and statistics.} We treat $|\Delta h|\le 1$ on cells with $h<10$, and $|\Delta\mathrm{cov}|\le 0.04$ ($\approx 2$ probes on a 50-probe cell), as within noise (presentation conventions calibrated against inter-judge direction flips, \S\ref{sec:robust}). For aggregate effects we report Wilson 95\% CIs on coverage rates, percentile-bootstrap 95\% CIs ($n_{\rm boot}{=}10000$, seeded) on cross-cell means and Pearson $r$, and sign tests against $\Delta{=}0$.
 
-\paragraph{Cells.} 21 Gemini cells: 11 audio cells over 10 recordings (26--85~min talks, lectures, panels, and meetings; Karpathy yields both a review and a meeting-minutes task) and 10 papers (9--176~pp), the latter being seven NASA NTRS reports (1968--1972) plus three modern post-cutoff arXiv reviews; full source list in Appendix~\ref{appdx:protocol} and per-cell counts in Appendix~\ref{appdx:cell_table}. \emph{Cross-vendor extensions} reuse the Gemini reference and probes (isolating the question to whether the advantage depends on the $C_0/C_1$ model): Claude~Opus~4.7 (a complete $C_0$-vs-$C_1$ comparison on the six papers where its multimodal $C_0$ fits, \S\ref{sec:main}; $C_1$-only on the longer papers) and Mimo~v2-omni on every cell where its $C_0$ does not return empty.
+\paragraph{The end-to-end pass drops a third of the content\ldots}
+Figure~\ref{fig:headline_cells} (gray points) shows the $C_0$ picture across the suite: mean probe coverage is $0.65$, and every cell carries unsupported claims---most frontier reviews fail the zero-hallucination bar. The running example (Figure~\ref{fig:example}) shows what this looks like concretely: invented precision (``10{,}000 tokens''), structural misdescription (RLHF as a fourth stage), and silently dropped content (the talk's closing demonstration).
 
-\paragraph{Notation.} $C_0$: reason-over-modality (end-to-end). $C_1$: reduce-to-text-then-reason (single-pass cascade). Subscript $c$ ($C_{1c}$): chunked Pass-2 (sub-summarize per chunk, then merge). Superscript $\rm concat$: chunked, no merge. Superscript $\rm strip$: citation surface forms replaced by neutral \texttt{[REF]} placeholders before Pass-2. Subscript $\rm iter$: the iterative-refinement variant of \S\ref{sec:iter}. $C_{1+}$: the synthesis pass given \emph{both} the transcript and the raw modality (the E1 control, \S\ref{sec:mechanism}).
-
-% =================================================================
-\section{Main result: two-pass decomposition beats end-to-end}
-\label{sec:main}
+\paragraph{\ldots that it demonstrably perceived (E3).}
+The natural suspicion is perception: perhaps the model cannot hear or read the source well enough. It can. We asked the same model to simply \emph{transcribe} each source (the same chunked ASR/OCR that builds the reference) and scored that transcript against the same probes. Figure~\ref{fig:mech_e3} shows the result: the model's own transcript covers essentially every probe on every cell, sitting far above the review it writes from the same input. Pooled across the suite, $361$ of the $362$ probes the end-to-end pass drops---$99.7\%$---are present in the model's own transcript. On Karpathy it is 19 of 19. The transcript ceiling is partly definitional (probes come from a near-identical reference), but the load-bearing inference is one-directional: the content the end-to-end review drops \emph{is} capturable as text by the same weights. Whatever is lost is lost \emph{downstream} of perception. That is the puzzle the next section resolves.
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.7\linewidth]{figures/fig1_inverse_correlation.pdf}
-\caption{\textbf{Reduce-to-text coverage gain vs.\ $C_0$ baseline across all 21 Gemini cells.} The worse the model reasons over the raw modality (lower $C_0$), the more reducing to text recovers. Circles: audio. Squares: paper. OLS line with bootstrap 95\% CI band, Pearson $r=-0.45$ with bootstrap CI $[-0.73,-0.10]$ (fraction $r\geq 0$: $0.9\%$). The five counter-cells (NeurIPS panel, Wagging~Tail, arXiv~Perovskite, Natural~Vibration, arXiv~Fairness~AI) sit at high $C_0$ baseline (no headroom) or trigger Mode~A/B (\S\ref{sec:failure_modes}).}
-\label{fig:inverse}
+\includegraphics[width=0.9\linewidth]{figures/fig_mech_e3.pdf}
+\caption{\textbf{E3: the bottleneck is not perception.} Per cell (sorted by $C_0$ coverage): the model's own transcript of the source (blue) covers $\approx\!1.0$ of probes everywhere, while the end-to-end review (orange) surfaces $0.65$ on average and the two-pass synthesis (green) $0.77$. Pooled, $361/362$ probes the end-to-end pass drops ($99.7\%$, Wilson 95\% CI $[98.5\%,99.9\%]$) are present in the model's own transcript.}
+\label{fig:mech_e3}
 \end{figure}
 
-\paragraph{Aggregate effect at $n=21$.}
-The cascade reduces hallucinations on 18/21 cells (mean $\Delta_{\rm halluc}=-3.86$, bootstrap 95\% CI $[-5.62,-2.33]$, sign-test $p=0.0015$) and improves coverage on 16/21 (mean $\Delta_{\rm cov}=+0.118$, $[+0.048,+0.189]$, $p=0.027$); both intervals exclude zero. Restricting to the 17 cells outside the coverage noise floor leaves 14/17 positive (sign-test $p=0.013$), so the direction does not hinge on within-noise cells. The effect is robust to median substitution on the four high-count judge-spread cells (\S\ref{sec:robust}). Per-cell counts and Wilson CIs are in Appendix~\ref{appdx:cell_table}.
-
-\paragraph{A structural caveat on the metric.}
-The reference transcript and the cascade's Pass-1 are produced by the same model, so both probe coverage and the hallucination count can structurally favor $C_1$, whose review is written from a transcript close to the very reference the probes and support judgments are drawn from. The reference-bias control (\S\ref{sec:robust}) addresses this by regenerating the reference from \emph{independent} ASR/OCR (Whisper, EasyOCR) on four cells, where the cascade coverage direction is preserved $4/4$ under both judges; but the control is small ($n{=}4$) and concentrated on strong-win cells, so we flag the shared-model reference as the principal threat to the headline statistic and a priority for wider replication.
-
-\paragraph{The inverse-baseline law (the paper's organizing principle).}
-Coverage gain scales inversely with the end-to-end baseline (Figure~\ref{fig:inverse}). This is the central prediction of the reduce-to-text account and the thread that unifies the rest of the paper: $C_0$ measures how well the model already reasons over the raw modality, the cells where it reasons worst are exactly where moving the reasoning onto text recovers the most, and the same law governs the counter-cells (no headroom $\Rightarrow$ no gain), the cross-vendor results below, and the failure modes (\S\ref{sec:failure_modes}). It is a statement about \emph{headroom}, not a promise of a universal win. Excluding the two meeting-minutes re-prompts (artificially low absolute coverage because their probes use atomic-fact style while the prompt asks for structured minutes), $r=-0.47$ on $n=19$ with CI $[-0.83,+0.10]$: the direction survives but the CI just crosses zero on this subset.
-
-\paragraph{Cascade-positive cells.}
-The largest coverage gain is Harvard~Moot~Court audio ($+50$pp, multi-speaker legal argumentation where end-to-end coverage is only $0.36$, i.e.\ ample $C_0$ headroom); the cleanest hallucination win is 3B1B~Attention ($11h\to 0h$). Gains concentrate on audio and on moderate papers (Appendix~\ref{appdx:cell_table}).
-
-\paragraph{Counter-cells.}
-The five cells where cascade fails to improve on at least one axis split into two clusters: \emph{high-baseline / low-headroom} (NeurIPS panel $C_0{=}0.92$, Wagging~Tail $C_0{\approx}0.80$) and \emph{mode-triggered failures} (Natural~Vibration, Mode~B; arXiv~Fairness~AI and arXiv~Perovskite, Mode~A; \S\ref{sec:failure_modes}). Perovskite's loss shrinks from $-16$pp at $n{=}1$ to $-6$pp under $n{=}5$ multi-seed (Appendix~\ref{appdx:multiseed}), so we treat it as near-noise-floor.
-
-\paragraph{Cross-vendor and cross-model: the inverse-baseline law, not uniform replication.}
-Every cross-model result is an instance of the same law (Figure~\ref{fig:inverse}): the cascade helps in proportion to the headroom the end-to-end $C_0$ leaves, so the prediction---and the finding---is wins where $C_0$ is weak and washouts where it is already strong, \emph{not} a blanket vendor-independent win. Three checks bear this out. (i)~On Thermal~66pp, the one moderate cell all three vendors realize, all three improve coverage and Gemini/Claude both cut hallucinations sharply, converging to a common $\approx\!1.4$h per 1k words from different end-to-end rates (Appendix~\ref{appdx:perword}). (ii)~A complete within-Claude comparison on the six NASA papers Claude's $C_0$ can fit (9--104pp, Table~\ref{tab:claude_within}) reduces hallucinations on 5/6 (exception: the Heat~Pipes Mode-B cell), but the four short papers sit near $C_0$ ceiling so coverage is flat and the effect is not independently significant at $n{=}6$ ($p{=}0.22$); the one headroom cell (Thermal) is a clean Pareto win. (iii)~A clean, full-quality Gemini~2.5~Flash audio comparison (Appendix~\ref{appdx:flash_audio}) makes the point sharply: 2.5~Flash is a \emph{strong} end-to-end audio reader (its $C_0$ beats Pro's on 4/5 cells), so the cascade wins only where $C_0$ has room (MIT, Harvard) and is flat-to-negative where it is saturated (NeurIPS; Karpathy even regresses)---headroom-gated, as predicted. In each, the cascade \emph{direction} holds where the law says it should; we do not claim a uniform cross-vendor win, and the headline aggregate remains single-vendor (Gemini).
-
-\paragraph{Long-paper divergence.}
-On longer cells the three vendors diverge sharply (full numbers in Appendix~\ref{appdx:xvendor}). On Heat~Pipes~104pp, Gemini cascade is small Pareto-positive while Claude cascade \emph{regresses} on faithfulness, leaving $C_0$ on the Pareto frontier---the Mode-B signature (\S\ref{sec:failure_modes}). On SP-5100~176pp both Gemini and Claude $C_1$ sit at very high hallucination rates with the same bibliographic-expansion signature, and Claude $C_0$ is not realizable (176 page-images exceed Anthropic's payload limit even with the 1M-context beta). On the modern arXiv reviews the cascade direction can \emph{reverse}, which we attribute mainly to denser typesetting forcing more aggressive synthesis-pass compression at the same output budget (Mode~A). The long-paper picture motivates the mechanism study and the two failure regimes (\S\ref{sec:mechanism}--\ref{sec:failure_modes}).
-
 % =================================================================
-\section{Mechanism: perceive, externalize, synthesize}
+\section{Mechanism: why one pass fails}
 \label{sec:mechanism}
 
-Why does decomposition win? Three hypotheses are consistent with the headline result but make different predictions. \textbf{H1 (substrate):} the model reasons better over text tokens than over raw audio/image tokens, so moving the work onto text helps. \textbf{H2 (externalization / generation under load):} a single pass cannot simultaneously perceive, reason, and write a long faithful review. Decomposition gives perception a dedicated externalization step and synthesis a dedicated, full-budget step over complete text. \textbf{H3 (attention dilution):} raw-modality tokens are numerous and low-density, diluting the reasoning attention. We ran nine experiments (E1--E9) to separate them. The verdict is that H2 is the operative mechanism, H1 is \emph{not} supported (and is directly contradicted for documents---including, now, on the headline frontier models themselves, for retrieval (E8) and multi-hop reasoning (E9)), and H3 is untestable on Gemini with our tools. All experiments reuse the exact probe/hallucination judge of \S\ref{sec:protocol}, and artifacts are released (\S\ref{sec:code}). The two load-bearing generation-side contrasts (E1, E2) are run at $n{=}5$ seeds on all 21 cells (\S\ref{sec:mechanism}, statistical treatment). E4/E5 remain single-seed controls on an 8-cell subset and are reported as such. \S\ref{sec:mechanism} closes with the statistical caveats, and \S\ref{sec:discussion} with the validation plan.
+Three hypotheses are consistent with \S\ref{sec:observation} but make different predictions. \textbf{H1 (substrate):} the model reasons better over text tokens than over raw audio/image tokens. \textbf{H2 (generation under load):} a single pass cannot simultaneously perceive, reason, and write a long faithful review, so it satisfices; each step needs a dedicated, full-budget pass. \textbf{H3 (attention dilution):} raw-modality tokens are numerous and low-density, diluting attention. We ran nine experiments (E1--E9) to separate them, reusing the probe/hallucination judge of \S\ref{sec:observation} throughout; all artifacts are released (\S\ref{appdx:code}). The verdict: H1 fails every test we can run, H2 is supported by the two load-bearing contrasts (both multi-seed on all 21 cells), and H3 is untestable on Gemini with our tools (its image pipeline normalizes DPI away, E4). Details and per-experiment tables are in Appendix~\ref{appdx:substrate}.
 
-\paragraph{E3: the bottleneck is not perception.}
-We scored the model's \emph{own} Pass-1 transcript against the same probes used for the reviews (all 21 cells). The transcript covers a mean $99.9\%$ of probes, far above the $C_0$ review ($65\%$) and $C_1$ synthesis ($77\%$); decisively, of the $362$ probes the end-to-end pass drops across the suite, $361$ ($99.7\%$, Wilson 95\% CI $[98.5\%,99.9\%]$) are present in the model's own transcript (Appendix~\ref{appdx:substrate}). The content is lost \emph{downstream} of perception. (The transcript ceiling is partly definitional---probes come from a near-identical reference---but the load-bearing inference is one-directional: content $C_0$ drops is nonetheless capturable-as-text by the same weights.)
+\begin{figure}[t]
+\centering
+\begin{subfigure}{\linewidth}
+\centering
+\includegraphics[width=0.88\linewidth]{figures/fig_mech_e6load.pdf}
+\caption{E6, activation level (open VLM): layer-wise logit-lens on Qwen2.5-VL-7B.}
+\end{subfigure}\\[4pt]
+\begin{subfigure}{\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/fig_substrate_frontier.pdf}
+\caption{E8/E9, behavioral (the headline frontier models).}
+\end{subfigure}
+\caption{\textbf{Text is not a better reasoning substrate than pixels (H1 is false for legible content).}
+\textbf{(a)}~E6: novel synthetic facts presented as text vs.\ as an \emph{image} of that text are read with the same accuracy and the same answer-token log-prob at every load $K\le 24$; readout depth is TOST-equivalent within $\pm1$ layer (replicated on Qwen2.5-VL-3B; Appendix~\ref{appdx:vision_ladder}). An omni-model audio analogue (E7) gives the same null once the TTS is intelligible (Appendix~\ref{appdx:substrate}).
+\textbf{(b)}~The null holds behaviorally on the exact headline models. E8 (left, center): single-fact retrieval from packed sets of up to $K{=}48$ novel facts is \emph{identical} from text and legible image on both models (pooled gap $+0.000$, TOST-equivalent within $\pm0.1$), while a degraded low-DPI control collapses to $0.15$--$0.27$---the probe detects gaps when they exist. E9 (right): multi-hop reasoning (sum 6 packed facts; the answer is never visible). Gemini is at ceiling in both modalities; Claude without extended thinking has headroom (text $0.825$) and the image is reliably \emph{better} ($1.00$, gap $+0.175$, 95\% CI $[0.10,0.26]$)---the opposite of H1's prediction.}
+\label{fig:substrate}
+\end{figure}
 
 \paragraph{Not substrate (E6--E9).}
-The other intuitive explanation---that text is an intrinsically better reasoning substrate than pixels (H1)---is false for legible content, on four tests (full detail, tables, and figures in Appendix~\ref{appdx:substrate}). At the \emph{activation} level, a layer-wise logit-lens on two open VLMs reads novel synthetic facts equally well from text and from an \emph{image} of that text---same answer log-prob, same readout depth (TOST-equivalent within $\pm 1$ layer), for one fact and up to 24 packed facts (E6); an omni-model analogue finds the same for \emph{speech} once the TTS is intelligible, an apparent audio gap being a TTS-quality artifact (E7). \emph{Behaviorally on the headline models}, Gemini~3.1~Pro and Claude~Opus~4.7 retrieve a queried fact from pixels and text with identical accuracy up to 48 packed facts (E8), and the equivalence extends from retrieval to multi-hop \emph{reasoning} (summing six packed facts): on the one model with reasoning headroom (Claude without extended thinking) the image is reliably \emph{better} than text (gap $+0.175$), the opposite of H1 (E9). A degraded-image control that the same probes flag as non-equivalent confirms the test would detect a gap if one existed. So pixels carry no reasoning penalty for legible content---on proxy models and on the headline models alike (the frontier probes are behavioral, not activation-level, and Gemini's reasoning probe sits at ceiling, so Claude supplies the one headroom case; Appendix~\ref{appdx:substrate}). The contrast with the headline is the point: single-fact retrieval is \emph{perfect} from pixels, yet $C_0$ on these same models drops $\sim\!1/3$ of the content (E3)---the loss is generation-side, not substrate.
+The intuitive explanation---text is intrinsically easier to reason over than pixels or audio---is directly contradicted at two levels (Figure~\ref{fig:substrate}). At the \emph{activation} level, a layer-wise logit-lens on two open VLMs reads novel synthetic facts equally well from text and from an image of that text, for one fact and for up to 24 packed facts (E6); an omni-model analogue finds the same for speech once the TTS is intelligible---an apparent audio gap with robotic TTS vanishes with two independent clean neural voices, so audio-substrate claims must control for intelligibility (E7). \emph{Behaviorally on the headline models}, retrieval from pixels equals retrieval from text at every load up to 48 packed facts, and a degraded-image positive control confirms the probes are sensitive (E8). Forcing multi-hop \emph{reasoning} (E9) sharpens the contradiction: on the one model with headroom, the image is reliably better than text, not worse. The frontier probes are behavioral, not activation-level, and Gemini's reasoning probe sits at ceiling, so Claude supplies the single headroom case; with those caveats, there is no ``pixels are harder to reason over'' penalty for legible content anywhere we can measure. The contrast with \S\ref{sec:observation} is the point: single-fact retrieval from pixels is \emph{perfect} on these same models, yet their end-to-end reviews drop a third of the content. The loss is not in reading the modality.
 
-\paragraph{E2: the win requires a separate, full-budget synthesis pass.}
-If decomposition merely externalizes content into one context, doing both steps in a single call should suffice. It does not. A single call instructed to first transcribe verbatim and then write the review (modality attached) \emph{collapses}: coverage falls far below $C_1$ on every paper that produced a review, and on several cells the call never emits a review at all---the transcript consumes the entire output budget (Table~\ref{tab:mech_cond}). This is confirmed at scale: at $n{=}5$ seeds on all 21 cells (20 yielding a comparable review), single-call coverage is below $C_1$ by mean $\Delta_{\rm cov}=-0.111$ (bootstrap 95\% CI $[-0.170,-0.038]$, Wilcoxon $p=0.019$, mixed-effects $p<10^{-3}$), with $7$ runs emitting no review at all. The active ingredient is the \emph{decomposition into two passes with independent output budgets}, not text-in-context per se.
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.82\linewidth]{figures/fig_e2_collapse.pdf}
+\caption{\textbf{E2: the win needs two passes with independent output budgets; E1: removing the modality is not the engine.} Probe coverage on the 8-cell condition grid (single-seed; raw counts in Appendix~\ref{appdx:substrate}, Table~\ref{tab:mech_cond}). A single call instructed to transcribe \emph{then} review (red squares) collapses below the two-pass configuration on every paper that produced a review, and on three cells emits no review at all---the transcript exhausts the output budget. At $n{=}5$ seeds on all 21 cells the collapse replicates: single-call coverage sits below two-pass by $\Delta_{\rm cov}{=}-0.111$ (bootstrap 95\% CI $[-0.170,-0.038]$, Wilcoxon $p{=}0.019$, mixed-effects $p{<}10^{-3}$), with 7 runs emitting no review. Conversely, giving the synthesis pass the transcript \emph{and} the raw modality ($C_{1+}$, open diamonds) preserves and sometimes maximizes coverage; at $n{=}5$ on all 21 cells it shifts coverage by only $+0.069$ (CI $[-0.001,+0.154]$, inconclusive) while re-adding hallucinations on 14/21 cells---the Mode-B effect of \S\ref{sec:failure_modes}.}
+\label{fig:e2_collapse}
+\end{figure}
 
-\paragraph{E1: removing the modality is a minor faithfulness bonus, not the engine.}
-Giving the synthesis pass \emph{both} the transcript and the raw modality ($C_{1+}$) does not break the benefit and sometimes maximizes coverage (Table~\ref{tab:mech_cond}); consistent with E6, pixels are not harmful to content recovery. What their presence does do is re-introduce a few hallucinations relative to pure-text $C_1$, the same effect Mode~B names. At $n{=}5$ seeds on all 21 cells this holds: re-attaching the modality moves coverage by only $\Delta_{\rm cov}=+0.069$ (95\% CI $[-0.001,+0.154]$, inconclusive) while adding hallucinations on $14/21$ cells. So dropping the modality buys faithfulness at the margin, but the larger coverage win comes from the pass structure (E2), not from removing pixels.
+\paragraph{It is generation under load (E2, E1).}
+If externalizing content into context were sufficient, one call that first transcribes verbatim and then writes the review---everything in a single context window---should match the two-pass decomposition. It does not (Figure~\ref{fig:e2_collapse}): the single call collapses, either compressing the review far below the two-pass level or exhausting its entire output budget on the transcript and emitting no review at all. The complementary control (E1) shows the flip side: giving the synthesis pass \emph{both} the transcript and the raw modality does not break the benefit---pixels in context are not harmful to coverage, consistent with E6---but their presence re-introduces some hallucinations relative to pure-text synthesis. So the active ingredient is the \emph{decomposition into two passes with independent output budgets}; removing the modality buys faithfulness only at the margin. Two further controls did not separate the hypotheses and are reported with their confounds in Appendix~\ref{appdx:substrate}: DPI cannot move Gemini's vision-token count (E4), and \texttt{pdftotext} scrambles two-column reading order (E5).
 
-Two further controls (E4, DPI; E5, native \texttt{pdftotext}) did not separate the hypotheses---Gemini normalizes images so DPI cannot move the vision-token count, and \texttt{pdftotext} scrambles two-column reading order---so we report them with their confounds in Appendix~\ref{appdx:substrate} rather than rely on them. The 8-cell condition grid for E1/E2/E5 is in Table~\ref{tab:mech_cond}.
-
-\paragraph{Synthesis.}
-The evidence converges on \textbf{perceive--externalize--synthesize}: the model perceives the content (E3); pixels-vs-text is not the reasoning bottleneck for legible content, at the activation level (E6/E7) and behaviorally on the headline models (E8/E9); and the recovery requires decomposing into two passes with independent output budgets (E2), not merely removing the modality (E1). The inverse-baseline law ($r{=}-0.45$) follows directly: a low $C_0$ marks cells where the monolithic pass satisfices most, and E3 shows the dropped content is sitting in the transcript waiting to be synthesized. The mechanism is \emph{strongly supported by E3, E6/E8/E9, and the multi-seed E2}, corroborated by E1, with E4/E5 inconclusive; the two failure modes (\S\ref{sec:failure_modes}) are its predicted breakdowns. What remains is breadth, not power: activation-level access on frontier models, real scanned pages, and tasks beyond long-form review (\S\ref{sec:discussion}).
+\paragraph{Verdict: perceive, externalize, synthesize.}
+The evidence converges on H2. The model perceives the content (E3); the modality is not the reasoning bottleneck for legible content, at the activation level and behaviorally on the frontier models (E6--E9); and recovery requires two passes with independent budgets (E2), not merely text in context (E1). One pass asked to do everything satisfices under generation load; a dedicated externalization pass followed by a dedicated, full-budget synthesis pass over complete text does not. This account makes two predictions we test next: the benefit should scale with how much the end-to-end pass satisfices (an \emph{inverse-baseline law}, \S\ref{sec:solution}), and decomposition should fail in exactly two ways---when synthesis cannot fit the transcript through its output budget, and when removing the grounding source lets synthesis confabulate from training priors (\S\ref{sec:failure_modes}).
 
 % =================================================================
-\section{Where decomposition breaks down: two failure modes}
+\section{The solution: two-pass decomposition, and where it wins}
+\label{sec:solution}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.62\linewidth]{figures/fig1_inverse_correlation.pdf}
+\caption{\textbf{The inverse-baseline law.} Coverage gain vs.\ $C_0$ baseline across all 21 cells: the worse the model does end-to-end, the more decomposition recovers. Circles: audio; squares: paper. OLS line with bootstrap 95\% CI band; Pearson $r{=}-0.45$, bootstrap CI $[-0.73,-0.10]$ (fraction $r\ge 0$: $0.9\%$). Excluding the two meeting-minutes re-prompts (whose atomic-fact probes depress absolute coverage under a structured-minutes prompt), $r{=}-0.47$ on $n{=}19$ with CI $[-0.83,+0.10]$: the direction survives but that subset's CI just crosses zero. The five counter-cells sit at high baseline (no headroom) or trigger Mode~A/B (\S\ref{sec:failure_modes}).}
+\label{fig:solution}
+\end{figure}
+
+\paragraph{The configuration.}
+Figure~\ref{fig:schematic} formalizes the fix that \S\ref{sec:mechanism} dictates. $C_1$, the \emph{two-pass decomposition}: Pass-1 transcribes the source to text (perceive and externalize; same prompt as the reference pipeline); Pass-2 writes the review from that transcript alone, with the same weights and the raw modality removed from context (synthesize). The only difference from $C_0$ is whether the reasoning-and-writing step sees pixels/audio or text. Variants used later: $C_{1c}$ (chunked Pass-2, with $^{\rm concat}$ for chunked-no-merge), $C_1^{\rm strip}$ (citation surface forms replaced by \texttt{[REF]} before Pass-2), $C_{1\rm iter}$ (quote-grounded iterative refinement, \S\ref{sec:failure_modes}), and $C_{1+}$ (transcript $+$ modality, the E1 control).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_headline.pdf}
+\caption{\textbf{Per-cell results, all 21 Gemini~3.1~Pro cells} (sorted by end-to-end baseline within each modality; the bolded row is the running example). Decomposition improves coverage on 16/21 (mean $\Delta_{\rm cov}{=}+0.118$, bootstrap 95\% CI $[+0.048,+0.189]$, sign-test $p{=}0.027$; 14/17 positive outside the $\pm0.04$ noise floor, $p{=}0.013$) and cuts unsupported claims on 18/21 (mean $\Delta_{\rm halluc}{=}-3.86$, CI $[-5.62,-2.33]$, $p{=}0.0015$). Red connectors mark regressions. Raw counts and Wilson CIs in Appendix~\ref{appdx:cell_table}.}
+\label{fig:headline_cells}
+\end{figure}
+
+\paragraph{Headline result at $n{=}21$.}
+Figure~\ref{fig:headline_cells} gives the per-cell picture behind Figure~\ref{fig:headline}: decomposition cuts hallucinations on 18/21 cells and improves coverage on 16/21, both sign-test significant, despite Pass-2 seeing strictly less than the end-to-end pass; the direction survives restriction to cells outside the noise floor and median substitution on the four high-count judge-spread cells (\S\ref{sec:robust}). The largest coverage gain is Harvard Moot Court ($+50$pp, multi-speaker legal argumentation where the end-to-end baseline is weakest); the cleanest faithfulness win is 3B1B Attention ($11$ hallucinations to $0$). One structural caveat qualifies the headline and is examined in \S\ref{sec:robust}: the reference transcript and Pass-1 share a model, which can favor $C_1$; a reference-bias control with independent ASR/OCR (Whisper, EasyOCR) preserves the direction on 4/4 cells, but that control is small, so we flag the shared-model reference as the principal threat to the headline statistic.
+
+\paragraph{The inverse-baseline law.}
+The organizing regularity is Figure~\ref{fig:solution}: coverage gain scales inversely with the end-to-end baseline. This is exactly what perceive--externalize--synthesize predicts. $C_0$ coverage measures how much the monolithic pass satisfices on a given cell; E3 says the dropped content is sitting in the transcript; so the cells with the most headroom are the cells where a full-budget synthesis pass over that transcript recovers the most. It is a statement about \emph{headroom}, not a promise of a universal win: the five counter-cells sit either at saturated baselines (NeurIPS panel at $C_0{=}0.92$; Wagging Tail ${\approx}0.80$) or in the two predicted failure regimes (\S\ref{sec:failure_modes}), and Perovskite's $-16$pp loss shrinks to $-6$pp---near the noise floor---under $n{=}5$ multi-seed re-runs (\S\ref{sec:robust}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\linewidth]{figures/fig_xmodel_grid.pdf}
+\caption{\textbf{Cross-model generality: the inverse-baseline law, not a uniform replication.}
+\textbf{(a)}~Thermal 66pp, the one moderate cell all three vendors realize: every vendor improves coverage, and Gemini/Claude converge from different end-to-end hallucination rates to a common $\approx\!1.4$ per 1k words (Appendix~\ref{appdx:perword}).
+\textbf{(b)}~Complete within-Claude comparison on the six NASA papers its multimodal $C_0$ fits: hallucinations fall on 5/6 (not independently significant at $n{=}6$, $p{=}0.22$; the four short papers sit near $C_0$ ceiling so coverage is flat); the exception is the Heat Pipes Mode-B cell (\S\ref{sec:failure_modes}). Claude $C_0$ is unrealizable beyond 104pp (payload cap).
+\textbf{(c)}~Gemini 2.5 Flash is a \emph{strong} end-to-end audio reader (its $C_0$ beats Pro's on 4/5 cells), so its cascade gains appear only on the two headroom cells (MIT, Harvard) and Karpathy regresses---headroom-gated, as the law predicts.
+\textbf{(d)}~Off-protocol mixed pipelines: an independent \texttt{gpt-audio} transcript feeding text-only Pass-2 models. Every pipeline beats the native audio model's end-to-end pass on both axes; decomposition \emph{unlocks} text-only frontier models (Claude, GPT-5.4) for audio review. Full tables: Appendices~\ref{appdx:xvendor}--\ref{appdx:flash_audio}.}
+\label{fig:xmodel}
+\end{figure}
+
+\paragraph{Cross-model and cross-vendor.}
+Every cross-model result is an instance of the same law (Figure~\ref{fig:xmodel}): wins where the end-to-end baseline leaves headroom, washouts where it is already strong. We emphasize what this is \emph{not}: not a blanket vendor-independent win, and the headline aggregate remains single-vendor (Gemini). A clean cross-\emph{company} same-weights audio cascade is impossible by API constraint (no non-Google frontier model both ingests audio and accepts a text-only Pass-2; \S\ref{sec:discussion}), which is why the mixed-model pipelines of Figure~\ref{fig:xmodel}d are the deployment-relevant form: in production one mixes the best model per stage, and there decomposition is what makes audio review possible at all for text-only models. On long papers the vendors diverge sharply---Gemini stays small-Pareto-positive on Heat Pipes 104pp while Claude regresses on faithfulness, and on SP-5100 176pp both vendors' $C_1$ show the same bibliographic-expansion signature (Appendix~\ref{appdx:xvendor})---which is the failure-mode structure the next section dissects.
+
+\paragraph{Cost.}
+$C_1$ is $N{+}1$ calls versus one: call ratios range from ${\approx}2\times$ on short audio to ${\approx}177\times$ on the 176pp paper, with output-token volume scaling with source length (cost-vs-gain scatter in Figure~\ref{fig:cost}, \S\ref{sec:discussion}). The evidence says decomposition pays off where end-to-end has measurable headroom and buys nothing on saturated cells---so the inverse-baseline law is also the cost rule.
+
+% =================================================================
+\section{Where decomposition breaks: two failure modes and their fixes}
 \label{sec:failure_modes}
 
-The perceive--externalize--synthesize account (\S\ref{sec:mechanism}) predicts exactly two ways decomposition can fail, and both appear in the data: when the synthesis pass cannot carry the externalized transcript through its output budget (Mode~A), and when removing the raw source lets the synthesis pass fill gaps from prior knowledge (Mode~B, the secondary cost of dropping the modality). These are the two modes below; Figure~\ref{fig:failure_modes} (Appendix~\ref{appdx:fixes}) illustrates both on Heat~Pipes.
+The mechanism predicts exactly two ways decomposition can fail, and both appear. \textbf{Mode~A (compression bottleneck):} Pass-2 has a fixed output budget (${\approx}2$k words); when the transcript is many times longer, synthesis must compress and drops content the same way $C_0$ does. \textbf{Mode~B (training-prior leak):} removing the raw source removes a grounding anchor; on documents with heavy training-data overlap, Pass-2 fills abbreviated details from prior knowledge. Mode~B is the genuine---but secondary---cost of dropping the modality (it is the same effect E1 shows in reverse). Figure~\ref{fig:failure_modes}a shows both on Heat Pipes 104pp, the cell where they separate cleanly by vendor.
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}{0.56\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/fig4_failure_modes.pdf}
+\caption{The two modes, on Heat Pipes 104pp.}
+\end{subfigure}\hfill
+\begin{subfigure}{0.42\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/fig11_iter_pareto.pdf}
+\caption{$C_{1\rm iter}$ across 7 cells ($n{=}5$ means).}
+\end{subfigure}
+\caption{\textbf{Failure modes and the quote-grounded fix.}
+\textbf{(a)}~\emph{Left:} Mode~A (Gemini): Pass-2 compresses a 22k-word transcript ${\sim}11\times$ into a 2k-word review; chunked Pass-2 ($C_{1c}^{\rm concat}$) relieves the bottleneck, lifting coverage $0.78\to0.94$ at $+5$ hallucinations. \emph{Right:} Mode~B (Claude): $C_1$ hallucinates several-fold more than $C_0$ ($4\to20$ on the plotted seed; $n{=}5$ mean $13.2$), dominated by bibliographic expansions; citation stripping's apparent fix ($20\to13$) is \emph{retracted} at $n{=}5$ ($\hat\Delta{=}-1.8\pm2.6$, CI $[-6.9,+3.3]$; Appendix~\ref{appdx:stoch}).
+\textbf{(b)}~Iterative refinement: each cell's plain $C_1$ (open circle) connected to its $C_{1\rm iter}$ result (star). A Pareto win only on Natural Vibration ($7.8\to3.6$h, $0.54\to0.66$ cov); a faithfulness-for-coverage trade on the heavy-Mode-B cells (Heat Pipes Gemini, SP-5100, Megagauss); net-negative where Mode~A dominates (Fairness AI) or the single-seed gain washes out (Heat Pipes Claude). Per-cell table: Appendix~\ref{appdx:iter}.}
+\label{fig:failure_modes}
+\end{figure}
 
 \paragraph{Mode~A: compression bottleneck (3 papers).}
-On long sources, Pass-2 has a fixed output budget ($\approx 2$k words). When the cascade transcript is much longer than what fits, Pass-2 must compress, dropping content the same way $C_0$ does. Three Gemini cells exhibit this signature: Heat~Pipes~104pp (Pass-1 transcript 22k words, compression ratio $\sim 11\times$, $C_1$ gain $+6$pp), arXiv~Fairness~AI~53pp ($\sim 15\times$, which \emph{loses} $-10$pp), and arXiv~Perovskite~80pp ($\sim 9\times$, $-16$pp at $n{=}1$, $-6$pp under multi-seed). The fix tested on Heat~Pipes is \textbf{chunked Pass-2}: split the transcript into $\sim 5$k-word chunks, summarize each, then concatenate (or merge). Heat~Pipes Gemini $C_{1c}^{\rm concat}$ lifts coverage $0.78\to 0.94$ ($+16$pp) at $+5$ halluc (Figure~\ref{fig:failure_modes}~left). At $n{=}5$ multi-seed verification (Appendix~\ref{appdx:fixes}, Table~\ref{tab:chunked_multiseed_appdx}) the chunked-Pass-2 direction replicates on Fairness~AI and Perovskite but \emph{not} on Megagauss, so we report chunked Pass-2 as a $2/3$ replicated Mode-A fix.
+Three Gemini cells show the signature of transcript-length-to-budget ratios of ${\sim}9$--$15\times$: Heat Pipes 104pp (small $+6$pp gain), arXiv Fairness AI 53pp ($-10$pp), arXiv Perovskite 80pp ($-16$pp at $n{=}1$, $-6$pp under multi-seed). The tested fix is \textbf{chunked Pass-2}: split the transcript into ${\sim}5$k-word chunks, summarize each, concatenate. It lifts Heat Pipes coverage $0.78\to0.94$ (Figure~\ref{fig:failure_modes}a) and replicates directionally on Fairness AI and Perovskite at $n{=}5$ but \emph{not} on Megagauss, so we report chunked Pass-2 as a $2/3$-replicated Mode-A fix (Appendix~\ref{appdx:fixes}).
 
 \paragraph{Mode~B: training-prior leak (4 papers).}
-This is the genuine cost of reduction: removing the raw source removes a grounding anchor, and on documents with heavy training-data overlap Pass-2 fills the gap from prior knowledge when the transcript abbreviates a detail. The Heat~Pipes paper cites foundational references like ``Reference~2 (Cotter)''; Claude's $C_1$ expands these to ``Cotter's 1965 analysis (LA-3246-MS)''---the year and report number are training-data details, not in the transcript (examples in Appendix~\ref{appdx:examples}). The same bibliographic-expansion signature appears on all four long citation-heavy Claude cells (Heat~Pipes, SP-5100, Fairness~AI, Megagauss), whereas the moderate citation-light Thermal~66pp paper shows only 4 Claude $C_1$ hallucinations.
+The Heat Pipes paper cites ``Reference~2 (Cotter)''; Claude's $C_1$ expands this to ``Cotter's 1965 analysis (LA-3246-MS)''---the year and report number are training-data details absent from the transcript (more examples in Appendix~\ref{appdx:examples}). The same bibliographic-expansion signature appears on all four long, citation-heavy Claude cells (Heat Pipes, SP-5100, Fairness AI, Megagauss) and is absent on the citation-light Thermal 66pp. Two deployment triggers emerge (thresholds and per-cell citation densities in Appendix~\ref{appdx:cell_table}): Mode~A when the transcript is $\gtrsim 5\times$ the Pass-2 output budget and the coverage gain is small; Mode~B when the source carries $\gtrsim 2$ citation surface forms per 1k words \emph{and} its topic is in widely cited pre-cutoff literature. The modes compound (Mimo Heat Pipes shows both) or occur alone (Heat Pipes: Gemini dominantly A, Claude dominantly B).
 
-\paragraph{Two diagnostic signals.} Two thresholds emerge as starting points for practitioner triage:
-\begin{itemize}
-\itemsep0pt
-\item \textbf{Mode~A trigger:} Pass-1 transcript length $\gtrsim 5\times$ Pass-2 output budget with $C_1$ coverage gain $<+10$pp (Heat~Pipes Gemini: $11\times$, $+6$pp).
-\item \textbf{Mode~B trigger:} the source contains $>\sim 2$ ``Reference~$N$'' / ``Ref.~$N$'' surface forms per 1k words \emph{and} the topic appears in widely cited pre-cutoff literature. Heat~Pipes~104pp has 55 such surface forms ($2.8$/1k source words, Table~\ref{tab:all_cells}; $2.5$/1k of the longer Pass-1 transcript). Thermal~66pp is citation-light ($0.36$/1k) and shows no Mode~B even on Claude.
-\end{itemize}
-The two modes can compound (Mimo Heat~Pipes shows both) or operate in isolation (Heat~Pipes Gemini is dominantly Mode~A, Heat~Pipes Claude dominantly Mode~B).
+\begin{figure}[!t]
+\centering
+\begin{subfigure}{0.495\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/fig10_inter_judge_scatter.pdf}
+\caption{Inter-judge replication, all 21 cells.}
+\end{subfigure}\hfill
+\begin{subfigure}{0.475\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/fig12_headline_multiseed.pdf}
+\caption{$n{=}5$ Pass-2 multi-seed envelopes.}
+\end{subfigure}\\[4pt]
+\begin{subfigure}{0.50\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/fig8_probe_circularity.pdf}
+\caption{Probe re-extraction (7 cells).}
+\end{subfigure}\hfill
+\begin{subfigure}{0.47\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/fig9_reference_bias.pdf}
+\caption{Independent reference (4 cells).}
+\end{subfigure}
+\caption{\textbf{Four independent robustness checks} (full tables: Appendices~\ref{appdx:multiseed}--\ref{appdx:probe_circ}).
+\textbf{(a)}~Claude Opus 4.7 re-scores every review with GPT-5.4's prompts: direction agreement 19/21 on coverage, 14/21 on hallucination, per-probe agreement median $0.94$; Claude reports systematically fewer hallucinations (median ratio $0.71\times$), so Mode~B holds under both judges at different absolute counts. Disagreements concentrate on near-tie and high-count cells.
+\textbf{(b)}~Five-seed Pass-2 re-runs on four headline cells: the three wins preserve direction; Perovskite's loss shrinks from $-16$pp to $-6$pp, below the noise floor.
+\textbf{(c)}~Probes re-extracted by Claude on seven cells spanning the direction spectrum: cascade $\Delta_{\rm cov}$ sign preserved on 6/7 under the GPT-5.4 judge and 5/7 under Claude (the exceptions are within-noise cells).
+\textbf{(d)}~Reference regenerated with independent ASR/OCR (Whisper-base, EasyOCR): coverage direction preserved 4/4 under both judges; the one hallucination-direction flip (Thermal under EasyOCR) traces to the noisier reference losing figure captions.}
+\label{fig:robustness}
+\end{figure}
 
-\paragraph{Engineering interventions tested.} We evaluated two interventions across cells: \emph{chunked Pass-2} (Mode-A target, $2/3$ replication under $n{=}5$ multi-seed, Appendix~\ref{appdx:fixes}) and \emph{citation stripping} ($C_1^{\rm strip}$, Mode-B target). \textbf{Citation stripping does not survive replication}: at $n{=}5$ Pass-2 calls on Heat~Pipes Claude the strip effect on hallucinations is $\hat{\Delta}=-1.8\pm 2.6$ (95\% CI $[-6.9,+3.3]$), the original ``$20\to 13$'' point estimate having been within the combined Pass-2 $+$ judge noise envelope (Appendix~\ref{appdx:stoch}). \textbf{We retract the citation-stripping claim on Claude}, motivating the stronger structural intervention in \S\ref{sec:iter}.
+\paragraph{Interventions, including a retraction.}
+Beyond chunked Pass-2, we tested \emph{citation stripping} ($C_1^{\rm strip}$) as a Mode-B fix. \textbf{It does not survive replication}: the original ``$20\to13$'' Heat Pipes point estimate lies within the combined Pass-2$+$judge noise envelope at $n{=}5$, and across four cells the fix has zero replicated wins (Appendix~\ref{appdx:fixes}). We retract it, and it motivates the stronger structural intervention below.
 
-% =================================================================
-\section{Iterative refinement: a quote-grounded Mode-B fix ($C_{1\rm iter}$)}
-\label{sec:iter}
+\paragraph{$C_{1\rm iter}$: a quote-grounded refinement.}
+Mode~B calls for re-grounding synthesis in the transcript. $C_{1\rm iter}$: (a)~extract 50--150 atomic claims from the transcript, each with a verbatim $\le$25-word quote; (b)~drop any claim whose quote does not fuzzy-match the transcript; (c)~rewrite the review from surviving claims only. The filter is a tripwire, not a culler---$99.8\%$ of claims pass ($3731/3738$)---so its effect is to make the model self-discipline: asked for a quote, it stops emitting the bibliographic expansions Mode~B catalogues. It is RAG's attribution discipline applied \emph{within} a same-weights self-cascade. The verdict at $n{=}5$ on seven cells (Figure~\ref{fig:failure_modes}b) is conditional on the dominant failure mode: it suppresses Mode~B where Mode~B binds, pays a rewrite-compression cost everywhere, and is therefore a Pareto win only where the rewrite does not over-compress.
 
-Mode~B (the synthesis pass confabulating once the source is removed) calls for re-grounding synthesis in the transcript. $C_{1\rm iter}$ is a three-step variant: (a)~extract $50$--$150$ atomic claims from the Pass-1 transcript, each with a verbatim $\leq\!25$-word quote; (b)~drop any claim whose quote does not string-match the transcript (a $0.85$ fuzzy threshold tolerates OCR/ASR noise); (c)~rewrite the review from only the surviving claims, adding no new facts. The filter is a tripwire, not a culler: $99.8\%$ of claims pass ($3731/3738$), so asked for a quote the model largely self-disciplines and stops emitting the bibliographic expansions Mode~B catalogues. It is RAG's attribution discipline applied \emph{within} a same-weights self-cascade---``retrieval'' is the Pass-1 transcript, ``attribution'' the verbatim quote.
-
-\paragraph{Verdict: conditional on the dominant failure mode.} At $n{=}5$ on seven cells (full table and Pareto plot in Appendix~\ref{appdx:iter}), $C_{1\rm iter}$ reduces hallucinations on 5/7 but lowers coverage on all but one. It is a clean \emph{Pareto win} only on the short Natural~Vibration cell ($7.8{\to}3.6$h, $0.54{\to}0.66$cov), where the rewrite does not over-compress; a \emph{faithfulness-for-coverage trade} where Mode-B leak is heavy enough to pay the rewrite's compression cost (Heat~Pipes~Gemini, SP-5100, Megagauss); and \emph{net-negative} where Mode-A compression dominates or the Mode-B gain washes out at $n{=}5$ (Fairness~AI; Heat~Pipes~Claude, where the single-seed gain vanishes, echoing the citation-strip retraction of \S\ref{sec:failure_modes}). It suppresses Mode~B where Mode~B binds, not universally.
 
 % =================================================================
 \section{Robustness}
 \label{sec:robust}
 
-We ran four independent robustness checks; full tables and figures are in Appendices \ref{appdx:inter_judge} and \ref{appdx:probe_circ}.
 
-\paragraph{Inter-judge replication on all 21 Gemini cells.}
-Claude Opus 4.7 re-scored every $C_0$ and $C_1$ review using GPT-5.4's prompts (Figure~\ref{fig:inter_judge_scatter}). Direction agreement is \textbf{19/21 on coverage} and \textbf{14/21 on hallucination}, with per-probe agreement median $0.94$. Disagreements concentrate on near-tie cells (a $\pm 1$ judge difference flips direction) and high-count cells (the judges agree ``many claims are unsupported'' but differ in absolute count by $10{+}$). Claude systematically reports fewer hallucinations than GPT-5.4 (median ratio $0.71$), so the Mode~B finding holds under both judges at different absolute counts (Appendix~\ref{appdx:inter_judge}).
+Figure~\ref{fig:robustness} summarizes four checks against the protocol's main threats: judge idiosyncrasy (a), Pass-2 and judge stochasticity (b), probe circularity---GPT-5.4 extracts and also scores the probes (c)---and the shared-model reference (d), which is the structural caveat of \S\ref{sec:solution} and the one we consider the principal residual threat: the $4/4$ preservation is reassuring but the control is small and concentrated on strong-win cells.
 
-\paragraph{Probe-circularity check (6 cells).}
-Probes are originally extracted by GPT-5.4, which also scores them. We re-extracted probes via Claude on seven cells spanning the cascade-direction spectrum (two audio wins, the Mode-A and Mode-B paper counter-cells, a low-baseline long paper, and two near-noise papers) and re-scored the existing $C_0/C_1$ reviews. Under \emph{GPT-5.4 judge}, the cascade $\Delta_{\rm cov}$ sign is preserved on \textbf{6/7} (magnitude shifts $\leq 0.10$ on all; the seventh, Megagauss, is a $+0.02$ within-noise cell that reads exactly $0.00$ under the re-extracted probes). Under \emph{Claude judge} the sign is preserved on \textbf{5/7} (Fairness~AI flips $-0.10\to +0.04$ and Megagauss again ties at $0.00$, both within noise). The Mode-A loss on Fairness~AI and Mode-B loss on Natural~Vibration both survive both substitutions.
+\begin{figure}[!t]
+\centering
+\includegraphics[width=0.6\linewidth]{figures/fig5_cost_pareto.pdf}
+\caption{\textbf{Coverage gain vs.\ API call-count cost.} Each point is one Gemini cell. The $C_1/C_0$ call ratio for paper cells is $N{+}1$ (page-chunked OCR + one Pass-2), from $10\times$ on a 9-page paper to $177\times$ on SP-5100; audio cells use 30-min chunked ASR (${\approx}2$--$3\times$). Decomposition buys most of its coverage gain at the cheap audio end and small or negative gains at the high-cost paper end---e.g.\ Perovskite at $81\times$ loses coverage ($-6$pp under multi-seed), while SP-5100 at $177\times$ still gains $+8$pp because its $C_0$ baseline (0.52) leaves so much headroom. The inverse-baseline law is also the cost rule.}
+\label{fig:cost}
+\end{figure}
 
-\paragraph{Reference-bias check (4 cells).}
-The Gemini reference advantages models that share its transcription priors. We re-transcribed two audio cells with Whisper-base and re-OCRed two paper cells with EasyOCR, re-extracted probes via Claude, and re-judged with both judges (Appendix~\ref{appdx:probe_circ}). Cascade-coverage direction is preserved on $4/4$ under both judges, and cascade-hallucination direction is preserved everywhere except Thermal~Analysis under EasyOCR---a reference-side artifact, since EasyOCR's transcript is $\approx 21\%$ shorter and loses figure captions, so claims the cascade correctly reproduces read as unsupported against the noisier reference.
+Separating stochasticity sources (Figure~\ref{fig:stoch}, \S\ref{sec:discussion}; Appendix~\ref{appdx:stoch}) yields three operational facts. Pass-2 generation varies (Claude deprecates \texttt{temperature}, so determinism is not enforceable; Gemini at $T{=}0$ is mostly but not strictly deterministic); the GPT-5.4 judge is essentially deterministic on low-count cells but spreads $\pm10$--$25$ on cells with very long unsupported-claim lists (which run near its completion budget); and coverage is far more stable than hallucination counts under all three sources. Accordingly, headline aggregates use median substitution on the four high-count cells, hallucination counts above ${\sim}30$ carry judge-side uncertainty, and---the pattern worth internalizing---the Mode~B \emph{observation} survives every noise source while the Mode~B \emph{fix} (citation stripping) did not, which is what forced the retraction in \S\ref{sec:failure_modes}. Finally, a leave-one-out logistic predictor of $\mathrm{sign}(\Delta_{\rm cov})$ from four cell features reaches LOOCV AUC $0.65$ with all coefficient signs matching the qualitative picture---an honest $n{=}21$ baseline, well short of deployment-ready (Appendix~\ref{appdx:cell_table}).
 
-\paragraph{Multi-seed Pass-2 envelopes on four headline cells.}
-We re-ran Gemini $C_1$ Pass-2 with five seeds at $T{=}0.7$ on four headline cells (Figure~\ref{fig:headline_multiseed}, Appendix~\ref{appdx:multiseed}). The three cells reported as wins all preserve their direction. The one exception is Perovskite, whose published $n{=}1$ coverage sits below all five seeds: its cascade-coverage loss shrinks from $-16$pp at $n{=}1$ to $-6$pp under multi-seed, below the per-cell noise floor (hence the near-noise-floor reclassification, \S\ref{sec:main}).
-
-\paragraph{Three sources of stochasticity.}
-Re-runs separate three independent noise sources (full decomposition in Appendix~\ref{appdx:stoch}): Pass-2 generation variance (Claude deprecates \texttt{temperature}, so determinism is not SDK-enforceable; Gemini at $T{=}0$ is mostly but not strictly deterministic), GPT-5.4 judge variance (essentially deterministic on low-count cells but $\pm 10$--$25$ on high-count cells, where long unsupported-claim lists run near the judge's completion budget), and the consistent observation that \emph{coverage is far more stable than hallucination counts} across all three. Two implications: headline aggregates use median substitution on the four high-count cells, and per-cell hallucination counts $>30$ carry $\pm 10$--$25$ judge-side uncertainty; and the Mode~B \emph{observation} survives all three noise sources while the Mode~B \emph{fix} (citation stripping) does not, which motivated $C_{1\rm iter}$ (\S\ref{sec:iter}).
-
-\paragraph{A simple held-out predictor (LOOCV, $n{=}21$).}
-A leave-one-out logistic-regression predictor on four cell-level features ($C_0$ probe coverage, $\log_{10}$ source words, $C_0$ unsupported-claim count, and a paper/audio dummy) reaches LOOCV AUC $= 0.65$ on $\text{sign}(\Delta_{\rm cov}>0)$. All four coefficient signs match the qualitative picture (higher baseline reduces cascade benefit, longer source reduces benefit, more $C_0$ hallucinations \emph{increases} benefit, paper modality harder than audio). AUC $0.65$ is meaningful but well below deployment-ready, so we report it as an honest $n{=}21$ baseline. Adding a citation-density feature drops AUC to $0.61$: the residual Mode-B structure is not captured by a single density feature at this sample size.
-
-% =================================================================
-\section{Discussion}
-\label{sec:discussion}
-
-\paragraph{What generalizes, and what does not.} The portable result is not ``cascade always wins'' but the \emph{inverse-baseline law}: decomposition recovers content in proportion to how much the end-to-end pass satisfices, so it pays off precisely where a model reasons poorly over the raw modality and buys nothing where it already reasons well. This is what makes the cross-vendor picture coherent rather than contradictory---Claude's near-ceiling NASA papers, Gemini~2.5~Flash's strong end-to-end audio, and Gemini~Pro's weak end-to-end audio all fall on the same line. The most deployable corollary is that decomposition \emph{unlocks} text-only frontier models for audio: a model that cannot ingest audio at all (Claude, GPT-5.4) reviews it faithfully and completely from an off-the-shelf transcript, beating a native audio model's end-to-end pass on every cell we tried (Appendix~\ref{appdx:mixed}). In production, where one mixes the best model per stage, this is the operative finding.
-
-\paragraph{Cascade cost.}
-$C_0$ is one multimodal call; $C_1$ is $N+1$ calls (chunked OCR/ASR plus one text Pass-2), with call-count ratios ranging from $\approx 2\times$ on short audio to $\approx 177\times$ on the 176pp paper, and output-token volume scaling with source length. The 21-cell evidence says cascade pays off on long-form review where end-to-end has measurable headroom, but buys nothing on already-saturated cells (full cost-vs-gain scatter in Appendix~\ref{appdx:cost}).
-
-\paragraph{Practitioner checklist.}
-Table~\ref{tab:checklist} (Appendix~\ref{appdx:checklist}) compresses the per-regime recommendations: default $C_1$ on audio and moderate papers; $C_{1\rm iter}$ on Mode-B-dominant moderate papers; chunked Pass-2 ($C_{1c}^{\rm concat}$) on Mode-A-dominant long papers; and prefer $C_0$ where it fits on Mode-B-dominant or compounded long surveys.
-
-\paragraph{Limitations: single-vendor scope.}
-The headline aggregate is single-vendor (Gemini). The within-Claude $C_0$-vs-$C_1$ comparison replicates the faithfulness direction on 5/6 papers (Table~\ref{tab:claude_within}), but the four short NASA papers are near-ceiling on $C_0$, so it is not independently significant at $n{=}6$, and Claude $C_0$ is unrealizable beyond 104pp (Anthropic payload cap). A clean cross-\emph{company} same-weights \emph{audio} cascade is impossible by API constraint, not choice: no non-Google frontier model both ingests audio and writes from text alone (Claude takes no audio; OpenAI's audio model refuses text-only Pass-2, both verified), so in production the natural form is a \emph{mixed}-model pipeline (Appendix~\ref{appdx:mixed}). The Mimo audio cells ran at 16--12kbps (OpenRouter's 10MB cap) versus the 32kbps reference, conflating quality with model weakness; the full-quality Gemini~2.5~Flash arm (Appendix~\ref{appdx:flash_audio}) removes that confound and is headroom-gated, as the mechanism predicts.
-
-\paragraph{Judge and seed variance.}
-Inter-judge replication does not address single-judge intra-rater variance across seeds. $C_{1\rm iter}$ is verified at $n{=}5$ (\S\ref{sec:iter}), but its two high-count Claude cells (SP-5100, Megagauss) inherit $\pm10$--$25$ GPT-5.4 judge variance, so their trade verdicts rest on wide-spread means.
-
-\paragraph{Probe, reference, and source bias.}
-Probe and reference bias are only partially controlled (6 cells / 4 cells), and the cascade-hallucination direction on paper cells is partly bounded above by Gemini OCR recall. Several sources also predate the model cutoff (Karpathy~2023, the 1968--1972 NASA reports), so the model may know their content---but this biases \emph{against} the cascade (memorized content aids $C_0$), making the headline effect conservative; the post-cutoff sources (IETF~SNAC, the 2026 arXiv reviews, the Sapolsky reupload) span both wins and counter-cells, consistent with the inverse-baseline law rather than with memorization.
-
-\paragraph{Mechanism breadth.}
-All measurements are on long-form review; we make no claim about short-form QA, code, or agentic tasks. On the mechanism, E1/E2 are multi-seed on all 21 cells, E6 holds on two open VLMs, and the substrate null is confirmed behaviorally on the frontier models for retrieval (E8, $K$ up to 48) and reasoning (E9). Two caveats: E8/E9 are behavioral, not logit-lenses (frontier activations are inaccessible); and clean-\emph{text} accuracy stays at ceiling on Gemini, so only Claude (without extended thinking) supplies a sub-ceiling regime---where the image is \emph{better} than text, against H1, but a single-model point. Real scanned/degraded pages remain (the degraded control is synthetic), and E4/E5 are single-seed. The mechanism rests on E3 (all 21 cells), the multi-seed E2 collapse, and the E6/E8/E9 substrate null; the breadth gaps await the replication below.
-
-\paragraph{Validation plan.}
-The load-bearing generation-side effects (E1/E2) are already multi-seed on all 21 cells, the E6 substrate null is confirmed on two open VLMs, and E8/E9 now confirm it \emph{behaviorally on the headline frontier models} (retrieval and multi-hop reasoning), so the remaining replication is about \emph{breadth and external validity, not statistical power}. We scope it as follows. \emph{(1)~Model generality.} Extend the E6 logit-lens beyond the Qwen2.5-VL 3B/7B pair to other open families (InternVL, Llama-Vision) and, where activations become accessible, lift the E8/E9 behavioral frontier confirmation to the activation level on frontier VLMs. Extend E7 across more omni models and higher-quality voices (e.g.\ CosyVoice2, whose packaged build was unusable in our environment) and push E7 into the multi-fact load regime, since E6 holds for documents under load but audio-under-load is still untested. \emph{(2)~Realistic-page stress.} Re-test E6 on real scanned pages (dense multi-column, equations, figures) and degraded scans, where a substrate/dilution effect is most likely to appear, since E4's DPI knob is inert on Gemini. \emph{(3)~Task generality.} Extend beyond long-form review to other generation-under-load tasks (long-document QA with many required facts, multi-document synthesis, meeting-minutes) and to a short-form control where the account predicts \emph{no} decomposition benefit (the bottleneck only binds when output demand is high). \emph{(4)~Causal budget manipulation.} Hold the pipeline fixed and vary only the synthesis output budget to confirm Mode~A is budget-bound, and ablate transcript completeness to map the coverage--faithfulness frontier.
 
 % =================================================================
 \section{Related work}
 \label{sec:related}
 
-\paragraph{Speech and documents.} Prior cascade-vs-end-to-end results are often read as substrate claims. Our mechanism study suggests they are at least partly about decomposition and modality-specific recoverability. Cuervo et al.~\cite{cuervo2025closing} document a text/speech understanding gap, and the Cascade Equivalence Hypothesis~\cite{ceh2026} shows speech-LLMs \emph{internally} behave like ASR$\to$LLM cascades, while X-Talk~\cite{xtalk2025} finds explicitly cascaded speech-to-speech pipelines competitive. On documents, DocVLM~\cite{docvlm2024} reports OCR-augmented VLMs beating pure-vision VLMs on DocVQA, while the OCR-Reasoning Benchmark~\cite{ocrreasoning2026} shows pure-OCR cascades cap below 50\% where spatial layout carries meaning, ColPali~\cite{colpali2025} shows vision-only retrieval beats OCR, and GUI agents do better from raw pixels than from structured-text intermediates~\cite{uground2024,uitars2025}. The common thread is not ``text is a better substrate'' (our E6 finds no such gap for legible documents) but that decomposition helps when the task is generation-under-load and the content survives transcription, and hurts when the answer lives in layout/signal that transcription discards.
+\paragraph{Speech and documents.} Prior cascade-vs-end-to-end results are often read as substrate claims; our mechanism study suggests they are at least partly about decomposition and modality-specific recoverability. Cuervo et al.~\cite{cuervo2025closing} document a text/speech understanding gap, and the Cascade Equivalence Hypothesis~\cite{ceh2026} shows speech-LLMs \emph{internally} behave like ASR$\to$LLM cascades, while X-Talk~\cite{xtalk2025} finds explicitly cascaded speech-to-speech pipelines competitive. On documents, DocVLM~\cite{docvlm2024} reports OCR-augmented VLMs beating pure-vision VLMs on DocVQA at fixed budget, while the OCR-Reasoning Benchmark~\cite{ocrreasoning2026} shows pure-OCR cascades cap below 50\% where spatial layout carries meaning, ColPali~\cite{colpali2025} shows vision-only retrieval beating OCR, and GUI agents do better from raw pixels than from structured-text intermediates~\cite{uground2024,uitars2025}. The common thread matches our mechanism: decomposition helps when the task is generation-under-load and the content survives transcription, and hurts when the answer lives in layout or signal that transcription discards.
 
-\paragraph{Step-Audio-R1: a contrast, not a corroboration.} Step-Audio-R1~\cite{stepaudior1} is the sharpest statement of the boundary, and it is worth being precise, because it cuts against a naive reading of our claim. They observe that audio LLMs, when asked to deliberate, spontaneously reason over a \emph{textual surrogate} of the audio (e.g.\ attributing musical sadness to ``lyrics mention sadness'' rather than to a minor key), and they treat this as the \emph{failure} their modality-grounded reasoning distillation must correct. That is consistent with us, not contradictory: their tasks (music, environmental sound, paralinguistics) are precisely the case where the answer is in the acoustic signal, so reducing to text discards it. We study the complementary regime, long-form review, where the payload is what was \emph{said}. Crucially, our activation tests find no reasoning-substrate gap for propositional content in \emph{either} modality (E6 documents, E7 audio). The Step-Audio-R1 effect is therefore best read as \emph{task-payload}-specific, since their tasks (music, environmental sound, paralinguistics) have answers that live in the acoustic signal, which transcription discards, rather than as a general claim that audio is a worse reasoning substrate. When the payload is propositional, as in long-form review, reducing to text loses nothing and the win is decomposition. Our Mode~B (the synthesis pass confabulates once the source is removed) is the within-regime echo of their concern.
+\begin{table}[!t]
+\small
+\centering
+\caption{\textbf{Practitioner checklist} drawn from this paper's cells: which configuration to deploy per source/model regime.}
+\label{tab:checklist}
+\begin{tabular}{p{0.34\linewidth}p{0.30\linewidth}p{0.27\linewidth}}
+\toprule
+Source / model class & Diagnosis & Recommended action \\
+\midrule
+Audio talk or moderate paper (40--70pp) on a capable model & Cascade strongly Pareto-positive. & Default $C_1$. \\
+Moderate paper with Mode-B Gemini signature (Natural~Vibration~42pp) & Mode~B dominant, and the cell flips to Pareto-positive under $C_{1\rm iter}$. & $C_{1\rm iter}$. \\
+Long paper, Mode~A dominant (Heat~Pipes~104pp Gemini) & Compression bottleneck. & $C_{1c}^{\rm concat}$ (chunked, no merge). \\
+Long paper, Mode~B dominant (Heat~Pipes Claude) & Citation-prior leak, but the $C_{1\rm iter}$ faithfulness gain washes out at $n{=}5$. & $C_0$ if it fits. $C_{1\rm iter}$ buys only a coverage loss. \\
+Long arXiv survey (Fairness~AI, SP-5100, Megagauss) & Mode~A + Mode~B compound. At $n{=}5$, $C_{1\rm iter}$ is net-negative on Fairness~AI but a faithfulness/coverage trade on SP-5100/Megagauss. Chunked Pass-2 partially replicates. & Prefer $C_0$ when it fits. If cascade required, use $C_{1c}^{\rm concat}$ with multi-seed averaging. \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\paragraph{Cascade theory and faithfulness.} Bengio's Consciousness Prior~\cite{bengio2017consciousness} argues for sparse discrete bottlenecks between perception and reasoning, and our externalized text bottleneck is a deployment-time analogue. Discrete JEPA~\cite{discretejepa2025} makes a related architectural argument within vision. Mode~B, where the model embellishes a citation surface form from training-time knowledge, is a self-cascade analogue of the unfaithfulness problem that motivates RAG~\cite{rag2020}, RARR~\cite{rarr2023}, and Attribution to Identified Sources~\cite{ais2022}. Our $C_{1\rm iter}$ variant adopts the in-context-attribution discipline of RARR but operates entirely within a same-weights self-cascade without external retrieval.
+\paragraph{Step-Audio-R1: a boundary, not a contradiction.} Step-Audio-R1~\cite{stepaudior1} observes audio LLMs spontaneously reasoning over a \emph{textual surrogate} of the audio (attributing musical sadness to ``lyrics mention sadness'' rather than a minor key) and treats this as the failure its modality-grounded distillation must correct. Their tasks---music, environmental sound, paralinguistics---have \emph{acoustic} answers that transcription discards; ours is the complementary regime, where the payload is what was \emph{said}. Our activation tests find no reasoning-substrate gap for propositional content in either modality (E6/E7), so we read their effect as task-payload-specific rather than as ``audio is a worse substrate.'' Our Mode~B is the within-regime echo of their concern.
+
+\paragraph{Cascade theory and faithfulness.} Bengio's Consciousness Prior~\cite{bengio2017consciousness} argues for sparse discrete bottlenecks between perception and reasoning; our externalized text bottleneck is a deployment-time analogue, and Discrete JEPA~\cite{discretejepa2025} makes a related architectural argument within vision. Mode~B is a self-cascade analogue of the unfaithfulness problem motivating RAG~\cite{rag2020}, RARR~\cite{rarr2023}, and Attribution to Identified Sources~\cite{ais2022}; $C_{1\rm iter}$ adopts RARR's in-context-attribution discipline but operates entirely within a same-weights self-cascade without external retrieval.
+
+% =================================================================
+\section{Discussion and limitations}
+\label{sec:discussion}
+
+
+
+\paragraph{What generalizes.} The portable result is not ``decomposition always wins'' but the inverse-baseline law: decomposition recovers content in proportion to how much the end-to-end pass satisfices, so it pays off precisely where a model reasons poorly over the raw modality and buys nothing where it is already strong. This is what makes the cross-vendor picture coherent rather than contradictory---Claude's near-ceiling NASA papers, Gemini~2.5~Flash's strong end-to-end audio, and Gemini~Pro's weak end-to-end audio all fall on the same line (Figure~\ref{fig:xmodel}). The most deployable corollary is that decomposition \emph{unlocks} text-only frontier models for audio (Figure~\ref{fig:xmodel}d). Table~\ref{tab:checklist} compresses the per-regime recommendations ($C_1$, $C_{1\rm iter}$, $C_{1c}^{\rm concat}$, or $C_0$).
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig7_stochasticity.pdf}
+\caption{\textbf{Three sources of stochasticity, decomposed.} \emph{Left:} Claude Pass-2 generation variance, with 5 reruns on Heat~Pipes yielding $\{9,11,11,15,20\}$ (range~11). \emph{Middle:} Gemini Pass-2 generation variance at $T{=}0.7$ on Natural~Vibration~strip: $\{15,11,9,8,8\}$ (range~7). \emph{Right:} GPT-5.4 judge variance on the \emph{same} review file judged multiple times. SP-5100 Claude $C_1$ produces $\{47,85,85,97\}$ over 4 judge re-runs (range~50), while Heat~Pipes Claude $C_1$ is stable across re-judgments. Coverage is much more stable than hallucination counts across all three noise sources.}
+\label{fig:stoch}
+\end{figure}
+
+\paragraph{Limitations.}
+\emph{Scope:} the headline aggregate is single-vendor; the within-Claude comparison replicates the faithfulness direction on 5/6 papers but is not independently significant at $n{=}6$, and Claude $C_0$ is unrealizable beyond 104pp. A cross-company same-weights \emph{audio} cascade is API-impossible (Claude takes no audio; OpenAI's audio model refuses text-only Pass-2; both verified), so the mixed pipeline is the natural production form. The Mimo audio cells ran at reduced bitrate (OpenRouter cap), conflating quality with model weakness; the full-quality 2.5~Flash arm removes that confound and is headroom-gated as predicted.
+\emph{Measurement:} probe and reference bias are only partially controlled (7 and 4 cells); the shared-model reference remains the principal threat to the headline statistic; single-judge intra-rater variance affects high-count cells ($\pm10$--$25$; Figure~\ref{fig:stoch}). Several sources predate the model cutoff, but memorization biases \emph{against} the cascade (it aids $C_0$), making the headline conservative; the post-cutoff sources span wins and counter-cells, consistent with the law.
+\emph{Mechanism breadth:} all measurements are on long-form review---we claim nothing about short-form QA, code, or agentic tasks. E8/E9 are behavioral, not activation-level (frontier activations are inaccessible); Gemini's reasoning probe sits at ceiling, so Claude supplies the one headroom case; real scanned/degraded pages remain untested (the degraded control is synthetic); E4/E5 are single-seed and confounded.
+
+\paragraph{Validation plan.}
+The load-bearing effects are already multi-seed on all 21 cells, so remaining replication is about breadth, not statistical power: extend the E6 logit-lens to other open families and, where activations become accessible, lift E8/E9 to the activation level; push the audio analogue (E7) into the multi-fact load regime; re-test on real scanned and degraded pages, where a substrate or dilution effect is most likely to appear; extend to other generation-under-load tasks plus a short-form control where the account predicts \emph{no} decomposition benefit; and causally vary the synthesis output budget to confirm Mode~A is budget-bound.
 
 % =================================================================
 \section{Conclusion}
 \label{sec:conclusion}
 
-On long-form review, a same-weights two-pass decomposition beats end-to-end at $n{=}21$ on both faithfulness and coverage, even though the synthesis pass sees strictly less, and the benefit scales with how badly the monolithic pass satisfices ($r{=}-0.45$). The result survives median substitution, probe re-extraction, reference re-generation, and multi-seed Pass-2. Our mechanistic study locates the cause: not perception ($99.7\%$ of dropped content is in the model's own transcript) and not a text-vs-image substrate gap (no logit-lens gap on open VLMs, no behavioral gap on the headline frontier models), but \textbf{generation under load}, where one pass cannot perceive, reason, and write a long faithful review at once, and only a decomposition with independent output budgets recovers the content. The boundary is the account's two predicted breakdowns: synthesis-budget overflow (Mode~A) and source-removal confabulation (Mode~B), the latter targeted by the quote-grounded $C_{1\rm iter}$ variant. The practical rule is \textbf{perceive, externalize, then synthesize}. The win is the decomposition, not the modality---a deployment-time pattern with predictable failure modes, not a universal architecture.
+On long-form review, the intuitive end-to-end deployment of a multimodal model quietly satisfices: it drops a third of what the model demonstrably perceived and embellishes the rest. The cause is not perception and not the reasoning substrate---text and images of text are read equally well, on open models at the activation level and on the frontier models behaviorally---but generation under load: one pass cannot perceive, reason, and write a long faithful review at once. A same-weights two-pass decomposition with independent output budgets recovers the loss, beats end-to-end on faithfulness and coverage at $n{=}21$, and obeys an inverse-baseline law: it helps most exactly where the monolithic pass satisfices most. Its two predicted failure modes---synthesis-budget overflow and source-removal confabulation---both appear, with a chunked Pass-2 and a quote-grounded refinement as partial, honestly-replicated fixes. The practical rule is \textbf{perceive, externalize, then synthesize}: the win is the decomposition, not the modality---a deployment-time pattern with predictable failure modes, not a universal architecture.
 
 % =================================================================
 \section*{Acknowledgements}
@@ -358,28 +465,16 @@ H.~Rashkin, V.~Nikolaev, M.~Lamm, L.~Aroyo, M.~Collins, D.~Das, S.~Petrov, G.~S.
 \section{Mechanistic experiments E3--E9 and controls E4/E5, in detail}
 \label{appdx:substrate}
 
-This appendix expands the mechanism summary of \S\ref{sec:mechanism}: the perception test (E3), the four substrate experiments (E6--E9), and the two controls (E4/E5), with all per-experiment figures and tables.
+This appendix expands the mechanism sections (\S\ref{sec:observation} E3, \S\ref{sec:mechanism} E1/E2/E6--E9) with the per-experiment tables and the two confounded controls.
 
 \paragraph{E3: perception is not the bottleneck.}
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.92\linewidth]{figures/fig_mech_e3.pdf}
-\caption{\textbf{E3: perception is not the bottleneck.} Per cell (sorted by $C_0$ coverage): the model's Pass-1 transcript (blue) covers $\approx\!1.0$ of probes everywhere, while the end-to-end $C_0$ review (orange) surfaces only $0.65$ on average and the $C_1$ synthesis (green) $0.77$. Pooled, $361/362$ probes that $C_0$ drops are present in the model's own transcript.}
-\label{fig:mech_e3}
-\end{figure}
+The per-cell breakdown is Figure~\ref{fig:mech_e3} (main text). The transcript covers a mean $99.9\%$ of probes, versus $65\%$ for the $C_0$ review and $77\%$ for $C_1$ synthesis; $361/362$ probes dropped by $C_0$ are present in the model's own transcript.
 
-\paragraph{E6: text is not an intrinsically better reasoning substrate.}
-We tested H1 directly at the activation level on an open VLM (Qwen2.5-VL-7B), controlling for prior knowledge with novel synthetic facts about nonsense entities (e.g.\ ``the Zorblatt device weighs 7 kilograms''). Each fact is presented either as digital text or as an \emph{image} of that same text, with a matched single-token question, and a layer-wise logit-lens reads off the log-probability and rank of the answer token at every layer. The two modalities are indistinguishable for an isolated fact, and---crucially---\emph{under load}: packing $K\in\{1,4,8,16,24\}$ facts into one stimulus, image and text stay at $1.00$ accuracy with a readout-depth gap $<1$ layer (TOST-equivalent within $\pm 1$ layer) at every $K$ (Figure~\ref{fig:mech_e6}). The same null replicates on a second VLM (Qwen2.5-VL-3B); the per-$K$ ladder for both models is in Appendix~\ref{appdx:vision_ladder}. For legibly rendered text there is simply no cross-modal reasoning penalty: the strong form of H1 is false for documents. (The 32B variant verbalizes answers in a form our single-token matcher cannot score, so it is excluded; frontier models and dense scanned pages remain for the validation plan.)
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=\linewidth]{figures/fig_mech_e6load.pdf}
-\caption{\textbf{E6: no cross-modal substrate gap, even under load (Qwen2.5-VL-7B logit-lens).} Answer accuracy (left) and answer-token log-prob (right) as a function of facts in context $K$, for content given as text vs as an image of that text. The curves overlap: identical propositional content is read equally well from pixels and from text up to $K{=}24$. The 3B model and per-$K$ readout depths are in Appendix~\ref{appdx:vision_ladder}.}
-\label{fig:mech_e6}
-\end{figure}
+\paragraph{E6: no cross-modal substrate gap at the activation level.}
+We tested H1 directly on an open VLM (Qwen2.5-VL-7B), controlling for prior knowledge with novel synthetic facts about nonsense entities (e.g.\ ``the Zorblatt device weighs 7 kilograms''). Each fact is presented either as digital text or as an \emph{image} of that same text, with a matched single-token question, and a layer-wise logit-lens reads off the log-probability and rank of the answer token at every layer. The two modalities are indistinguishable for an isolated fact and under load: packing $K\in\{1,4,8,16,24\}$ facts into one stimulus, image and text stay at $1.00$ accuracy with a readout-depth gap $<1$ layer (TOST-equivalent within $\pm 1$ layer) at every $K$ (Figure~\ref{fig:substrate}a). The same null replicates on Qwen2.5-VL-3B; the per-$K$ ladder for both models is in Appendix~\ref{appdx:vision_ladder}. (The 32B variant verbalizes answers in a form our single-token matcher cannot score, so it is excluded.)
 
 \paragraph{E7: no audio substrate gap either, once the speech is intelligible.}
-We replicate the E6 logit-lens on an omni model (Qwen2.5-Omni Thinker), presenting each novel fact as text vs as \emph{synthesized speech}, across three TTS engines of increasing quality (Table~\ref{tab:e7}). The result is a methodological caution turned finding: with low-quality TTS (espeak, only $71\%$ of clips intelligible to the model's own ASR) audio \emph{appears} to have a substrate gap, but this tracks \emph{intelligibility}, not modality---with two independent clean neural voices ($88\%$ and $96\%$ intelligible) the gap vanishes and is TOST-equivalent within $\pm 1$ layer. So neither documents (E6) nor audio (E7) carry an intrinsic reasoning-substrate penalty for propositional content. (The espeak contrast is reported as a cautionary result: garbled TTS manufactures a spurious gap, so audio-substrate claims must control for TTS intelligibility.)
+We replicate the E6 logit-lens on an omni model (Qwen2.5-Omni Thinker), presenting each novel fact as text vs as \emph{synthesized speech}, across three TTS engines of increasing quality (Table~\ref{tab:e7}). The result is a methodological caution turned finding: with low-quality TTS (espeak, only $71\%$ of clips intelligible to the model's own ASR) audio \emph{appears} to have a substrate gap, but this tracks \emph{intelligibility}, not modality---with two independent clean neural voices ($88\%$ and $96\%$ intelligible) the gap vanishes and is TOST-equivalent within $\pm 1$ layer. Garbled TTS manufactures a spurious gap, so audio-substrate claims must control for TTS intelligibility.
 
 \begin{table}[h]
 \small\centering
@@ -397,12 +492,12 @@ espeak (robotic)        & 0.71 & 0.96 & 0.83 & $[0.64, 1.78]$ & no (spurious gap
 \end{tabular}
 \end{table}
 
-\paragraph{E8: the no-substrate-gap result holds on the headline frontier models.}
-E6 and E7 establish the substrate null with a logit-lens, but only on small \emph{open} models (the lens needs internal activations). We close that gap with a \emph{behavioral} probe on the exact headline models: pack $K\in\{1,8,16,24,32,48\}$ novel nonsense-entity facts (distinct two-digit values, so prior knowledge gives no shortcut) as text or as an \emph{image} of that text, and ask a single-number question about one target entity ($T{=}20$ seeded trials/cell). On \emph{both} frontier models, legible-image retrieval accuracy equals text accuracy exactly (gap $+0.000$, TOST-equivalent within $\pm 0.1$) at \emph{every} $K$ up to $48$ (Table~\ref{tab:e8}), extending the E6 null past its $K{=}24$ ceiling and onto the frontier weights. The probe is demonstrably \emph{sensitive}: a degraded positive control (small font, downscaled and blurred to low-DPI-scan quality) collapses to $0.15$--$0.27$, decisively non-equivalent.
+\paragraph{E8: frontier behavioral retrieval probe.}
+E6/E7 establish the substrate null only on small open models (the lens needs activations). E8 closes the gap behaviorally on the exact headline models: pack $K\in\{1,8,16,24,32,48\}$ novel nonsense-entity facts (distinct two-digit values, so prior knowledge gives no shortcut) as text or as an image of that text, and ask a single-number question about one target entity ($T{=}20$ seeded trials/cell). Table~\ref{tab:e8} gives the counts behind Figure~\ref{fig:substrate}b: on both models, legible-image accuracy equals text accuracy exactly at every $K$ up to 48, while the degraded positive control (small font, downscaled and blurred to low-DPI-scan quality) collapses and is decisively non-equivalent---the probe is sensitive.
 
 \begin{table}[h]
 \small\centering
-\caption{E8 behavioral cross-modal substrate probe on the \emph{headline frontier models} ($T{=}20$ seeded trials per $K$, single-number retrieval). ``legible img'': image of the same text at $34$px. ``degraded img'': small-font, downscaled+blurred low-DPI-scan control. Gap = image$-$text accuracy; TOST SESOI $\pm 0.1$.}
+\caption{E8 behavioral cross-modal substrate probe ($T{=}20$ seeded trials per $K$, single-number retrieval). ``legible img'': image of the same text at $34$px. ``degraded img'': small-font, downscaled+blurred low-DPI-scan control. Gap = image$-$text accuracy; TOST SESOI $\pm 0.1$.}
 \label{tab:e8}
 \setlength{\tabcolsep}{4pt}
 \begin{tabular}{llcccc}
@@ -420,12 +515,12 @@ Model & cond & acc @ $K{=}1$ & acc @ $K{=}48$ & pooled gap (95\% CI) & TOST-equi
 \end{tabular}
 \end{table}
 
-\paragraph{E9: the substrate null extends from retrieval to multi-hop reasoning.}
-E8 equalizes single-fact \emph{retrieval}; E9 forces composition: the model must pull $M{=}6$ specified facts out of a $K$-fact packed set and \emph{sum} them---the total is never a visible number, so a correct answer requires genuine multi-fact reasoning, not retrieve-and-echo---as text vs.\ legible image vs.\ the E8 degraded control ($T{=}20$/cell, Table~\ref{tab:e9}). On Gemini~3.1~Pro, text and legible image are both at ceiling and TOST-equivalent (gap $-0.013$). On Claude~Opus~4.7---which, run without extended thinking, has genuine \emph{headroom} (text accuracy $0.825$, slipping on the in-context sum)---the legible image is \emph{not worse than text; it is reliably better} (image $1.00$, gap $+0.175$, 95\% CI $[0.10,0.26]$; the $14/80$ text errors are all near-miss arithmetic slips that the image condition gets right). The substrate hypothesis H1 predicts image $<$ text under reasoning load, yet with headroom we observe image $\geq$ text. (We read the Claude effect as a within-prompt echo of this paper's own thesis---reading from an image nudges the model to externalize the numbers before summing---but report only the direction.) We could not drive clean-legible-\emph{text} accuracy below ceiling on Gemini at any difficulty we tried (sums of up to 12 facts, $k$th-largest over 32), so the Gemini equivalence is at ceiling while Claude supplies the headroom regime.
+\paragraph{E9: frontier multi-hop reasoning probe.}
+E9 forces composition: the model must pull $M{=}6$ specified facts out of a $K$-fact packed set and \emph{sum} them---the total is never a visible number---as text vs.\ legible image vs.\ the E8 degraded control ($T{=}20$/cell over $K\in\{8,16,24,32\}$, Table~\ref{tab:e9}). On Gemini, text and legible image are both at ceiling and TOST-equivalent (gap $-0.013$). On Claude without extended thinking---the one sub-ceiling regime we could produce (text accuracy $0.825$; we could not drive clean-text Gemini below ceiling at any difficulty tried)---the legible image is reliably \emph{better} (image $1.00$, gap $+0.175$, 95\% CI $[0.10,0.26]$); the $14/80$ text errors are near-miss arithmetic slips that the image condition gets right. We read the Claude effect as a within-prompt echo of this paper's thesis---reading from an image nudges the model to externalize the numbers before summing---but report only the direction.
 
 \begin{table}[h]
 \small\centering
-\caption{E9 multi-hop reasoning probe on the headline frontier models: retrieve $M{=}6$ packed facts and sum them (answer never directly visible), $T{=}20$/cell over $K\in\{8,16,24,32\}$. Gap = image$-$text accuracy; TOST SESOI $\pm 0.1$. On Claude, where text has headroom, the legible image is \emph{better}, not worse---opposite to the text-is-a-better-substrate prediction.}
+\caption{E9 multi-hop reasoning probe: retrieve $M{=}6$ packed facts and sum them (answer never directly visible), $T{=}20$/cell over $K\in\{8,16,24,32\}$. Gap = image$-$text accuracy; TOST SESOI $\pm 0.1$.}
 \label{tab:e9}
 \begin{tabular}{lcccc}
 \toprule
@@ -442,7 +537,7 @@ E4 sought to vary vision-token count via DPI on a fixed document to probe H3. Bu
 
 \begin{table}[h]
 \small\centering
-\caption{Mechanistic conditions on the 8-cell subset (hallucinations\,h / probe-coverage). $C_0$: end-to-end (modality). $C_1$: two-pass decomposition (text). $C_{1+}$: synthesis pass given both transcript and modality (E1). single-call: transcribe-then-review in one response (E2, ``--'' = no review emitted, budget exhausted). native-text: single text-only call from \texttt{pdftotext} (E5, arXiv only). Single-seed.}
+\caption{Mechanistic conditions on the 8-cell subset (hallucinations\,h / probe-coverage); the data behind Figure~\ref{fig:e2_collapse}. $C_0$: end-to-end (modality). $C_1$: two-pass decomposition (text). $C_{1+}$: synthesis pass given both transcript and modality (E1). single-call: transcribe-then-review in one response (E2, ``--'' = no review emitted, budget exhausted). native-text: single text-only call from \texttt{pdftotext} (E5, arXiv only). Single-seed.}
 \label{tab:mech_cond}
 \begin{tabular}{lccccc}
 \toprule
@@ -455,7 +550,7 @@ Natural~Vibration~42pp   & 4h/0.66  & 5h/0.49 & 9h/0.79   & -- (budget) & -- \\
 Thermal~66pp             & 5h/0.68  & 2h/0.84 & 1h/0.68   & 3h/0.40     & -- \\
 Heat~Pipes~104pp         & 14h/0.72 & 11h/0.78& 10h/0.66  & -- (budget) & -- \\
 arXiv~Fairness~53pp      & 14h/0.50 & 15h/0.40& 11h/0.38  & 11h/0.24    & 13h/0.34 \\
-arXiv~Perovskite~80pp    & 2h/0.90  & 3h/0.74 & 5h/0.84   & 5h/0.80     & 4h/0.80 \\
+arXiv~Perovskite~80pp    & 2h/0.90  & 3h/0.74 & 5h/0.80   & 5h/0.80     & 4h/0.80 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -465,9 +560,11 @@ arXiv~Perovskite~80pp    & 2h/0.90  & 3h/0.74 & 5h/0.84   & 5h/0.80     & 4h/0.8
 
 \paragraph{Reference quality.} Gemini~3.1~Pro is used for OCR/ASR with chunking. Single-call OCR on a 104-page paper produced a degenerate TOC dot-leader loop (113KB output, 56k ``words'' but only 264 real-word tokens, 6 page markers out of 104). Chunking (1 page per call, max 8192 output tokens) eliminates this failure mode. For audio we chunk into 30-min segments with 5-second overlap. We discovered a silent server-side truncation on one audio chunk (chunk~1 of IETF SNAC produced 1981 words instead of the expected $\approx 4368$, ending mid-sentence with \texttt{``Uh, well, see, yeah, that'\,''}). The protocol grew an automatic chunk-level word-count parity check after this incident.
 
-\paragraph{Sources.} Audio: Karpathy ``State of GPT'' (42 min, 2023), MIT~6.034 L1 Patrick Winston (47 min, 2010), Sapolsky Behavioral~Genetics~1 Stanford (85 min, post-2026 reupload), Stanford Decarbonized~Power~Sector Zach~Ming (72 min, 2025), Doudna CRISPR Basics (48 min, 2017), 3Blue1Brown ``Attention in Transformers'' (26 min, 2024), Veritasium ``Strange Math'' (32 min, 2025), NeurIPS Black-in-AI panel (31 min, 2021), Harvard Law School Ames Moot Court (82 min, 2025), IETF SNAC WG interim 2026-04-16 (60 min, $\approx 5$ speakers, recorded post the most likely training-data cutoff). Papers: NASA NTRS IDs 19720009221 (Wagging Tail, 9pp), 19680000724 (Env Test, 18pp), 19690008405 (Dynamic Response, 41pp), 19690013408 (Natural Vibration, 42pp), 19700023812 (Thermal Analysis, 66pp), 19700025120 (Heat Pipes, 104pp), and SP-5100 (Shock and Vibration Technology, 176pp). The arXiv papers are arXiv:2605.09852 (Fairness~AI, 53pp), arXiv:2605.13991 (Perovskite Tandem PV, 80pp), and arXiv:2605.11379 (Megagauss Physics, 75pp). NASA papers are rendered as page images at 200 DPI, and arXiv papers at 200 DPI full color.
+\paragraph{Statistics.} We treat $|\Delta h|\le 1$ on cells with $h<10$, and $|\Delta\mathrm{cov}|\le 0.04$ ($\approx 2$ probes on a 50-probe cell), as within noise (presentation conventions calibrated against inter-judge direction flips, \S\ref{sec:robust}). For aggregate effects we report Wilson 95\% CIs on coverage rates, percentile-bootstrap 95\% CIs ($n_{\rm boot}{=}10000$, seeded) on cross-cell means and Pearson $r$, and sign tests against $\Delta{=}0$. The judge runs with a 24k-token completion budget.
 
-\paragraph{Models and snapshots.} The models are Gemini 3.1 Pro Preview (\texttt{gemini-3.1-pro-preview}), Claude Opus 4.7 (\texttt{claude-opus-4-7}), and Mimo v2-omni (\texttt{xiaomi/mimo-v2-omni} via OpenRouter). The judge is GPT-5.4 (\texttt{reasoning\_effort=high}, completion budget 24k tokens), routed via OpenRouter due to scope restrictions on the local OpenAI key.
+\paragraph{Sources.} Audio: Karpathy ``State of GPT'' (42 min, 2023), MIT~6.034 L1 Patrick Winston (47 min, 2010), Sapolsky Behavioral~Genetics~1 Stanford (85 min, post-2026 reupload), Stanford Decarbonized~Power~Sector Zach~Ming (72 min, 2025), Doudna CRISPR Basics (48 min, 2017), 3Blue1Brown ``Attention in Transformers'' (26 min, 2024), Veritasium ``Strange Math'' (32 min, 2025), NeurIPS Black-in-AI panel (31 min, 2021), Harvard Law School Ames Moot Court (82 min, 2025), IETF SNAC WG interim 2026-04-16 (60 min, $\approx 5$ speakers, recorded post the most likely training-data cutoff). Karpathy yields both a review and a meeting-minutes task. Papers: NASA NTRS IDs 19720009221 (Wagging Tail, 9pp), 19680000724 (Env Test, 18pp), 19690008405 (Dynamic Response, 41pp), 19690013408 (Natural Vibration, 42pp), 19700023812 (Thermal Analysis, 66pp), 19700025120 (Heat Pipes, 104pp), and SP-5100 (Shock and Vibration Technology, 176pp). The arXiv papers are arXiv:2605.09852 (Fairness~AI, 53pp), arXiv:2605.13991 (Perovskite Tandem PV, 80pp), and arXiv:2605.11379 (Megagauss Physics, 75pp). NASA papers are rendered as page images at 200 DPI, and arXiv papers at 200 DPI full color.
+
+\paragraph{Models and snapshots.} The models are Gemini 3.1 Pro Preview (\texttt{gemini-3.1-pro-preview}), Claude Opus 4.7 (\texttt{claude-opus-4-7}), and Mimo v2-omni (\texttt{xiaomi/mimo-v2-omni} via OpenRouter). The judge is GPT-5.4 (\texttt{reasoning\_effort=high}, completion budget 24k tokens), routed via OpenRouter due to scope restrictions on the local OpenAI key. Cross-vendor extensions reuse the Gemini reference and probes, isolating the question to whether the advantage depends on the $C_0$/$C_1$ model: Claude Opus 4.7 (complete $C_0$-vs-$C_1$ on the six papers where its multimodal $C_0$ fits; $C_1$-only on the longer papers) and Mimo v2-omni on every cell where its $C_0$ does not return empty.
 
 \paragraph{Mimo audio constraint.} OpenRouter's Mimo provider enforces a 10MB base64 audio input limit. Karpathy required re-encoding from 32kbps to 16kbps mono mp3 to fit, and Sapolsky at 85 min required 12kbps. The Mimo audio Karpathy result ($C_0$ 4h/0.569, $C_1$ 4h/0.588 across 51 probes, 1509 / 1268 review words) is within noise across the $C_0\to C_1$ transition, so we treat it as a wash. \emph{gpt-audio} (via OpenRouter) accepted audio input but refused text-only Pass-2 with HTTP 400 ``This model requires that either input content or output modality contain audio''. The same-weights cascade is not realizable on this model, and $C_0$ alone scored 10h/0.765 on Karpathy.
 
@@ -479,7 +576,7 @@ arXiv~Perovskite~80pp    & 2h/0.90  & 3h/0.74 & 5h/0.84   & 5h/0.80     & 4h/0.8
 \begin{table}[h]
 \centering
 \scriptsize
-\caption{All 21 Gemini base cells. Halluc.\ is the raw unsupported-claim count (single judge call unless noted, with medians across multi-judge data given in brackets for high-count cells). Cov.\ is $k/n$ (covered probes out of $n$) with Wilson 95\% CI. Cells where $C_1$ \emph{does not} strictly improve on at least one axis above the noise floor are marked with $\dagger$. \emph{cite/1k} = count of citation surface forms (numeric brackets + ``Ref.\ $N$'' word forms) per 1k source (\texttt{pdftotext}) words.}
+\caption{All 21 Gemini base cells (the data behind Figures~\ref{fig:headline} and \ref{fig:headline_cells}). Aggregates: mean $\Delta_{\rm cov}{=}+0.118$ (bootstrap 95\% CI $[+0.048,+0.189]$), mean $\Delta_{\rm halluc}{=}-3.86$ (CI $[-5.62,-2.33]$); restricting to the 17 cells outside the coverage noise floor leaves 14/17 positive (sign-test $p{=}0.013$). Halluc.\ is the raw unsupported-claim count (single judge call unless noted, with medians across multi-judge data given in brackets for high-count cells). Cov.\ is $k/n$ (covered probes out of $n$) with Wilson 95\% CI. Cells where $C_1$ \emph{does not} strictly improve on at least one axis above the noise floor are marked with $\dagger$. \emph{cite/1k} = count of citation surface forms (numeric brackets + ``Ref.\ $N$'' word forms) per 1k source (\texttt{pdftotext}) words---the Mode-B trigger feature of \S\ref{sec:failure_modes} (Heat Pipes: 2.80; Thermal: 0.36).}
 \label{tab:all_cells}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lrrrrrrr}
@@ -517,20 +614,16 @@ arXiv Perovskite      &  80p & 2  & 0.900 [0.786, 0.957] & 3  & 0.740 [0.604, 0.
 }
 \end{table}
 
+\paragraph{A held-out predictor (LOOCV, $n{=}21$).}
+A leave-one-out logistic-regression predictor on four cell-level features ($C_0$ probe coverage, $\log_{10}$ source words, $C_0$ unsupported-claim count, and a paper/audio dummy) reaches LOOCV AUC $= 0.65$ on $\text{sign}(\Delta_{\rm cov}>0)$. All four coefficient signs match the qualitative picture (higher baseline reduces cascade benefit, longer source reduces benefit, more $C_0$ hallucinations \emph{increases} benefit, paper modality harder than audio). AUC $0.65$ is meaningful but well below deployment-ready, so we report it as an honest $n{=}21$ baseline. Adding a citation-density feature drops AUC to $0.61$: the residual Mode-B structure is not captured by a single density feature at this sample size.
+
 \section{Cross-vendor details}
 \label{appdx:xvendor}
 
 \begin{figure}[h]
 \centering
-\begin{subfigure}{0.46\linewidth}
-\includegraphics[width=\linewidth]{figures/fig2_xvendor_thermal.pdf}
-\caption{Thermal Analysis 66pp, 3 vendors.}
-\end{subfigure}\hfill
-\begin{subfigure}{0.52\linewidth}
-\includegraphics[width=\linewidth]{figures/fig3_heatpipes_pareto.pdf}
-\caption{Heat Pipes 104pp Pareto frontier.}
-\end{subfigure}
-\caption{\textbf{(a)} On Thermal Analysis the cascade improves coverage on every vendor: Gemini $0.68\to0.84$, Claude $0.92\to1.00$, Mimo $0.54\to0.78$. \textbf{(b)} On Heat~Pipes 104pp the three vendors give three patterns. Gemini cascade is small-Pareto-positive. Claude $C_1$ regresses on faithfulness (4h$\to$20h) leaving $C_0$ on the Pareto frontier. Mimo trades $+5$ halluc for $+38$pp coverage.}
+\includegraphics[width=0.55\linewidth]{figures/fig3_heatpipes_pareto.pdf}
+\caption{Heat Pipes 104pp Pareto frontier across vendors and cascade variants. Gemini cascade is small-Pareto-positive; Claude $C_1$ regresses on faithfulness (4h$\to$20h), leaving $C_0$ on the Pareto frontier (the Mode-B signature); Mimo trades $+5$ halluc for $+38$pp coverage (Modes A+B compounded).}
 \label{fig:xvendor_appdx}
 \end{figure}
 
@@ -539,7 +632,7 @@ arXiv Perovskite      &  80p & 2  & 0.900 [0.786, 0.957] & 3  & 0.740 [0.604, 0.
 \begin{table}[h]
 \centering
 \small
-\caption{\textbf{Complete within-Claude $C_0$-vs-$C_1$ comparison} on the six NASA papers where Claude Opus 4.7's multimodal $C_0$ fits the request payload. Halluc.\ is the GPT-5.4 unsupported-claim count; cov.\ is probe-coverage on the reused Gemini reference/probes. Cascade reduces hallucinations on 5/6 (all but the Heat~Pipes Mode-B cell); coverage gain tracks $C_0$ headroom (flat where $C_0$ is already near-ceiling, a clean Pareto win on Thermal where $C_0$ has room). Cells sorted by length. The Heat~Pipes $C_1$ count is a single-seed snapshot ($20$h); its $n{=}5$ Pass-2 mean is $13.2$h (Appendix~\ref{appdx:stoch}), so the $+16$ is an upper-end draw, but the $5/6$ faithfulness direction holds under either.}
+\caption{\textbf{Complete within-Claude $C_0$-vs-$C_1$ comparison} on the six NASA papers where Claude Opus 4.7's multimodal $C_0$ fits the request payload (the data behind Figure~\ref{fig:xmodel}b). Halluc.\ is the GPT-5.4 unsupported-claim count; cov.\ is probe-coverage on the reused Gemini reference/probes. Cascade reduces hallucinations on 5/6 (all but the Heat~Pipes Mode-B cell); coverage gain tracks $C_0$ headroom (flat where $C_0$ is already near-ceiling, a clean Pareto win on Thermal where $C_0$ has room). Cells sorted by length. The Heat~Pipes $C_1$ count is a single-seed snapshot ($20$h); its $n{=}5$ Pass-2 mean is $13.2$h (Appendix~\ref{appdx:stoch}), so the $+16$ is an upper-end draw, but the $5/6$ faithfulness direction holds under either.}
 \label{tab:claude_within}
 \begin{tabular}{lrrrrr}
 \toprule
@@ -564,7 +657,7 @@ Heat Pipes        & 104p & \textbf{4} / 0.900 & 20 / 0.900 & $+16$ & $\pm0.000$ 
 
 The same-weights audio cascade is Gemini-only by API constraint (\S\ref{sec:discussion}). In production one would not use one model for everything; one would use the best model per stage. This probe does exactly that, and is therefore \emph{off-protocol}: it mixes vendors across stages, so it speaks to the generality of \emph{decomposition}, not the same-weights claim. We take an \emph{independent}, non-Google Pass-1 transcript from OpenAI \texttt{gpt-audio} (chunked, full quality---distinct from the Gemini reference used for judging), then run a text-only synthesis Pass-2 with three frontier text models, two of which (Claude Opus 4.7, GPT-5.4) cannot ingest audio at all on their own. Reviews are scored on the shared Pro reference and probes with the GPT-5.4 judge, plus a Claude-judge cross-check on the GPT-5.4-authored review to rule out self-grading.
 
-The result is unambiguous (Table~\ref{tab:mixed}): on all three cells, every mixed pipeline beats Gemini's \emph{end-to-end} $C_0$ on both axes---coverage rises to $0.90$--$1.00$ (vs $C_0$ $0.63$--$0.88$) and hallucinations fall to $2$--$9$ (vs $11$--$17$). Decomposition thus \emph{unlocks} text-only frontier models for audio review and lets them outperform the native audio model's end-to-end pass, using an off-the-shelf transcript. The GPT-5.4 self-grading concern is unfounded: the Claude judge scores the GPT-5.4-authored reviews \emph{lower} on hallucinations (1/3/3 vs the GPT-5.4 judge's 3/6/9), consistent with the $0.71\times$ inter-judge ratio (\S\ref{sec:robust}). The mixed pipeline trails the Gemini same-weights $C_1$ only where \texttt{gpt-audio}'s transcript is lossier than Gemini's own ASR (MIT coverage $0.90$ vs $0.98$), i.e.\ the ceiling is set by Pass-1 transcript quality, exactly as the perceive--externalize--synthesize account predicts.
+The result is unambiguous (Table~\ref{tab:mixed}; Figure~\ref{fig:xmodel}d): on all three cells, every mixed pipeline beats Gemini's \emph{end-to-end} $C_0$ on both axes---coverage rises to $0.90$--$1.00$ (vs $C_0$ $0.63$--$0.88$) and hallucinations fall to $2$--$9$ (vs $11$--$17$). Decomposition thus \emph{unlocks} text-only frontier models for audio review and lets them outperform the native audio model's end-to-end pass, using an off-the-shelf transcript. The GPT-5.4 self-grading concern is unfounded: the Claude judge scores the GPT-5.4-authored reviews \emph{lower} on hallucinations (1/3/3 vs the GPT-5.4 judge's 3/6/9), consistent with the $0.71\times$ inter-judge ratio (\S\ref{sec:robust}). The mixed pipeline trails the Gemini same-weights $C_1$ only where \texttt{gpt-audio}'s transcript is lossier than Gemini's own ASR (MIT coverage $0.90$ vs $0.98$), i.e.\ the ceiling is set by Pass-1 transcript quality, exactly as the perceive--externalize--synthesize account predicts.
 
 \begin{table}[h]
 \centering
@@ -586,7 +679,7 @@ MIT 6.034      & 17h / 0.77 & 3h / 0.90 & 9h / 0.90 \,(3h / 0.92) & 5h / 0.85 \\
 \section{Cross-model audio: Gemini 2.5 Flash (clean, no bitrate confound)}
 \label{appdx:flash_audio}
 
-Table~\ref{tab:flash_audio} reports a full-quality $C_0$-vs-$C_1$ comparison with Gemini~2.5~Flash as the subject model (same reused Pro reference and probes, same GPT-5.4 judge), over five representative audio cells. Unlike the Mimo audio arm, the audio is the full 32~kbps source (no OpenRouter 10MB cap), so there is no audio-quality confound. 2.5~Flash is a strong end-to-end audio reader: its $C_0$ coverage exceeds Gemini~3.1~Pro's on four of five cells, leaving little headroom. The cascade direction then follows the inverse-baseline law---a clear win on the two headroom cells (MIT, Harvard), flat on the saturated NeurIPS panel, and a faithfulness regression on Karpathy (where $C_0$ is already $0.92$/3h). Net: faithfulness improves on 3/5 and coverage on 1/5, a smaller and headroom-gated effect rather than the uniform audio win seen on Pro. Gemini~3~Flash was attempted as a second subject but its verbatim Pass-1 transcription returns empty under the model's recitation filter on copyrighted audio, so the cascade is not realizable on it.
+Table~\ref{tab:flash_audio} reports a full-quality $C_0$-vs-$C_1$ comparison with Gemini~2.5~Flash as the subject model (same reused Pro reference and probes, same GPT-5.4 judge), over five representative audio cells; Figure~\ref{fig:xmodel}c plots it against the Pro arm. Unlike the Mimo audio arm, the audio is the full 32~kbps source (no OpenRouter 10MB cap), so there is no audio-quality confound. 2.5~Flash is a strong end-to-end audio reader: its $C_0$ coverage exceeds Gemini~3.1~Pro's on four of five cells, leaving little headroom. The cascade direction then follows the inverse-baseline law---a clear win on the two headroom cells (MIT, Harvard), flat on the saturated NeurIPS panel, and a faithfulness regression on Karpathy (where $C_0$ is already $0.92$/3h). Net: faithfulness improves on 3/5 and coverage on 1/5, a smaller and headroom-gated effect rather than the uniform audio win seen on Pro. Gemini~3~Flash was attempted as a second subject but its verbatim Pass-1 transcription returns empty under the model's recitation filter on copyrighted audio, so the cascade is not realizable on it.
 
 \begin{table}[h]
 \centering
@@ -609,14 +702,7 @@ Harvard Moot   & 82 & 19 / 0.600 & \textbf{12 / 0.620} & $-7$ & $+0.020$ \\
 \section{Iterative refinement ($C_{1\rm iter}$): full results}
 \label{appdx:iter}
 
-The three-step pipeline and the high-level verdict are in \S\ref{sec:iter}. Figure~\ref{fig:iter_pareto} and Table~\ref{tab:iter_results} give the per-cell $n{=}5$ results.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.82\linewidth]{figures/fig11_iter_pareto.pdf}
-\caption{\textbf{Iterative-refinement Pareto frontier across 7 cells ($n{=}5$ means).} Each cell's plain $C_1$ baseline (open circle) is connected by an arrow to its $C_{1\rm iter}$ result (filled star). Blue: NASA papers. Red: modern arXiv surveys. Only Natural~Vibration moves down-and-right (fewer hallucinations \emph{and} more coverage, a Pareto win). The other long cells move left (coverage cost from the rewrite budget), with hallucinations falling on the high-count Claude surveys (SP-5100, Megagauss) and rising on arXiv Fairness~AI.}
-\label{fig:iter_pareto}
-\end{figure}
+The three-step pipeline and the high-level verdict are in \S\ref{sec:failure_modes}; Figure~\ref{fig:failure_modes}b plots the per-cell movement and Table~\ref{tab:iter_results} gives the $n{=}5$ numbers.
 
 \begin{table}[h]
 \centering
@@ -642,13 +728,6 @@ $C_{1\rm iter}$ targets Mode~B (a verbatim-quote requirement rules out unsupport
 
 \section{Engineering interventions: chunked Pass-2 and citation stripping}
 \label{appdx:fixes}
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.9\linewidth]{figures/fig4_failure_modes.pdf}
-\caption{\textbf{Two cascade failure modes on Heat~Pipes 104pp.} \emph{Left:} Mode~A (Gemini): Pass-2 must compress 22k$\to$1.8k words. Chunked Pass-2 ($C_{1c}^{\rm concat}$) relieves the bottleneck and lifts coverage 0.78$\to$0.94 at $+5$ halluc cost (a trade along the frontier). \emph{Right:} Mode~B (Claude): $C_1$ hallucinates several-fold more than $C_0$ (4$\to$20 on the seed plotted, $n{=}5$ Pass-2 mean $13$, range $9$--$20$, Appendix~\ref{appdx:stoch}). Citation-stripping ($C_1^{\rm strip}$) reduces hallucinations 20$\to$13 at $n{=}1$ (the $n{=}5$ replication retracts the magnitude, \S\ref{sec:failure_modes}). Halluc on left axis (lower better), coverage on right axis (higher better).}
-\label{fig:failure_modes}
-\end{figure}
 
 \begin{table}[h]
 \centering
@@ -734,12 +813,7 @@ At $n{=}1$ ($T{=}0$), strip moves halluc $5\to 12$ but coverage $0.49\to 0.81$ (
 \section{Multi-seed envelopes on the four headline cells}
 \label{appdx:multiseed}
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=\linewidth]{figures/fig12_headline_multiseed.pdf}
-\caption{\textbf{$n{=}5$ Gemini Pass-2 multi-seed envelopes for the four headline cells.} Blue dots: five seeds at $T{=}0.7$. Black $\times$: seed mean. Orange star: published $n{=}1$ point at $T{=}0$ (red edge if outside envelope). Shaded blue rectangle: seed range. On wins (MIT~6.034, Heat~Pipes Gemini) the $n{=}1$ value sits at the low-hallucination edge so the win direction is preserved. On Perovskite the $n{=}1$ is at the low-coverage edge: cascade-cov loss shrinks from $-0.16$ to $-0.06$.}
-\label{fig:headline_multiseed}
-\end{figure}
+Figure~\ref{fig:robustness}b (main text) plots the envelopes; Table~\ref{tab:headline_multiseed_appdx} gives the numbers.
 
 \begin{table}[h]
 \centering
@@ -799,12 +873,6 @@ Qwen2.5-VL-7B & 24 & 1.00 & 1.00 & 24.06 & 24.12 & $[-0.04,0.17]$ (yes) \\
 \label{fig:multiseed_envelopes_appdx}
 \end{figure}
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=\linewidth]{figures/fig7_stochasticity.pdf}
-\caption{\textbf{Three sources of stochasticity, decomposed.} \emph{Left:} Claude Pass-2 generation variance, with 5 reruns on Heat~Pipes yielding $\{9,11,11,15,20\}$ (range~11). \emph{Middle:} Gemini Pass-2 generation variance at $T{=}0.7$ on Natural~Vibration~strip: $\{15,11,9,8,8\}$ (range~7). \emph{Right:} GPT-5.4 judge variance on the \emph{same} review file judged multiple times. SP-5100 Claude $C_1$ produces $\{47,85,85,97\}$ over 4 judge re-runs (range~50), while Heat~Pipes Claude $C_1$ is stable across re-judgments. Coverage is much more stable than hallucination counts across all three noise sources.}
-\label{fig:stochasticity_appdx}
-\end{figure}
 
 \paragraph{Detailed decomposition.}
 \emph{(a)~Claude Pass-2 generation variance.} Same input + same API + same prompt: Heat~Pipes Claude $C_1$ swings $20\to 9$ between two runs (strip $13\to 14$ more stable), and the deltas are large enough that the strip effect cannot be distinguished from Pass-2 noise. Claude Opus 4.7 deprecates the \texttt{temperature} parameter so determinism cannot be enforced from the SDK. \emph{(b)~Gemini Pass-2 generation variance.} At \texttt{temperature=0.0}, two of three Gemini Pass-2 re-runs produced byte-identical output (MD5 match) on Heat~Pipes / SP-5100, and the third differed in similar length (1929 vs 1815 words, $\Delta h = +6$). Gemini is therefore mostly but not strictly deterministic, consistent with GPU-level non-associativity. \emph{(c)~GPT-5.4 high-reasoning judge variance.} Essentially deterministic on low-count cells ($\pm 1$ on Heat~Pipes Claude across three re-judgments) but substantially stochastic on high-count cells ($\pm 25$ on SP-5100, $\pm 17$ on the byte-identical SP-5100 Gemini review). We attribute this to long unsupported-claim lists running up against our 24k-token completion budget, so the judge truncates and resamples across calls. Coverage is stable on every cell across judge re-runs.
@@ -838,17 +906,12 @@ SP-5100 176p        & $C_1$ (calls 1--4) & 47h / 0.81 & 97h / 0.81 & $+50$ & $\p
 \section{Inter-judge details}
 \label{appdx:inter_judge}
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=\linewidth]{figures/fig10_inter_judge_scatter.pdf}
-\caption{\textbf{Inter-judge agreement across the 21 Gemini cells plus the Thermal-Claude cross-vendor cell (22 cell--condition pairs, GPT-5.4 vs Claude as judge).} Dashed: identity ($y=x$). Dotted: Claude $\approx 0.71\times$ GPT-5.4 (the median per-pair ratio). Hallucination counts (left) show Claude systematically reporting fewer unsupported claims than GPT-5.4 with most pairs along the $0.71\times$ line. The two outliers (top-left) are the SP-5100 and Megagauss high-count cells. Probe-coverage counts (right) sit nearly on identity, consistent with per-probe agreement median $0.94$.}
-\label{fig:inter_judge_scatter}
-\end{figure}
+Figure~\ref{fig:robustness}a (main text) plots the 22 cell--condition pairs (21 Gemini cells plus the Thermal-Claude cross-vendor cell); the tables below give the per-cell counts on the original 10 cells (per-cell deltas for the remaining cells are released in the repository).
 
 \begin{table}[h]
 \centering
 \small
-\caption{Inter-judge hallucination counts on the original 10 cells. Direction $\checkmark$ means both judges agree on the sign of $C_0\to C_1$. (This table shows 9 of the 21 Gemini cells plus the Thermal-Claude cell; per-cell deltas for the remaining 12 Gemini cells are released in the repository. The full 21-cell direction counts are $19/21$ coverage and $14/21$ hallucination, \S\ref{sec:robust}.)}
+\caption{Inter-judge hallucination counts on the original 10 cells. Direction $\checkmark$ means both judges agree on the sign of $C_0\to C_1$. The full 21-cell direction counts are $19/21$ coverage and $14/21$ hallucination (\S\ref{sec:robust}).}
 \label{tab:inter_judge_halluc}
 \begin{tabular}{lrrrrc}
 \toprule
@@ -900,24 +963,12 @@ Per-probe agreement (the fraction of probes the two judges classify identically 
 \section{Probe-circularity and reference-bias check tables}
 \label{appdx:probe_circ}
 
-\begin{figure}[h]
-\centering
-\begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{figures/fig8_probe_circularity.pdf}
-\caption{Probe-circularity on 7 cells.}
-\end{subfigure}\hfill
-\begin{subfigure}{0.48\linewidth}
-\includegraphics[width=\linewidth]{figures/fig9_reference_bias.pdf}
-\caption{Reference-bias on 4 cells.}
-\end{subfigure}
-\caption{\textbf{(a)} Cascade $\Delta_{\rm cov}$ under three (probe-extractor, judge) combinations. Sign is preserved on $6/7$ under GPT-5.4 and $5/7$ under Claude (Fairness~AI flips and Megagauss ties at $0.00$, both within noise). \textbf{(b)} Cascade direction with non-Gemini reference (Whisper-base on 3B1B + Karpathy, EasyOCR on Wagging~Tail + Thermal~Analysis). Coverage direction preserved on $4/4$ under both judges. Hallucination direction flips on Thermal~Analysis under EasyOCR, a reference-side artifact (EasyOCR loses figure captions).}
-\label{fig:probe_ref_appdx}
-\end{figure}
+Figure~\ref{fig:robustness}c,d (main text) plots both checks; the tables below give the numbers.
 
 \begin{table}[h]
 \centering
 \small
-\caption{Probe-circularity check on 6 cells. ``Original'' = published numbers (Gemini-extracted probes, GPT-5.4 judge).}
+\caption{Probe-circularity check on 7 cells spanning the cascade-direction spectrum. ``Original'' = published numbers (GPT-5.4-extracted probes, GPT-5.4 judge); the other columns re-extract probes via Claude and score under each judge.}
 \label{tab:probe_circularity_appdx}
 \begin{tabular}{lrrr}
 \toprule
@@ -955,15 +1006,7 @@ Thermal Analysis 66p & EasyOCR / Claude       & $-3$  & $\mathbf{+1}$ & $+0.160$
 \end{tabular}
 \end{table}
 
-\section{Cascade cost}
-\label{appdx:cost}
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.65\linewidth]{figures/fig5_cost_pareto.pdf}
-\caption{\textbf{Cascade coverage gain vs.\ API call-count cost.} Each point is one Gemini cell. The $C_1/C_0$ call ratio for paper cells is $N+1$ (page-chunked OCR + one Pass-2) and ranges from $10\times$ for a 9-page paper to $177\times$ for SP-5100. Audio cells use 30-min chunked ASR (ratio $\approx 2$--$3\times$). Cascade buys most of its coverage gain at the audio end and small or negative gains at the high-cost paper end. For example, Perovskite at $81\times$ call ratio loses 16~pp of coverage (revised to $-6$pp under multi-seed). SP-5100 at $177\times$ has $C_0$ baseline so low (0.52) that the cascade still wins on coverage ($+8$pp) but at the highest cost in the dataset.}
-\label{fig:cost_appdx}
-\end{figure}
+The Thermal hallucination-direction flip under EasyOCR is a reference-side artifact: EasyOCR's transcript is $\approx 21\%$ shorter and loses figure captions, so claims the cascade correctly reproduces read as unsupported against the noisier reference.
 
 \section{Per-cell hallucinations per 1k output words}
 \label{appdx:perword}
@@ -1020,33 +1063,12 @@ The 20 unsupported claims from Claude $C_1$ on Heat~Pipes 104pp are dominated by
 
 One outright misreading: the transcript states the no-boiling condition as $p_v - p_\ell \le 2\sigma\cos\theta/r_c$, but Claude's review writes $\ge$. This is a sign error in Pass-2 reading of Pass-1 text, not training-prior leak.
 
-\section{Deployment checklist}
-\label{appdx:checklist}
-
-\begin{table}[h]
-\small
-\centering
-\caption{Deployment checklist drawn from this paper's cells (summarized in \S\ref{sec:discussion}).}
-\label{tab:checklist}
-\begin{tabular}{p{0.34\linewidth}p{0.30\linewidth}p{0.27\linewidth}}
-\toprule
-Source / model class & Diagnosis & Recommended action \\
-\midrule
-Audio talk or moderate paper (40--70pp) on a capable model & Cascade strongly Pareto-positive. & Default $C_1$. \\
-Moderate paper with Mode-B Gemini signature (Natural~Vibration~42pp) & Mode~B dominant, and the cell flips to Pareto-positive under $C_{1\rm iter}$. & $C_{1\rm iter}$. \\
-Long paper, Mode~A dominant (Heat~Pipes~104pp Gemini) & Compression bottleneck. & $C_{1c}^{\rm concat}$ (chunked, no merge). \\
-Long paper, Mode~B dominant (Heat~Pipes Claude) & Citation-prior leak, but the $C_{1\rm iter}$ faithfulness gain washes out at $n{=}5$. & $C_0$ if it fits. $C_{1\rm iter}$ buys only a coverage loss. \\
-Long arXiv survey (Fairness~AI, SP-5100, Megagauss) & Mode~A + Mode~B compound. At $n{=}5$, $C_{1\rm iter}$ is net-negative on Fairness~AI but a faithfulness/coverage trade on SP-5100/Megagauss. Chunked Pass-2 partially replicates. & Prefer $C_0$ when it fits. If cascade required, use $C_{1c}^{\rm concat}$ with multi-seed averaging. \\
-\bottomrule
-\end{tabular}
-\end{table}
-
 \section{Code and data availability}
 \label{sec:code}
 \label{appdx:code}
 
 \begin{sloppypar}
-All code, prompts, per-cell judgments, and the mechanistic-experiment artifacts (including the E8 substrate probe and the within-Claude cross-vendor comparison) are released in the project repository, whose README documents the pipelines and the exact commands to reproduce every cell, table, and figure in this paper.
+All code, prompts, per-cell judgments, and the mechanistic-experiment artifacts (including the E8/E9 substrate probes, the running-example run directory, and the within-Claude cross-vendor comparison) are released in the project repository, whose README documents the pipelines and the exact commands to reproduce every cell, table, and figure in this paper.
 \end{sloppypar}
 
 \end{document}
