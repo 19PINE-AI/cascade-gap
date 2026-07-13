@@ -247,7 +247,7 @@ def fig_substrate_frontier():
         ax.set_ylim(-0.05, 1.10)
         ax.set_xticks(Ks)
         ax.set_xlabel("facts packed in context $K$")
-        ax.set_title(f"E8 retrieval: {name}", loc="left")
+        ax.set_title(f"Frontier retrieval: {name}", loc="left")
         ax.grid(axis="y", **GRID)
     axes[0].set_ylabel("accuracy")
     axes[0].legend(loc="lower right", frameon=False, fontsize=6,
@@ -277,7 +277,7 @@ def fig_substrate_frontier():
     ax.set_xticklabels([m for m, _ in models], fontsize=8)
     ax.set_ylim(0, 1.12)
     ax.set_yticklabels([])
-    ax.set_title("E9 multi-hop (sum of 6 facts)", loc="left")
+    ax.set_title("Frontier reasoning: multi-hop (sum of 6 facts)", loc="left")
     ax.grid(axis="y", **GRID)
     ax.annotate("image $>$ text\nwith headroom", xy=(1.0 + 0.26 * 0, 1.01),
                 xytext=(0.30, 0.44), fontsize=6.5, color="#333333",
@@ -338,9 +338,9 @@ def fig_e2_collapse():
                    label="$C_1$ two-pass"),
         plt.Line2D([], [], marker="D", ls="", markerfacecolor="none",
                    markeredgecolor=C_GPT, markersize=6,
-                   label="$C_{1+}$ transcript+modality (E1)"),
+                   label="$C_{1+}$ transcript+modality (modality-added)"),
         plt.Line2D([], [], marker="s", ls="", color=C_LOSS, markersize=6,
-                   label="single call: transcribe then review (E2)"),
+                   label="single call: transcribe then review"),
     ]
     ax.legend(handles=handles, loc="upper left", bbox_to_anchor=(0.0, -0.28),
               frameon=False, ncol=2, fontsize=7.5)

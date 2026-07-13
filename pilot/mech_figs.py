@@ -27,7 +27,7 @@ if e3:
     ax.bar(x+0.25, c0, 0.25, label="$C_0$ review (reason over modality)", color="#d95f0e")
     ax.set_xticks(x); ax.set_xticklabels(labels, rotation=60, ha="right", fontsize=7)
     ax.set_ylabel("probe coverage"); ax.set_ylim(0,1.05)
-    ax.set_title("E3: the model perceives ~everything (Pass-1≈1.0) but end-to-end reasoning drops ~35%")
+    ax.set_title("Perception check: the model perceives ~everything (Pass-1≈1.0) but end-to-end reasoning drops ~35%")
     ax.legend(fontsize=8, loc="lower right")
     fig.tight_layout(); fig.savefig(FIG/"fig_mech_e3.pdf"); plt.close(fig)
     print("wrote fig_mech_e3.pdf")
@@ -46,7 +46,7 @@ if ladder:
     a1.set_xlabel("facts in context (K)"); a1.set_ylabel("answer top-1 accuracy"); a1.set_title("retrieval accuracy under load"); a1.set_ylim(0,1.05)
     a2.set_xlabel("facts in context (K)"); a2.set_ylabel("answer log-prob"); a2.set_title("answer confidence under load")
     a1.legend(); a2.legend()
-    fig.suptitle("E6: no cross-modal readout gap under multi-fact load (Qwen2.5-VL-7B)")
+    fig.suptitle("Vision activation probe: no cross-modal readout gap under multi-fact load (Qwen2.5-VL-7B)")
     fig.tight_layout(); fig.savefig(FIG/"fig_mech_e6load.pdf"); plt.close(fig)
     print("wrote fig_mech_e6load.pdf (from ladder, K up to 24)")
 elif e6l:
@@ -59,7 +59,7 @@ elif e6l:
     a1.set_xlabel("facts in context (K)"); a1.set_ylabel("answer top-1 accuracy"); a1.set_title("retrieval accuracy under load")
     a2.set_xlabel("facts in context (K)"); a2.set_ylabel("answer log-prob"); a2.set_title("answer confidence under load")
     a1.legend(); a2.legend()
-    fig.suptitle("E6: no cross-modal readout gap under multi-fact load (Qwen2.5-VL-7B)")
+    fig.suptitle("Vision activation probe: no cross-modal readout gap under multi-fact load (Qwen2.5-VL-7B)")
     fig.tight_layout(); fig.savefig(FIG/"fig_mech_e6load.pdf"); plt.close(fig)
     print("wrote fig_mech_e6load.pdf")
 
