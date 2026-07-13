@@ -110,7 +110,7 @@ def fig_simple_showcase():
         ("gpt-audio → Gemini — 3 audio", C_GEMINI, "^",
          [+0.12, +0.27, +0.08], [-6, -8, -12]),
     ]
-    fig, (axc, axh) = plt.subplots(1, 2, figsize=(7.0, 2.15), sharey=True)
+    fig, (axc, axh) = plt.subplots(1, 2, figsize=(7.0, 1.98), sharey=True)
     rng = np.random.default_rng(11)
     yy = np.arange(len(arms))[::-1]
     for y, (label, col, mk, dcov, dh) in zip(yy, arms):
@@ -136,7 +136,7 @@ def fig_simple_showcase():
                  fontsize=6.5, color="#555555",
                  arrowprops=dict(arrowstyle="-", color="#888888", lw=0.6))
     fig.subplots_adjust(wspace=0.06)
-    fig.savefig(HERE / "fig1_showcase.pdf")
+    fig.savefig(HERE / "fig1_showcase.pdf", pad_inches=0.01)
     plt.close(fig)
     print("[fig1_showcase] saved")
 
