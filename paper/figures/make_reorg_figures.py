@@ -203,11 +203,11 @@ def fig_headline():
     # legend (shared)
     h0 = plt.Line2D([], [], marker="o", ls="", markerfacecolor="white",
                     markeredgecolor=C_C0, markersize=4.5,
-                    label="end-to-end ($C_0$)")
+                    label="End-to-end")
     h1 = plt.Line2D([], [], marker="o", ls="", color=C_GEMINI, markersize=4.5,
-                    label="two-pass ($C_1$)")
-    hw = plt.Line2D([], [], color=C_WIN, lw=1.3, label="$C_1$ better")
-    hl = plt.Line2D([], [], color=C_LOSS, lw=1.3, label="$C_1$ worse")
+                    label="Two-pass")
+    hw = plt.Line2D([], [], color=C_WIN, lw=1.3, label="Two-pass better")
+    hl = plt.Line2D([], [], color=C_LOSS, lw=1.3, label="Two-pass worse")
     axh.legend(handles=[h0, h1, hw, hl], loc="lower right", frameon=False,
                handlelength=1.4, borderaxespad=0.2)
 
@@ -335,12 +335,12 @@ def fig_e2_collapse():
 
     handles = [
         plt.Line2D([], [], marker="o", ls="", markerfacecolor="white",
-                   markeredgecolor=C_C0, markersize=6, label="$C_0$ end-to-end"),
+                   markeredgecolor=C_C0, markersize=6, label="End-to-end"),
         plt.Line2D([], [], marker="o", ls="", color=C_GEMINI, markersize=6,
-                   label="$C_1$ two-pass"),
+                   label="Two-pass"),
         plt.Line2D([], [], marker="D", ls="", markerfacecolor="none",
                    markeredgecolor=C_GPT, markersize=6,
-                   label="$C_{1+}$ transcript+modality (modality-added)"),
+                   label="Transcript+source (modality-added)"),
         plt.Line2D([], [], marker="s", ls="", color=C_LOSS, markersize=6,
                    label="single call: transcribe then review"),
     ]
@@ -381,12 +381,12 @@ def fig_xmodel_grid():
         ax.text(i + w / 2, c1 + 0.02, f"{h1}h", ha="center", fontsize=7,
                 color="#333333")
     ax.set_xticks(xs)
-    ax.set_xticklabels([v[0] for v in vendors], fontsize=8)
+    ax.set_xticklabels([v[0] for v in vendors], fontsize=7.5, rotation=12, ha="right")
     ax.set_ylim(0, 1.12)
     ax.set_ylabel("probe coverage")
     ax.grid(axis="y", **GRID)
-    ax.set_title("(a) Thermal: every vendor improves\n(open = $C_0$, filled = $C_1$; "
-                 "labels = hallucinations)", loc="left", fontsize=8.5)
+    ax.set_title("(a) Thermal: every vendor improves\n(open = end-to-end, filled = two-pass)",
+                 loc="left", fontsize=8)
 
     # ---- (b) within-Claude, 6 NASA papers: hallucination dumbbells ----
     ax = axes[0, 1]
@@ -408,8 +408,8 @@ def fig_xmodel_grid():
     ax.annotate("Mode B (§5)", xy=(20, ys[-1]), xytext=(14.5, ys[-1] + 1.1),
                 fontsize=7.5, color=C_LOSS,
                 arrowprops=dict(arrowstyle="-", color=C_LOSS, lw=0.7))
-    ax.set_title("(b) Within Claude Opus 4.7: fewer hallucinations\non 5/6 papers "
-                 "(open = $C_0$, filled = $C_1$)", loc="left", fontsize=8.5)
+    ax.set_title("(b) Within Claude Opus 4.7: fewer hallucinations on\n5/6 papers "
+                 "(open = end-to-end, filled = two-pass)", loc="left", fontsize=8)
 
     # ---- (c) Gemini 2.5 Flash audio: headroom-gated ----
     ax = axes[1, 0]
@@ -432,8 +432,8 @@ def fig_xmodel_grid():
             ax.annotate(name, (x, y), textcoords="offset points", xytext=(5, 3),
                         fontsize=7, color="#333333")
     ax.axhline(0, color="#999999", lw=0.8)
-    ax.set_xlabel("end-to-end baseline $C_0$ coverage")
-    ax.set_ylabel("$\\Delta_{\\rm cov}$ ($C_1 - C_0$)")
+    ax.set_xlabel("End-to-end baseline coverage")
+    ax.set_ylabel("$\\Delta_{\\rm cov}$ (two-pass gain)")
     ax.grid(axis="y", **GRID)
     ax.legend(loc="upper right", frameon=False, fontsize=7)
     ax.set_title("(c) Audio, two Gemini models: gain tracks\nheadroom, not model "
@@ -442,7 +442,7 @@ def fig_xmodel_grid():
     # ---- (d) mixed pipelines vs Gemini end-to-end ----
     ax = axes[1, 1]
     cellsm = ["3B1B", "Karpathy", "MIT 6.034"]
-    series = [("Gemini $C_0$ (end-to-end)", C_C0,   [0.88, 0.63, 0.77], [11, 13, 17]),
+    series = [("Gemini end-to-end", C_C0,   [0.88, 0.63, 0.77], [11, 13, 17]),
               ("→ Claude Pass-2",       C_CLAUDE, [1.00, 0.98, 0.90], [2, 6, 3]),
               ("→ GPT-5.4 Pass-2",      C_GPT,    [1.00, 1.00, 0.90], [3, 6, 9]),
               ("→ Gemini Pass-2",       C_GEMINI, [1.00, 0.90, 0.85], [5, 5, 5])]

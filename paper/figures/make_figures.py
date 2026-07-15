@@ -89,7 +89,7 @@ def fig1_inverse_correlation():
 
     ax.fill_between(xs, lo, hi, color="#cccccc", alpha=0.5, zorder=1, label="95% bootstrap CI")
     ax.plot(xs, ys, color="#555555", linewidth=1.0, zorder=2,
-            label=f"OLS: $\\Delta_{{cov}}={slope:+.2f}\\,C_0{intercept:+.2f}$\n   $r={r:.2f}$")
+            label=f"OLS slope ${slope:+.2f}$ ($r={r:.2f}$)")
 
     # Points
     ax.scatter(audio_c0, audio_d, s=42, color=C_GEMINI, marker="o",
@@ -107,8 +107,8 @@ def fig1_inverse_correlation():
         "MIT 6.034 Winston":   ( 0.80,  0.25),
         "Heat Pipes":          ( 0.63,  0.07),
         "3B1B Attention":      ( 0.91,  0.19),
-        "NeurIPS BinAI panel": ( 0.92, -0.08),
-        "Wagging Tail":        ( 0.79, -0.07),
+        "NeurIPS BinAI panel": ( 0.90, -0.09),
+        "Wagging Tail":        ( 0.70, -0.115),
         "arXiv Fairness AI":   ( 0.54, -0.06),
         "arXiv Perovskite":    ( 0.84, -0.22),
         "Natural Vibration":   ( 0.62, -0.22),
@@ -125,9 +125,9 @@ def fig1_inverse_correlation():
                                         shrinkA=2, shrinkB=4))
 
     ax.axhline(0, color="#888888", linewidth=0.5, linestyle="--")
-    ax.set_xlabel(r"$C_0$ probe coverage (end-to-end baseline)", fontsize=9)
-    ax.set_ylabel(r"$\Delta_{\rm cov}=C_1-C_0$", fontsize=9)
-    ax.set_title(f"Cascade coverage gain vs. $C_0$ baseline (n={len(audio_cells) + len(paper_cells)} Gemini cells)", fontsize=10)
+    ax.set_xlabel(r"End-to-end probe coverage (baseline)", fontsize=9)
+    ax.set_ylabel(r"Coverage gain $\Delta_{\rm cov}$", fontsize=9)
+    ax.set_title(f"Coverage gain vs. end-to-end baseline (n={len(audio_cells) + len(paper_cells)} Gemini cells)", fontsize=10)
     ax.set_xlim(0.10, 1.02)
     ax.set_ylim(-0.25, 0.58)
     ax.grid(alpha=0.25, linewidth=0.4)
@@ -258,12 +258,12 @@ def fig3_heatpipes_pareto():
 # ============================================================
 def fig4_failure_modes():
     # Mode A and Mode B side by side (left/right).
-    fig, axes = plt.subplots(1, 2, figsize=(7.4, 3.2), sharey=False)
+    fig, axes = plt.subplots(1, 2, figsize=(6.4, 2.7), sharey=False)
 
     # Left panel: Mode A on Heat Pipes (Gemini variants showing chunked-Pass-2 fix)
     hp = _cell("Heat Pipes")["scores"]
     variants = ["C0", "C1", "C1c", "C1c_concat"]
-    labels = ["$C_0$", "$C_1$", "$C_{1c}$", "$C_{1c}^{\\rm concat}$"]
+    labels = ["End-to-\nend", "Two-\npass", "Chunked", "Chunked\n(concat)"]
     halluc = [hp[k]["n_unsupported"] for k in variants]
     cov    = [hp[k]["probe_coverage"]  for k in variants]
 
@@ -274,7 +274,7 @@ def fig4_failure_modes():
     ax2 = ax.twinx()
     ax2.bar(x + width/2, cov, width, color="lightgray", edgecolor=C_GEMINI, label="Coverage")
     ax.set_xticks(x)
-    ax.set_xticklabels(labels, fontsize=8)
+    ax.set_xticklabels(labels, fontsize=7)
     ax.set_ylabel("Hallucinations\n(solid blue bars)", color=C_GEMINI)
     ax.tick_params(axis="y", colors=C_GEMINI)
     ax.set_ylim(0, max(halluc) + 4)
@@ -287,7 +287,7 @@ def fig4_failure_modes():
     # Right panel: Mode B on Heat Pipes (Claude variants showing citation-strip fix)
     cp = _cell("Heat Pipes")["scores"]
     variants_c = ["C0_claude", "C1_claude", "C1_stripped_claude", "C1c_claude"]
-    labels_c = ["$C_0$", "$C_1$", "$C_1^{\\rm strip}$", "$C_{1c}$"]
+    labels_c = ["End-to-\nend", "Two-\npass", "Cite-\nstripped", "Chunked"]
     halluc_c = [cp[k]["n_unsupported"] for k in variants_c]
     cov_c    = [cp[k]["probe_coverage"]  for k in variants_c]
 
@@ -297,7 +297,7 @@ def fig4_failure_modes():
     ax3 = ax.twinx()
     ax3.bar(x + width/2, cov_c, width, color="lightgray", edgecolor=C_CLAUDE)
     ax.set_xticks(x)
-    ax.set_xticklabels(labels_c, fontsize=8)
+    ax.set_xticklabels(labels_c, fontsize=7)
     ax.set_ylabel("Hallucinations\n(solid orange bars)", color=C_CLAUDE)
     ax.tick_params(axis="y", colors=C_CLAUDE)
     ax.set_ylim(0, max(halluc_c) + 4)
@@ -403,7 +403,7 @@ def fig0_protocol_schematic():
                 arrowprops=dict(arrowstyle="->", color="black", lw=1.1))
     ax.annotate("", xy=(7.45, 3.9), xytext=(6.55, 3.9),
                 arrowprops=dict(arrowstyle="->", color="black", lw=1.1))
-    ax.text(5.0, 1.7, r"$C_0$ (end-to-end): 1 call", ha="center", fontsize=8,
+    ax.text(5.0, 1.7, r"End-to-end: 1 call", ha="center", fontsize=8,
             color="#444444", style="italic")
 
     # Divider
@@ -436,7 +436,7 @@ def fig0_protocol_schematic():
                 arrowprops=dict(arrowstyle="->", color="black", lw=1.0))
     # Cost label
     ax.text(15.8, -0.58,
-            "$C_1$ (same-weights cascade): $N{+}1$ calls\n"
+            "Two-pass (same-weights): $N{+}1$ calls\n"
             "page-chunked OCR / 30-min ASR + one text-only Pass-2",
             ha="center", fontsize=7.2, color="#444444", style="italic",
             linespacing=1.15)
