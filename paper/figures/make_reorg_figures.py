@@ -73,16 +73,16 @@ NICE = {"Karpathy review": "Karpathy review",
         "Doudna CRISPR": "Doudna CRISPR",
         "Veritasium Math": "Veritasium math",
         "Harvard Moot Court": "Harvard moot court",
-        "Wagging Tail": "Wagging Tail 9pp",
-        "Env Test": "Env Test 18pp",
-        "Dynamic Response": "Dynamic Resp. 41pp",
-        "Natural Vibration": "Natural Vibr. 42pp",
-        "Thermal Analysis": "Thermal 66pp",
-        "Heat Pipes": "Heat Pipes 104pp",
-        "SP-5100 Shock": "SP-5100 176pp",
-        "arXiv Fairness AI": "arXiv Fairness 53pp",
-        "arXiv Megagauss": "arXiv Megagauss 75pp",
-        "arXiv Perovskite": "arXiv Perovskite 80pp"}
+        "Wagging Tail": "Wagging Tail",
+        "Env Test": "Env Test",
+        "Dynamic Response": "Dynamic Resp.",
+        "Natural Vibration": "Natural Vibr.",
+        "Thermal Analysis": "Thermal",
+        "Heat Pipes": "Heat Pipes",
+        "SP-5100 Shock": "SP-5100",
+        "arXiv Fairness AI": "arXiv Fairness",
+        "arXiv Megagauss": "arXiv Megagauss",
+        "arXiv Perovskite": "arXiv Perovskite"}
 
 
 # ============================================================
@@ -168,7 +168,7 @@ def fig_headline():
                        linewidth=1.1, zorder=3)
             ax.scatter([v1], [y], s=17, facecolor=C_GEMINI, edgecolor=C_GEMINI,
                        zorder=4)
-        ax.set_ylim(-0.8, n - 0.2)
+        ax.set_ylim(-0.8, n + 0.4)
         ax.grid(axis="x", **GRID)
         # group separator between audio and paper blocks
         ysep = ys[len(AUDIO_ORDER) - 1] - 0.5
@@ -211,8 +211,8 @@ def fig_headline():
     axh.legend(handles=[h0, h1, hw, hl], loc="lower right", frameon=False,
                handlelength=1.4, borderaxespad=0.2)
 
-    axc.set_title("(a) Coverage, all 21 Gemini 3.1 Pro cells", loc="left")
-    axh.set_title("(b) Hallucinations, same cells", loc="left")
+    axc.set_title("(a) Coverage, all 21 Gemini 3.1 Pro cells", loc="left", pad=8)
+    axh.set_title("(b) Hallucinations, same cells", loc="left", pad=8)
 
     fig.savefig(HERE / "fig_headline.pdf")
     plt.close(fig)
@@ -225,7 +225,7 @@ def fig_headline():
 def fig_substrate_frontier():
     mpl.rcParams.update({"font.size": 8, "xtick.labelsize": 7,
                          "ytick.labelsize": 7, "axes.labelsize": 8,
-                         "axes.titlesize": 8.5, "legend.fontsize": 6.5})
+                         "axes.titlesize": 6.5, "legend.fontsize": 6.5})
     e8g = json.loads((ROOT / "runs/mechanism/e8_frontier_substrate_gemini.json").read_text())
     e8c = json.loads((ROOT / "runs/mechanism/e8_frontier_substrate_claude.json").read_text())
     e9g = json.loads((ROOT / "runs/mechanism/e9_multihop_gemini_sum6.json").read_text())
@@ -275,7 +275,7 @@ def fig_substrate_frontier():
             ax.text(rect.get_x() + rect.get_width() / 2, v + 0.02, f"{v:.2f}",
                     ha="center", fontsize=6, color="#333333")
     ax.set_xticks(xs)
-    ax.set_xticklabels([m for m, _ in models], fontsize=8)
+    ax.set_xticklabels([m for m, _ in models], fontsize=6.5)
     ax.set_xlim(-0.5, 1.85)
     ax.set_ylim(0, 1.12)
     ax.set_yticklabels([])
@@ -300,12 +300,12 @@ def fig_e2_collapse():
     rows = [
         ("MIT 6.034 (audio)",      0.77, 0.98, None,  "budget"),
         ("3B1B Attention (audio)", 0.88, 0.96, 1.00,  0.80),
-        ("Wagging Tail 9pp",       0.80, 0.78, 0.78,  0.63),
-        ("Natural Vibr. 42pp",     0.66, 0.49, 0.79,  "budget"),
-        ("Thermal 66pp",           0.68, 0.84, 0.68,  0.40),
-        ("Heat Pipes 104pp",       0.72, 0.78, 0.66,  "budget"),
-        ("arXiv Fairness 53pp",    0.50, 0.40, 0.38,  0.24),
-        ("arXiv Perovskite 80pp",  0.90, 0.74, 0.84,  0.80),
+        ("Wagging Tail",       0.80, 0.78, 0.78,  0.63),
+        ("Natural Vibr.",     0.66, 0.49, 0.79,  "budget"),
+        ("Thermal",           0.68, 0.84, 0.68,  0.40),
+        ("Heat Pipes",       0.72, 0.78, 0.66,  "budget"),
+        ("arXiv Fairness",    0.50, 0.40, 0.38,  0.24),
+        ("arXiv Perovskite",  0.90, 0.74, 0.84,  0.80),
     ]
     mpl.rcParams.update({"font.size": 9, "xtick.labelsize": 8,
                          "ytick.labelsize": 8, "axes.labelsize": 9,
@@ -361,7 +361,7 @@ def fig_xmodel_grid():
     fig, axes = plt.subplots(2, 2, figsize=(7.8, 4.9))
     fig.subplots_adjust(hspace=0.68, wspace=0.42)
 
-    # ---- (a) Thermal 66pp: all three vendors improve ----
+    # ---- (a) Thermal: all three vendors improve ----
     ax = axes[0, 0]
     th = _cell("Thermal Analysis")["scores"]
     vendors = [("Gemini 3.1 Pro", "C0", "C1", C_GEMINI),
@@ -385,14 +385,14 @@ def fig_xmodel_grid():
     ax.set_ylim(0, 1.12)
     ax.set_ylabel("probe coverage")
     ax.grid(axis="y", **GRID)
-    ax.set_title("(a) Thermal 66pp: every vendor improves\n(open = $C_0$, filled = $C_1$; "
+    ax.set_title("(a) Thermal: every vendor improves\n(open = $C_0$, filled = $C_1$; "
                  "labels = hallucinations)", loc="left", fontsize=8.5)
 
     # ---- (b) within-Claude, 6 NASA papers: hallucination dumbbells ----
     ax = axes[0, 1]
-    cw = [("Wagging Tail 9pp", 5, 2), ("Env Test 18pp", 3, 2),
-          ("Dynamic Resp. 41pp", 2, 1), ("Natural Vibr. 42pp", 5, 4),
-          ("Thermal 66pp", 11, 4), ("Heat Pipes 104pp", 4, 20)]
+    cw = [("Wagging Tail", 5, 2), ("Env Test", 3, 2),
+          ("Dynamic Resp.", 2, 1), ("Natural Vibr.", 5, 4),
+          ("Thermal", 11, 4), ("Heat Pipes", 4, 20)]
     ys = np.arange(len(cw))[::-1]
     for y, (name, h0, h1) in zip(ys, cw):
         col = C_WIN if h1 < h0 else C_LOSS

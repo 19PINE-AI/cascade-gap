@@ -176,7 +176,7 @@ def fig2_cross_vendor_thermal():
     ax.set_xticklabels(vendors)
     ax.set_ylabel("Probe coverage")
     ax.set_ylim(0, 1.10)
-    ax.set_title(r"$C_0$ vs $C_1$ on Thermal Analysis (66pp), 3 vendors")
+    ax.set_title(r"$C_0$ vs $C_1$ on Thermal Analysis, 3 vendors")
     ax.legend(loc="upper left", frameon=False)
     ax.grid(alpha=0.25, axis="y", linewidth=0.4)
 
@@ -243,7 +243,7 @@ def fig3_heatpipes_pareto():
     ax.invert_yaxis()
     ax.set_xlim(0.20, 1.0)
     ax.set_ylim(24, -1)
-    ax.set_title("Heat Pipes 104pp: cascade variants × 3 vendors")
+    ax.set_title("Heat Pipes: cascade variants × 3 vendors")
     ax.legend(loc="lower left", frameon=False, title="Vendor")
     ax.grid(alpha=0.25, linewidth=0.4)
 
@@ -257,9 +257,8 @@ def fig3_heatpipes_pareto():
 # failure modes across the relevant cells.
 # ============================================================
 def fig4_failure_modes():
-    # Stack the two modes so the companion iterative-refinement panel can use
-    # more horizontal space in the paper layout.
-    fig, axes = plt.subplots(2, 1, figsize=(3.35, 4.15), sharey=False)
+    # Mode A and Mode B side by side (left/right).
+    fig, axes = plt.subplots(1, 2, figsize=(7.4, 3.2), sharey=False)
 
     # Left panel: Mode A on Heat Pipes (Gemini variants showing chunked-Pass-2 fix)
     hp = _cell("Heat Pipes")["scores"]
@@ -283,7 +282,7 @@ def fig4_failure_modes():
     ax2.tick_params(axis="y", colors="#555555")
     ax2.set_ylim(0, 1.05)
     ax.spines["top"].set_visible(False); ax2.spines["top"].set_visible(False)
-    ax.set_title("Mode A: compression bottleneck\n(Gemini, Heat Pipes 104 pages)")
+    ax.set_title("Mode A: compression bottleneck\n(Gemini, Heat Pipes)")
 
     # Right panel: Mode B on Heat Pipes (Claude variants showing citation-strip fix)
     cp = _cell("Heat Pipes")["scores"]
@@ -306,7 +305,7 @@ def fig4_failure_modes():
     ax3.tick_params(axis="y", colors="#555555")
     ax3.set_ylim(0, 1.05)
     ax.spines["top"].set_visible(False); ax3.spines["top"].set_visible(False)
-    ax.set_title("Mode B: training-prior leak\n(Claude, Heat Pipes 104 pages)")
+    ax.set_title("Mode B: training-prior leak\n(Claude, Heat Pipes)")
 
     fig.tight_layout()
     fig.savefig(HERE / "fig4_failure_modes.pdf")
@@ -713,12 +712,6 @@ def fig9_reference_bias():
     ax_c.set_xticklabels([c["name"] for c in cells], fontsize=8)
     ax_c.grid(alpha=0.2, linewidth=0.4, axis="y")
     ax_c.set_ylim(min(c_orig + c_gpt + c_clau) - 0.04, max(c_orig + c_gpt + c_clau) + 0.06)
-
-    # Annotation: highlight the Thermal flip
-    ax_h.annotate("flip $\\rightarrow$",
-                  xy=(3 + width, 1.5), xytext=(3.6, 4),
-                  fontsize=8, color="#c33", ha="center",
-                  arrowprops=dict(arrowstyle="->", color="#c33", lw=0.8))
 
     fig.tight_layout()
     fig.savefig(HERE / "fig9_reference_bias.pdf")

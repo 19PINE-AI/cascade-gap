@@ -1,6 +1,6 @@
 """Generate mechanism-section figures from the E1-E6 summaries."""
 from __future__ import annotations
-import json, pathlib
+import json, pathlib, re
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -18,18 +18,20 @@ def load(n):
 e3 = load("e3")
 if e3:
     e3s = sorted(e3, key=lambda r: r["c0_cov"])
-    labels = [r["cell"] for r in e3s]
+    labels = [re.sub(r"_?\d+pp$", "", r["cell"]) for r in e3s]
     c0 = [r["c0_cov"] for r in e3s]; c1=[r["c1_cov"] for r in e3s]; p1=[r["pass1_cov"] for r in e3s]
     x = np.arange(len(labels))
-    fig, ax = plt.subplots(figsize=(11,4.2))
+    fig, ax = plt.subplots(figsize=(11,4.6))
     ax.bar(x-0.25, p1, 0.25, label="Pass-1 transcript (perception)", color="#2c7fb8")
     ax.bar(x, c1, 0.25, label="$C_1$ review (reason over text)", color="#7fcdbb")
     ax.bar(x+0.25, c0, 0.25, label="$C_0$ review (reason over modality)", color="#d95f0e")
-    ax.set_xticks(x); ax.set_xticklabels(labels, rotation=60, ha="right", fontsize=7)
-    ax.set_ylabel("probe coverage"); ax.set_ylim(0,1.05)
-    ax.set_title("Perception check: the model perceives ~everything (Pass-1≈1.0) but end-to-end reasoning drops ~35%")
-    ax.legend(fontsize=8, loc="lower right")
-    fig.tight_layout(); fig.savefig(FIG/"fig_mech_e3.pdf"); plt.close(fig)
+    ax.set_xticks(x); ax.set_xticklabels(labels, rotation=55, ha="right", fontsize=12)
+    ax.set_ylabel("probe coverage", fontsize=15); ax.set_ylim(0,1.12)
+    ax.tick_params(axis="y", labelsize=13)
+    ax.legend(fontsize=13, loc="lower center", bbox_to_anchor=(0.5, 1.01),
+              ncol=3, frameon=False)
+    fig.tight_layout()
+    fig.savefig(FIG/"fig_mech_e3.pdf", bbox_inches="tight"); plt.close(fig)
     print("wrote fig_mech_e3.pdf")
 
 # ---------- Fig B: E6 load sweep (7B, from V3 ladder; K up to 24) ----------
@@ -46,7 +48,6 @@ if ladder:
     a1.set_xlabel("facts in context (K)"); a1.set_ylabel("answer top-1 accuracy"); a1.set_title("retrieval accuracy under load"); a1.set_ylim(0,1.05)
     a2.set_xlabel("facts in context (K)"); a2.set_ylabel("answer log-prob"); a2.set_title("answer confidence under load")
     a1.legend(); a2.legend()
-    fig.suptitle("Vision activation probe: no cross-modal readout gap under multi-fact load (Qwen2.5-VL-7B)")
     fig.tight_layout(); fig.savefig(FIG/"fig_mech_e6load.pdf"); plt.close(fig)
     print("wrote fig_mech_e6load.pdf (from ladder, K up to 24)")
 elif e6l:
@@ -59,7 +60,6 @@ elif e6l:
     a1.set_xlabel("facts in context (K)"); a1.set_ylabel("answer top-1 accuracy"); a1.set_title("retrieval accuracy under load")
     a2.set_xlabel("facts in context (K)"); a2.set_ylabel("answer log-prob"); a2.set_title("answer confidence under load")
     a1.legend(); a2.legend()
-    fig.suptitle("Vision activation probe: no cross-modal readout gap under multi-fact load (Qwen2.5-VL-7B)")
     fig.tight_layout(); fig.savefig(FIG/"fig_mech_e6load.pdf"); plt.close(fig)
     print("wrote fig_mech_e6load.pdf")
 
