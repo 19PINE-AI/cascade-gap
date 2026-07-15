@@ -231,7 +231,8 @@ def fig_substrate_frontier():
     e9g = json.loads((ROOT / "runs/mechanism/e9_multihop_gemini_sum6.json").read_text())
     e9c = json.loads((ROOT / "runs/mechanism/e9_multihop_claude_sum6.json").read_text())
 
-    fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.0))
+    fig, axes = plt.subplots(1, 3, figsize=(7.8, 2.0),
+                             gridspec_kw={"width_ratios": [1, 1, 1.22]})
     conds = [("text_acc", "text", C_GEMINI, "o", "-"),
              ("image_acc", "legible image", C_GPT, "s", "--"),
              ("image_degraded_acc", "degraded image (control)", "#8c8c8c", "x", ":")]
@@ -275,12 +276,13 @@ def fig_substrate_frontier():
                     ha="center", fontsize=6, color="#333333")
     ax.set_xticks(xs)
     ax.set_xticklabels([m for m, _ in models], fontsize=8)
+    ax.set_xlim(-0.5, 1.85)
     ax.set_ylim(0, 1.12)
     ax.set_yticklabels([])
     ax.set_title("Frontier reasoning: multi-hop (sum of 6 facts)", loc="left")
     ax.grid(axis="y", **GRID)
-    ax.annotate("image $>$ text\nwith headroom", xy=(1.0 + 0.26 * 0, 1.01),
-                xytext=(0.30, 0.44), fontsize=6.5, color="#333333",
+    ax.annotate("image $>$ text\nwith headroom", xy=(1.0, 1.01),
+                xytext=(1.34, 0.62), ha="left", fontsize=5.8, color="#333333",
                 arrowprops=dict(arrowstyle="-", color="#888888", lw=0.7,
                                 shrinkB=2))
 
@@ -356,8 +358,8 @@ def fig_xmodel_grid():
     mpl.rcParams.update({"font.size": 8, "xtick.labelsize": 7,
                          "ytick.labelsize": 7, "axes.labelsize": 8,
                          "axes.titlesize": 8.5, "legend.fontsize": 6.5})
-    fig, axes = plt.subplots(2, 2, figsize=(7.0, 4.6))
-    fig.subplots_adjust(hspace=0.68, wspace=0.30)
+    fig, axes = plt.subplots(2, 2, figsize=(7.8, 4.9))
+    fig.subplots_adjust(hspace=0.68, wspace=0.42)
 
     # ---- (a) Thermal 66pp: all three vendors improve ----
     ax = axes[0, 0]
