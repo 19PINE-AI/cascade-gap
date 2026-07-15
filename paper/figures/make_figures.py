@@ -101,17 +101,17 @@ def fig1_inverse_correlation():
     # with leader lines. Keeps the plot readable while highlighting the cells
     # the paper text refers to.
     outlier_anchors = {
-        "Harvard Moot Court":  ( 0.20,  0.52),
-        "Karpathy review":     ( 0.78,  0.46),
-        "Sapolsky Behavioral": ( 0.40,  0.42),
-        "MIT 6.034 Winston":   ( 0.92,  0.30),
-        "Heat Pipes":          ( 0.96,  0.13),
-        "3B1B Attention":      ( 0.96,  0.18),
-        "NeurIPS BinAI panel": ( 0.99,  0.07),
-        "Wagging Tail":        ( 0.62,  0.10),
-        "arXiv Fairness AI":   ( 0.78, -0.07),
-        "arXiv Perovskite":    ( 0.70, -0.22),
-        "Natural Vibration":   ( 0.53, -0.22),
+        "Harvard Moot Court":  ( 0.39,  0.54),
+        "Karpathy review":     ( 0.70,  0.39),
+        "Sapolsky Behavioral": ( 0.53,  0.39),
+        "MIT 6.034 Winston":   ( 0.80,  0.25),
+        "Heat Pipes":          ( 0.63,  0.07),
+        "3B1B Attention":      ( 0.91,  0.19),
+        "NeurIPS BinAI panel": ( 0.92, -0.08),
+        "Wagging Tail":        ( 0.79, -0.07),
+        "arXiv Fairness AI":   ( 0.54, -0.06),
+        "arXiv Perovskite":    ( 0.84, -0.22),
+        "Natural Vibration":   ( 0.62, -0.22),
     }
     all_cells = audio_cells + paper_cells
     for name, c0, c1, delta in all_cells:
@@ -257,7 +257,9 @@ def fig3_heatpipes_pareto():
 # failure modes across the relevant cells.
 # ============================================================
 def fig4_failure_modes():
-    fig, axes = plt.subplots(1, 2, figsize=(6.0, 2.4), sharey=False)
+    # Stack the two modes so the companion iterative-refinement panel can use
+    # more horizontal space in the paper layout.
+    fig, axes = plt.subplots(2, 1, figsize=(3.35, 4.15), sharey=False)
 
     # Left panel: Mode A on Heat Pipes (Gemini variants showing chunked-Pass-2 fix)
     hp = _cell("Heat Pipes")["scores"]
@@ -274,12 +276,14 @@ def fig4_failure_modes():
     ax2.bar(x + width/2, cov, width, color="lightgray", edgecolor=C_GEMINI, label="Coverage")
     ax.set_xticks(x)
     ax.set_xticklabels(labels, fontsize=8)
-    ax.set_ylabel("Hallucinations")
+    ax.set_ylabel("Hallucinations\n(solid blue bars)", color=C_GEMINI)
+    ax.tick_params(axis="y", colors=C_GEMINI)
     ax.set_ylim(0, max(halluc) + 4)
-    ax2.set_ylabel("Coverage")
+    ax2.set_ylabel("Coverage\n(outlined gray bars)", color="#555555")
+    ax2.tick_params(axis="y", colors="#555555")
     ax2.set_ylim(0, 1.05)
     ax.spines["top"].set_visible(False); ax2.spines["top"].set_visible(False)
-    ax.set_title("Mode A: compression bottleneck\n(Gemini, Heat Pipes 104pp)")
+    ax.set_title("Mode A: compression bottleneck\n(Gemini, Heat Pipes 104 pages)")
 
     # Right panel: Mode B on Heat Pipes (Claude variants showing citation-strip fix)
     cp = _cell("Heat Pipes")["scores"]
@@ -295,12 +299,14 @@ def fig4_failure_modes():
     ax3.bar(x + width/2, cov_c, width, color="lightgray", edgecolor=C_CLAUDE)
     ax.set_xticks(x)
     ax.set_xticklabels(labels_c, fontsize=8)
-    ax.set_ylabel("Hallucinations")
+    ax.set_ylabel("Hallucinations\n(solid orange bars)", color=C_CLAUDE)
+    ax.tick_params(axis="y", colors=C_CLAUDE)
     ax.set_ylim(0, max(halluc_c) + 4)
-    ax3.set_ylabel("Coverage")
+    ax3.set_ylabel("Coverage\n(outlined gray bars)", color="#555555")
+    ax3.tick_params(axis="y", colors="#555555")
     ax3.set_ylim(0, 1.05)
     ax.spines["top"].set_visible(False); ax3.spines["top"].set_visible(False)
-    ax.set_title("Mode B: training-prior leak\n(Claude, Heat Pipes 104pp)")
+    ax.set_title("Mode B: training-prior leak\n(Claude, Heat Pipes 104 pages)")
 
     fig.tight_layout()
     fig.savefig(HERE / "fig4_failure_modes.pdf")
@@ -350,11 +356,17 @@ def fig5_cost_pareto():
     ax.scatter(paper_x, paper_y, s=40, color=C_CLAUDE, marker="s",
                edgecolor="black", linewidth=0.4, label=f"paper (n={len(paper_pts)})", zorder=3)
 
-    # Annotate outlier high-cost cells
+    # Keep labels just right of their markers.  Sapolsky and Karpathy review
+    # occupy nearly identical coordinates, so separate them vertically.
+    label_y_offsets = {
+        "Sapolsky Behavioral": 0.018,
+        "Karpathy review": -0.018,
+    }
     for pts in (paper_pts, audio_pts):
         for x, y, name, n in pts:
             if x >= 50 or abs(y) >= 0.30:
-                ax.text(x * 1.06, y, name, fontsize=6.0, va="center")
+                ax.text(x * 1.075, y + label_y_offsets.get(name, 0), name,
+                        fontsize=6.0, va="center")
 
     ax.axhline(0, color="#888888", linewidth=0.5, linestyle="--")
     ax.set_xscale("log")
@@ -374,15 +386,15 @@ def fig5_cost_pareto():
 # ============================================================
 def fig0_protocol_schematic():
     # Single wide axis with two side-by-side diagrams.
-    fig, ax = plt.subplots(figsize=(7.0, 2.3))
+    fig, ax = plt.subplots(figsize=(7.4, 2.5))
     ax.set_xlim(0, 22)
-    ax.set_ylim(-0.4, 6.4)
+    ax.set_ylim(-1.15, 6.4)
     ax.axis("off")
 
     def box(x, y, w, h, fc, ec, text, fontsize=8, textcolor="black"):
         ax.add_patch(plt.Rectangle((x, y), w, h, fc=fc, ec=ec, lw=1.2))
         ax.text(x + w/2, y + h/2, text, ha="center", va="center",
-                fontsize=fontsize, color=textcolor)
+                fontsize=fontsize, color=textcolor, linespacing=1.15)
 
     # ---- LEFT: C0 end-to-end ----
     box(0.3, 3.0, 2.4, 1.8, "#eef4fa", C_GEMINI, "audio /\npaper imgs", fontsize=8)
@@ -402,11 +414,11 @@ def fig0_protocol_schematic():
     # Source on the left
     box(11.2, 3.0, 2.4, 1.8, "#eef4fa", C_GEMINI, "audio /\npaper imgs", fontsize=8)
     # Pass-1 model (top)
-    box(14.7, 4.6, 2.6, 1.6, C_GEMINI, "black", "model Pass-1\n(ASR / OCR)", fontsize=7.5, textcolor="white")
+    box(14.7, 4.6, 2.6, 1.6, C_GEMINI, "black", "model Pass-1\n(ASR / OCR)", fontsize=7.1, textcolor="white")
     # Transcript box (middle, between top and bottom)
     box(18.4, 3.0, 2.0, 1.8, "#fffbee", "#cc8800", "text\ntranscript", fontsize=8)
     # Pass-2 model (bottom)
-    box(14.7, 1.4, 2.6, 1.6, C_GEMINI, "black", "model Pass-2\n(text-only)", fontsize=7.5, textcolor="white")
+    box(14.7, 1.4, 2.6, 1.6, C_GEMINI, "black", "model Pass-2\n(text-only)", fontsize=7.1, textcolor="white")
     # Review (far right, below transcript)
     box(11.2, 0.5, 2.4, 1.8, "#fff4f4", C_CLAUDE, "review\narticle", fontsize=8)
 
@@ -424,8 +436,11 @@ def fig0_protocol_schematic():
     ax.annotate("", xy=(13.65, 1.4), xytext=(14.65, 1.9),
                 arrowprops=dict(arrowstyle="->", color="black", lw=1.0))
     # Cost label
-    ax.text(16.5, -0.2, r"$C_1$ (same-weights cascade): $N{+}1$ calls  (page-chunked OCR / 30-min ASR + 1 text Pass-2)",
-            ha="center", fontsize=7.5, color="#444444", style="italic")
+    ax.text(15.8, -0.58,
+            "$C_1$ (same-weights cascade): $N{+}1$ calls\n"
+            "page-chunked OCR / 30-min ASR + one text-only Pass-2",
+            ha="center", fontsize=7.2, color="#444444", style="italic",
+            linespacing=1.15)
 
     fig.savefig(HERE / "fig0_protocol_schematic.pdf")
     plt.close(fig)
@@ -649,8 +664,8 @@ def fig9_reference_bias():
             "c_clau":  d["altref_claude"]["delta_cov"],
         })
 
-    fig, (ax_h, ax_c) = plt.subplots(2, 1, figsize=(7.5, 3.6), sharex=True,
-                                     gridspec_kw=dict(hspace=0.18))
+    fig, (ax_h, ax_c) = plt.subplots(2, 1, figsize=(7.5, 4.1), sharex=True,
+                                     gridspec_kw=dict(hspace=0.42))
 
     x = np.arange(len(cells))
     width = 0.27
@@ -800,15 +815,17 @@ def fig11_iter_pareto():
 
     fig, ax = plt.subplots(figsize=(6.0, 3.6))
 
-    # Per-cell label placement (anchor in data coords, away from arrow midpoint)
+    # Per-cell label placement (anchor in data coords, close to the iter star).
+    # The two Fairness results share nearly the same endpoint, so their labels
+    # sit on opposite sides rather than using long, ambiguous leader lines.
     label_anchors = {
-        "Heat Pipes Claude":         (0.62,  17),
-        "Heat Pipes Gemini":         (0.62,   3),
-        "Natural Vibration":         (0.70,  -3.5),
-        "arXiv Fairness AI Gemini":  (0.32,  11),
-        "arXiv Fairness AI Claude":  (0.46,  26),
-        "SP-5100 Claude":            (0.70,  42),
-        "arXiv Megagauss Claude":    (0.85,  20),
+        "Heat Pipes Claude":         (0.80, 12.2),
+        "Heat Pipes Gemini":         (0.40,  8.0),
+        "Natural Vibration":         (0.70,  1.2),
+        "arXiv Fairness AI Gemini":  (0.40, 25.7),
+        "arXiv Fairness AI Claude":  (0.48, 19.4),
+        "SP-5100 Claude":            (0.63, 46.8),
+        "arXiv Megagauss Claude":    (0.71, 29.0),
     }
 
     for r in rows:
@@ -865,7 +882,7 @@ def fig11_iter_pareto():
                markeredgewidth=0.4, label=r"arXiv $\,C_{1\rm iter}$"),
     ]
     ax.legend(handles=legend_elems, loc="lower left", frameon=False,
-              fontsize=7.5, ncol=2)
+              fontsize=7.5, ncol=1)
 
     fig.tight_layout()
     fig.savefig(HERE / "fig11_iter_pareto.pdf")
