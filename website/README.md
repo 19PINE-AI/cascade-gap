@@ -4,9 +4,10 @@ React (Vite) single-page site explaining the cascade-gap paper to first-time
 readers, in three parts:
 
 1. **How it works** — plain-language walkthrough of the protocol, the
-   observation, the mechanism experiments (E1–E9), and the two failure modes.
+   observation, the mechanism controls (modality, think-longer, generation-load,
+   attention-dilution), and the two failure modes.
 2. **Major evaluation results** — interactive charts: 21-cell dumbbell
-   (coverage / hallucinations), inverse-baseline-law scatter, E3 transcript
+   (coverage / hallucinations), inverse-baseline-observation scatter, transcript
    ceiling, cross-model tables, robustness checks, practitioner checklist.
 3. **Trajectory visualizer** — per-case explorer: source → Pass-1 transcript →
    both reviews (full text) → judge verdicts, with the probe checklist,

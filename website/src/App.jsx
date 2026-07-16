@@ -15,7 +15,7 @@ function TopNav({ active }) {
   return (
     <nav className="topnav">
       <div className="topnav-inner">
-        <a className="brand" href="#top">Perceive · Externalize · Synthesize</a>
+        <a className="brand" href="#top">Transcribe, Then Reason</a>
         <div className="links">
           {items.map(([id, n, label]) => (
             <a key={id} href={`#${id}`} className={active === id ? 'active' : ''}>
@@ -37,9 +37,9 @@ function Footer() {
           <div>
             <div className="kicker mb-1">About this site</div>
             <p className="small prose">
-              Built as an interactive companion to <em>“Perceive, Externalize, Synthesize: Why
-              Two-Pass Decomposition Beats End-to-End on Long-Form Multimodal Review”</em> by Bojie
-              Li (Pine AI) and Noah Shi (University of Washington). Every score, probe verdict,
+              Built as an interactive companion to <em>“Transcribe, Then Reason: Two-Pass
+              Decomposition for Multimodal Review”</em> by Bojie Li (Pine AI) and Noah Shi
+              (University of Washington). Every score, probe verdict,
               flagged claim, transcript, and review shown here is read directly from the paper’s
               released run artifacts — nothing is re-generated or paraphrased.
             </p>

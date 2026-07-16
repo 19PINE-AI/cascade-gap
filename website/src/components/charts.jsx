@@ -131,9 +131,9 @@ function Row({ r, isCov, x, tip, hide, onSelect }) {
 }
 
 /* ------------------------------------------------------------------ */
-/* Inverse-baseline law scatter with OLS line.                         */
+/* Inverse-baseline observation: coverage gain vs baseline, OLS line.  */
 /* ------------------------------------------------------------------ */
-export function ScatterLaw({ cells, onSelect }) {
+export function ScatterBaseline({ cells, onSelect }) {
   const { show, hide, node } = useTooltip()
   const W = 760
   const H = 440

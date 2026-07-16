@@ -35,8 +35,7 @@ export default function Hero() {
             <div className="card" style={{ padding: '26px 28px' }}>
               <div className="kicker" style={{ marginBottom: 12 }}>The paper</div>
               <div className="paper-title">
-                “Perceive, Externalize, Synthesize: Why Two-Pass Decomposition Beats End-to-End on
-                Long-Form Multimodal Review”
+                “Transcribe, Then Reason: Two-Pass Decomposition for Multimodal Review”
               </div>
               <div className="authors">
                 Bojie Li (Pine AI) · Noah Shi (University of Washington) · 2026

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Reveal, fmtCov } from '../lib/ui.jsx'
-import { DumbbellChart, ScatterLaw, E3Chart } from '../components/charts.jsx'
+import { DumbbellChart, ScatterBaseline, E3Chart } from '../components/charts.jsx'
 import { AGG, CLAUDE_WITHIN, FLASH_AUDIO, MIXED, ROBUSTNESS, CHECKLIST } from '../data/tables.js'
 
 function HeadlineViz({ cells, onSelect }) {
@@ -50,10 +50,10 @@ function CrossModel({ mixed }) {
     <div className="viz">
       <div className="viz-head">
         <div>
-          <div className="viz-title">Beyond one model: the same law, not a blanket win</div>
+          <div className="viz-title">Beyond one model: the same pattern, not a blanket win</div>
           <div className="viz-sub">
-            Other models obey the same rule — decomposition pays exactly where the one-call baseline
-            leaves room to improve.
+            Other models track the same tendency — decomposition pays roughly where the one-call
+            baseline leaves room to improve.
           </div>
         </div>
       </div>
@@ -159,7 +159,7 @@ function CrossModel({ mixed }) {
         <>
           <p className="small prose" style={{ marginTop: 0 }}>
             Gemini 2.5 Flash is a <em>strong</em> end-to-end audio reader — its one-call coverage
-            beats the Pro model’s on all five cells tried. The law predicts small, headroom-gated
+            beats the Pro model’s on all five cells tried. The pattern predicts small, headroom-gated
             gains, and that’s what happens: clear wins only where its baseline is weakest (MIT,
             Harvard), a regression where the baseline is already 0.92 (Karpathy).
           </p>
@@ -213,10 +213,12 @@ export default function Results({ cells, mixed, onSelect }) {
         <Reveal className="viz mt-3" style={{ padding: '20px 22px 14px' }}>
           <div className="viz-head">
             <div>
-              <div className="viz-title">The inverse-baseline law</div>
+              <div className="viz-title">The inverse-baseline observation</div>
               <div className="viz-sub">
-                The organizing regularity of the whole paper: the worse the single call does, the
-                more two passes recover. High-baseline cases have nothing to gain — and don’t.
+                The organizing thread of the paper — read as an observation, not a law: the worse
+                the single call does, the more two passes tend to recover. It’s not one clean line,
+                though — modality, baseline headroom, and the two failure modes are entangled here.
+                High-baseline cases have little to gain, and don’t.
               </div>
             </div>
             <div className="legend">
@@ -227,12 +229,13 @@ export default function Results({ cells, mixed, onSelect }) {
             </div>
           </div>
           <div style={{ maxWidth: 860, margin: '0 auto' }}>
-            <ScatterLaw cells={cells} onSelect={onSelect} />
+            <ScatterBaseline cells={cells} onSelect={onSelect} />
           </div>
           <div className="caption">
-            Pearson r = −0.45, bootstrap 95% CI [−0.73, −0.10]. The points below the zero line are
-            the saturated baselines and the two failure modes from Part I — the law predicts its
-            own exceptions.
+            OLS fit with bootstrap 95% CI; Pearson r = −0.45, CI [−0.73, −0.10]. The points below
+            the zero line are the saturated baselines and the two failure modes from Part I — not
+            counterexamples so much as the near-ceiling and failure-mode cases the observation
+            already flags.
           </div>
         </Reveal>
 
@@ -305,8 +308,8 @@ export default function Results({ cells, mixed, onSelect }) {
           </div>
           <div className="caption">
             Cost scales with source length (a 176-page paper costs ~177 calls in cascade mode vs 1),
-            so the law doubles as the cost rule: pay for decomposition exactly where the one-call
-            baseline has headroom.
+            so the same observation doubles as a cost guide: spend the extra passes where the
+            one-call baseline has headroom, not where it is already strong.
           </div>
         </Reveal>
       </div>

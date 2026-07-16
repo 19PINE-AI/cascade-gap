@@ -187,8 +187,34 @@ function Mechanism() {
       ),
     },
     {
+      id: 'hthink',
+      name: 'Suspect 2 — “It just needs to think longer”',
+      verdict: 'ruled out',
+      cls: 'no',
+      body: (
+        <>
+          <p>
+            The obvious objection: two passes just hand the model more total budget, so surely one
+            pass would catch up if you let it <em>think</em> longer. It doesn’t. Holding the one-call
+            setup fixed and sweeping only the reasoning budget across its full range — a{' '}
+            <strong>256× span</strong> — leaves coverage flat (mean change{' '}
+            <span className="num">+0.005</span>, within noise). On MIT 6.034, one call covers{' '}
+            <span className="num">0.77</span> and two passes <span className="num">0.98</span>, yet
+            even the <em>maximum</em> reasoning budget reaches only <span className="num">0.81</span>.
+          </p>
+          <p>
+            Reading what the model does with all that extra thinking shows why: it spends it{' '}
+            <strong>planning</strong> the review — grouping the talk into sections, deciding what to
+            emphasize — never writing the source down for itself. The transcript never appears in its
+            reasoning. More thinking buys a better-<em>planned</em> but still satisficed review. The
+            fix needs a <em>second generation</em>, not a longer first one.
+          </p>
+        </>
+      ),
+    },
+    {
       id: 'h2',
-      name: 'Suspect 2 — “One pass can’t perceive, think, and write all at once”',
+      name: 'Suspect 3 — “One pass can’t perceive, think, and write all at once”',
       verdict: 'guilty',
       cls: 'yes',
       body: (
@@ -213,7 +239,7 @@ function Mechanism() {
     },
     {
       id: 'h3',
-      name: 'Suspect 3 — “Attention gets diluted over hours of audio tokens”',
+      name: 'Suspect 4 — “Attention gets diluted over hours of audio tokens”',
       verdict: 'untestable here',
       cls: 'meh',
       body: (
@@ -401,17 +427,18 @@ export default function Story({ onOpenCase }) {
           </Reveal>
 
           <Reveal className="section-head mt-4">
-            <h2 className="section-title">Three suspects, nine experiments</h2>
+            <h2 className="section-title">Four suspects, one culprit</h2>
             <p className="lede">
-              Where does the content go? Three explanations fit the crime scene. The paper runs nine
-              experiments (E1–E9) to separate them.
+              Where does the content go? Four explanations fit the crime scene — the modality, a
+              shortage of thinking, doing everything in one pass, and attention dilution. A battery
+              of same-weights controls separates them; only one survives.
             </p>
           </Reveal>
           <Reveal><Mechanism /></Reveal>
           <Reveal className="mt-2"><CollapseTable /></Reveal>
 
           <Reveal className="section-head mt-4">
-            <h2 className="section-title">The verdict: perceive, externalize, synthesize</h2>
+            <h2 className="section-title">The verdict: transcribe, then reason</h2>
             <div className="prose lede">
               <p>
                 One pass asked to do everything <em>satisfices</em> — it does a passable job of
@@ -421,11 +448,13 @@ export default function Story({ onOpenCase }) {
                 with a full budget.
               </p>
               <p>
-                And this predicts a rule you can bank on: <strong>the worse the one-call review, the
-                more the two-pass version recovers</strong> — because the dropped content is sitting
-                in the transcript, waiting. The paper calls it the <em>inverse-baseline law</em>{' '}
-                (r = {AGG.pearsonR}); you’ll see it as a chart in Part II. Where the one-call
-                review is already excellent, there is nothing to recover — and two passes buy nothing.
+                And this predicts a tendency you can lean on: <strong>the worse the one-call review,
+                the more the two-pass version tends to recover</strong> — because the dropped content
+                is sitting in the transcript, waiting. The paper treats this as an{' '}
+                <em>observation</em>, not a law (r = {AGG.pearsonR}); you’ll see it charted in
+                Part II, with modality, baseline headroom, and the two failure modes entangled in it.
+                Where the one-call review is already excellent, there’s little to recover — and two
+                passes buy little.
               </p>
             </div>
           </Reveal>

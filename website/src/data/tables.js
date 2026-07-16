@@ -116,9 +116,9 @@ export const LINKS = {
   site: 'https://01.me/research/cascade-gap',
 }
 
-export const BIBTEX = `@article{li2026perceive,
-  title   = {Perceive, Externalize, Synthesize: Why Two-Pass Decomposition
-             Beats End-to-End on Long-Form Multimodal Review},
+export const BIBTEX = `@article{li2026transcribe,
+  title   = {Transcribe, Then Reason: Two-Pass Decomposition
+             for Multimodal Review},
   author  = {Li, Bojie and Shi, Noah},
   year    = {2026},
   note    = {Preprint. Code and run artifacts:
