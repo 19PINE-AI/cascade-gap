@@ -1,6 +1,6 @@
 import React from 'react'
 import { Reveal } from '../lib/ui.jsx'
-import { AGG, LINKS } from '../data/tables.js'
+import { AGG, ARXIV_ID, LINKS } from '../data/tables.js'
 
 export default function Hero() {
   return (
@@ -38,9 +38,15 @@ export default function Hero() {
                 “Transcribe, Then Reason: Two-Pass Decomposition for Multimodal Review”
               </div>
               <div className="authors">
-                Bojie Li (Pine AI) · Noah Shi (University of Washington) · 2026
+                Bojie Li (Pine AI) · Noah Shi (University of Washington) · arXiv:{ARXIV_ID} (2026)
               </div>
               <div className="row mt-2" style={{ gap: 8 }}>
+                <a className="chip" href={LINKS.arxiv} target="_blank" rel="noreferrer" style={{ borderBottom: 'none' }}>
+                  Paper on arXiv ↗
+                </a>
+                <a className="chip" href={LINKS.pdf} target="_blank" rel="noreferrer" style={{ borderBottom: 'none' }}>
+                  PDF ↗
+                </a>
                 <a className="chip" href={LINKS.code} target="_blank" rel="noreferrer" style={{ borderBottom: 'none' }}>
                   Code &amp; artifacts ↗
                 </a>

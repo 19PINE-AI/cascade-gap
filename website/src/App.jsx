@@ -39,7 +39,7 @@ function Footer() {
             <p className="small prose">
               Built as an interactive companion to <em>“Transcribe, Then Reason: Two-Pass
               Decomposition for Multimodal Review”</em> by Bojie Li (Pine AI) and Noah Shi
-              (University of Washington). Every score, probe verdict,
+              (University of Washington), <a href={LINKS.arxiv} target="_blank" rel="noreferrer">arXiv:2609.18958</a>. Every score, probe verdict,
               flagged claim, transcript, and review shown here is read directly from the paper’s
               released run artifacts — nothing is re-generated or paraphrased.
             </p>
@@ -49,6 +49,7 @@ function Footer() {
               GPT-5.4 (high reasoning effort), cross-checked by Claude Opus 4.7.
             </p>
             <div className="row" style={{ gap: 8 }}>
+              <a className="chip" href={LINKS.arxiv} target="_blank" rel="noreferrer">Paper (arXiv:2609.18958) ↗</a>
               <a className="chip" href={LINKS.code} target="_blank" rel="noreferrer">Code &amp; run artifacts ↗</a>
               <a className="chip" href={LINKS.site} target="_blank" rel="noreferrer">Project page ↗</a>
             </div>

@@ -111,16 +111,22 @@ export const CHECKLIST = [
   { source: 'Model already reviews this source well end-to-end', diagnosis: 'No headroom — nothing to recover.', action: 'Keep one pass (C₀). Decomposition buys nothing here.' },
 ]
 
+export const ARXIV_ID = '2609.18958'
+
 export const LINKS = {
+  arxiv: `https://arxiv.org/abs/${ARXIV_ID}`,
+  pdf: `https://arxiv.org/pdf/${ARXIV_ID}`,
   code: 'https://github.com/19PINE-AI/cascade-gap',
   site: 'https://01.me/research/cascade-gap',
 }
 
-export const BIBTEX = `@article{li2026transcribe,
-  title   = {Transcribe, Then Reason: Two-Pass Decomposition
-             for Multimodal Review},
-  author  = {Li, Bojie and Shi, Noah},
-  year    = {2026},
-  note    = {Preprint. Code and run artifacts:
-             https://github.com/19PINE-AI/cascade-gap}
+export const BIBTEX = `@misc{li2026transcribe,
+  title         = {Transcribe, Then Reason: Two-Pass Decomposition
+                   for Multimodal Review},
+  author        = {Li, Bojie and Shi, Noah},
+  year          = {2026},
+  eprint        = {2609.18958},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.MM},
+  url           = {https://arxiv.org/abs/2609.18958}
 }`
